@@ -43,7 +43,7 @@
 
 #   Tab-completion
 			# for Git
-				source ~/.git-completion.bash
+				source ~/Dropbox/dev/setup/.git-completion.bash
 
 #   -------------------------------
 #   1.  ENVIRONMENT CONFIGURATION
@@ -79,7 +79,7 @@
 
 #		cd
     #	Always list directory path and contents
-				cd() { builtin cd "$@"; pwd; ls; }
+				cd() { builtin cd "$@"; ls; }
 		# make it easier to cd
 				alias cd..='cd ../'
 				alias ..='cd ../'
@@ -90,7 +90,7 @@
 				alias .6='cd ../../../../../../'
 				alias ~="cd ~"
 		# cdf: 'Cd's to frontmost window of MacOS Finder
-		    source ~/.cdf.bash
+		    source ~/Dropbox/dev/setup/.cdf.bash
 
 #		GUI quick links
 		# f: Opens in Finder
