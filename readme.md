@@ -1,4 +1,4 @@
-# This doc explains how I have my mac set up for optimum usablilty while developing.
+# This doc explains how I setup my mac for efficient development.
 
 I am a newbie... or at least I was when I started this repo. I have been developing for just over a year. I decided to document the changes I am making to my mac, for my own sanity and so hopefully other can benefit.
 
