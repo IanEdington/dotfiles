@@ -41,9 +41,11 @@
 #  	Edit the .profile file
 			alias .profile='edit ~/Dropbox/dev/setup/.profile'
 
-#   Tab-completion
-			# for Git
+#   Git
+			# Tab-completion
 				source ~/Dropbox/dev/setup/.git-completion.bash
+			# Open in Sourcetree
+				alias sourcetree='stree .'
 
 #   -------------------------------
 #   1.  ENVIRONMENT CONFIGURATION
@@ -323,3 +325,8 @@
 #   e.g.: hdiutil create -size 10m 10MB.dmg
 #   the above create files that are almost all zeros - if random bytes are desired
 #   then use: ~/Dev/Perl/randBytes 1048576 > 10MB.dat
+
+# Setting PATH for Python 3.5
+# The orginal version is saved in .profile.pysave
+PATH="/Library/Frameworks/Python.framework/Versions/3.5/bin:${PATH}"
+export PATH
