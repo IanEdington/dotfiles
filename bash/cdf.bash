@@ -1,5 +1,5 @@
 cdf () {
-    currFolderPath=$( /usr/bin/osascript <<EOT
+    currFolderPath=$( /usr/bin/osascript << EOT
         tell application "Finder"
             try
         set currFolder to (folder of the front window as alias)

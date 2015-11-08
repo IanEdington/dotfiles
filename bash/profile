@@ -77,8 +77,11 @@
 	alias ipyserv='ipython notebook --profile=nbserver'
 
 ###### MongoDB
-
 	alias mongodev='mongod --dbpath ~/.env/mongodb/data/'
+
+###### Ruby
+	export GEM_HOME="/usr/local"
+
 
 # 2. Standard Command defaults flags and extra functionality
 
@@ -145,7 +148,7 @@
 ###### f: Opens in Finder
 	alias f='open -a Finder ./'
 ###### edit: Opens in atom
-	alias edit='atom'
+	alias edit='EDITOR1'
 
 
 
