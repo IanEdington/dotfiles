@@ -155,6 +155,7 @@
 # 4. Comand line Applications
 
 #### 4.1 Tab-completion
+	shopt -s extglob
 	source ~/.config/tab-completion/*
 
 #### 4.1 Docker
