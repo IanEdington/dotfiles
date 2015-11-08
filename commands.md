@@ -1,5 +1,37 @@
 # System Settings
 
+
+### Start with Homebrew
+Everything is better and easier with homebrew so start here
+
+##### Better bash
+I used to use mac's bash and menu-complete option. In ```.inputrc``` put the following:
+
+```
+set completion-ignore-case on
+set show-all-if-ambiguous on
+TAB: menu-complete
+```
+
+I found the tab-complete to be subpar and that it wouldn't work with many imported tab-completes. I moved to homebrews bash and tab-completion. The following was taken from [cs.cmu.edu](https://www.cs.cmu.edu/~15131/f15/topics/terminal-configuration/configuring-bash/). This also installs core linux utilities instead of the default OSX utils, taken from @allquixotic on [superuser.](http://superuser.com/a/476594)
+
+```
+brew install bash bash-completion
+echo "$(brew --prefix)/bin/bash" | sudo tee -a /etc/shells
+brew install coreutils
+```
+
+
+### Programs used
+
+##### sublime
+###### setup comandline
+	ln -s "/Applications/Sublime\ Text\ 2.app/Contents/SharedSupport/bin/subl" ~/bin/subl
+
+##### macdown
+###### comand line
+	ln -s /Applications/MacDown.app/Contents/SharedSupport/bin/macdown macdow
+
 ### OSX System Preferences (the hiden ones):
 
 ##### Mute Startup Sound:
@@ -47,6 +79,7 @@ sudo defaults write /System/Library/LaunchAgents/com.apple.gamed Disabled -bool 
 
 ##### Preferences
 /Users/ian/Library/Preferences/com.apple.symbolichotkeys.plist
+
 
 
 

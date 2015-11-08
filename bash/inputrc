@@ -1,3 +1,12 @@
+
+# Ignore case in tab-completion
 set completion-ignore-case on
-set show-all-if-ambiguous on
-TAB: menu-complete
+
+# If tab-completion has multiple options, show them all.
+set show-all-if-ambiguous off
+
+# If tab-completion finds a symlink directory end with '/' instead of ' '
+set mark-symlinked-directories on
+
+# Use GNU ls colors when tab-completing files
+set colored-stats on
