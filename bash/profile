@@ -19,28 +19,40 @@
 ##### 11. Reminders & Notes
 ###### Interesting commands I haven't gotten to yet
 
+#### Import script
+	# import_script () {
+	# 	if [ -f "$HOME/.$1.bash" ]; then
+	# 		script_path="$HOME/.$1.bash";
+	# 	else if [ -f "$HOME/$1.bash" ]; then
+	# 		script_path="$HOME/$1.bash";
+	# 	else if [ -f "$HOME/.config/bash/$1.bash" ]; then
+	# 		script_path="$HOME/.config/bash/$1.bash";
+	# 	else if [ -f "$HOME/.config/bash/$1" ]; then
+	# 		script_path="$HOME/.config/bash/$1";
+	# 	fi
+	# }
 
 ## 0. Personalization ##
 
-#### import the bookmarks file from .config/setup/bookmarks.md: these are files I cd to often (change the most often too).
+#### Command line, Primary and Secondary Text Editors
+	export EDITOR=/usr/bin/nano
+	export EDITOR1=atom # used for projects
+	export EDITOR2=subl # used for one off file edits
 
+#### import the bookmarks file from .config/setup/bookmarks.md: these are files I cd to often (change the most often too).
 	source ~/.config/bash/bookmarks.bash
 
 ###### MongoDB
-
 	alias mongodev='mongod --dbpath ~/.env/mongodb/data/'
 
 #### Edit the .profile file
-	alias .profile='edit ~/.profile'
+	alias .profile='$EDITOR2 ~/.profile'
 
 #### Pretty Prompt:
 	export PS1='\[\033[0;33m\]\u@\h\[\033[0;35m\]$\[\033[00m\] '
 #### Set Paths
 	export PATH="/usr/local/bin:$PATH"
-	export PATH="/usr/local/share/python:$PATH"
 	export PATH="/usr/local/mysql/bin:$PATH"
-#### Set Default Editor
-	export EDITOR=/usr/bin/nano
 #### Set default blocksize for ls, df, du
 	export BLOCKSIZE=1k
 #### Add color to terminal (I use Mac Terminal Profiles instead)
@@ -68,7 +80,7 @@
 
 	alias mongodev='mongod --dbpath ~/.env/mongodb/data/'
 
-# 2. Set defaults and add functionality to standard Commands #
+# 2. Standard Command defaults flags and extra functionality
 
 #### ls (and derivatives)
 ###### ls - Always list directory path and perfered ls view
@@ -84,6 +96,7 @@
 	alias lr="ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/ /' -e 's/-/|/'"
 	alias filetree='lr'
 	alias ft='lr'
+
 #### cd
 ######	Always list directory contents
 	cd () { builtin cd "$@"; ls; }
@@ -98,16 +111,21 @@
 	alias .6='cd ../../../../../../'
 ###### cdf: 'cd to frontmost window of MacOS Finder
 	source ~/.config/bash/cdf.bash
+
 #### cp
 	alias cp='cp -Ri'
 #### scp
-	# alias scp='scp -C'
+	alias scp='scp -C'
+#### rm
+	alias rm='rm -r'
+
 #### Preferred 'mv' implementation
-	# alias mv='mv -iv'
+	alias mv='mv -iv'
+		# verbose and interactive
 #### Preferred 'mkdir' implementation
-	# alias mkdir='mkdir -pv'
+	alias mkdir='mkdir -pv'
 #### Preferred 'less' implementation
-	# alias less='less -FSRXc'
+	alias less='less -FSRXc'
 #### c: Clear terminal display
 	alias c='clear'
 #### which: Find executables
@@ -133,6 +151,9 @@
 
 # 4. Comand line Applications
 
+#### 4.1 Tab-completion
+	source ~/.config/tab-completion/*
+
 #### 4.1 Docker
 ###### Docker-Quickstart
 	docker-quickstart () {
@@ -142,8 +163,12 @@
 		clear;
 	}
 #### 4.2 Git
-###### Tab-completion
-	source ~/.config/git/git-completion.bash
+###### Pull default git repo on launch
+	if [ -f "$HOME/.git_repo_to_pull.bash" ]; then
+	    source ~/.git_repo_to_pull.bash
+	    alias pull='source ~/.git_repo_to_pull.bash'
+	fi
+
 
 # 5. File and Folder Management #
 
@@ -275,6 +300,11 @@
 
 # 10. Web Development #
 
+#### find . -type d -exec chmod 755 {} \;
+	chmodweb () {
+		find $@ -type d -exec chmod 755 {} \;
+		find $@ -type f -exec chmod 644 {} \;
+	}
 #### apacheEdit: Edit httpd.conf
 	alias apacheEdit='sudo edit /etc/httpd/httpd.conf'
 #### apacheRestart: Restart Apache
@@ -333,3 +363,28 @@
 	# }
 ###### showa: to remind yourself of an alias (given some part of it)
 	# showa () { /usr/bin/grep --color=always -i -a1 $@ ~/Library/init/bash/aliases.bash | grep -v '^\s*$' | less -FSRXc ; }
+
+
+# Taken from Ubuntu on Digital Ocean
+# ~/.profile: executed by the command interpreter for login shells.
+# This file is not read by bash(1), if ~/.bash_profile or ~/.bash_login
+# exists.
+# see /usr/share/doc/bash/examples/startup-files for examples.
+# the files are located in the bash-doc package.
+
+# the default umask is set in /etc/profile; for setting the umask
+# for ssh logins, install and configure the libpam-umask package.
+#umask 022
+
+# if running bash
+	# if [ -n "$BASH_VERSION" ]; then
+	#     # include .bashrc if it exists
+	#     if [ -f "$HOME/.bashrc" ]; then
+	#         . "$HOME/.bashrc"
+	#     fi
+	# fi
+
+# set PATH so it includes user's private bin if it exists
+	# if [ -d "$HOME/bin" ] ; then
+	#     PATH="$HOME/bin:$PATH"
+	# fi

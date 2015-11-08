@@ -1,0 +1,30 @@
+[filter "hawser"]
+	clean = git hawser clean %f
+	smudge = git hawser smudge %f
+	required = true
+[user]
+	name = Ian Edington
+	email = IanEdington@gmail.com
+[merge]
+	ff = true
+[push]
+	default = simple
+[core]
+	excludesfile = /Users/ian/.gitignore_global
+	excludesfile = /Users/ian/.config/git/ignore
+[alias]
+	co = checkout
+	br = branch
+	ci = commit
+	st = status
+	unstage = reset HEAD --
+	last = log -1 HEAD
+	visual = !stree .
+	cam = !git add -A && git commit -m
+	view = !stree .
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
