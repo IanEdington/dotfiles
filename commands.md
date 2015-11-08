@@ -89,7 +89,8 @@ sudo defaults write /System/Library/LaunchAgents/com.apple.gamed Disabled -bool 
 # Editor of Choice: ATOM.IO
 
 
-# Git command line setup
+# Git
+I follow this methodology for [git branching](http://nvie.com/posts/a-successful-git-branching-model/)
 
 ### Git aliases
 

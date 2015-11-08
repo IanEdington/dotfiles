@@ -175,7 +175,14 @@
 	    source ~/.git_repo_to_pull.bash
 	    alias pull='source ~/.git_repo_to_pull.bash'
 	fi
-
+###### Alias
+	alias gs="git status"
+	alias gcam="git add -A && git commit -m"
+	alias go="git checkout"
+	alias gb="git branch"
+	alias gc="git commit"
+	alias gs="git status"
+	alias gl="git log -1 HEAD"
 
 # 5. File and Folder Management #
 
