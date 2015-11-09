@@ -19,6 +19,8 @@ I found the tab-complete to be subpar and that it wouldn't work with many import
 brew install bash bash-completion
 echo "$(brew --prefix)/bin/bash" | sudo tee -a /etc/shells
 brew install coreutils
+brew tap homebrew/completions
+brew install apm-bash-completion aptly-completion gem-completion bash-completion brew-cask-completion vagrant-completion grunt-completion wpcli-completion docker-machine-completion kitchen-completion openssl pip-completion rustc-completion
 ```
 
 

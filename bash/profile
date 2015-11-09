@@ -49,7 +49,7 @@
 	alias .profile='$EDITOR2 ~/.profile'
 
 #### Pretty Prompt:
-	export PS1='\[\033[0;33m\]\u\033[0;35m\]@\033[0;33m\]\h\[\033[0;35m\]$\[\033[00m\] '
+	export PS1='\[\033[0;33m\]\u\[\033[0;35m\]@\[\033[0;33m\]\h\[\033[0;35m\]$\[\033[00m\] '
 #### Set Paths (in revers order of importance)
 	export PATH="/usr/local/mysql/bin:$PATH"
 	export PATH="/usr/local/bin:$PATH"
@@ -159,7 +159,6 @@
 	if [ -f $(brew --prefix)/etc/bash_completion ]; then
 		source $(brew --prefix)/etc/bash_completion
 	fi
-	source ~/.config/tab-completion/*
 
 #### 4.1 Docker
 ###### Docker-Quickstart
