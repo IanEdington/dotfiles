@@ -34,10 +34,15 @@
 
 ## 0. Personalization ##
 
+#### homebrew
+	export HOMEBREW_GITHUB_API_TOKEN="2b7441d9454fdd5d946c7023f12bee2b6d0cc5bf"
 #### Command line, Primary and Secondary Text Editors
 	export EDITOR=/usr/bin/nano
-	export EDITOR1=atom # used for projects
-	export EDITOR2=subl # used for one off file edits
+	export EDITOR1="atom" # used for projects
+	export EDITOR2="subl" # used for one off file edits
+	alias EDITOR1="$EDITOR1"
+	alias EDITOR2="$EDITOR2"
+	alias edit='EDITOR1'
 
 #### import the bookmarks file from .config/setup/bookmarks.md: these are files I cd to often (change the most often too).
 	source ~/.config/bash/bookmarks.bash
@@ -47,13 +52,20 @@
 
 #### Edit the .profile file
 	alias .profile='$EDITOR2 ~/.profile'
+	alias .bookmarks='$EDITOR2 ~/.config/bash/bookmarks.bash'
 
 #### Pretty Prompt:
 	export PS1='\[\033[0;33m\]\u\[\033[0;35m\]@\[\033[0;33m\]\h\[\033[0;35m\]$\[\033[00m\] '
 #### Set Paths (in revers order of importance)
+	export PATH="$PATH:$HOME/.rvm/bin"
 	export PATH="/usr/local/mysql/bin:$PATH"
 	export PATH="/usr/local/bin:$PATH"
+	export PATH="/usr/local/sbin:$PATH"
 	export PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
+
+
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
 #### Set default blocksize for ls, df, du
 	export BLOCKSIZE=1k
 #### Add color to terminal (I use Mac Terminal Profiles instead)
@@ -81,8 +93,15 @@
 	alias mongodev='mongod --dbpath ~/.env/mongodb/data/'
 
 ###### Ruby
-	export GEM_HOME="/usr/local"
+	#export GEM_HOME="/usr/local"
 
+###### Wordpress
+	alias po-creator='source ~/dev/setup/po-creator.sh'
+
+
+# 2. Bash Settings
+
+PROMPT_COMMAND="${PROMPT_COMMAND:-:} ; history -a"
 
 # 2. Standard Command defaults flags and extra functionality
 
@@ -149,7 +168,7 @@
 ###### f: Opens in Finder
 	alias f='open -a Finder ./'
 ###### edit: Opens in atom
-	alias edit='EDITOR1'
+	alias edit="EDITOR1"
 
 
 
@@ -176,12 +195,11 @@
 	fi
 ###### Alias
 	alias gs="git status"
-	alias gcam="git add -A && git commit -m"
-	alias go="git checkout"
-	alias gb="git branch"
-	alias gc="git commit"
-	alias gs="git status"
 	alias gl="git log -1 HEAD"
+	alias gc="git commit -m"
+	alias gcam="git add -A && git commit -m"
+	alias gp="git push"
+	alias gpl="git pull"
 
 # 5. File and Folder Management #
 
