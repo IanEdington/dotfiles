@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<root>
+	<item>
+		<name>Ian's Changes</name>
+		<item>
+			<name>Command_R only to Escape</name>
+			<appendix>(+ When you type Command_R only, send Escape))</appendix>
+			<identifier>private.remap.commandR2esc</identifier>
+			<autogen>__KeyOverlaidModifier__ KeyCode::COMMAND_R, KeyCode::COMMAND_R, KeyCode::ESCAPE</autogen>
+		</item>
+		<item>
+			<name>PC Application Key to Control_L</name>
+			<appendix>(+ When you type Application Key only, send CapsLock)</appendix>
+			<identifier>private.remap.PC_Application_2_Control_L</identifier>
+		    <autogen>__KeyToKey__ KeyCode::PC_APPLICATION, KeyCode::CONTROL_L</autogen>
+		</item>
+		<item>
+			<name>Control_L only to CapsLock</name>
+			<appendix>(+ When you type Control L only, send CapsLock)</appendix>
+			<identifier>private.remap.Control_L_only_2_CapsLock</identifier>
+			<autogen>__KeyOverlaidModifier__ KeyCode::CONTROL_L, KeyCode::CONTROL_L, KeyCode::CAPSLOCK</autogen>
+		</item>
+	</item>
+</root>

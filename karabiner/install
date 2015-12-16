@@ -1,0 +1,3 @@
+
+# link personal keyboard config to correct place in Library
+ln -s ~/.dotfiles/karabiner/private.xml ~/Library/Application\ Support/Karabiner/private.xml
