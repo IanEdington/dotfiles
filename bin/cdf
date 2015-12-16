@@ -13,3 +13,5 @@ cdf () {
     echo "cd to \"$currFolderPath\""
     cd "$currFolderPath"
 }
+
+cdf

@@ -1,37 +1,15 @@
 # System Settings
 
+## interesting comands to keep in mind
+https://github.com/cowboy/dotfiles/blob/master/bin/multi_firefox
+https://github.com/gregburek/github-emoji-expansion-in-osx/blob/master/NSUserReplacementItems.plist
 
-### Start with Homebrew
-Everything is better and easier with homebrew so start here
-
-##### Better bash
-I used to use mac's bash and menu-complete option. In ```.inputrc``` put the following:
-
-```
-set completion-ignore-case on
-set show-all-if-ambiguous on
-TAB: menu-complete
-```
-
-I found the tab-complete to be subpar and that it wouldn't work with many imported tab-completes. I moved to homebrews bash and tab-completion. The following was taken from [cs.cmu.edu](https://www.cs.cmu.edu/~15131/f15/topics/terminal-configuration/configuring-bash/). This also installs core linux utilities instead of the default OSX utils, taken from @allquixotic on [superuser.](http://superuser.com/a/476594)
-
-```
-brew install bash bash-completion
+## add brew's zsh and bash to the "acceptable shells" file
 echo "$(brew --prefix)/bin/bash" | sudo tee -a /etc/shells
-brew install coreutils
-brew tap homebrew/completions
-brew install apm-bash-completion aptly-completion gem-completion bash-completion brew-cask-completion vagrant-completion grunt-completion wpcli-completion docker-machine-completion kitchen-completion openssl pip-completion rustc-completion
-```
+echo "$(brew --prefix)/bin/zsh" | sudo tee -a /etc/shells
 
-
-### Programs used
-
-##### sublime
-###### setup comandline
+##### cli sublime and macdown
 	ln -s "/Applications/Sublime\ Text\ 2.app/Contents/SharedSupport/bin/subl" ~/bin/subl
-
-##### macdown
-###### comand line
 	ln -s /Applications/MacDown.app/Contents/SharedSupport/bin/macdown macdow
 
 ### OSX System Preferences (the hiden ones):
@@ -85,7 +63,7 @@ sudo defaults write /System/Library/LaunchAgents/com.apple.gamed Disabled -bool 
 
 
 
-# .profile .ir.. & 
+# .profile .ir.. &
 
 
 # Editor of Choice: ATOM.IO
