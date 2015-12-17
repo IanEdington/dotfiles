@@ -1,0 +1,75 @@
+#!/usr/bin/env bash
+# Programs are meant to be read. If you can't read this script and you have a suggestion for how I can make it better send a pull request, or create an issue. I love collaborating.
+
+symlink_files_func () {
+    # if there is no file or file is a symlink
+        # "Ready to replace"
+    # else the file is not a symlink
+        # use the backup_func
+        # "your existing file has been backed up"
+    # link the file
+
+    local symlink_to symlink_from
+    symlink_to=$1
+    symlink_from=$2
+
+    echo "linking:" $symlink_from "->" $symlink_to ;
+
+    if [ ! -e $symlink_from ]; then
+        echo " ";
+    elif [ -h $symlink_from ]; then
+        rm $symlink_from
+    else
+        echo $symlink_from "is not a symlink! aboart aboart";
+    fi
+
+	ln -s $symlink_to $symlink_from
+	echo "successfully linked"
+}
+
+DOTFILES_ROOT=$(pwd -P);
+
+# in case people want to use comands in their scripts
+    # Add bin/ to path
+    # Add homebrew bin to path
+
+# install brew on OSX or Linux if it's not installed
+    # brew update, upgrade, doctor
+        # exit if there's a problem
+    # brew tap brewfile installer
+    # run Brewfile
+
+# backup_func () {
+    # create a backup
+    # flag that backups have been created
+# }
+
+# Symlink the current folder to .dotfiles
+    # if there is no file or file is a symlink
+        # "Ready to replace"
+    # elseif .dotfiles == DOTFILES_ROOT
+        # "oh you're already there"
+    # else
+        # use the backup_func
+        # "your existing file has been backed up"
+symlink_files_func $DOTFILES_ROOT ~/.dotfiles;
+
+
+# for each folder in dotfiles
+for dir in */ ; do
+    echo "\nInstalling the $dir directory:";
+    cd $dir;
+
+    if [ -f install ]; then
+        source install
+    fi
+    # run Brewfile
+    # run install script
+    # symlink_files_func for each *.symlink
+    # append .zsh files to .zsh
+    # append path.zsh files to zsh $PATH
+    # append *completion.zsh to
+    # append .bash files to .profile
+    # append path.bash files to bash $PATH
+    cd $DOTFILES_ROOT;
+done

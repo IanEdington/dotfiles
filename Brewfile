@@ -23,6 +23,7 @@ brew 'bash-completion'
 brew 'vim'
 brew 'git'
 brew 'git-extras'
+brew 'hub'
 
 tap 'caskroom/cask'
 cask '1password'
