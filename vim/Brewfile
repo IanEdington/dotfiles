@@ -1,0 +1,2 @@
+# install cmake for compiling YouCompleteMe
+brew 'cmake'
