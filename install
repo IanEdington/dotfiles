@@ -32,7 +32,15 @@ dotfiles::symlink_files () {
     ln -s $symlink_to $symlink_from
 }
 
-DOTFILES_ROOT=$(pwd -P)
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
+  DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+done
+DOTFILES_ROOT="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+echo "dotfiles root " $DOTFILES_ROOT
+echo "current dir " pwd
 
 git submodule update --init --remote --recursive
 
@@ -41,7 +49,9 @@ git submodule update --init --remote --recursive
     # Add homebrew bin to path
 
 # install brew on OSX or Linux if it's not already installed
-    brew update, upgrade, doctor
+    brew update
+    brew upgrade
+    brew doctor
         # TODO exit if there's a problem
     brew update
     brew upgrade
