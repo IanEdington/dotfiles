@@ -1,7 +1,8 @@
+Plugin 'scrooloose/syntastic'
 " Plugin 'sheerun/vim-polyglot'
 " Plugin 'garbas/vim-snipmate'
 " Plugin 'honza/vim-snippets'
 " Plugin 'jtratner/vim-flavored-markdown'
-" Plugin 'scrooloose/syntastic'
 " Plugin 'nelstrom/vim-markdown-preview'
 " Plugin 'skwp/vim-html-escape'
+

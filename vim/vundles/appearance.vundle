@@ -1,5 +1,5 @@
+Plugin 'altercation/vim-colors-solarized'
 " Plugin 'chrisbra/color_highlight'
-" Plugin 'skwp/vim-colors-solarized'
 " Plugin 'itchyny/lightline.vim'
 " Plugin 'jby/tmux.vim'
 " Plugin 'morhetz/gruvbox'
@@ -7,4 +7,5 @@
 " Plugin 'chriskempson/base16-vim'
 
 " Required for Gblame in terminal vim
-" Plugin 'godlygeek/csapprox' 
+" Plugin 'godlygeek/csapprox'
+

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Programs are meant to be read. If you can't read this script and you have a suggestion for how I can make it better send a pull request, or create an issue. I love collaborating.
+# Programs are meant to be read. If you can't read this script let me know. If you have a suggestion, send a pull request, or create an issue. I love collaborating.
 
 # dotfiles::backup_func () {
     # Check that a backup folder exists
@@ -32,17 +32,19 @@ dotfiles::symlink_files () {
     ln -s $symlink_to $symlink_from
 }
 
-SOURCE="${BASH_SOURCE[0]}"
-while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
-  DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
-  SOURCE="$(readlink "$SOURCE")"
-  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+install_dir="${BASH_SOURCE[0]}"
+# resolve $install_dir until the file is no longer a symlink
+while [ -h "$install_dir" ]; do 
+  DIR="$( cd -P "$( dirname "$install_dir" )" && pwd )"
+  install_dir="$(readlink "$install_dir")"
+  # if $install_dir was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+  [[ $install_dir != /* ]] && install_dir="$DIR/$install_dir"
 done
-DOTFILES_ROOT="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+DOTFILES_ROOT="$( cd -P "$( dirname "$install_dir" )" && pwd )"
 echo "dotfiles root " $DOTFILES_ROOT
 echo "current dir " pwd
 
-git submodule update --init --remote --recursive
+# git submodule update --init --remote --recursive
 
 # in case people want to use comands in their scripts
     # Add bin/ to path
@@ -85,4 +87,4 @@ for dir in */ ; do
     cd $DOTFILES_ROOT;
 done
 
-exit $?
+# exit $?
