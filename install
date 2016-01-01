@@ -44,8 +44,6 @@ DOTFILES_ROOT="$( cd -P "$( dirname "$install_dir" )" && pwd )"
 echo "dotfiles root " $DOTFILES_ROOT
 echo "current dir " pwd
 
-# git submodule update --init --remote --recursive
-
 # in case people want to use comands in their scripts
     # Add bin/ to path
     # Add homebrew bin to path
