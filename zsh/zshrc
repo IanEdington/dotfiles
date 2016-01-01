@@ -1,4 +1,3 @@
-export PATH="/usr/local/sbin:$PATH"
 
 for config_file ($HOME/.dotfiles/zsh/zshrc-files/*.zsh) source $config_file
 
