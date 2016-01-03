@@ -22,3 +22,4 @@
 	visual = !stree .
 	cam = !git add -A && git commit -m
 	view = !stree .
+

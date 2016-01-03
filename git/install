@@ -1,0 +1,3 @@
+dotfiles::symlink_files ~/.dotfiles/git/config ~/.config/git/config
+dotfiles::symlink_files ~/.dotfiles/git/ignore ~/.config/git/ignore
+

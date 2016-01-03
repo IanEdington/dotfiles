@@ -47,6 +47,8 @@ dotfiles::symlink_files () {
         echo "we aren't ready to handle this"
         return
         # TODO use the backup_func
+    elif [[ ! -e "$(dirname "$symlink_from")" ]]; then
+        mkdir -p "$(dirname "$symlink_from")"
     fi
 
     ln -s "$symlink_to" "$symlink_from"
@@ -54,7 +56,8 @@ dotfiles::symlink_files () {
 
 # Starting the fun stuff
 
-DOTFILES_ROOT=$PWD
+# ref: http://stackoverflow.com/a/246128/4301584
+DOTFILES_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd -P )"
 # echo "dotfiles root " $DOTFILES_ROOT
 
 # in case people want to use comands in their scripts
