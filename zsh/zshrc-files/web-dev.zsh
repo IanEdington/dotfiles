@@ -1,5 +1,3 @@
-# 10. Web Development #
-
 #### find . -type d -exec chmod 755 {} \;
 	chmodweb () {
 		find $@ -type d -exec chmod 755 {} \;
