@@ -7,10 +7,11 @@ __git_files () {
 }
 
 # Git Aliases
+alias ga='git add'
 alias gs='git status'
 alias gst='git stash'
-alias gsp='git stash pop'
-alias gsa='git stash apply'
+alias gstp='git stash pop'
+alias gsta='git stash apply'
 alias gsh='git show'
 alias gi='vim .gitignore'
 alias gc='git commit'
@@ -46,8 +47,8 @@ alias gbd='git b -D -w'
 # Staged and cached are the same thing
 alias gdc='git diff --cached -w'
 alias gds='git diff --staged -w'
-alias gpub='grb publish'
-alias gtr='grb track'
+alias gpub='git recent-branches publish'
+alias gtr='git recent-branches track'
 alias gpl='git pull'
 alias gplr='git pull --rebase'
 alias gp='git push'
