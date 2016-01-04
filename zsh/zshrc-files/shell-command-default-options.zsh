@@ -15,6 +15,9 @@ alias lr="ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/ 
 alias filetree='lr'
 alias ft='lr'
 
+# less
+alias l='less -i -s -u -w'
+
 #### cd
 ######	Always list directory contents
 cd () { builtin cd "$@"; ls; }
@@ -33,7 +36,7 @@ alias cp='cp -Ri'
 #### scp
 alias scp='scp -C'
 #### rm
-alias rm='rm -r'
+alias rm='nocorrect rm -r'
 
 #### Preferred 'mv' implementation
 alias mv='mv -iv'
@@ -62,4 +65,10 @@ ql () { qlmanage -p "$*" >& /dev/null; }
 
 # f: Opens in Finder
 alias f='open -a Finder ./'
+
+# Zippin
+alias gz='tar -zcvf'
+
+# Homebrew
+alias brewu='brew update  && brew upgrade --all && brew cleanup && brew prune && brew doctor'
 
