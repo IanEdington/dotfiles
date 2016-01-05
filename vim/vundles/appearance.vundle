@@ -1,7 +1,11 @@
 Plugin 'altercation/vim-colors-solarized'
+Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'bling/vim-airline'
+Plugin 'bling/vim-bufferline'
+Plugin 'ap/vim-css-color'
 " Plugin 'chrisbra/color_highlight'
 " Plugin 'itchyny/lightline.vim'
-" Plugin 'jby/tmux.vim'
+" Plugin 'jby/tmux.vi
 " Plugin 'morhetz/gruvbox'
 " Plugin 'xsunsmile/showmarks'
 " Plugin 'chriskempson/base16-vim'

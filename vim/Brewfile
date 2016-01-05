@@ -1,2 +1,7 @@
-# install cmake for compiling YouCompleteMe
-brew 'cmake'
+# use macvim instead of vim
+brew 'macvim', args: ['custom-icons', 'override-system-vim', 'with-lua', 'with-luajit']
+
+# plugin requirments
+brew 'cmake' # YouCompleteMe
+brew 'editorconfig' # editorconfig
+

@@ -1,8 +1,12 @@
+" Tools
 Plugin 'scrooloose/syntastic'
 " Plugin 'sheerun/vim-polyglot'
 " Plugin 'garbas/vim-snipmate'
 " Plugin 'honza/vim-snippets'
+
+" Languages
 " Plugin 'jtratner/vim-flavored-markdown'
 " Plugin 'nelstrom/vim-markdown-preview'
 " Plugin 'skwp/vim-html-escape'
-
+Plugin 'ekalinin/Dockerfile.vim'
+Plugin 'pangloss/vim-javascript'

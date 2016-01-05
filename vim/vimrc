@@ -29,11 +29,31 @@ syntax on
 " let mapleader=","
 
 " =============== Vundle Initialization ===============
-" This loads all the plugins specified in ~/.vim/vundles.vim
-" Use Vundle plugin to manage all other plugins
-if filereadable(expand("~/.vim/vundles.vim"))
-  source ~/.vim/vundles.vim
-endif
+
+filetype off
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/vundle
+set rtp+=~/.vim/vundles/ " submodules
+
+call vundle#begin() " required
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+" These vundles are split up by category into smaller files. This reduces churn and makes it easier to fork. See ~/.vim/vundles/ to edit them:
+runtime ruby.vundle
+runtime languages.vundle
+runtime git.vundle
+runtime appearance.vundle
+runtime textobjects.vundle
+runtime search.vundle
+runtime project.vundle
+runtime vim-improvements.vundle
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
 
 " ================ Turn Off Swap Files ==============
 
@@ -70,34 +90,11 @@ nnoremap P P=`]<C-o>
 filetype plugin on
 filetype indent on
 
-" Display tabs and trailing spaces visually
-set list listchars=tab:\ \ ,trail:·
-
-set wrap
-set linebreak
-
 " ================ Folds ============================
 
 " set foldmethod=indent
 " set foldnestmax=3
 " set nofoldenable
-
-" ================ Completion =======================
-
-set wildmode=list:longest
-"enable ctrl-n and ctrl-p to scroll thru matches
-    set wildmenu
-"stuff to ignore when tab completing
-    set wildignore=*.o,*.obj,*~
-set wildignore+=*vim/backups*
-set wildignore+=*sass-cache*
-set wildignore+=*DS_Store*
-set wildignore+=vendor/rails/**
-set wildignore+=vendor/cache/**
-set wildignore+=*.gem
-set wildignore+=log/**
-set wildignore+=tmp/**
-set wildignore+=*.png,*.jpg,*.gif
 
 " ================ Scrolling ========================
 
@@ -121,4 +118,19 @@ if &term =~ '^screen'
 endif
 
 " ================ Custom Settings ========================
-" so ~/.vim/settings.vim
+let vimsettings = '~/.vim/settings'
+let uname = system("uname -s")
+
+for fpath in split(globpath(vimsettings, '*.vim'), '\n')
+
+    if (fpath == expand(vimsettings) . "/yadr-keymap-mac.vim") && uname[:4] ==? "linux"
+        continue " skip mac mappings for linux
+    endif
+
+    if (fpath == expand(vimsettings) . "/yadr-keymap-linux.vim") && uname[:4] !=? "linux"
+        continue " skip linux mappings for mac
+    endif
+
+    exe 'source' fpath
+endfor
+

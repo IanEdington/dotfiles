@@ -1,13 +1,20 @@
 #!/bin/bash
+# use MacVim instead of vim
+brew link --overwrite macvim
 
 # linking files
 dotfiles::symlink_files ~/.dotfiles/vim ~/.vim
 dotfiles::symlink_files ~/.vim/vimrc ~/.vimrc
+dotfiles::symlink_files ~/.vim/editorconfig ~/.editorconfig
 
 echo "make sure vundle is up to date"
 dotfiles::install_from_github git@github.com:VundleVim/Vundle.vim.git ~/.vim/bundle/vundle
 
 echo "installing vundles"
-# vim --noplugin -u ~/.vim/vundles.vim -N "+set hidden" "+syntax on" +BundleClean +BundleInstall! +qall
-vim --noplugin -u ~/.vim/vundles.vim -N "+set hidden" "+syntax on" +BundleClean! +BundleInstall +qall
+vim +PluginInstall +qall
+
+# additional requirments for youcompleteme
+xcode-select --install
+cd ~/.vim/bundle/YouCompleteMe
+./install.py --clang-completer --omnisharp-completer --gocode-completer --tern-completer
 
