@@ -1,7 +1,7 @@
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'bling/vim-airline'
-Plugin 'bling/vim-bufferline'
+" Plugin 'bling/vim-bufferline'
 Plugin 'ap/vim-css-color'
 " Plugin 'chrisbra/color_highlight'
 " Plugin 'itchyny/lightline.vim'

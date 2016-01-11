@@ -1,32 +1,13 @@
-" Use Vim settings, rather then Vi settings (much better!).
+" Use Vim settings, rather then Vi
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
 " This is intended to allow overriding <Leader>.
-" source ~/.vim/vimrc.before if it exists.
-if filereadable(expand("~/.vim/vimrc.before"))
+if filereadable(expand("~/.vimrc.before"))
+  source ~/.vimrc.before
+elseif filereadable(expand("~/.vim/vimrc.before"))
   source ~/.vim/vimrc.before
 endif
-
-" ================ General Config ====================
-
-set number
-set history=1000
-set showcmd
-set showmode
-set visualbell
-set autoread
-set hidden
-"Allow backspace in insert mode
-    set backspace=indent,eol,start
-"Disable cursor blink
-    set gcr=a:blinkon0
-
-"turn on syntax highlighting
-syntax on
-
-" Change leader to a comma because the backslash is too far away. That means all \x commands turn into ,x . The mapleader has to be set before vundle starts loading all the plugins.
-" let mapleader=","
 
 " =============== Vundle Initialization ===============
 
@@ -42,14 +23,21 @@ call vundle#begin() " required
 Plugin 'VundleVim/Vundle.vim'
 
 " These vundles are split up by category into smaller files. This reduces churn and makes it easier to fork. See ~/.vim/vundles/ to edit them:
-runtime ruby.vundle
-runtime languages.vundle
-runtime git.vundle
-runtime appearance.vundle
-runtime textobjects.vundle
-runtime search.vundle
-runtime project.vundle
-runtime vim-improvements.vundle
+" runtime ruby.vundle
+" runtime languages.vundle
+" runtime git.vundle
+" runtime appearance.vundle
+" runtime textobjects.vundle
+" runtime search.vundle
+" runtime project.vundle
+" runtime vim-improvements.vundle
+
+let vimsettings = '~/.vim/vundles'
+let uname = system("uname -s")
+
+for fpath in split(globpath('~/.vim/vundles', '*.vundle'), '\n')
+  exe 'source' fpath
+endfor
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required

@@ -1,0 +1,9 @@
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'tpope/vim-surround'
+Plugin 'Raimondi/delimitMate'
+Plugin 'editorconfig/editorconfig-vim'
+Plugin 'vim-scripts/matchit.zip'
+Plugin 'terryma/vim-multiple-cursors'
+Plugin 'chrisbra/csv.vim'
+Plugin 'vim-scripts/YankRing.vim'
+

@@ -1,5 +1,5 @@
-# Fixes bug where airline dosen't show up with single window open
-# https://github.com/bling/vim-airline/issues/20
+" Fixes bug where airline dosen't show up with single window open
+" https://github.com/bling/vim-airline/issues/20
 set laststatus=2
 
 " nice gliphs for airline
