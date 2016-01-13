@@ -2,6 +2,12 @@
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
+" This files only loads other .vimrc files
+" ==== Load before.vimrc file ====
+" ==== Vundle Initialization ====
+" ==== Custom Settings ====
+
+" ==== Load before.vimrc file ====
 " This is intended to allow overriding <Leader>.
 if filereadable(expand("~/.vimrc.before"))
   source ~/.vimrc.before
@@ -9,7 +15,7 @@ elseif filereadable(expand("~/.vim/vimrc.before"))
   source ~/.vim/vimrc.before
 endif
 
-" =============== Vundle Initialization ===============
+" ==== Vundle Initialization ====
 
 filetype off
 
@@ -22,16 +28,6 @@ call vundle#begin() " required
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
-" These vundles are split up by category into smaller files. This reduces churn and makes it easier to fork. See ~/.vim/vundles/ to edit them:
-" runtime ruby.vundle
-" runtime languages.vundle
-" runtime git.vundle
-" runtime appearance.vundle
-" runtime textobjects.vundle
-" runtime search.vundle
-" runtime project.vundle
-" runtime vim-improvements.vundle
-
 let vimsettings = '~/.vim/vundles'
 let uname = system("uname -s")
 
@@ -43,69 +39,7 @@ endfor
 call vundle#end()            " required
 filetype plugin indent on    " required
 
-" ================ Turn Off Swap Files ==============
-
-set noswapfile
-set nobackup
-set nowb
-
-" ================ Persistent Undo ==================
-" Keep undo history across sessions, by storing in file. Only works all the time.
-if has('persistent_undo')
-  if !isdirectory(expand('~').'/.vim/backups')
-    silent !mkdir ~/.vim/backups > /dev/null 2>&1
-  endif
-  set undodir=~/.vim/backups
-  set undofile
-  set undolevels=1000
-  set undoreload=10000
-endif
-
-" ================ Indentation ======================
-
-set autoindent
-set smartindent
-set smarttab
-set shiftwidth=2
-set softtabstop=2
-set tabstop=2
-set expandtab
-
-" Auto indent pasted text
-nnoremap p p=`]<C-o>
-nnoremap P P=`]<C-o>
-
-filetype plugin on
-filetype indent on
-
-" ================ Folds ============================
-
-" set foldmethod=indent
-" set foldnestmax=3
-" set nofoldenable
-
-" ================ Scrolling ========================
-
-"Start scrolling when we're 8 lines away from margins
-    set scrolloff=8
-set sidescrolloff=15
-set sidescroll=1
-
-" ================ Search ===========================
-
-set incsearch       " Find the next match as we type the search
-set hlsearch        " Highlight searches by default
-set ignorecase      " Ignore case when searching...
-set smartcase       " ...unless we type a capital
-
-" ================ Mouse ========================
-set mouse+=a " enable mouse mode (scrolling, selection, etc)
-if &term =~ '^screen'
-    " tmux knows the extended mouse mode
-    set ttymouse=xterm2
-endif
-
-" ================ Custom Settings ========================
+" ==== Custom Settings ====
 let vimsettings = '~/.vim/settings'
 let uname = system("uname -s")
 
