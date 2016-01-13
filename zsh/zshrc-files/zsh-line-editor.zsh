@@ -4,6 +4,10 @@
 
 bindkey -v
 
+# set -o vi
+export EDITOR=vim
+export VISUAL=vim
+
 # TODO change to cmd-< cmd->
 # bindkey '^a' beginning-of-line
 # bindkey '^e' end-of-line
