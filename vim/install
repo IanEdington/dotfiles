@@ -13,7 +13,10 @@ dotfiles::install_from_github git@github.com:VundleVim/Vundle.vim.git ~/.vim/bun
 echo "installing vundles"
 vim +PluginInstall +qall
 
-# additional requirments for youcompleteme
+# additional Plugin Requirments
+# plugin cache, used by YankRing
+mkdir -p ~/.cache/vim/plugin
+# compile youcompleteme
 xcode-select --install
 cd ~/.vim/bundle/YouCompleteMe
 ./install.py --clang-completer --omnisharp-completer --gocode-completer --tern-completer
