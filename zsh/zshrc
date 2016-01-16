@@ -1,7 +1,21 @@
+# zshrc before
+if [[ -s "${ZDOTDIR:-$HOME}/.zshrc.before" ]]; then
+    source "${ZDOTDIR:-$HOME}/.zshrc.before"
+else
+    source "${ZDOTDIR:-$HOME}/.dotfiles/zsh/zshrc.before"
+fi
+
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-for config_file ($HOME/.dotfiles/zsh/zshrc-files/*.zsh) source $config_file
+for config_file ($HOME/.dotfiles/zsh/settings/*.zshrc) source $config_file
+
+# zshrc after
+if [[ -s "${ZDOTDIR:-$HOME}/.zshrc.after" ]]; then
+    source "${ZDOTDIR:-$HOME}/.zshrc.after"
+else
+    source "${ZDOTDIR:-$HOME}/.dotfiles/zsh/zshrc.after"
+fi
 

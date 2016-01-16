@@ -1,4 +1,4 @@
-#### extract: Extract most know archives with one command
+# extract: Extract most know archives with one command
 extract () {
 	if [ -f $1 ] ; then
     	case $1 in
