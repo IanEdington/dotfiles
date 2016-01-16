@@ -69,9 +69,6 @@ alias f='open -a Finder ./'
 # Zippin
 alias gz='tar -zcvf'
 
-# Homebrew
-alias brewu='brew update  && brew upgrade --all && brew cleanup && brew prune && brew doctor'
-
 # tree
 alias tree='tree -Fc -L 3'
 
