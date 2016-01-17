@@ -1,32 +1,25 @@
 # source: https://github.com/holman/dotfiles
 # ref: https://robots.thoughtbot.com/brewfile-a-gemfile-but-for-homebrew
 
-cask_args appdir: '/Applications'
-tap 'homebrew/bundle'
-
 # Shells
-brew 'zsh'
-brew 'zsh-completions'
 brew 'tmux'
+brew 'zsh'
+brew 'zsh-syntax-highlighting'
+brew 'zsh-completions'
 brew 'bash'
 
 # Shell Utilites
-brew 'ack'
 brew 'coreutils'
+brew 'ack'
+brew 'the_silver_searcher'
 brew 'grc'
 brew 'openssl'
 brew 'readline'
-brew 'postgresql'
-brew 'rbenv'
 brew 'tree'
 brew 'unrar'
-brew 'bash-completion'
-brew 'vim'
-brew 'git'
-brew 'git-extras'
-brew 'hub'
+brew 'youtube-dl'
 
-# Dev Packages
+# Node JS
 brew 'node'
 
 # python
@@ -37,13 +30,21 @@ brew 'numpy'
 
 # ruby
 brew 'ruby'
+brew 'rbenv'
+brew 'ruby-build'
 
 # php
 brew 'php70'
 
+# R
+brew 'r'
+
 # Databases
+brew 'postgresql'
 brew 'redis'
 brew 'sqlite'
+brew 'mysql'
+brew 'mongodb'
 
 # Completions
 tap 'homebrew/completions'

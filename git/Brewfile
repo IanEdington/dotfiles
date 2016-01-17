@@ -1,0 +1,4 @@
+brew 'git'
+brew 'git-extras'
+brew 'hub'
+

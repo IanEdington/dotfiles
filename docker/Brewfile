@@ -2,6 +2,8 @@
 cask 'virtualbox'
 cask 'virtualbox-extension-pack'
 brew 'docker'
+brew 'docker-completion'
 brew 'docker-machine'
+brew 'docker-machine-completion'
 brew 'docker-compose'
 
