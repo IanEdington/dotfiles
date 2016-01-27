@@ -6,7 +6,8 @@ set laststatus=2
 let g:airline_powerline_fonts = 1
 
 " Remove pause when leaving insert mode
-set timeoutlen=50
+"  - causes mappings to not work.
+" set timeoutlen=50
 
 " Automatically displays all buffers when there's only one tab open.
 let g:airline#extensions#tabline#enabled = 1

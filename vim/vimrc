@@ -2,17 +2,17 @@
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
-" This files only loads other .vimrc files
 " ==== Load before.vimrc file ====
 " ==== Vundle Initialization ====
 " ==== Custom Settings ====
 
 " ==== Load before.vimrc file ====
+" This files only loads other .vimrc files
 " This is intended to allow overriding <Leader>.
 if filereadable(expand("~/.vimrc.before"))
-  source ~/.vimrc.before
+    source ~/.vimrc.before
 elseif filereadable(expand("~/.vim/vimrc.before"))
-  source ~/.vim/vimrc.before
+    source ~/.vim/vimrc.before
 endif
 
 " ==== Vundle Initialization ====
@@ -41,18 +41,8 @@ filetype plugin indent on    " required
 
 " ==== Custom Settings ====
 let vimsettings = '~/.vim/settings'
-let uname = system("uname -s")
 
 for fpath in split(globpath(vimsettings, '*.vim'), '\n')
-
-    if (fpath == expand(vimsettings) . "/yadr-keymap-mac.vim") && uname[:4] ==? "linux"
-        continue " skip mac mappings for linux
-    endif
-
-    if (fpath == expand(vimsettings) . "/yadr-keymap-linux.vim") && uname[:4] !=? "linux"
-        continue " skip linux mappings for mac
-    endif
-
     exe 'source' fpath
 endfor
 
