@@ -1,14 +1,14 @@
+# setup .zsh
+mkdir ~/.zsh
 # download prezto
-dotfiles::install_from_github git@github.com:sorin-ionescu/prezto.git prezto
+dotfiles::install_from_github git@github.com:sorin-ionescu/prezto.git ~/.zsh/.zprezto
 
-dotfiles::symlink_files ~/.dotfiles/zsh/prezto ~/.zprezto
+dotfiles::symlink_files ~/.dotfiles/zsh/zshenv ~/.zshenv
 
 # setopt EXTENDED_GLOB
-for file in ~/.zprezto/runcoms/*; do
-    rcfile=~/.${file##*/}
-    if [[ ! "$rcfile" -ef ~/.README.md ]]; then
-        dotfiles::symlink_files $file $rcfile
-    fi
+for rcfile in ~/.zsh/.zprezto/runcoms/*; do
+    dotfiles::symlink_files $rcfile $dotfile
 done
 
-dotfiles::symlink_files ~/.dotfiles/zsh/zshrc ~/.zshrc
+dotfiles::symlink_files ~/.zsh/zshrc ~/.zsh/.zshrc
+
