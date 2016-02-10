@@ -9,6 +9,7 @@ set nocompatible
 " ==== Load before.vimrc file ====
 " This files only loads other .vimrc files
 " This is intended to allow overriding <Leader>.
+
 if filereadable(expand("~/.vimrc.before"))
     source ~/.vimrc.before
 elseif filereadable(expand("~/.vim/vimrc.before"))
@@ -21,17 +22,14 @@ filetype off
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/vundle
-set rtp+=~/.vim/vundles/ " submodules
 
 call vundle#begin() " required
 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
-let vimsettings = '~/.vim/vundles'
-let uname = system("uname -s")
-
-for fpath in split(globpath('~/.vim/vundles', '*.vundle'), '\n')
+let vimvundles = '~/.vim/vundles'
+for fpath in split(globpath(vimvundles, '*.vundle'), '\n')
   exe 'source' fpath
 endfor
 
@@ -39,10 +37,20 @@ endfor
 call vundle#end()            " required
 filetype plugin indent on    " required
 
+
 " ==== Custom Settings ====
 let vimsettings = '~/.vim/settings'
-
-for fpath in split(globpath(vimsettings, '*.vim'), '\n')
+for fpath in split(globpath(vimsettings, '*.vimrc'), '\n')
     exe 'source' fpath
 endfor
+
+" ==== Load after.vimrc file ====
+" This files only loads other .vimrc files
+" This is intended to allow overriding <Leader>.
+
+if filereadable(expand("~/.vimrc.after"))
+    source ~/.vimrc.after
+elseif filereadable(expand("~/.vim/vimrc.after"))
+    source ~/.vim/vimrc.after
+endif
 

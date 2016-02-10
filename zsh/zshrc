@@ -1,3 +1,15 @@
+source_if_found_else () {
+    local file_source = $1
+    local alternate_source = $2
+
+    if [[ -s $file_source ]]; then
+        source $file_source
+    else
+        source $alternate_source
+    fi
+}
+
+
 # zshrc before
 if [[ -s "${ZDOTDIR:-$HOME}/.zshrc.before" ]]; then
     source "${ZDOTDIR:-$HOME}/.zshrc.before"

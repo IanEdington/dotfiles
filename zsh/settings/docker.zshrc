@@ -7,5 +7,5 @@ alias dq="docker.quickstart"
 alias dm="docker-machine"
 alias dc="docker-compose"
 alias dp="docker ps"
-alias dl="docker-machine list"
+alias dl="docker-machine ls"
 

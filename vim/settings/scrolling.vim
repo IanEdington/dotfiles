@@ -1,7 +1,7 @@
 " ==== Scrolling ====
 
 "Start scrolling when we're 8 lines away from margins
-    set scrolloff=8
-set sidescrolloff=15
+set scrolloff=3
+set sidescrolloff=3
 set sidescroll=1
 

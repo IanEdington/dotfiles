@@ -1,14 +1,35 @@
-# setup .zsh
-mkdir ~/.zsh
-# download prezto
-dotfiles::install_from_github git@github.com:sorin-ionescu/prezto.git ~/.zsh/.zprezto
+# returns 1 if $array contains a $string
+array_contains () {
+    local array="$1[@]"
+    local seeking=$2
+    local in=1
+    for element in "${!array}"; do
+        if [[ $element == $seeking ]]; then
+            in=0
+            break
+        fi
+    done
+    return $in
+}
 
-dotfiles::symlink_files ~/.dotfiles/zsh/zshenv ~/.zshenv
+# setup .zsh
+### mkdir ~/.zsh
+# download prezto
+### dotfiles::install_from_github git@github.com:sorin-ionescu/prezto.git ~/.zsh/.zprezto
+
+### dotfiles::symlink_files ~/.dotfiles/zsh/zshenv ~/.zshenv
 
 # setopt EXTENDED_GLOB
+exclude_files=("README.md" "zshrc")
 for rcfile in ~/.zsh/.zprezto/runcoms/*; do
-    dotfiles::symlink_files $rcfile $dotfile
+    dotfile=~/.zsh/.${rcfile##*/}
+    if [[ $(array_contains exclude_files $(basename "$rcfile")) == 1 ]]; then
+        ### dotfiles::symlink_files $rcfile $dotfile
+        echo it worked
+    fi
+    echo $(array_contains exclude_files $(basename "$rcfile")) && echo yes || echo no
+    echo $(basename $rcfile)
 done
 
-dotfiles::symlink_files ~/.zsh/zshrc ~/.zsh/.zshrc
+### dotfiles::symlink_files ~/.zsh/zshrc ~/.zsh/.zshrc
 

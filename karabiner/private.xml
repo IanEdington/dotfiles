@@ -21,4 +21,10 @@
 			<autogen>__KeyOverlaidModifier__ KeyCode::CONTROL_L, KeyCode::CONTROL_L, KeyCode::CAPSLOCK</autogen>
 		</item>
 	</item>
+    <item>
+        <name>Microsoft 4000 Keyboard</name>
+        <item>
+            <name>Capslock to Control_L</name>
+        </item>
+    </item>
 </root>
