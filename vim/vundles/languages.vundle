@@ -1,6 +1,7 @@
 " Tools
-Plugin 'nelstrom/vim-markdown-preview'
 Plugin 'scrooloose/syntastic'
+"Plugin 'nelstrom/vim-markdown-preview'
+Plugin 'suan/vim-instant-markdown'
 
 " Languages
 Plugin 'sheerun/vim-polyglot'
