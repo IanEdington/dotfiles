@@ -20,7 +20,7 @@ let g:ctrlp_by_filename = 1
 let g:ctrlp_switch_buffer = 0
 
 " We don't want to use Ctrl-p as the mapping because it interferes with YankRing (paste, then hit ctrl-p)
-let g:ctrlp_map = ',t'
+let g:ctrlp_map = ''
 nnoremap <leader>in :CtrlP<CR>
 
 " Additional mapping for buffer search
