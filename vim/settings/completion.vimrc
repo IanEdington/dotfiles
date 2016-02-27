@@ -2,9 +2,9 @@
 
 set wildmode=list:longest
 "enable ctrl-n and ctrl-p to scroll thru matches
-    set wildmenu
+set wildmenu
 "stuff to ignore when tab completing
-    set wildignore=*.o,*.obj,*~
+set wildignore=*.o,*.obj,*~
 set wildignore+=*vim/backups*
 set wildignore+=*sass-cache*
 set wildignore+=*DS_Store*

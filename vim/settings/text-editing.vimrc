@@ -15,6 +15,4 @@ vnoremap <leader>V d"+P
 inoremap <leader>v <esc>"+pa
 inoremap <leader>V <esc>"+Pa
 
-" Tab to indent
-vnoremap <Tab> :><CR>
 

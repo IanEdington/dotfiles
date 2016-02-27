@@ -9,7 +9,7 @@ set relativenumber
 set gcr=a:blinkon0
 
 " Display tabs and trailing spaces visually 
-set list listchars=tab:\⋙\ ,trail:·,eol:¬
+    set list listchars=tab:\⋙\ ,trail:·,eol:¬
 
 set wrap
 set linebreak
