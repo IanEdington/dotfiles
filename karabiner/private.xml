@@ -1,30 +1,83 @@
 <?xml version="1.0"?>
 <root>
 	<item>
-		<name>Ian's Changes</name>
+		<name>MacBook Pro Keyboard</name>
+
+		<devicevendordef>
+			<vendorname>APPLE</vendorname>
+			<vendorid>0x05ac</vendorid>
+		</devicevendordef>
+
+		<deviceproductdef>
+			<productname>MACBOOK_PRO_KEYBOARD</productname>
+			<productid>0x0259</productid>
+		</deviceproductdef>
+
+		<device_only>DeviceVendor::APPLE, DeviceProduct::MACBOOK_PRO_KEYBOARD</device_only>
+
 		<item>
 			<name>Command_R only to Escape</name>
 			<appendix>(+ When you type Command_R only, send Escape))</appendix>
-			<identifier>private.remap.Command_R_2_Esc</identifier>
+			<device_only>DeviceVendor::APPLE, DeviceProduct::MACBOOK_PRO_KEYBOARD</device_only>
+			<identifier>ie.mbp.Command_R_2_Esc</identifier>
 			<autogen>__KeyOverlaidModifier__ KeyCode::COMMAND_R, KeyCode::COMMAND_R, KeyCode::ESCAPE</autogen>
 		</item>
 		<item>
 			<name>Control_R only to Escape</name>
 			<appendix>(+ When you type Control R only, send Escape)</appendix>
-			<identifier>private.remap.Control_R_only_2_Escape</identifier>
+			<device_only>DeviceVendor::APPLE, DeviceProduct::MACBOOK_PRO_KEYBOARD</device_only>
+			<identifier>ie.mbp.Control_R_only_2_Escape</identifier>
 			<autogen>__KeyOverlaidModifier__ KeyCode::CONTROL_R, KeyCode::CONTROL_R, KeyCode::ESCAPE</autogen>
 		</item>
-	  <item>
+		<item>
 			<name>Control_L only to CapsLock</name>
 			<appendix>(+ When you type Control L only, send CapsLock)</appendix>
-			<identifier>private.remap.Control_L_only_2_CapsLock</identifier>
+			<device_only>DeviceVendor::APPLE, DeviceProduct::MACBOOK_PRO_KEYBOARD</device_only>
+			<identifier>ie.mbp.Control_L_only_2_CapsLock</identifier>
 			<autogen>__KeyOverlaidModifier__ KeyCode::CONTROL_L, KeyCode::CONTROL_L, KeyCode::CAPSLOCK</autogen>
 		</item>
 	</item>
-    <item>
-        <name>Microsoft 4000 Keyboard</name>
-        <item>
-            <name>Capslock to Control_L</name>
-        </item>
-    </item>
+	<item>
+		<name>Microsoft 4000 Keyboard</name>
+		<devicevendordef>
+			<vendorname>MICROSOFT</vendorname>
+			<vendorid>0x045e</vendorid>
+		</devicevendordef>
+
+		<deviceproductdef>
+			<productname>4000_KEYBOARD</productname>
+			<productid>0x00db</productid>
+		</deviceproductdef>
+
+		<device_only>DeviceVendor::MICROSOFT, DeviceProduct::4000_KEYBOARD</device_only>
+
+		<item>
+			<name>Switch Command and Option Keys</name>
+			<appendix>(+ When you type Command_R only, send Escape))</appendix>
+			<device_only>DeviceVendor::MICROSOFT, DeviceProduct::4000_KEYBOARD</device_only>
+			<identifier>ie.m4k.switch_command_option</identifier>
+			<autogen>__KeyToKey__ KeyCode::PC_APPLICATION, KeyCode::OPTION_R</autogen>
+		</item>
+		<item>
+			<name>Command_R only to Escape</name>
+			<appendix>(+ When you type Control R only, send Escape)</appendix>
+			<device_only>DeviceVendor::MICROSOFT, DeviceProduct::4000_KEYBOARD</device_only>
+			<identifier>ie.m4k.Command_R_only_2_Escape</identifier>
+			<autogen>__KeyOverlaidModifier__ KeyCode::COMMAND_R, KeyCode::COMMAND_R, KeyCode::ESCAPE</autogen>
+		</item>
+		<item>
+			<name>Control_R only to Escape</name>
+			<appendix>(+ When you type Control R only, send Escape)</appendix>
+			<device_only>DeviceVendor::MICROSOFT, DeviceProduct::4000_KEYBOARD</device_only>
+			<identifier>ie.m4k.Control_R_only_2_Escape</identifier>
+			<autogen>__KeyOverlaidModifier__ KeyCode::CONTROL_R, KeyCode::CONTROL_R, KeyCode::ESCAPE</autogen>
+		</item>
+		<item>
+			<name>Control_L only to CapsLock</name>
+			<appendix>(+ When you type Control L only, send CapsLock)</appendix>
+			<device_only>DeviceVendor::MICROSOFT, DeviceProduct::4000_KEYBOARD</device_only>
+			<identifier>ie.m4k.Control_L_only_2_CapsLock</identifier>
+			<autogen>__KeyOverlaidModifier__ KeyCode::CONTROL_L, KeyCode::CONTROL_L, KeyCode::CAPSLOCK</autogen>
+		</item>
+	</item>
 </root>
