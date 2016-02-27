@@ -1,0 +1,9 @@
+npm update -g
+
+PACKAGES=(
+  eslint
+  gulp
+  grunt
+)
+
+npm install -g ${PACKAGES[@]}
