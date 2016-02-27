@@ -14,3 +14,6 @@ set gcr=a:blinkon0
 set wrap
 set linebreak
 
+colorscheme solarized
+set background=dark
+
