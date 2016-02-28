@@ -6,4 +6,5 @@ Plugin 'vim-scripts/matchit.zip'
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'chrisbra/csv.vim'
 Plugin 'vim-scripts/YankRing.vim'
+Plugin 'Chiel92/vim-autoformat'
 
