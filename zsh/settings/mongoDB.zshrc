@@ -1,3 +1,3 @@
 # MongoDB
-	alias mongodev='mongod --dbpath ~/.env/mongodb/data/'
+alias mongodev='mongod --dbpath ~/.env/mongodb/data/'
 
