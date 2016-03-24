@@ -1,0 +1,149 @@
+
+"" Appearance
+
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'itchyny/lightline.vim'
+Plugin 'ap/vim-css-color'
+
+" Plugin 'bling/vim-bufferline'
+" Plugin 'chrisbra/color_highlight'
+" Plugin 'jby/tmux.vi
+" Plugin 'morhetz/gruvbox'
+" Plugin 'xsunsmile/showmarks'
+" Plugin 'chriskempson/base16-vim'
+
+" Required for Gblame in terminal vim
+" Plugin 'godlygeek/csapprox'
+
+
+"" Languages
+
+Plugin 'sheerun/vim-polyglot'
+Plugin 'skwp/vim-html-escape'
+Plugin 'jtratner/vim-flavored-markdown'
+Plugin 'cakebaker/scss-syntax.vim'
+" Tools
+Plugin 'scrooloose/syntastic'
+Plugin 'suan/vim-instant-markdown'
+
+
+"" IDE (debuging, help, project awareness)
+
+Plugin 'joonty/vdebug'
+
+" Help finder
+Plugin 'rizzatti/dash.vim'
+
+
+"" git
+
+" Plugin 'gregsexton/gitv'
+" Plugin 'mattn/gist-vim'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-git'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
+Plugin 'airblade/vim-gitgutter'
+
+
+"" AutoComplete
+
+" Plugin 'garbas/vim-snipmate'
+" Plugin 'honza/vim-snippets'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'mattn/emmet-vim'
+
+
+"" Text Objects
+
+" These bundles introduce new textobjects into vim,
+" For example the Ruby one introduces the 'r' text object
+" such that 'var' gives you Visual Around Ruby
+" Plugin 'austintaylor/vim-indentobject'
+" Plugin 'bootleq/vim-textobj-rubysymbol'
+" Plugin 'coderifous/textobj-word-column.vim'
+" Plugin 'kana/vim-textobj-datetime'
+" Plugin 'kana/vim-textobj-entire'
+" Plugin 'kana/vim-textobj-function'
+" Plugin 'kana/vim-textobj-user'
+" Plugin 'lucapette/vim-textobj-underscore'
+" Plugin 'nathanaelkane/vim-indent-guides'
+" Plugin 'nelstrom/vim-textobj-rubyblock'
+" Plugin 'thinca/vim-textobj-function-javascript'
+" Plugin 'vim-scripts/argtextobj.vim'
+
+
+"" Text Editing
+
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'tpope/vim-surround'
+Plugin 'Raimondi/delimitMate'
+Plugin 'editorconfig/editorconfig-vim'
+Plugin 'vim-scripts/matchit.zip'
+Plugin 'terryma/vim-multiple-cursors'
+Plugin 'chrisbra/csv.vim'
+Plugin 'vim-scripts/YankRing.vim'
+Plugin 'Chiel92/vim-autoformat'
+
+
+"" Search
+
+Plugin 'ctrlpvim/ctrlp.vim'
+
+" Plugin 'rking/ag.vim'
+" Plugin 'justinmk/vim-sneak'
+" Plugin 'vim-scripts/IndexedSearch'
+" Plugin 'nelstrom/vim-visual-star-search'
+" Plugin 'skwp/greplace.vim'
+" Plugin 'Lokaltog/vim-easymotion'
+
+
+"" Projects
+
+Plugin 'scrooloose/nerdtree'
+Plugin 'xolox/vim-misc'
+Plugin 'xolox/vim-session'
+Plugin 'unterzicht/vim-virtualenv'
+
+
+"" Vim Improvements
+
+Plugin 'tpope/vim-sensible'
+
+" Plugin 'AndrewRadev/splitjoin.vim'
+" Plugin 'briandoll/change-inside-surroundings.vim'
+" Plugin 'godlygeek/tabular'
+" Plugin 'vim-scripts/camelcasemotion'
+" Plugin 'Keithbsmiley/investigate.vim'
+" Plugin 'chrisbra/NrrwRgn'
+" Plugin 'christoomey/vim-tmux-navigator'
+" Plugin 'MarcWeber/vim-addon-mw-utils'
+" Plugin 'bogado/file-line'
+" Plugin 'mattn/webapi-vim'
+" Plugin 'sjl/gundo.vim'
+" Plugin 'tomtom/tlib_vim'
+" Plugin 'tpope/vim-abolish'
+" Plugin 'tpope/vim-endwise'
+" Plugin 'tpope/vim-ragtag'
+" Plugin 'tpope/vim-repeat'
+" Plugin 'tpope/vim-unimpaired'
+" Plugin 'vim-scripts/AnsiEsc.vim'
+" Plugin 'vim-scripts/AutoTag'
+" Plugin 'vim-scripts/lastpos.vim'
+" Plugin 'vim-scripts/sudo.vim'
+" Plugin 'goldfeld/ctrlr.vim'
+
+
+"" Ruby
+
+" Plugin 'ecomba/vim-ruby-refactoring'
+" Plugin 'tpope/vim-rails'
+" Plugin 'tpope/vim-rake'
+" Plugin 'tpope/vim-rvm'
+" Plugin 'vim-ruby/vim-ruby'
+" Plugin 'keith/rspec.vim'
+" Plugin 'skwp/vim-iterm-rspec'
+" Plugin 'skwp/vim-spec-finder'
+" Plugin 'ck3g/vim-change-hash-syntax'
+" Plugin 'tpope/vim-bundler'
+
