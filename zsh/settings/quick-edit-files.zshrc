@@ -7,3 +7,5 @@ alias eeditor='vim ~/.editorconfig'
 alias ebrew='vim ~/.dotfiles/Brewfile'
 
 alias elocal='vim ~/.local/**/*.zshrc'
+alias ebookmark='vim ~/.local/zsh/bookmarks.zshrc'
+

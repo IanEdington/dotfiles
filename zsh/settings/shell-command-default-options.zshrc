@@ -36,7 +36,8 @@ alias cp='cp -Ri'
 # scp
 alias scp='scp -C'
 # rm
-alias rm='nocorrect rm -r'
+alias rm="echo Use 'tr', or the full path i.e. '/bin/rm'"
+
 
 # Preferred 'mv' implementation
 alias mv='mv -iv'
