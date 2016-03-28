@@ -7,3 +7,7 @@ PACKAGES=(
 )
 
 npm install -g ${PACKAGES[@]}
+
+// completions
+npm completion >! ~/.local/zsh/npm.zshrc
+npm completion >! ~/.local/bash/npm.bashrc
