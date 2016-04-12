@@ -3,9 +3,10 @@
 alias docker.quickstart="/bin/bash --login ~/.dotfiles/docker/start.sh"
 
 # short commands
+alias d="docker"
 alias dq="docker.quickstart"
-alias dm="docker-machine"
-alias dc="docker-compose"
+alias dk="docker"
 alias dp="docker ps"
+alias dm="docker-machine"
 alias dl="docker-machine ls"
-
+alias dc="docker-compose"

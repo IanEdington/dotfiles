@@ -11,3 +11,4 @@ inoremap <leader>tn <esc>:set number!<CR>i
 noremap <leader>trn :set relativenumber!<CR>
 inoremap <leader>trn <esc>:set relativenumber!<CR>i
 
+noremap <leader>ts :SyntasticToggleMode<CR>

@@ -30,6 +30,7 @@ Plugin 'suan/vim-instant-markdown'
 
 "" IDE (debuging, help, project awareness)
 
+Plugin 'embear/vim-localvimrc'
 Plugin 'joonty/vdebug'
 
 " Help finder
@@ -109,6 +110,7 @@ Plugin 'unterzicht/vim-virtualenv'
 "" Vim Improvements
 
 Plugin 'tpope/vim-sensible'
+Plugin 'tpope/vim-unimpaired'
 
 " Plugin 'AndrewRadev/splitjoin.vim'
 " Plugin 'briandoll/change-inside-surroundings.vim'
@@ -126,7 +128,6 @@ Plugin 'tpope/vim-sensible'
 " Plugin 'tpope/vim-endwise'
 " Plugin 'tpope/vim-ragtag'
 " Plugin 'tpope/vim-repeat'
-" Plugin 'tpope/vim-unimpaired'
 " Plugin 'vim-scripts/AnsiEsc.vim'
 " Plugin 'vim-scripts/AutoTag'
 " Plugin 'vim-scripts/lastpos.vim'
