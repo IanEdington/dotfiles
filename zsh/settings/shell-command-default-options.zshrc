@@ -18,6 +18,9 @@ alias ft='lr'
 # less
 alias l='less -i -s -u -w'
 
+# vim
+alias vim='gvim'
+
 # cd
 #	Always list directory contents
 cd () { builtin cd "$@"; ls; }
@@ -26,6 +29,7 @@ alias ~="cd ~"
 alias cd..='cd ../'
 alias ..='cd ../'
 alias ...='cd ../../'
+alias .2='cd ../../'
 alias .3='cd ../../../'
 alias .4='cd ../../../../'
 alias .5='cd ../../../../../'
@@ -70,3 +74,19 @@ alias gz='tar -zcvf'
 # tree
 alias tree='tree -Fc -L 3'
 
+# (f)ind by (n)ame
+# usage: fn foo 
+# to find all files containing 'foo' in the name
+function fn() { ll **/*$1* }
+
+# ff: Find file under the current directory
+ff () { find . -name "$@" ; }
+
+# find . -type d -exec chmod 755 {} \;
+	chmodweb () {
+		find $@ -type d -exec chmod 755 {} \;
+		find $@ -type f -exec chmod 644 {} \;
+	}
+
+# edit hosts file quickly
+alias hosts="sudo vim /etc/hosts"
