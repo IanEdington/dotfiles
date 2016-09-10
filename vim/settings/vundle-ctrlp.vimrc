@@ -19,12 +19,16 @@ let g:ctrlp_by_filename = 1
 " Don't jump to already open window. This is annoying if you are maintaining several Tab workspaces and want to open two windows into the same file.
 let g:ctrlp_switch_buffer = 0
 
+" fuzzy find within file in vim
+let g:ctrlp_extensions = ['buffertag', 'tag', 'line', 'dir']
+
 " We don't want to use Ctrl-p as the mapping because it interferes with YankRing (paste, then hit ctrl-p)
 let g:ctrlp_map = ''
 nnoremap <leader>in :CtrlP<CR>
 
 " Additional mapping for buffer search
-nnoremap <leader>ib :CtrlPBuffer<cr>
+nnoremap <leader>ib :CtrlPLine<CR>
+nnoremap <leader>ibn :CtrlPBuffer<CR>
 
 " Cmd-Shift-P to clear the cache
 nnoremap <leader>ix :ClearCtrlPCache<cr>
@@ -48,4 +52,3 @@ noremap <leader>iF :CtrlP factories<CR>
 "Cmd-Shift-(M)ethod - jump to a method (tag in current file)
 "Ctrl-m is not good - it overrides behavior of Enter
 nnoremap <D-M> :CtrlPBufTag<CR>
-

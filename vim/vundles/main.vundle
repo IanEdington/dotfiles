@@ -19,6 +19,7 @@ Plugin 'ap/vim-css-color'
 
 "" Languages
 
+Plugin 'jalvesaq/nvim-r'
 Plugin 'sheerun/vim-polyglot'
 Plugin 'skwp/vim-html-escape'
 Plugin 'jtratner/vim-flavored-markdown'
