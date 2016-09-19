@@ -4,4 +4,3 @@
 set scrolloff=5
 set sidescrolloff=3
 set sidescroll=1
-

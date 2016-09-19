@@ -21,4 +21,3 @@ nnoremap <Tab> :><CR>
 nnoremap <S-Tab> :<<CR>
 inoremap <Tab> <esc>:><CR>a
 " inoremap <S-Tab> doesn't seem to register as Shift Tab..
-
