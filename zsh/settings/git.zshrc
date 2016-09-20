@@ -42,8 +42,12 @@ alias gcam="ga -A && gc -m"
 # Git View
 alias gs="git status"
 alias gsh="git show"
-alias gl="git log"
-alias gli="gl -1 HEAD"
+alias gl="gladog"
+alias gladog="git log --all --decorate --graph"
+    # remove --oneline since pretty is nicer oneline
+    # Ref: @duckx memory aid "git log a dog"
+    # http://stackoverflow.com/questions/1057564/pretty-git-branch-graphs
+alias gli="git log -1 HEAD"
 alias gd="git diff"
 alias gdc="gd --cached -w"
 alias gds="gd --staged -w"

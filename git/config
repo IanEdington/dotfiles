@@ -10,20 +10,36 @@
     old = red
     new = green
 [core]
-    excludesfile = /Users/ian/.gitignore
-    excludesfile = /Users/ian/.gitignore_global
-    excludesfile = /Users/ian/.config/git/ignore
+    excludesfile = ~/.gitignore
+    excludesfile = ~/.gitignore_global
+    excludesfile = ~/.config/git/ignore
 [diff]
     algorithm = patience
     # mnemonicprefix = true # might be useful once I understand git diff
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path =
+[filter "lfs"]
+	clean = git-lfs clean %f
+	smudge = git-lfs smudge %f
+	required = true
 [format]
     pretty = format:%C(blue)%ad%Creset %C(yellow)%h%C(green)%d%Creset %C(blue)%s %C(magenta) [%an]%Creset
+[include]
+    path = ~/.gitconfig.user
+    path = ~/.config/git/user
+    path = ~/.local/git/user
+[log]
+	date = relative
 [merge]
 	ff = false
     tool = mvimdiff
 [mergetool "mvimdiff"]
     cmd="mvim -c 'Gdiff' $MERGED"     # use fugitive.vim for 3-way merge
     keepbackup=false
+[mergetool "sourcetree"]
+	cmd = /opt/homebrew-cask/Caskroom/sourcetree/2.0.5.8/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
 [pull]
 	rebase = preserve
 [push]
@@ -105,17 +121,3 @@
 
     # tag
     t = tag
-
-[include]
-    path = ~/.gitconfig.user
-
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
-[mergetool "sourcetree"]
-	cmd = /opt/homebrew-cask/Caskroom/sourcetree/2.0.5.8/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
-[filter "lfs"]
-	clean = git-lfs clean %f
-	smudge = git-lfs smudge %f
-	required = true
