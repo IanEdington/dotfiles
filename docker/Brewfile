@@ -1,7 +1,3 @@
 # Docker
-cask 'virtualbox'
-cask 'virtualbox-extension-pack'
-brew 'docker'
-brew 'docker-machine'
-brew 'docker-compose'
-
+tap 'caskroom/cask'
+cask 'docker'

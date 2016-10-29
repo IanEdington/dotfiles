@@ -1,6 +1,4 @@
 #!/bin/bash
-# use MacVim instead of vim
-brew link --overwrite macvim
 
 # linking files
 dotfiles::symlink_files ~/.dotfiles/vim ~/.vim
@@ -20,4 +18,3 @@ mkdir -p ~/.cache/vim/plugin
 xcode-select --install
 cd ~/.vim/bundle/YouCompleteMe
 ./install.py --clang-completer --omnisharp-completer --gocode-completer --tern-completer
-

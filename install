@@ -12,13 +12,27 @@ dotfiles::install_from_github () {
         cd $package_dir
         git pull && git submodule update --init --remote --recursive
     else
-	echo "clone into " $package_dir
+        echo "clone into " $package_dir
         git clone --depth 1 $github_repo $package_dir
         cd $package_dir
         git submodule update --init --remote --recursive
     fi
 
     cd $starting_dir
+}
+
+# returns 1 if $array contains a $string
+array_contains () {
+    local array="$1[@]"
+    local seeking=$2
+    local in=1
+    for element in "${!array}"; do
+        if [[ $element == $seeking ]]; then
+            in=0
+            break
+        fi
+    done
+    return $in
 }
 
 # dotfiles::backup_func () {
@@ -58,23 +72,26 @@ dotfiles::symlink_files () {
 
 # ref: http://stackoverflow.com/a/246128/4301584
 DOTFILES_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd -P )"
-# echo "dotfiles root " $DOTFILES_ROOT
-
-# in case people want to use comands in their scripts
-    # Add bin/ to path
-    # Add homebrew bin to path
-
-# install brew on OSX or Linux if it's not already installed
-        # TODO exit if there's a problem
-#    brew update
-#    brew upgrade
-#    brew doctor
-#    brew tap homebrew/bundle
-#    brew bundle
+echo "dotfiles root " $DOTFILES_ROOT
 
 # Symlink the current folder to .dotfiles
 dotfiles::symlink_files $DOTFILES_ROOT ~/.dotfiles;
 cd $DOTFILES_ROOT
+
+# install brew on OSX
+which -s brew
+if [[ $? != 0 ]] ; then
+    # Install Homebrew
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+else
+    brew update
+fi
+brew tap homebrew/bundle
+brew bundle -v
+
+# in case people want to use comands in their scripts
+    # Add bin/ to path
+    # Add homebrew bin to path
 
 # for each folder in dotfiles/
 for dir in */ ; do
@@ -82,7 +99,7 @@ for dir in */ ; do
     cd $dir;
 
     if [ -f Brewfile ]; then
-        brew bundle
+        brew bundle -v
     fi
 
     if [ -f install ]; then

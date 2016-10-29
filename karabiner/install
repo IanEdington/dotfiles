@@ -1,4 +1,2 @@
-
 # link personal keyboard config to correct place in Library
 dotfiles::symlink_files $PWD/private.xml ~/Library/Application\ Support/Karabiner/private.xml
-

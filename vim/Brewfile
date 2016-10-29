@@ -1,7 +1,6 @@
 # use macvim instead of vim
-brew 'macvim', args: ['custom-icons', 'override-system-vim', 'with-lua', 'with-luajit']
+brew 'macvim', args: ['with-override-system-vim', 'with-cscope', 'with-lua', 'with-luajit', 'python3']
 
 # plugin requirments
 brew 'cmake' # YouCompleteMe
 brew 'editorconfig' # editorconfig
-

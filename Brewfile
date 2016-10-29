@@ -3,9 +3,6 @@
 
 # Shells
 brew 'tmux'
-brew 'zsh'
-brew 'zsh-syntax-highlighting'
-brew 'zsh-completions'
 brew 'bash'
 
 # Shell Utilites
@@ -17,34 +14,13 @@ brew 'openssl'
 brew 'readline'
 brew 'tree'
 brew 'unrar'
-brew 'youtube-dl'
 
 # Node JS
 brew 'node'
 
 # python
-brew 'pyqt'
 brew 'python'
 brew 'python3'
-brew 'numpy'
-
-# ruby
-brew 'ruby'
-brew 'rbenv'
-brew 'ruby-build'
-
-# php
-brew 'php70'
-
-# R
-brew 'r'
-
-# Databases
-brew 'postgresql'
-brew 'redis'
-brew 'sqlite'
-brew 'mysql'
-brew 'mongodb'
 
 # Completions
 tap 'homebrew/completions'
@@ -75,4 +51,3 @@ brew 't-completion'
 brew 'tmuxinator-completion'
 brew 'vagrant-completion'
 brew 'wpcli-completion'
-

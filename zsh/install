@@ -1,23 +1,10 @@
-# returns 1 if $array contains a $string
-array_contains () {
-    local array="$1[@]"
-    local seeking=$2
-    local in=1
-    for element in "${!array}"; do
-        if [[ $element == $seeking ]]; then
-            in=0
-            break
-        fi
-    done
-    return $in
-}
-
 # setup .zsh
-### mkdir ~/.zsh
-# download prezto
-### dotfiles::install_from_github git@github.com:sorin-ionescu/prezto.git ~/.zsh/.zprezto
+dotfiles::symlink_files ~/.dotfiles/zsh ~/.zsh
+dotfiles::symlink_files ~/.dotfiles/zsh/zshenv ~/.zshenv
+dotfiles::symlink_files ~/.zsh/zshrc ~/.zsh/.zshrc
 
-### dotfiles::symlink_files ~/.dotfiles/zsh/zshenv ~/.zshenv
+# download prezto
+dotfiles::install_from_github git@github.com:sorin-ionescu/prezto.git ~/.zsh/.zprezto
 
 # setopt EXTENDED_GLOB
 exclude_files=("README.md" "zshrc")
@@ -30,6 +17,3 @@ for rcfile in ~/.zsh/.zprezto/runcoms/*; do
     echo $(array_contains exclude_files $(basename "$rcfile")) && echo yes || echo no
     echo $(basename $rcfile)
 done
-
-### dotfiles::symlink_files ~/.zsh/zshrc ~/.zsh/.zshrc
-
