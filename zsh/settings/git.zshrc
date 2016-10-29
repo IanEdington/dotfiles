@@ -43,6 +43,8 @@ alias gcam="ga -A && gc -m"
 alias gs="git status"
 alias gsh="git show"
 alias gl="gladog"
+alias glh="gladog | head"
+alias glh20="gladog | head -n 20"
 alias gladog="git log --all --decorate --graph"
     # remove --oneline since pretty is nicer oneline
     # Ref: @duckx memory aid "git log a dog"
@@ -65,6 +67,13 @@ alias gb="git branch -v"
 alias gpub="git recent-branches publish"
 alias gtr="git recent-branches track"
 alias gdmb="git branch --merged | grep -v "\*" | xargs -n 1 git branch -d"
+
+# Git Delete local and remote branch
+# http://stackoverflow.com/a/35324551/4301584
+function gitdelete(){
+    git push origin --delete $1
+    git branch -D $1
+}
 
 # Merging
 alias gm="git merge"

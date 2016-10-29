@@ -24,7 +24,7 @@
 	smudge = git-lfs smudge %f
 	required = true
 [format]
-    pretty = format:%C(blue)%ad%Creset %C(yellow)%h%C(green)%d%Creset %C(blue)%s %C(magenta) [%an]%Creset
+    pretty = format:%>|(18,trunc)%C(blue)%ad %C(yellow)%<(8)%h%C(green)%D %C(blue)%s %C(magenta)[%an]
 [include]
     path = ~/.gitconfig.user
     path = ~/.config/git/user

@@ -5,6 +5,7 @@ alias ezsh='vim ~/.zsh/settings/*'
 alias ekarabiner='vim ~/.dotfiles/karabiner/*'
 alias eeditor='vim ~/.editorconfig'
 alias ebrew='vim ~/.dotfiles/Brewfile'
+alias egig='vim ~/.dotfiles/git/ignore'
 
 alias elocal='vim ~/.local/**/*.zshrc'
 alias ebookmark='vim ~/.local/zsh/bookmarks.zshrc'

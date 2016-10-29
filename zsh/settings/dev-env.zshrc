@@ -1,5 +1,8 @@
 # Development Environments
 
+## Autoenv 
+AUTOENV_AUTH_FILE="~/.local/autoenv_authorized"
+
 # Docker
 ## Docker-Quickstar
 alias docker.quickstart="/bin/bash --login ~/.dotfiles/docker/start.sh"

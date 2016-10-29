@@ -27,8 +27,8 @@ let g:ctrlp_map = ''
 nnoremap <leader>in :CtrlP<CR>
 
 " Additional mapping for buffer search
-nnoremap <leader>ib :CtrlPLine<CR>
-nnoremap <leader>ibn :CtrlPBuffer<CR>
+nnoremap sbl :CtrlPLine<CR>
+nnoremap sb :CtrlPBuffer<CR>
 
 " Cmd-Shift-P to clear the cache
 nnoremap <leader>ix :ClearCtrlPCache<cr>

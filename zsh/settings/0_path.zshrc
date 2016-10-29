@@ -14,3 +14,5 @@ path=(
 fpath=(/usr/local/share/zsh-completions $HOME/.zsh/prezto-themes $HOME/.zsh/.zsh.prompts $fpath)
 
 MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
+
+cdpath=($HOME/dev $HOME/drive $HOME/dropbox $HOME)

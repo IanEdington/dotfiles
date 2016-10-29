@@ -1,1 +1,1 @@
-// autocmd BufWritePre *.scss :Autoformat
+" autocmd BufWritePre *.scss :Autoformat

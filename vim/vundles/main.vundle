@@ -1,24 +1,19 @@
-
 "" Appearance
-
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'itchyny/lightline.vim'
 Plugin 'ap/vim-css-color'
-
 " Plugin 'bling/vim-bufferline'
 " Plugin 'chrisbra/color_highlight'
 " Plugin 'jby/tmux.vi
 " Plugin 'morhetz/gruvbox'
 " Plugin 'xsunsmile/showmarks'
 " Plugin 'chriskempson/base16-vim'
-
 " Required for Gblame in terminal vim
 " Plugin 'godlygeek/csapprox'
 
 
 "" Languages
-
 Plugin 'jalvesaq/nvim-r'
 Plugin 'sheerun/vim-polyglot'
 Plugin 'skwp/vim-html-escape'
@@ -30,16 +25,15 @@ Plugin 'suan/vim-instant-markdown'
 
 
 "" IDE (debuging, help, project awareness)
-
 Plugin 'embear/vim-localvimrc'
 Plugin 'joonty/vdebug'
+
 
 " Help finder
 Plugin 'rizzatti/dash.vim'
 
 
 "" git
-
 " Plugin 'gregsexton/gitv'
 " Plugin 'mattn/gist-vim'
 Plugin 'tpope/vim-fugitive'
@@ -49,15 +43,17 @@ Plugin 'airblade/vim-gitgutter'
 
 
 "" AutoComplete
-
 " Plugin 'garbas/vim-snipmate'
 " Plugin 'honza/vim-snippets'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'mattn/emmet-vim'
+" Snippet engine
+Plugin 'SirVer/ultisnips'
+" Snippet Library
+"Plugin 'honza/vim-snippets'
 
 
 "" Text Objects
-
 " These bundles introduce new textobjects into vim,
 " For example the Ruby one introduces the 'r' text object
 " such that 'var' gives you Visual Around Ruby
@@ -76,7 +72,6 @@ Plugin 'mattn/emmet-vim'
 
 
 "" Text Editing
-
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'tpope/vim-surround'
 Plugin 'Raimondi/delimitMate'
@@ -89,9 +84,7 @@ Plugin 'Chiel92/vim-autoformat'
 
 
 "" Search
-
 Plugin 'ctrlpvim/ctrlp.vim'
-
 " Plugin 'rking/ag.vim'
 " Plugin 'justinmk/vim-sneak'
 " Plugin 'vim-scripts/IndexedSearch'
@@ -101,7 +94,6 @@ Plugin 'ctrlpvim/ctrlp.vim'
 
 
 "" Projects
-
 Plugin 'scrooloose/nerdtree'
 Plugin 'xolox/vim-misc'
 Plugin 'xolox/vim-session'
@@ -109,10 +101,8 @@ Plugin 'unterzicht/vim-virtualenv'
 
 
 "" Vim Improvements
-
 Plugin 'tpope/vim-sensible'
 Plugin 'tpope/vim-unimpaired'
-
 " Plugin 'AndrewRadev/splitjoin.vim'
 " Plugin 'briandoll/change-inside-surroundings.vim'
 " Plugin 'godlygeek/tabular'
@@ -137,7 +127,6 @@ Plugin 'tpope/vim-unimpaired'
 
 
 "" Ruby
-
 " Plugin 'ecomba/vim-ruby-refactoring'
 " Plugin 'tpope/vim-rails'
 " Plugin 'tpope/vim-rake'

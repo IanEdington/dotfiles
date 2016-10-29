@@ -18,9 +18,6 @@ alias ft='lr'
 # less
 alias l='less -i -s -u -w'
 
-# vim
-alias vim='gvim'
-
 # cd
 #	Always list directory contents
 cd () { builtin cd "$@"; ls; }
