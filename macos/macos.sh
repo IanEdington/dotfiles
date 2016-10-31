@@ -916,4 +916,4 @@ defaults write com.divisiblebyzero.Spectacle UndoLastMove -data 62706c6973743030
 # Kill affected applications                                                  #
 ###############################################################################
 
-# Don't do it.
+source macos-override.sh

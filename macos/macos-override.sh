@@ -1,3 +1,17 @@
+# Places to look for settings:
+# nvram - boot settings
+# pmset - power settings
+# scutil - system config params
+# systemsetup - Many system settings from prefs
+# launchctl - 
+# /usr/libexec/PlistBuddy
+    # ~/Library/Preferences/com.apple.finder.plist
+# defaults read
+# defaults -currentHost read
+# defaults files:
+    # /Library/Preferences/SystemConfiguration/com.apple.smb.server
+    # /Library/Preferences/com.apple.loginwindow
+
 # Custom Mac OSX settings
 
 # Ask for the administrator password upfront
@@ -10,11 +24,20 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 # General UI/UX                                                               #
 ###############################################################################
 
+# Set computer name (as done via System Preferences → Sharing)
+sudo scutil --set ComputerName "ians-laptop"
+sudo scutil --set HostName "ians-laptop"
+sudo scutil --set LocalHostName "ians-laptop"
+sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "ians-laptop"
+
+# Disable the sound effects on boot
+sudo nvram SystemAudioVolume=%80
+
 # reset default highlight colour
 defaults delete NSGlobalDomain AppleHighlightColor
 
 # Set sidebar icon size to medium
-# defaults write NSGlobalDomain NSTableViewDefaultSizeMode -int 2
+defaults write NSGlobalDomain NSTableViewDefaultSizeMode -int 2
 
 # Disable automatic termination of inactive apps
 defaults delete NSGlobalDomain NSDisableAutomaticTermination
@@ -30,12 +53,19 @@ launchctl load -w /System/Library/LaunchAgents/com.apple.notificationcenterui.pl
 ###############################################################################
 
 # Trackpad: map bottom right corner to right-click
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadCornerSecondaryClick -int 0
-defaults read com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadRightClick -bool true
-defaults -currentHost delete NSGlobalDomain com.apple.trackpad.trackpadCornerClickBehavior
+# defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadCornerSecondaryClick -int 0
+# defaults read com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadRightClick -bool true
+# defaults -currentHost delete NSGlobalDomain com.apple.trackpad.trackpadCornerClickBehavior
 
 # Disable “natural” (Lion-style) scrolling
 defaults delete NSGlobalDomain com.apple.swipescrolldirection
+
+# Disable press-and-hold for keys in favor of key repeat
+defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool true
+
+# Set a blazingly fast keyboard repeat rate
+defaults write NSGlobalDomain KeyRepeat -int 6
+defaults write NSGlobalDomain InitialKeyRepeat -int 15
 
 # Set language and text formats
 defaults write NSGlobalDomain AppleLanguages -array "en-CA"
@@ -44,9 +74,8 @@ defaults write NSGlobalDomain AppleLocale -string "en_CA"
 # Set the timezone; see `sudo systemsetup -listtimezones` for other values
 sudo systemsetup -settimezone "America/Toronto" > /dev/null
 
-# Set a blazingly fast keyboard repeat rate
-defaults write NSGlobalDomain KeyRepeat -int 99
-defaults write NSGlobalDomain InitialKeyRepeat -int 10
+# Stop iTunes from responding to the keyboard media keys
+launchctl unload -w /System/Library/LaunchAgents/com.apple.rcd.plist 2> /dev/null
 
 ###############################################################################
 # Finder                                                                      #
@@ -63,7 +92,7 @@ defaults delete com.apple.frameworks.diskimages skip-verify-remote
 /usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:showItemInfo false" ~/Library/Preferences/com.apple.finder.plist
 
 # Show item info to the right of the icons on the desktop
-/usr/libexec/PlistBuddy -c "Set DesktopViewSettings:IconViewSettings:labelOnBottom false" ~/Library/Preferences/com.apple.finder.plist
+/usr/libexec/PlistBuddy -c "Set DesktopViewSettings:IconViewSettings:labelOnBottom true" ~/Library/Preferences/com.apple.finder.plist
 
 # Increase grid spacing for icons on the desktop and in other icon views
 /usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:gridSpacing 80" ~/Library/Preferences/com.apple.finder.plist
@@ -74,6 +103,16 @@ defaults delete com.apple.frameworks.diskimages skip-verify-remote
 /usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:iconSize 72" ~/Library/Preferences/com.apple.finder.plist
 /usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:iconSize 72" ~/Library/Preferences/com.apple.finder.plist
 /usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:iconSize 72" ~/Library/Preferences/com.apple.finder.plist
+
+# Disable the MacBook Air SuperDrive on any Mac
+sudo nvram -d boot-args
+
+###############################################################################
+# Dock, Dashboard, and hot corners                                            #
+###############################################################################
+
+# Make dock on left
+defaults write com.apple.dock orientation "left"
 
 # Don’t group windows by application in Mission Control
 # (i.e. use the old Exposé behavior instead)
@@ -86,12 +125,10 @@ defaults write com.apple.dock showLaunchpadGestureEnabled -int 0
 sudo rm "/Applications/Simulator.app"
 sudo rm "/Applications/Simulator (Watch).app"
 
-# Disable the MacBook Air SuperDrive on any Mac
-sudo nvram -d boot-args
-
-###############################################################################
-# Dock, Dashboard, and hot corners                                            #
-###############################################################################
+# Add a spacer to the left side of the Dock (where the applications are)
+defaults write com.apple.dock persistent-apps -array-add '{tile-data={}; tile-type="spacer-tile";}'
+# Add a spacer to the right side of the Dock (where the Trash is)
+defaults write com.apple.dock persistent-others -array-add '{tile-data={}; tile-type="spacer-tile";}'
 
 # Hot corners
 # Possible values:
