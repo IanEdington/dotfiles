@@ -21,7 +21,7 @@ endif
 filetype off
 
 " set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/vundle
+set rtp+=~/.vim/bundle/Vundle.vim
 
 call vundle#begin() " required
 
@@ -53,4 +53,3 @@ if filereadable(expand("~/.vimrc.after"))
 elseif filereadable(expand("~/.vim/vimrc.after"))
     source ~/.vim/vimrc.after
 endif
-

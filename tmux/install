@@ -1,0 +1,2 @@
+# symlink tmux config
+dotfiles::symlink_files $PWD/tmux.conf ~/.tmux.conf;

@@ -8,11 +8,11 @@ https://github.com/gregburek/github-emoji-expansion-in-osx/blob/master/NSUserRep
 echo "$(brew --prefix)/bin/bash" | sudo tee -a /etc/shells
 echo "$(brew --prefix)/bin/zsh" | sudo tee -a /etc/shells
 
-##### link cli for sublime and macdown
-	ln -s "/Applications/Sublime\ Text\ 2.app/Contents/SharedSupport/bin/subl" ~/bin/subl
-	ln -s /Applications/MacDown.app/Contents/SharedSupport/bin/macdown macdow
+## link cli for sublime and macdown
+ln -s "/Applications/Sublime\ Text\ 2.app/Contents/SharedSupport/bin/subl" ~/bin/subl
+ln -s /Applications/MacDown.app/Contents/SharedSupport/bin/macdown macdow
 
-##### Stop itunes from opening when pressing play/pause
+## Stop itunes from opening when pressing play/pause
 http://www.thebitguru.com/projects/iTunesPatch or: [(1)][1]
 
 # Python Development
@@ -24,14 +24,13 @@ In the directory you want to keep your env folder, run this command. I usualy ke
 
 ### python 2 virtual environment:
 
-	# 1. install virtualenv
-	sudo pip install virtualenv
+# 1. install virtualenv
+sudo pip install virtualenv
 
-	# 2. make the environment
-		virtualenv .env
+# 2. make the environment 
+	virtualenv .env
 
 ### python 3 virtual environment:
-
 	pyvenv .env
 
 

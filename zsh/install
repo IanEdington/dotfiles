@@ -4,16 +4,12 @@ dotfiles::symlink_files ~/.dotfiles/zsh/zshenv ~/.zshenv
 dotfiles::symlink_files ~/.zsh/zshrc ~/.zsh/.zshrc
 
 # download prezto
-dotfiles::install_from_github git@github.com:sorin-ionescu/prezto.git ~/.zsh/.zprezto
+dotfiles::install_from_github https://github.com/sorin-ionescu/prezto.git ~/.zsh/.zprezto
 
 # setopt EXTENDED_GLOB
-exclude_files=("README.md" "zshrc")
-for rcfile in ~/.zsh/.zprezto/runcoms/*; do
-    dotfile=~/.zsh/.${rcfile##*/}
-    if [[ $(array_contains exclude_files $(basename "$rcfile")) == 1 ]]; then
-        ### dotfiles::symlink_files $rcfile $dotfile
-        echo it worked
+for rcfile_path in ~/.zsh/.zprezto/runcoms/*; do
+    rcfile=$(basename "$rcfile_path")
+    if [[ $rcfile != zshrc && $rcfile != README.md ]]; then
+        dotfiles::symlink_files $rcfile_path ~/.zsh/.$rcfile
     fi
-    echo $(array_contains exclude_files $(basename "$rcfile")) && echo yes || echo no
-    echo $(basename $rcfile)
 done

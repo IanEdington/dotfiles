@@ -19,10 +19,10 @@ alias dc="docker-compose"
 
 # Google Cloud Console SDK
 ## The next line updates PATH for the Google Cloud SDK.
-source '/Users/ian/.gcloud/path.zsh.inc'
+# source '/Users/ian/.gcloud/path.zsh.inc'
 
 ## The next line enables shell command completion for gcloud.
-source '/Users/ian/.gcloud/completion.zsh.inc'
+# source '/Users/ian/.gcloud/completion.zsh.inc'
 
 
 # MongoDB

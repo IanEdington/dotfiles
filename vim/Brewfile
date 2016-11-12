@@ -3,4 +3,8 @@ brew 'macvim', args: ['with-override-system-vim', 'with-cscope', 'with-lua', 'wi
 
 # plugin requirments
 brew 'cmake' # YouCompleteMe
+brew 'go'
+brew 'mono'
+brew 'rust'
 brew 'editorconfig' # editorconfig
+brew 'pandoc' # vim-pandoc

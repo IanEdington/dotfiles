@@ -6,15 +6,18 @@ dotfiles::symlink_files ~/.vim/vimrc ~/.vimrc
 dotfiles::symlink_files ~/.vim/editorconfig ~/.editorconfig
 
 echo "make sure vundle is up to date"
-dotfiles::install_from_github git@github.com:VundleVim/Vundle.vim.git ~/.vim/bundle/vundle
+dotfiles::install_from_github https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
 echo "installing vundles"
 vim +PluginInstall +qall
 
 # additional Plugin Requirments
 # plugin cache, used by YankRing
-mkdir -p ~/.cache/vim/plugin
+mkdir -p ~/.vim/.cache
 # compile youcompleteme
-xcode-select --install
-cd ~/.vim/bundle/YouCompleteMe
-./install.py --clang-completer --omnisharp-completer --gocode-completer --tern-completer
+npm install -g typescript
+# xcode-select --install
+# cd ~/.vim/bundle/YouCompleteMe
+# ./install.py --all
+# needed for vim-instant-markdown
+npm -g install instant-markdown-d

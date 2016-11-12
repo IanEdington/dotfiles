@@ -52,31 +52,44 @@
 		<device_only>DeviceVendor::MICROSOFT, DeviceProduct::4000_KEYBOARD</device_only>
 
 		<item>
-			<name>Switch Command and Option Keys</name>
-			<appendix>(+ When you type Command_R only, send Escape))</appendix>
+			<name>Switch OPTION_L and COMMAND_L</name>
+			<appendix>(+ only for PC keyboards)</appendix>
 			<device_only>DeviceVendor::MICROSOFT, DeviceProduct::4000_KEYBOARD</device_only>
 			<identifier>ie.m4k.switch_command_option</identifier>
+			<autogen>__KeyToKey__ KeyCode::OPTION_L, KeyCode::COMMAND_L</autogen>
+			<autogen>__KeyToKey__ KeyCode::COMMAND_L, KeyCode::OPTION_L</autogen>
+		</item>
+		<item>
+			<name>Set PC_APPLICATION key to OPTION_R</name>
+			<appendix>(+ only for PC keyboards)</appendix>
+			<device_only>DeviceVendor::MICROSOFT, DeviceProduct::4000_KEYBOARD</device_only>
+			<identifier>ie.m4k.app_to_option</identifier>
 			<autogen>__KeyToKey__ KeyCode::PC_APPLICATION, KeyCode::OPTION_R</autogen>
 		</item>
 		<item>
-			<name>Command_R only to Escape</name>
-			<appendix>(+ When you type Control R only, send Escape)</appendix>
+			<name>OPTION_R to COMMAND_R or Escape when pressed alone</name>
+			<appendix>(+ only for PC keyboards)</appendix>
 			<device_only>DeviceVendor::MICROSOFT, DeviceProduct::4000_KEYBOARD</device_only>
-			<identifier>ie.m4k.Command_R_only_2_Escape</identifier>
-			<autogen>__KeyOverlaidModifier__ KeyCode::COMMAND_R, KeyCode::COMMAND_R, KeyCode::ESCAPE</autogen>
+			<identifier>ie.m4k.option_r_2_command_or_escape</identifier>
+            <autogen>
+                __KeyOverlaidModifier__
+                KeyCode::OPTION_R,
+                KeyCode::COMMAND_R,
+                KeyCode::ESCAPE
+            </autogen>
 		</item>
 		<item>
-			<name>Control_R only to Escape</name>
+			<name>CONTROL_R only to ESCAPE</name>
 			<appendix>(+ When you type Control R only, send Escape)</appendix>
 			<device_only>DeviceVendor::MICROSOFT, DeviceProduct::4000_KEYBOARD</device_only>
-			<identifier>ie.m4k.Control_R_only_2_Escape</identifier>
+			<identifier>ie.m4k.control_r_only_2_escape</identifier>
 			<autogen>__KeyOverlaidModifier__ KeyCode::CONTROL_R, KeyCode::CONTROL_R, KeyCode::ESCAPE</autogen>
 		</item>
 		<item>
 			<name>Control_L only to CapsLock</name>
 			<appendix>(+ When you type Control L only, send CapsLock)</appendix>
 			<device_only>DeviceVendor::MICROSOFT, DeviceProduct::4000_KEYBOARD</device_only>
-			<identifier>ie.m4k.Control_L_only_2_CapsLock</identifier>
+			<identifier>ie.m4k.control_l_only_2_capslock</identifier>
 			<autogen>__KeyOverlaidModifier__ KeyCode::CONTROL_L, KeyCode::CONTROL_L, KeyCode::CAPSLOCK</autogen>
 		</item>
 	</item>
