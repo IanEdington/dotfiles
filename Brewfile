@@ -5,6 +5,8 @@ brew 'tree'
 brew 'unrar'
 brew 'p7zip'
 
+brew 'irssi'
+
 # kubernetes
 brew 'kubectl'
 

@@ -68,6 +68,23 @@ dotfiles::symlink_files () {
     ln -s "$symlink_to" "$symlink_from"
 }
 
+dotfiles::uname () {
+    case "$(uname -s)" in
+        Darwin)
+            echo 'mac'
+            ;;
+        Linux)
+            echo 'linux'
+            ;;
+        CYGWIN*|MINGW32*|MSYS*)
+            echo 'windows'
+            ;;
+        *)
+            echo 'other'
+            ;;
+    esac
+}
+
 # Ask for the administrator password upfront
 sudo -v
 
@@ -77,16 +94,18 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 # ________
 # Pre recs
 
+OS=`dotfiles::uname`
 # full xcode installation is required
-xcodebuild -version
-if [[ $? != 0 ]] ; then
-    echo "you need to install xcode from the app store"
-    # exit
+if [$OS == 'mac']; then
+    xcodebuild -version
+    if [[ $? != 0 ]] ; then
+        echo "you need to install xcode from the app store"
+        # exit
+    fi
+    # so is xcode command line tools
+    xcode-select --install > /dev/null
+    sudo xcodebuild -license accept
 fi
-
-# so is xcode command line tools
-xcode-select --install > /dev/null
-sudo xcodebuild -license accept
 
 # ______________________
 # Starting the fun stuff
@@ -104,34 +123,36 @@ export PATH=/usr/local/sbin:$HOME/.dotfiles/bin:$PATH
 dotfiles::symlink_files $DOTFILES_ROOT ~/.dotfiles;
 cd ~/.dotfiles
 
-# If homebrew exists update if not install
-which -s brew
-if [[ $? == 0 ]] ; then
-    brew update
-else
-    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+if [$OS == 'mac']; then
+    # If homebrew exists update if not install
+    which -s brew
+    if [[ $? == 0 ]] ; then
+        brew update
+    else
+        /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    fi
+
+    brew tap homebrew/bundle
+    brew tap homebrew/completions
+    brew tap caskroom/cask
+    brew install mas
+
+    # concatenate all Brewfiles and make sure they're installed
+    Brewfile_path=~/.dotfiles/.tmp/Brewfile
+    /bin/rm $Brewfile_path
+    for Brewfile in Brewfile */Brewfile */*/Brewfile ; do
+        cat $Brewfile >> $Brewfile_path
+    done
+    brew bundle -v --file=$Brewfile_path
+
+    brew bundle dump --file=${Brewfile_path}dump-`/bin/date -ju "+%Y-%m-%d-%H%M%S"`
+
+    brew upgrade
+    brew cleanup
+    brew cask cleanup
+    brew prune
+    brew doctor
 fi
-
-brew tap homebrew/bundle
-brew tap homebrew/completions
-brew tap caskroom/cask
-brew install mas
-
-# concatenate all Brewfiles and make sure they're installed
-Brewfile_path=~/.dotfiles/.tmp/Brewfile
-/bin/rm $Brewfile_path
-for Brewfile in Brewfile */Brewfile */*/Brewfile ; do
-    cat $Brewfile >> $Brewfile_path
-done
-brew bundle -v --file=$Brewfile_path
-
-brew bundle dump --file=${Brewfile_path}dump-`/bin/date -ju "+%Y-%m-%d-%H%M%S"`
-
-brew upgrade
-brew cleanup
-brew cask cleanup
-brew prune
-brew doctor
 
 # link a few global files
 dotfiles::symlink_files ~/.dotfiles/inputrc ~/.inputrc
