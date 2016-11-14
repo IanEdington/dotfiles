@@ -85,18 +85,24 @@ dotfiles::uname () {
     esac
 }
 
-# Ask for the administrator password upfront
-sudo -v
+command_exists()
+{
+  command -v "$1" >/dev/null 2>&1
+}
 
-# Keep-alive: update existing `sudo` time stamp until `.macos` has finished
-while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+# Ask for the administrator password upfront
+if command_exists sudo; then
+    sudo -v
+    # Keep-alive: update existing `sudo` time stamp until `.macos` has finished
+    while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+fi
 
 # ________
 # Pre recs
 
 OS=`dotfiles::uname`
 # full xcode installation is required
-if [$OS == 'mac']; then
+if [$OS == "mac"]; then
     xcodebuild -version
     if [[ $? != 0 ]] ; then
         echo "you need to install xcode from the app store"
