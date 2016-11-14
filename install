@@ -102,7 +102,7 @@ fi
 
 OS=`dotfiles::uname`
 # full xcode installation is required
-if [$OS == "mac"]; then
+if [[ "$OS" == "mac" ]]; then
     xcodebuild -version
     if [[ $? != 0 ]] ; then
         echo "you need to install xcode from the app store"
