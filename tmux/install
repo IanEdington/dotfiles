@@ -1,2 +1,2 @@
 # symlink tmux config
-dotfiles::symlink_files $PWD/tmux.conf ~/.tmux.conf;
+dotfiles::symlink_files ~/.dotfiles/tmux/tmux.conf ~/.tmux.conf;
