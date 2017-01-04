@@ -106,7 +106,7 @@ if [[ "$OS" == "mac" ]]; then
     xcodebuild -version
     if [[ $? != 0 ]] ; then
         echo "you need to install xcode from the app store"
-        # exit
+        exit
     fi
     # so is xcode command line tools
     xcode-select --install > /dev/null
@@ -129,7 +129,7 @@ export PATH=/usr/local/sbin:$HOME/.dotfiles/bin:$PATH
 dotfiles::symlink_files $DOTFILES_ROOT ~/.dotfiles;
 cd ~/.dotfiles
 
-if [$OS == 'mac']; then
+if [[ "$OS" == "mac" ]]; then
     # If homebrew exists update if not install
     which -s brew
     if [[ $? == 0 ]] ; then

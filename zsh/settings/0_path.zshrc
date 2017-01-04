@@ -11,4 +11,4 @@ fpath=(/usr/local/share/zsh-completions $HOME/.zsh/prezto-themes $HOME/.zsh/.zsh
 
 MANPATH="$(brew --prefix coreutils)/libexec/gnuman:$MANPATH"
 
-cdpath=($HOME/dev $HOME/drive $HOME/dropbox $HOME)
+cdpath=($HOME/Code $HOME/Google $HOME)

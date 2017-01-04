@@ -17,13 +17,15 @@ Plugin 'ap/vim-css-color'
 Plugin 'jalvesaq/nvim-r'
 Plugin 'sheerun/vim-polyglot'
 Plugin 'skwp/vim-html-escape'
-" Plugin 'jtratner/vim-flavored-markdown'
 Plugin 'cakebaker/scss-syntax.vim'
 " Tools
 Plugin 'scrooloose/syntastic'
+Plugin 'tpope/vim-markdown'
+" Plugin 'jtratner/vim-flavored-markdown'
+" Plugin 'nelstrom/vim-markdown-folding'
 " Plugin 'suan/vim-instant-markdown'
-Plugin 'vim-pandoc/vim-pandoc'
-Plugin 'vim-pandoc/vim-pandoc-syntax'
+" Plugin 'vim-pandoc/vim-pandoc'
+" Plugin 'vim-pandoc/vim-pandoc-syntax'
 
 
 "" IDE (debuging, help, project awareness)

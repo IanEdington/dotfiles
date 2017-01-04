@@ -1,5 +1,5 @@
 " P with auto indent
-nnoremap p ]p
+" nnoremap p ]p
 
 " Cut, Copy, Paste
 

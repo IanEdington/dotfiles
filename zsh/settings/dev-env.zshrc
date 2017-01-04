@@ -43,7 +43,9 @@ alias jupyterm='jupyter qtconsole &'
 alias jupynote='jupyter notebook'
 
 # Ruby
-alias rvm-activate='source "$HOME/.rvm/scripts/rvm"'
+if hash rbenv 2>/dev/null; then
+    eval "$(rbenv init -)";
+fi
 
 # GO
 # export GOPATH=~/dev/go
