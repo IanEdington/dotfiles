@@ -49,3 +49,12 @@ fi
 
 # GO
 # export GOPATH=~/dev/go
+
+# Java
+export JAVA_HOME=$(/usr/libexec/java_home)
+export ANDROID_HOME=/Users/ian/Library/Android/sdk
+path=(
+    $JAVA_HOME/{bin,db/bin,jre/bin}
+    $ANDROID_HOME/{tools,platform-tools}
+    $path
+)

@@ -32,6 +32,10 @@ Plugin 'tpope/vim-markdown'
 Plugin 'embear/vim-localvimrc'
 Plugin 'joonty/vdebug'
 
+" Java IDE
+Plugin 'hsanson/vim-android'
+Plugin 'artur-shaik/vim-javacomplete2'
+
 
 " Help finder
 Plugin 'rizzatti/dash.vim'

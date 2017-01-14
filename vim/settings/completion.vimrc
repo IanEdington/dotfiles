@@ -14,3 +14,7 @@ set wildignore+=*.gem
 set wildignore+=log/**
 set wildignore+=tmp/**
 set wildignore+=*.png,*.jpg,*.gif
+
+
+" JavaComplete2
+autocmd Filetype java setlocal omnifunc=javacomplete#Complete
