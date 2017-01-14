@@ -2,3 +2,4 @@ brew 'git', args: ['without-completions']
 brew 'git-extras'
 brew 'git-flow-avh'
 brew 'hub'
+brew 'diff-so-fancy'

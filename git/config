@@ -13,6 +13,7 @@
     excludesfile = ~/.gitignore
     excludesfile = ~/.gitignore_global
     excludesfile = ~/.config/git/ignore
+    pager = diff-so-fancy | less --tabs=4 -RFX
 [diff]
     algorithm = patience
     # mnemonicprefix = true # might be useful once I understand git diff
