@@ -19,3 +19,7 @@ npm install -g typescript
 # ./install.py --all
 # needed for vim-instant-markdown
 # npm -g install instant-markdown-d
+
+#Neovim
+pip2 install neovim
+pip3 install neovim

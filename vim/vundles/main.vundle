@@ -109,7 +109,9 @@ Plugin 'unterzicht/vim-virtualenv'
 
 
 "" Vim Improvements
-Plugin 'tpope/vim-sensible'
+if !has('nvim')
+    Plugin 'tpope/vim-sensible'
+endif
 Plugin 'tpope/vim-unimpaired'
 " Plugin 'AndrewRadev/splitjoin.vim'
 " Plugin 'briandoll/change-inside-surroundings.vim'
