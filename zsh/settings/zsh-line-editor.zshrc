@@ -38,4 +38,3 @@ bindkey '^r' history-incremental-search-backward
 
 # mimic vim functions
 alias :q='exit'
-

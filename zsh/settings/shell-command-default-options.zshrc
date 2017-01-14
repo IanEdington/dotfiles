@@ -25,7 +25,6 @@ cd () { builtin cd "$@"; ls; }
 alias ~="cd ~"
 alias cd..='cd ../'
 alias ..='cd ../'
-alias ...='cd ../../'
 alias .2='cd ../../'
 alias .3='cd ../../../'
 alias .4='cd ../../../../'
@@ -69,10 +68,10 @@ alias f='open -a Finder ./'
 alias gz='tar -zcvf'
 
 # tree
-alias tree='tree -Fc -L 3'
+alias tree='tree -Fc -L 2'
 
 # (f)ind by (n)ame
-# usage: fn foo 
+# usage: fn foo
 # to find all files containing 'foo' in the name
 function fn() { ll **/*$1* }
 
@@ -80,10 +79,10 @@ function fn() { ll **/*$1* }
 ff () { find . -name "$@" ; }
 
 # find . -type d -exec chmod 755 {} \;
-	chmodweb () {
-		find $@ -type d -exec chmod 755 {} \;
-		find $@ -type f -exec chmod 644 {} \;
-	}
+chmodweb () {
+    find $@ -type d -exec chmod 755 {} \;
+    find $@ -type f -exec chmod 644 {} \;
+}
 
 # edit hosts file quickly
 alias hosts="sudo vim /etc/hosts"

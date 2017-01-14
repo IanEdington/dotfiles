@@ -1,8 +1,6 @@
 # zshrc before
 if [[ -s "${ZDOTDIR:-$HOME}/.zshrc.before" ]]; then
     source "${ZDOTDIR:-$HOME}/.zshrc.before"
-else
-    source "$HOME/.zsh/zshrc.before"
 fi
 
 # Source Prezto's zshrc
