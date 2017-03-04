@@ -20,7 +20,8 @@ Plugin 'skwp/vim-html-escape'
 Plugin 'cakebaker/scss-syntax.vim'
 " Tools
 Plugin 'scrooloose/syntastic'
-Plugin 'tpope/vim-markdown'
+"Plugin 'tpope/vim-markdown'
+Plugin 'IanEdington/vim-markdown'
 " Plugin 'jtratner/vim-flavored-markdown'
 " Plugin 'nelstrom/vim-markdown-folding'
 " Plugin 'suan/vim-instant-markdown'
@@ -60,6 +61,8 @@ Plugin 'SirVer/ultisnips'
 " Snippet Library
 "Plugin 'honza/vim-snippets'
 
+"" Writting
+Plugin 'beloglazov/vim-online-thesaurus'
 
 "" Text Objects
 " These bundles introduce new textobjects into vim,

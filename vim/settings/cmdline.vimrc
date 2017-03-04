@@ -1,8 +1,7 @@
-" ================ Completion =======================
-
-set wildmode=list:longest
-"enable ctrl-n and ctrl-p to scroll thru matches
+set path+=**
 set wildmenu
+set wildmode=longest:full
+
 "stuff to ignore when tab completing
 set wildignore=*.o,*.obj,*~
 set wildignore+=*vim/backups*
@@ -14,7 +13,3 @@ set wildignore+=*.gem
 set wildignore+=log/**
 set wildignore+=tmp/**
 set wildignore+=*.png,*.jpg,*.gif
-
-
-" JavaComplete2
-autocmd Filetype java setlocal omnifunc=javacomplete#Complete

@@ -3,6 +3,7 @@ tap 'caskroom/cask'
 cask '1password'
 cask 'alfred'
 cask 'bettertouchtool'
+cask 'brave'
 cask 'caffeine'
 cask 'cheatsheet'
 cask 'cyberduck'
@@ -39,3 +40,7 @@ cask 'webpquicklook'
 cask 'suspicious-package'
 cask 'quicklookase'
 cask 'qlvideo'
+
+# 1Password & iTerm2
+tap ravenac95/sudolikeaboss
+brew 'sudolikeaboss'

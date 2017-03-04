@@ -8,6 +8,7 @@ __git_files () {
 }
 
 alias gi="$EDITOR .gitignore"
+alias egs='vim `git ls-files -m`'
 
 # Git flow
 alias gfi="git flow init"
@@ -103,7 +104,7 @@ alias gbd="git branch -D -v"
 # Staged and cached are the same thing
 alias gp="git push"
 alias gpa="git push --all"
-#alias gpsh="gp -u origin `git rev-parse --abbrev-ref HEAD`"
+alias gpsh='gp -u origin `git rev-parse --abbrev-ref HEAD`'
 alias gpl="git pull"
 alias gplr="gpl --rebase"
 

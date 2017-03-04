@@ -58,3 +58,9 @@ path=(
     $ANDROID_HOME/{tools,platform-tools}
     $path
 )
+
+CLASSPATH=".:./main:./test:./main/java:./test/java:./src:./src/main/java:./src/test/java"
+for jar in ${HOME}/Code/resources/jvm/*.jar; do
+    CLASSPATH=$CLASSPATH:$jar
+done
+export CLASSPATH

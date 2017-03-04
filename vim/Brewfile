@@ -9,3 +9,5 @@ brew 'mono'
 brew 'rust'
 brew 'editorconfig' # editorconfig
 brew 'pandoc' # vim-pandoc
+brew 'checkstyle' # syntastic java checker
+brew 'ctags' # tag jumping vim
