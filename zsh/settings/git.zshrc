@@ -8,7 +8,7 @@ __git_files () {
 }
 
 alias gi="$EDITOR .gitignore"
-alias egs='vim `git ls-files -m`'
+alias egs='$EDITOR `git ls-files -m`'
 
 # Git flow
 alias gfi="git flow init"

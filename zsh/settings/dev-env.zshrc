@@ -59,8 +59,22 @@ path=(
     $path
 )
 
-CLASSPATH=".:./main:./test:./main/java:./test/java:./src:./src/main/java:./src/test/java"
+classpath=(
+        .
+        ./main
+        ./test
+        ./main/java
+        ./test/java
+        ./src/main
+        ./src/test
+        ./src/main/java
+        ./src/test/java
+)
+
 for jar in ${HOME}/Code/resources/jvm/*.jar; do
-    CLASSPATH=$CLASSPATH:$jar
+    classpath+=$jar
 done
+
+CLASSPATH=$( IFS=$':'; echo "${classpath[*]}" )
+
 export CLASSPATH

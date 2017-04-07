@@ -85,4 +85,4 @@ chmodweb () {
 }
 
 # edit hosts file quickly
-alias hosts="sudo vim /etc/hosts"
+alias hosts="sudo $EDITOR /etc/hosts"
