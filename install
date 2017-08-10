@@ -120,14 +120,15 @@ fi
 DOTFILES_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd -P )"
 echo "dotfiles root " $DOTFILES_ROOT
 
-# in case people want to use comands in their scripts
-# Add bin/ to path # Add homebrew bin to path
-export PATH=/usr/local/sbin:$HOME/.dotfiles/bin:$PATH
-
-
 # Symlink the current folder to .dotfiles
 dotfiles::symlink_files $DOTFILES_ROOT ~/.dotfiles;
 cd ~/.dotfiles
+
+# Add bin/ to path
+# Add homebrew bin to path
+# in case people want to use comands in their scripts
+export PATH=/usr/local/sbin:$HOME/.dotfiles/bin:$PATH
+
 
 if [[ "$OS" == "mac" ]]; then
     # If homebrew exists update if not install
