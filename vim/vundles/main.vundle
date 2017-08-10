@@ -20,8 +20,7 @@ Plugin 'skwp/vim-html-escape'
 Plugin 'cakebaker/scss-syntax.vim'
 " Tools
 Plugin 'scrooloose/syntastic'
-"Plugin 'tpope/vim-markdown'
-Plugin 'IanEdington/vim-markdown'
+Plugin 'tpope/vim-markdown'
 " Plugin 'jtratner/vim-flavored-markdown'
 " Plugin 'nelstrom/vim-markdown-folding'
 " Plugin 'suan/vim-instant-markdown'
@@ -54,15 +53,16 @@ Plugin 'airblade/vim-gitgutter'
 "" AutoComplete
 " Plugin 'garbas/vim-snipmate'
 " Plugin 'honza/vim-snippets'
-Plugin 'Valloric/YouCompleteMe'
+" Plugin 'Valloric/YouCompleteMe'
 Plugin 'mattn/emmet-vim'
 " Snippet engine
-Plugin 'SirVer/ultisnips'
+" Plugin 'SirVer/ultisnips'
 " Snippet Library
 "Plugin 'honza/vim-snippets'
 
 "" Writting
 Plugin 'beloglazov/vim-online-thesaurus'
+Plugin 'chesleytan/wordcount.vim' "load the first time wordCount#WordCount is called
 
 "" Text Objects
 " These bundles introduce new textobjects into vim,
@@ -151,3 +151,4 @@ Plugin 'tpope/vim-unimpaired'
 " Plugin 'ck3g/vim-change-hash-syntax'
 " Plugin 'tpope/vim-bundler'
 
+Plugin 'jceb/vim-orgmode'

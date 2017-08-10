@@ -9,3 +9,6 @@ alias egig='$EDITOR ~/.dotfiles/git/ignore'
 
 alias elocal='$EDITOR ~/.local/**/*.zshrc'
 alias ebookmark='$EDITOR ~/.local/zsh/bookmarks.zshrc'
+
+# edit hosts file quickly
+alias hosts='sudo $EDITOR /etc/hosts'

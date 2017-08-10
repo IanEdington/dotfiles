@@ -11,3 +11,5 @@ set backspace=indent,eol,start
 
 " if leader is hit twice in insert mode the leader character is inserted
 inoremap <leader><leader> <leader>
+
+" speech <M-O-C-S-s>

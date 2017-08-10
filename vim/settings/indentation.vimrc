@@ -10,7 +10,7 @@ set autoindent
 set smartindent
 set cindent
 
-" Make line warping more apealing
+" Make line warping more appealing
 set breakindent
 set breakindentopt=shift:2
 

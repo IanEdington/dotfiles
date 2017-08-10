@@ -10,7 +10,7 @@ indent_style = space
 indent_size = 4
 tab_width = 4
 
-[*.yml]
+[*.yml, *.js, *.vimrc, *.vim]
 indent_size = 2
 
 [*.md]
@@ -19,6 +19,3 @@ trim_trailing_whitespace = false
 [gitcommit]
 indent_size = 4
 tab_width = 4
-
-[*.vimrc, *.vim]
-indent_size = 2

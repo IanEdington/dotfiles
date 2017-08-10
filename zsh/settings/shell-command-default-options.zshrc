@@ -84,5 +84,3 @@ chmodweb () {
     find $@ -type f -exec chmod 644 {} \;
 }
 
-# edit hosts file quickly
-alias hosts="sudo $EDITOR /etc/hosts"

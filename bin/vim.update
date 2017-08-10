@@ -1,2 +1,2 @@
 vim +PluginInstall +qall
-vim +PluginUpdate +qall
+vim +PluginUpdate

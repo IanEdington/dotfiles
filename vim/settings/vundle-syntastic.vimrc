@@ -7,13 +7,6 @@ let g:syntastic_auto_loc_list=1
 "don't care about warnings
 "let g:syntastic_quiet_messages = {'level': 'warnings'}
 
-" suggested defaults
-if exists(':SyntasticStatuslineFlag')
-    set statusline+=%#warningmsg#
-    set statusline+=%{SyntasticStatuslineFlag()}
-    set statusline+=%*
-endif
-
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0

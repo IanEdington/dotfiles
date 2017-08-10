@@ -4,13 +4,13 @@
 sudo softwareupdate -i -a
 
 # HomeBrew
-brew update; brew upgrade --all; brew cleanup; brew cask cleanup; brew prune; brew doctor
+brew update; brew upgrade; brew cleanup; brew cask cleanup; brew prune; brew doctor
 
 # Python
-pip install --upgrade pip
-pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip install -U
+pip2 install --upgrade pip
+pip2 freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip install -U
 pip3 install --upgrade pip
-pip3 freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip install -U
+pip3 freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip3 install -U
 
 # Vim
 vim +PluginInstall +qall
