@@ -1,4 +1,0 @@
-# Install vagrant addons
-# https://github.com/smdahlen/vagrant-hostmanager
-vagrant plugin install vagrant-hostmanager
-vagrant plugin install vagrant-bindfs

@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+# If homebrew exists update if not install
+which -s brew
+if [[ $? == 0 ]] ; then
+    brew update
+else
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+fi
+
+# concatenate all Brewfiles and make sure they're installed
+Brewfile_path=~/.dotfiles/.tmp/Brewfile
+mkdir ~/.dotfiles/.tmp
+/bin/rm $Brewfile_path
+for Brewfile in ../Brewfile ../*/Brewfile ; do
+    cat $Brewfile >> $Brewfile_path
+done
+
+# Install, Update, Cleanup ect.
+brew bundle -v --file=$Brewfile_path
+brew upgrade
+brew cleanup
+brew cask cleanup
+brew prune
+brew doctor
+
+# Dump into temp folder
+brew bundle dump --file=${Brewfile_path}dump-`/bin/date -ju "+%Y-%m-%d-%H%M%S"`

@@ -35,54 +35,30 @@ array_contains () {
     return $in
 }
 
-# dotfiles::backup_func () {
-    # Check that a backup folder exists
-    # if not create a backup folder
-    # Check if the offending file already exists in the backup folder
-    # if it does
-    # move the offending file into the backup folder
-    # remove the file in question
-    # Add the ~ relative path to the backed up files list
-# }
-
 dotfiles::symlink_files () {
-    local symlink_to symlink_from
-    symlink_to=$1
-    symlink_from=$2
+    local symlink_src symlink_dst
+    symlink_src=$1
+    symlink_dst=$2
 
     # TODO check if link already exists
 
-    echo "linking:" "$symlink_from" "->" "$symlink_to"
+    echo "linking:" "$symlink_dst" "->" "$symlink_src"
 
-    if [ -h "$symlink_from" ]; then
-        rm "$symlink_from"
-    elif [ -e "$symlink_from" ]; then
-        echo "$symlink_from" " exists and is not a symlink! aboart aboart!"
+    mkdir -p "$(dirname "$symlink_src")"
+    touch $symlink_src
+
+    if [ -h "$symlink_dst" ]; then
+        rm "$symlink_dst"
+    elif [ -e "$symlink_dst" ]; then
+        echo "$symlink_dst" " exists and is not a symlink! aboart aboart!"
         echo "we aren't ready to handle this"
         return
         # TODO use the backup_func
-    elif [[ ! -e "$(dirname "$symlink_from")" ]]; then
-        mkdir -p "$(dirname "$symlink_from")"
+    elif [[ ! -e "$(dirname "$symlink_dst")" ]]; then
+        mkdir -p "$(dirname "$symlink_dst")"
     fi
 
-    ln -s "$symlink_to" "$symlink_from"
-}
-
-dotfiles::uname () {
-    case "$(uname -s)" in
-        Darwin)
-            echo 'mac'
-            ;;
-        Linux)
-            echo 'linux'
-            ;;
-        CYGWIN*|MINGW32*|MSYS*)
-            echo 'windows'
-            ;;
-        *)
-            echo 'other'
-            ;;
-    esac
+    ln -s "$symlink_src" "$symlink_dst"
 }
 
 command_exists()
@@ -90,82 +66,64 @@ command_exists()
   command -v "$1" >/dev/null 2>&1
 }
 
+# Starting the fun stuff
+# ----------------------
+
 # Ask for the administrator password upfront
 if command_exists sudo; then
     sudo -v
     # Keep-alive: update existing `sudo` time stamp until `.macos` has finished
-    while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+    while true; do
+        sudo -n true;
+        sleep 60;
+        kill -0 "$$" || exit;
+    done 2>/dev/null &
 fi
-
-# ________
-# Pre recs
-
-OS=`dotfiles::uname`
-# full xcode installation is required
-if [[ "$OS" == "mac" ]]; then
-    xcodebuild -version
-    if [[ $? != 0 ]] ; then
-        echo "you need to install xcode from the app store"
-        exit
-    fi
-    # so is xcode command line tools
-    xcode-select --install > /dev/null
-    sudo xcodebuild -license accept
-fi
-
-# ______________________
-# Starting the fun stuff
-
-# ref: http://stackoverflow.com/a/246128/4301584
-DOTFILES_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd -P )"
-echo "dotfiles root " $DOTFILES_ROOT
 
 # Symlink the current folder to .dotfiles
+# ref: http://stackoverflow.com/a/246128/4301584
+DOTFILES_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd -P )"
 dotfiles::symlink_files $DOTFILES_ROOT ~/.dotfiles;
 cd ~/.dotfiles
+echo "dotfiles root " $DOTFILES_ROOT
 
-# Add bin/ to path
-# Add homebrew bin to path
-# in case people want to use comands in their scripts
+# Add dotfiles and homebrew bin to path
+# in case people want to use commands in their scripts
 export PATH=/usr/local/sbin:$HOME/.dotfiles/bin:$PATH
 
+# Install brew
+update.brew
 
-if [[ "$OS" == "mac" ]]; then
-    # If homebrew exists update if not install
-    which -s brew
-    if [[ $? == 0 ]] ; then
-        brew update
-    else
-        /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-    fi
-
-    brew tap homebrew/bundle
-    brew tap homebrew/completions
-    brew tap caskroom/cask
-    brew install mas
-
-    # concatenate all Brewfiles and make sure they're installed
-    Brewfile_path=~/.dotfiles/.tmp/Brewfile
-    /bin/rm $Brewfile_path
-    for Brewfile in Brewfile */Brewfile */*/Brewfile ; do
-        cat $Brewfile >> $Brewfile_path
-    done
-    brew bundle -v --file=$Brewfile_path
-
-    brew bundle dump --file=${Brewfile_path}dump-`/bin/date -ju "+%Y-%m-%d-%H%M%S"`
-
-    brew upgrade
-    brew cleanup
-    brew cask cleanup
-    brew prune
-    brew doctor
+# full xcode installation is required
+xcodebuild -version
+if [[ $? != 0 ]] ; then
+    echo "you need to install xcode from the app store"
+    exit
 fi
+# so is xcode command line tools
+xcode-select --install > /dev/null
+sudo xcodebuild -license accept
 
-# link a few global files
+# SymLink files
+# -----------------------
+# Local dotfiles
+dotfiles::symlink_files ~/Local/dotfiles/local ~/.local
+dotfiles::symlink_files ~/Local/dotfiles/config ~/.config
+dotfiles::symlink_files ~/.dotfiles/global_package.json ~/.config/yarn/global/package.json
+dotfiles::symlink_files ~/.dotfiles/karabiner.json ~/.config/karabiner/karabiner.json
+# Git
+dotfiles::symlink_files ~/.dotfiles/git/config ~/.config/git/config
+dotfiles::symlink_files ~/.dotfiles/git/ignore ~/.config/git/ignore
+# Other
 dotfiles::symlink_files ~/.dotfiles/inputrc ~/.inputrc
+dotfiles::symlink_files ~/.dotfiles/profile ~/.profile
+dotfiles::symlink_files ~/.dotfiles/tmux/tmux.conf ~/.tmux.conf;
+dotfiles::symlink_files ~/.dotfiles/editorconfig ~/.editorconfig
 
-# Run install scripts
-# for each folder in dotfiles/
+# Install yarn packages
+yarn global install
+
+# Run install scripts for each folder in dotfiles/
 for dir in */ ; do
     echo Installing the $dir directory:
     cd $dir;
@@ -182,3 +140,5 @@ for dir in */ ; do
     # append path.bash files to bash $PATH
     cd ~/.dotfiles
 done
+
+update.all

@@ -1,3 +1,7 @@
+" make visual line bubbling select text after move
+xnoremap [e <Plug>unimpairedMoveSelectionUp gv
+xnoremap ]e <Plug>unimpairedMoveSelectionDown gv
+
 " P with auto indent
 " nnoremap p ]p
 

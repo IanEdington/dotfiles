@@ -1,18 +1,14 @@
-# from @skwp/dotfiles/.gitignore
 /backups
 /view
 /.netrwhist
 /tmp
-/spell
-/.vundles.local
-/.vundles.local.bak
 /bundle
+/plugged
+/spell
 /sessions
-
-# from @skwp/dotfiles/vim/.gitignore
+/autoload/plug.vim
 :tags
 *~
 *.swp
 .VimballRecord
 view
-

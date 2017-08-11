@@ -1,4 +1,0 @@
-# Docker
-tap 'caskroom/cask'
-cask 'docker'
-brew 'docker-completion'

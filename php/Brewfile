@@ -1,5 +1,0 @@
-# php
-tap 'homebrew/php'
-brew 'php-code-sniffer'
-brew 'phpmd'
-brew 'phpunit'

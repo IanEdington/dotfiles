@@ -1,8 +1,0 @@
-npm update -g
-
-PACKAGES=(
-  eslint
-  jshint
-)
-
-npm install -g ${PACKAGES[@]}

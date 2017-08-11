@@ -1,10 +1,11 @@
+#!/usr/bin/env bash
 # Update all installed packages using various package managers
 
 # Mac Update all
 sudo softwareupdate -i -a
 
 # HomeBrew
-brew update; brew upgrade; brew cleanup; brew cask cleanup; brew prune; brew doctor
+update.brew
 
 # Python
 pip2 install --upgrade pip
@@ -13,11 +14,11 @@ pip3 install --upgrade pip
 pip3 freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip3 install -U
 
 # Vim
-vim +PluginInstall +qall
-vim +PluginUpdate +qall
+vim +PlugInstall
+vim +PlugUpdate
 
-# Node
-npm update -g
+# JavaScript
+yarn global upgrade
 
 # Remove duplicates in the “Open With” menu (also see `lscleanup` alias)
 /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user

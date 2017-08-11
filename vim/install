@@ -3,22 +3,9 @@
 # linking files
 dotfiles::symlink_files ~/.dotfiles/vim ~/.vim
 dotfiles::symlink_files ~/.vim/vimrc ~/.vimrc
-dotfiles::symlink_files ~/.vim/editorconfig ~/.editorconfig
 
-echo "make sure vundle is up to date"
-dotfiles::install_from_github https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-
-echo "installing vundles"
-vim +PluginInstall +qall
-
-# additional Plugin Requirments
-# compile youcompleteme
-npm install -g typescript
-# xcode-select --install
-# cd ~/.vim/bundle/YouCompleteMe
-# ./install.py --all
-# needed for vim-instant-markdown
-# npm -g install instant-markdown-d
+# install plug
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 #Neovim
 pip2 install neovim
