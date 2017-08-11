@@ -59,7 +59,7 @@ alias tr='trash'
 ql () { qlmanage -p "$*" >& /dev/null; }
 
 # cleanupDS: Recursively delete .DS_Store files
-	alias cleanupDS="find . -type f -name '*.DS_Store' -ls -delete"
+alias cleanupDS="find . -type f -name '*.DS_Store' -ls -delete"
 
 # f: Opens in Finder
 alias f='open -a Finder ./'
@@ -77,10 +77,3 @@ function fn() { ll **/*$1* }
 
 # ff: Find file under the current directory
 ff () { find . -name "$@" ; }
-
-# find . -type d -exec chmod 755 {} \;
-chmodweb () {
-    find $@ -type d -exec chmod 755 {} \;
-    find $@ -type f -exec chmod 644 {} \;
-}
-

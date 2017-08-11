@@ -3,6 +3,8 @@ tap "homebrew/bundle"
 tap "homebrew/completions"
 tap "homebrew/core"
 
+brew "mas"
+
 mas "1Password", id: 443987910
 mas "ActivityTimer", id: 808647808
 mas "ChronoMate", id: 472416858
@@ -123,7 +125,6 @@ brew "readline"
 brew "sqlite"
 brew "python"
 brew "python3"
-brew "mas"
 brew "mobile-shell"
 brew "mono"
 brew "msgpack"

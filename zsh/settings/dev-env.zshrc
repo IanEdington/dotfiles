@@ -81,3 +81,11 @@ export CLASSPATH
 
 ## android emulator
 function emulator { builtin cd $ANDROID_HOME/tools && ./emulator "$@"; }
+
+# Web Dev
+# find . -type f -exec chmod 644 {} \;
+# find . -type d -exec chmod 755 {} \;
+chmodweb () {
+    find $@ -type d -exec chmod 755 {} \;
+    find $@ -type f -exec chmod 644 {} \;
+}

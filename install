@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# Programs are meant to be read. If you can't read this script let me know. If you have a suggestion, send a pull request, or create an issue. I love collaborating.
 
 # install or update from git repo
 dotfiles::install_from_github () {
@@ -87,13 +86,17 @@ dotfiles::symlink_files $DOTFILES_ROOT ~/.dotfiles;
 cd ~/.dotfiles
 echo "dotfiles root " $DOTFILES_ROOT
 
+# Homebrew
 # Add dotfiles and homebrew bin to path
 # in case people want to use commands in their scripts
 export PATH=/usr/local/sbin:$HOME/.dotfiles/bin:$PATH
-
 # Install brew
 update.brew
+# add brew's zsh and bash to the "acceptable shells" file
+echo "$(brew --prefix)/bin/bash" | sudo tee -a /etc/shells
+echo "$(brew --prefix)/bin/zsh" | sudo tee -a /etc/shells
 
+# Xcode
 # full xcode installation is required
 xcodebuild -version
 if [[ $? != 0 ]] ; then
@@ -104,8 +107,7 @@ fi
 xcode-select --install > /dev/null
 sudo xcodebuild -license accept
 
-# SymLink files
-# -----------------------
+# SymLink
 # Local dotfiles
 dotfiles::symlink_files ~/Local/dotfiles/local ~/.local
 dotfiles::symlink_files ~/Local/dotfiles/config ~/.config
@@ -120,9 +122,10 @@ dotfiles::symlink_files ~/.dotfiles/profile ~/.profile
 dotfiles::symlink_files ~/.dotfiles/tmux/tmux.conf ~/.tmux.conf;
 dotfiles::symlink_files ~/.dotfiles/editorconfig ~/.editorconfig
 
-# Install yarn packages
+# yarn
 yarn global install
 
+# Install Scripts
 # Run install scripts for each folder in dotfiles/
 for dir in */ ; do
     echo Installing the $dir directory:
