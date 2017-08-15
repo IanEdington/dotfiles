@@ -31,6 +31,7 @@ Plug 'tpope/vim-markdown'
 "" IDE (debuging, help, project awareness)
 Plug 'embear/vim-localvimrc'
 Plug 'joonty/vdebug'
+Plug 'tpope/vim-commentary'
 
 " Java IDE
 Plug 'hsanson/vim-android'
@@ -46,7 +47,6 @@ Plug 'rizzatti/dash.vim'
 " Plug 'mattn/gist-vim'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-git'
-" Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'airblade/vim-gitgutter'
 
 
@@ -83,7 +83,6 @@ Plug 'chesleytan/wordcount.vim' "load the first time wordCount#WordCount is call
 
 
 "" Text Editing
-Plug 'scrooloose/nerdcommenter'
 Plug 'tpope/vim-surround'
 Plug 'Raimondi/delimitMate'
 Plug 'editorconfig/editorconfig-vim'
@@ -105,7 +104,6 @@ Plug 'ctrlpvim/ctrlp.vim'
 
 
 "" Projects
-" Plug 'scrooloose/nerdtree'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-session'
 Plug 'unterzicht/vim-virtualenv'
