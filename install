@@ -101,7 +101,7 @@ echo "$(brew --prefix)/bin/zsh" | sudo tee -a /etc/shells
 xcodebuild -version
 if [[ $? != 0 ]] ; then
     echo "you need to install xcode from the app store"
-    exit
+    # exit
 fi
 # so is xcode command line tools
 xcode-select --install > /dev/null

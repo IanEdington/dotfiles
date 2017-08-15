@@ -30,8 +30,14 @@ sudo systemsetup -settimezone "America/Toronto" > /dev/null
 # Power Settings
 # Restart automatically if the computer freezes
 sudo systemsetup -setrestartfreeze on
-# Never go into computer sleep mode
-sudo systemsetup -setcomputersleep Off > /dev/null
+# Destroy FileVault key when sleep, force hibernation and modify standby and power nap settings.
+sudo pmset -a destroyfvkeyonstandby 1
+sudo pmset -a hibernatemode 3
+sudo pmset -a standbydelay 3600
+sudo pmset -a powernap 0
+sudo pmset -a standby 0
+sudo pmset -a standbydelay 0
+sudo pmset -a autopoweroff 0
 
 # Display
 # Enable subpixel font rendering on non-Apple LCDs
@@ -70,6 +76,8 @@ defaults write NSGlobalDomain KeyRepeat -int 6
 defaults write NSGlobalDomain InitialKeyRepeat -int 15
 # Stop iTunes from responding to the keyboard media keys
 launchctl unload -w /System/Library/LaunchAgents/com.apple.rcd.plist 2> /dev/null
+
+echo "line 79"
 
 # Hot corners
 # Possible values:
@@ -170,6 +178,8 @@ defaults write com.apple.dock persistent-apps -array-add '{tile-data={}; tile-ty
 # Add a spacer to the right side of the Dock (where the Trash is)
 defaults write com.apple.dock persistent-others -array-add '{tile-data={}; tile-type="spacer-tile";}'
 
+echo "line 173"
+
 # ScreenShots
 # Save screenshots to the desktop
 defaults write com.apple.screencapture location -string "${HOME}/Desktop"
@@ -213,17 +223,10 @@ defaults write com.apple.appstore ShowDebugMenu -bool true
 # Firmware
 # Check if the firmware password is enabled
 echo "\nFirmware `sudo firmwarepasswd -check`\n"
-sudo firmwarepasswd -setpasswd -setmode command
+# sudo firmwarepasswd -setpasswd -setmode command
 
 # FileVault
 echo "be aware that `sudo fdesetup status`"
-# Destroy FileVault key when sleep, force hibernation and modify standby and power nap settings.
-sudo pmset -a destroyfvkeyonstandby 1
-sudo pmset -a hibernatemode 25
-sudo pmset -a powernap 0
-sudo pmset -a standby 0
-sudo pmset -a standbydelay 0
-sudo pmset -a autopoweroff 0
 
 # Network
 # Firewall, logging, and stealth mode
@@ -264,6 +267,8 @@ defaults write com.apple.SoftwareUpdate ConfigDataInstall -int 1
 defaults write com.apple.commerce AutoUpdate -bool true
 # Allow macOS updates to reboot machine
 defaults write com.apple.commerce AutoUpdateRestartRequired -bool true
+
+echo "line 268"
 
 # Settings
 # Require an administrator password to access system-wide preferences
@@ -362,6 +367,8 @@ defaults write com.apple.Safari SendDoNotTrackHTTPHeader -bool true
 # Update extensions automatically
 defaults write com.apple.Safari InstallExtensionUpdatesAutomatically -bool true
 
+echo "line 365"
+
 # Finder
 # Expose hidden files and Library folder in Finder:
 chflags nohidden ~/Library
@@ -438,6 +445,8 @@ defaults write com.apple.finder WarnOnEmptyTrash -bool false
 file=/Applications/Dropbox.app/Contents/Resources/emblem-dropbox-uptodate.icns
 [ -e "${file}" ] && mv -f "${file}" "${file}.bak"
 
+echo "line 441"
+
 # Terminal
 # Only use UTF-8 in Terminal.app
 defaults write com.apple.terminal StringEncodings -array 4
@@ -508,27 +517,3 @@ osascript -e 'tell application "System Events" to delete every login item whose 
 
 # Remove duplicates in the “Open With” menu
 /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user
-
-# Kill affected applications                                                  #
-for app in "Activity Monitor" \
-	"Address Book" \
-	"Calendar" \
-	"cfprefsd" \
-	"Contacts" \
-	"Dock" \
-	"Finder" \
-	"Google Chrome" \
-	"Mail" \
-	"Messages" \
-	"Opera" \
-	"Photos" \
-	"Safari" \
-	"SystemUIServer" \
-	"Terminal" \
-	"Transmission" \
-	"Tweetbot" \
-	"Twitter" \
-	"iCal"; do
-	killall "${app}" &> /dev/null
-done
-echo "Done. Note that some of these changes require a logout/restart to take effect."

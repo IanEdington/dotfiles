@@ -9,10 +9,11 @@ else
 fi
 
 # concatenate all Brewfiles and make sure they're installed
+cd ~/.dotfiles
 Brewfile_path=~/.dotfiles/.tmp/Brewfile
 mkdir ~/.dotfiles/.tmp
 /bin/rm $Brewfile_path
-for Brewfile in ../Brewfile ../*/Brewfile ; do
+for Brewfile in ./Brewfile ./*/Brewfile ; do
     cat $Brewfile >> $Brewfile_path
 done
 
