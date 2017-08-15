@@ -20,7 +20,7 @@ alias l='less -i -s -u -w'
 
 # cd
 #	Always list directory contents
-cd () { builtin cd "$@"; ls; }
+#cd () { /usr/bin/cd "$@"; ls; }
 # make it easier to cd
 alias ~="cd ~"
 alias cd..='cd ../'
@@ -52,6 +52,7 @@ alias c='clear'
 alias which='type -a'
 # path: Echo all executable Paths
 alias path='echo -e ${PATH//:/\\n}'
+alias fpath='echo -e ${FPATH//:/\\n}'
 # trash: Moves a file to the MacOS trash
 trash () { command mv "$@" ~/.Trash ; }
 alias tr='trash'

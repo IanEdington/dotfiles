@@ -1,0 +1,32 @@
+# Java and Android
+export JAVA_HOME=$(/usr/libexec/java_home)
+export ANDROID_SDK_ROOT=$HOME/Library/Android/sdk
+export ANDROID_HOME=$ANDROID_SDK_ROOT
+path=(
+    $JAVA_HOME/{bin,db/bin,jre/bin}
+    $ANDROID_HOME/{tools,platform-tools}
+    $path
+)
+
+classpath=(
+        .
+        ./main
+        ./test
+        ./main/java
+        ./test/java
+        ./src/main
+        ./src/test
+        ./src/main/java
+        ./src/test/java
+)
+
+for jar in ${HOME}/Code/resources/jvm/*.jar; do
+    classpath+=$jar
+done
+
+CLASSPATH=$( IFS=$':'; echo "${classpath[*]}" )
+
+export CLASSPATH
+
+## android emulator
+function emulator { builtin cd $ANDROID_HOME/tools && ./emulator "$@"; }
