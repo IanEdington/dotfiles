@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+for termfile in *.terminfo; do
+    tic $termfile
+done;
+
+#test
+echo `tput sitm`italics`tput ritm` `tput smso`standout`tput rmso`
