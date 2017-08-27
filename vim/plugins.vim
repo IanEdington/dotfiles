@@ -32,6 +32,7 @@ Plug 'tpope/vim-markdown'
 Plug 'embear/vim-localvimrc'
 Plug 'joonty/vdebug'
 Plug 'tpope/vim-commentary'
+Plug 'janko-m/vim-test'
 
 " Java IDE
 Plug 'hsanson/vim-android'
@@ -89,7 +90,7 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'vim-scripts/matchit.zip'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'chrisbra/csv.vim'
-Plug 'vim-scripts/YankRing.vim'
+" Plug 'vim-scripts/YankRing.vim'
 Plug 'Chiel92/vim-autoformat'
 
 
@@ -104,9 +105,9 @@ Plug 'ctrlpvim/ctrlp.vim'
 
 
 "" Projects
-Plug 'xolox/vim-misc'
-Plug 'xolox/vim-session'
-Plug 'unterzicht/vim-virtualenv'
+" Plug 'xolox/vim-misc'
+" Plug 'xolox/vim-session'
+" Plug 'unterzicht/vim-virtualenv'
 
 
 "" Vim Improvements
