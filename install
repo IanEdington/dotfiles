@@ -109,7 +109,9 @@ sudo xcodebuild -license accept
 
 # SymLink
 # Local dotfiles
+mkdir -p ~/Local/dotfiles/local
 dotfiles::symlink_files ~/Local/dotfiles/local ~/.local
+mkdir -p ~/Local/dotfiles/config
 dotfiles::symlink_files ~/Local/dotfiles/config ~/.config
 dotfiles::symlink_files ~/.dotfiles/global_package.json ~/.config/yarn/global/package.json
 dotfiles::symlink_files ~/.dotfiles/karabiner.json ~/.config/karabiner/karabiner.json
