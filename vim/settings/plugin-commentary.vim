@@ -1,6 +1,3 @@
-"map <C-\> <plug>NERDCommenterToggle
-"map <C-\> <plug>NERDCommenterToggle
-
 " remove commentary default mappings
 function! UnmapCommentary()
   unmap gc
