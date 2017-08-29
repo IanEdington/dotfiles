@@ -98,7 +98,7 @@ alias gbi="gr --interactive"
 alias grv="git remote -v"
 alias grr="git remote rm"
 alias grad="git remote add"
-alias gfch="git fetch"
+alias gf="git fetch --all --prune"
 alias gbd="git branch -D -v"
 
 # Staged and cached are the same thing
