@@ -18,12 +18,12 @@
     algorithm = patience
     # mnemonicprefix = true # might be useful once I understand git diff
 [difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
+    cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+    path = 
 [filter "lfs"]
-	clean = git-lfs clean %f
-	smudge = git-lfs smudge %f
-	required = true
+    clean = git-lfs clean %f
+    smudge = git-lfs smudge %f
+    required = true
 [format]
     pretty = format:%>|(18,trunc)%C(blue)%ad %C(yellow)%<(8)%h%C(green)%D %C(blue)%s %C(magenta)[%an]
 [include]
@@ -31,18 +31,18 @@
     path = ~/.config/git/user
     path = ~/.local/git/user
 [log]
-	date = relative
+    date = relative
 [merge]
-	ff = false
+    ff = false
     tool = mvimdiff
 [mergetool "mvimdiff"]
     cmd="mvim -c 'Gdiff' $MERGED"     # use fugitive.vim for 3-way merge
     keepbackup=false
 [mergetool "sourcetree"]
-	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
+    cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+    trustExitCode = true
 [pull]
-	rebase = preserve
+    rebase = preserve
 [push]
     default = simple
 [alias]
@@ -111,7 +111,7 @@
     uncommit = reset --soft HEAD^ # go back before last commit, with files in uncommitted state
 
     # status
-	s = status
+    s = status
     st = status
 
     # stash
