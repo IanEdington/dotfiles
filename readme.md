@@ -1,5 +1,9 @@
 # Ian Edington's dotfiles
 
+## Todos
+
+- [ ] go through settings and clean up how I like my personal macOS settings
+
 ## General philosophy
 - Know whats running on your machine.
 - Security is scary
