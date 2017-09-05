@@ -7,8 +7,9 @@ __git_files () {
     _wanted files expl 'local files' _files
 }
 
-alias gi="$EDITOR .gitignore"
-alias egs='$EDITOR `git ls-files -m`'
+alias gi='$EDITOR .gitignore'
+# alias egs='$EDITOR `git ls-files -m`'
+alias egs='$EDITOR `git status --short -- . | awk '"'"'{print $2}'"'"'`'
 
 # Git flow
 alias gfi="git flow init"
