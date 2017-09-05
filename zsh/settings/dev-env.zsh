@@ -5,6 +5,7 @@ fpath=(
     )
 
 autoload -Uz dev-android
+autoload -Uz dev-php
 autoload -Uz dev-docker
 autoload -Uz dev-python
 autoload -Uz dev-ruby

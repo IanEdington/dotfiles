@@ -1,0 +1,6 @@
+path=(
+        ~/.composer/vendor/bin
+        $path
+     )
+
+source ${ZDOTDIR:-$HOME}/completion/composer_completion
