@@ -42,6 +42,7 @@ Plug 'chesleytan/wordcount.vim' "load the first time wordCount#WordCount is call
 
 "" Text Editing
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-abolish'
 Plug 'Raimondi/delimitMate'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'vim-scripts/matchit.zip'
