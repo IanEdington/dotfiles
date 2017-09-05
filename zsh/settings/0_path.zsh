@@ -16,3 +16,8 @@ fpath=(
         ${ZDOTDIR:-$HOME}/.zsh.prompts
         $fpath
     )
+
+manpath=(
+    /usr/local/share/man
+    $manpath
+)
