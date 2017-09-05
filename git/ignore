@@ -4,6 +4,8 @@
 
 # Editor files
 .idea
+.project
+.settings
 tags
 
 # Icon must end with two \r
