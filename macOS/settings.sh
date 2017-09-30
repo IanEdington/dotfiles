@@ -47,6 +47,7 @@ defaults write NSGlobalDomain AppleFontSmoothing -int 1
 sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled -bool true
 # Increase window resize speed for Cocoa applications
 defaults write NSGlobalDomain NSWindowResizeTime -float 0.001
+# Hide the menu bar
 defaults write NSGlobalDomain _HIHideMenuBar -bool true
 
 # Sound
