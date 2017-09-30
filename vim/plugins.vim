@@ -1,60 +1,42 @@
-"" Appearance
-Plug 'altercation/vim-colors-solarized'
-Plug 'nathanaelkane/vim-indent-guides'
-Plug 'itchyny/lightline.vim'
-Plug 'ap/vim-css-color'
-
-"" Languages
-Plug 'jalvesaq/nvim-r'
-Plug 'sheerun/vim-polyglot'
-Plug 'skwp/vim-html-escape'
-Plug 'cakebaker/scss-syntax.vim'
-
-" Tools
-Plug 'scrooloose/syntastic'
-Plug 'tpope/vim-markdown'
-
-"" IDE (debuging, help, project awareness)
-Plug 'embear/vim-localvimrc'
-Plug 'joonty/vdebug'
-Plug 'tpope/vim-commentary'
-Plug 'janko-m/vim-test'
-
-" Java IDE
-Plug 'hsanson/vim-android'
-Plug 'artur-shaik/vim-javacomplete2'
-
-" Help finder
-Plug 'rizzatti/dash.vim'
-
-"" git
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-git'
-Plug 'airblade/vim-gitgutter'
-
-"" AutoComplete
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --all' }
-Plug 'mattn/emmet-vim'
-
-"" Writting
-Plug 'beloglazov/vim-online-thesaurus'
-Plug 'chesleytan/wordcount.vim' "load the first time wordCount#WordCount is called
-
-"" Text Editing
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-abolish'
-Plug 'Raimondi/delimitMate'
-Plug 'editorconfig/editorconfig-vim'
-Plug 'vim-scripts/matchit.zip'
-Plug 'terryma/vim-multiple-cursors'
-Plug 'chrisbra/csv.vim'
-Plug 'Chiel92/vim-autoformat'
-
-"" Search
-Plug 'ctrlpvim/ctrlp.vim'
-
-"" Vim Improvements
+"" settings
 if !has('nvim')
     Plug 'tpope/vim-sensible'
 endif
+Plug 'embear/vim-localvimrc'
+Plug 'editorconfig/editorconfig-vim'
+
+"" Text Editing
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-unimpaired'
+Plug 'raimondi/delimitmate'
+
+"" Appearance
+" Plug 'itchyny/lightline.vim'
+Plug 'lifepillar/vim-solarized8'
+Plug 'ap/vim-css-color'
+
+"" IDE (debuging, help, project awareness)
+Plug 'scrooloose/syntastic' " linting
+" Plug 'joonty/vdebug' "debuging tool - not currently used
+Plug 'janko-m/vim-test' "testing use `;t`
+Plug 'Chiel92/vim-autoformat' "autoformater, use `=`
+"" Search
+Plug 'ctrlpvim/ctrlp.vim'
+"" AutoComplete
+Plug 'Valloric/YouCompleteMe' ", { 'do': './install.py --all' }
+" Plug 'mattn/emmet-vim' "emmet for vim, I wish I used it
+Plug 'airblade/vim-gitgutter'
+
+"" Writting
+" Plug 'beloglazov/vim-online-thesaurus'
+" Plug 'chesleytan/wordcount.vim' "load the first time wordCount#WordCount is called
+
+"" Languages
+" Plug 'jalvesaq/nvim-r' "r
+Plug 'chrisbra/csv.vim'
+Plug 'sheerun/vim-polyglot'
+" Java
+" Plug 'hsanson/vim-android'
+" Plug 'artur-shaik/vim-javacomplete2'
