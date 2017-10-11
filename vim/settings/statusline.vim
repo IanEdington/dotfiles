@@ -2,8 +2,14 @@ let g:lightline = {
 \   'colorscheme': 'solarized',
 \   'active': {
 \     'left': [ [ 'mode', 'paste' ],
-\               [ 'gitbranch', 'readonly', 'filename', 'modified', 'wordcount' ],
-\             ]
+\               [ 'readonly', 'filename' ],
+\             ],
+\     'right': [[ 'percent' ]]
+\   },
+\   'inactive': {
+\ 'left': [ [ 'mode', 'paste' ],
+\           [ 'readonly', 'filename', 'modified' ] ],
+\ 'right': [[ 'percent' ]]
 \   },
 \   'component_function': {
 \     'gitbranch': 'fugitive#head',

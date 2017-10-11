@@ -6,9 +6,10 @@ echo "enabling docker short-cuts"
 
 ## short commands
 alias d="docker"
-alias dq="docker.quickstart"
 alias dk="docker"
 alias dp="docker ps"
+alias dr="docker rm"
+alias dra='docker rm $(docker ps -a -q)'
 alias dm="docker-machine"
 alias dl="docker-machine ls"
 alias dc="docker-compose"

@@ -1,6 +1,9 @@
 # Don't try to glob with zsh so you can do stuff like ga *foo* and correctly have git add the right stuff
 alias git='noglob git'
-alias stree='/Applications/SourceTree.app/Contents/Resources/stree'
+# alias stree='/Applications/SourceTree.app/Contents/Resources/stree'
+# get used to using tig
+alias stree='tig'
+
 
 # Makes git auto completion faster favouring for local completions
 __git_files () {
@@ -44,13 +47,9 @@ alias gcam="ga -A && gc -m"
 # Git View
 alias gs="git status"
 alias gsh="git show"
-alias gl="gladog"
-alias glh="gladog | head"
-alias glh20="gladog | head -n 20"
+alias gl="gladog | head"
+alias gll="gladog"
 alias gladog="git log --all --decorate --graph"
-    # remove --oneline since pretty is nicer oneline
-    # Ref: @duckx memory aid "git log a dog"
-    # http://stackoverflow.com/questions/1057564/pretty-git-branch-graphs
 alias gli="git log -1 HEAD"
 alias gd="git diff"
 alias gdc="gd --cached -w"
@@ -104,6 +103,7 @@ alias gbd="git branch -D -v"
 
 # Staged and cached are the same thing
 alias gp="git push"
+alias gpf="git push --force-with-lease"
 alias gpa="git push --all"
 alias gpu='git push -u origin `git rev-parse --abbrev-ref HEAD`'
 alias gpl="git pull"

@@ -1,12 +1,9 @@
 "turn on syntax highlighting
-syntax on
+syntax enable
 
 " left gutter
-set number
-set relativenumber
-
-"Disable cursor blink
-set gcr=a:blinkon0
+set number " con - toggle
+set relativenumber "cor - toggle
 
 " Display tabs and trailing spaces visually
 	set list listchars=tab:\⋙\ ,trail:·,eol:¬
@@ -14,5 +11,5 @@ set gcr=a:blinkon0
 set wrap
 set linebreak
 
-silent! colorscheme solarized
-set background=dark
+silent! colorscheme solarized8_dark
+let g:solarized_term_italics=1
