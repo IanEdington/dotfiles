@@ -10,7 +10,7 @@ indent_style = space
 indent_size = 4
 tab_width = 4
 
-[*.yml, *.js, *.vimrc, *.vim, *.json]
+[*.{yml,js,vimrc,vim,json}]
 indent_size = 2
 
 [*.md]
