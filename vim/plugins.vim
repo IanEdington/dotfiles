@@ -3,6 +3,8 @@ if !has('nvim')
     Plug 'tpope/vim-sensible'
 endif
 Plug 'embear/vim-localvimrc'
+    let g:localvimrc_persistent = 1
+    let g:localvimrc_persistence_file = "$HOME/.local/vim/localvimrc_persistent"
 Plug 'editorconfig/editorconfig-vim'
     let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 
@@ -22,7 +24,12 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-unimpaired'
-Plug 'jiangmiao/auto-pairs'
+    " make visual line bubling select text after move
+    xnoremap [e <Plug>unimpairedMoveSelectionUp gv
+    xnoremap ]e <Plug>unimpairedMoveSelectionDown gv
+Plug 'raimondi/delimitmate'
+    let delimitMate_expand_cr=1
+    let delimitMate_expand_space=1
 " Plug 'mattn/emmet-vim' "emmet for vim, I wish I used it
 
 "" Appearance
@@ -33,8 +40,19 @@ Plug 'ap/vim-css-color'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
     let g:deoplete#enable_at_startup=1
 Plug 'scrooloose/syntastic' " linting
+    "mark syntax errors with :signs
+    let g:syntastic_enable_signs=1
+    "automatically jump to the error when saving the file
+    let g:syntastic_auto_jump=0
+    "show the error list automatically
+    let g:syntastic_auto_loc_list=1
+    let g:syntastic_always_populate_loc_list = 1
+    " let g:syntastic_check_on_open = 1
+    let g:syntastic_check_on_wq = 0
+    let g:syntastic_aggregate_errors = 1
 " Plug 'joonty/vdebug' "debuging tool - not currently used
 Plug 'janko-m/vim-test' "testing use `;t`
+    nnoremap <silent> <leader>t :TestFile<CR>
 Plug 'Chiel92/vim-autoformat' "autoformater, use `=`
     nnoremap = :Autoformat<CR>
     let g:autoformat_autoindent = 0
