@@ -4,7 +4,7 @@ if !has('nvim')
 endif
 Plug 'embear/vim-localvimrc'
     let g:localvimrc_persistent = 1
-    let g:localvimrc_persistence_file = "$HOME/.local/vim/localvimrc_persistent"
+    let g:localvimrc_persistence_file = expand("~/.local/vim/localvimrc_persistent")
 Plug 'editorconfig/editorconfig-vim'
     let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 
@@ -40,17 +40,13 @@ Plug 'ap/vim-css-color'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
     let g:deoplete#enable_at_startup=1
 Plug 'scrooloose/syntastic' " linting
-    "mark syntax errors with :signs
+    let g:syntastic_mode_map={'mode': 'passive'}
     let g:syntastic_enable_signs=1
-    "automatically jump to the error when saving the file
-    let g:syntastic_auto_jump=0
-    "show the error list automatically
+    let g:syntastic_auto_jump=1
     let g:syntastic_auto_loc_list=1
     let g:syntastic_always_populate_loc_list = 1
-    " let g:syntastic_check_on_open = 1
-    let g:syntastic_check_on_wq = 0
+    let g:syntastic_check_on_open = 1
     let g:syntastic_aggregate_errors = 1
-" Plug 'joonty/vdebug' "debuging tool - not currently used
 Plug 'janko-m/vim-test' "testing use `;t`
     nnoremap <silent> <leader>t :TestFile<CR>
 Plug 'Chiel92/vim-autoformat' "autoformater, use `=`
