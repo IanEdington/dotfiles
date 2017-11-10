@@ -34,6 +34,7 @@ Plug 'raimondi/delimitmate'
 
 "" Appearance
 Plug 'lifepillar/vim-solarized8'
+    let g:solarized_term_italics=1
 Plug 'ap/vim-css-color'
 
 "" IDE (debuging, help, project awareness)
@@ -47,6 +48,8 @@ Plug 'scrooloose/syntastic' " linting
     let g:syntastic_always_populate_loc_list = 1
     let g:syntastic_check_on_open = 1
     let g:syntastic_aggregate_errors = 1
+    " Syntastic toggle Mode
+    noremap cot :SyntasticToggleMode<CR>
 Plug 'janko-m/vim-test' "testing use `;t`
     nnoremap <silent> <leader>t :TestFile<CR>
 Plug 'Chiel92/vim-autoformat' "autoformater, use `=`

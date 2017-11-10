@@ -6,7 +6,6 @@ xnoremap ]e <Plug>unimpairedMoveSelectionDown gv
 " nnoremap p ]p
 
 " Cut, Copy, Paste
-
 nnoremap <leader>x "+Ydd
 vnoremap <leader>x "+ygvd
 inoremap <leader>x <esc>"+Yddi
@@ -23,7 +22,6 @@ inoremap <leader>v <esc>"+]pa
 inoremap <leader>V <esc>"+]Pa
 
 " U uppercase u lowercase WHOLE WORD
-
 nnoremap <leader>U viwU
 nnoremap <leader>u viwu
 inoremap <leader>U <esc>viwU

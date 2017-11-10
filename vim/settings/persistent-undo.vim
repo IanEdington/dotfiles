@@ -1,11 +1,8 @@
-" ==== Persistent Undo ====
-" Keep undo history across sessions, by storing in file. Only works all the time.
+" Keep undo history across sessions, by storing in file.
+let s:backupFolder='~/.cache/vim/undo-backups'
 if has('persistent_undo')
-  if !isdirectory(expand('~').'/.vim/backups')
-    silent !mkdir ~/.vim/backups > /dev/null 2>&1
-  endif
-  set undodir=~/.vim/backups
   set undofile
+  let &undodir=expand(s:backupFolder)
   set undolevels=1000
   set undoreload=10000
 endif

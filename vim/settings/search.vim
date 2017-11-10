@@ -1,9 +1,9 @@
-" ==== Search ====
-
-set incsearch       " Find the next match as we type the search
-set hlsearch!       " Don't highlight searches by default
-set ignorecase      " Ignore case when searching...
-set smartcase       " ...unless we type a capital
+" Find the next match as we type the search
+set incsearch
+set hlsearch!
+" Ignore case when searching, unless we type a capital
+set ignorecase
+set smartcase
 
 " Search and Replace quick key
 nnoremap <leader>sr :%s/
