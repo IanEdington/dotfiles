@@ -21,6 +21,16 @@ set sidescroll=1
 
 " Use status bar even with single buffer
 set laststatus=2
+" status line
+set statusline=%f\  " Path to the file
+set statusline+=%y " Filetype of the file
+set statusline+=%m
+set statusline+=%r
+set statusline+=%w " preview window flag
+set statusline+=%= " Expanding Space
+set statusline+=\ b%n " Current and Total Lines
+set statusline+=\ %4l/%-4L " Current and Total Lines
+set statusline+=\ %P " Percent Through Document
 
 " Toggle ColorScheme
 let s:colorschemetoggle=0
