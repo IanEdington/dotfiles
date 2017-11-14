@@ -13,6 +13,7 @@ __git_files () {
 alias gi='$EDITOR .gitignore'
 # alias egs='$EDITOR `git ls-files -m`'
 alias egs='$EDITOR `git status --short -- . | awk '"'"'{print $2}'"'"'`'
+alias egh='$EDITOR `git diff --name-only HEAD^`'
 
 # Git flow
 alias gfi="git flow init"

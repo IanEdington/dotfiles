@@ -36,7 +36,7 @@ alias cp='cp -Ri'
 # scp
 alias scp='scp -C'
 # rm
-alias rm="echo Use 'tr', or the full path i.e. '/bin/rm'"
+alias rm="echo Dont Fn touch this! Use 'tr', or the full path i.e. '/bin/rm'"
 
 
 # Preferred 'mv' implementation
@@ -54,8 +54,8 @@ alias which='type -a'
 alias path='echo -e ${PATH//:/\\n}'
 alias fpath='echo -e ${FPATH//:/\\n}'
 # trash: Moves a file to the MacOS trash
-trash () { command mv "$@" ~/.Trash ; }
-alias tr='trash'
+
+alias tr='mv --verbose -f --backup=numbered --target-directory ~/.Trash/'
 # ql: Opens any file in MacOS Quicklook Preview
 ql () { qlmanage -p "$*" >& /dev/null; }
 
