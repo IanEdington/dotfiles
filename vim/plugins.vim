@@ -39,7 +39,6 @@ Plug 'ap/vim-css-color'
 
 "" IDE (debuging, help, project awareness)
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    let g:deoplete#enable_at_startup=1
 Plug 'scrooloose/syntastic' " linting
     let g:syntastic_mode_map={'mode': 'passive'}
     let g:syntastic_enable_signs=1
