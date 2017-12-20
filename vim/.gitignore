@@ -12,3 +12,4 @@
 *.swp
 .VimballRecord
 view
+autoload/plug.vim.old

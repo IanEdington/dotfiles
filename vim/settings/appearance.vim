@@ -1,3 +1,8 @@
+" turn on true color if available
+if ($TERM == 'tmux-256color-italic')
+    set termguicolors
+endif
+
 "turn on syntax highlighting
 syntax enable
 
