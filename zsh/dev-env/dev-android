@@ -1,6 +1,6 @@
 # Java and Android
 export JAVA_HOME=$(/usr/libexec/java_home)
-export ANDROID_SDK_ROOT=$HOME/Library/Android/sdk
+export ANDROID_SDK_ROOT="/usr/local/share/android-sdk"
 export ANDROID_HOME=$ANDROID_SDK_ROOT
 path=(
     $JAVA_HOME/{bin,db/bin,jre/bin}
@@ -19,10 +19,6 @@ classpath=(
         ./src/main/java
         ./src/test/java
 )
-
-for jar in ${HOME}/Code/resources/jvm/*.jar; do
-    classpath+=$jar
-done
 
 CLASSPATH=$( IFS=$':'; echo "${classpath[*]}" )
 

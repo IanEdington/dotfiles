@@ -35,6 +35,7 @@ Plug 'raimondi/delimitmate'
 "" Appearance
 Plug 'lifepillar/vim-solarized8'
     let g:solarized_term_italics=1
+    let g:solarized_use16 = 1
 Plug 'ap/vim-css-color'
 
 "" IDE (debuging, help, project awareness)
