@@ -45,7 +45,7 @@ alias gcam="ga -A && gc -m"
 # Git View
 alias gs="git status"
 alias gsh="git show"
-alias gl="gladog | head"
+alias gl="gladog -10"
 alias gll="gladog"
 alias gladog="git log --all --decorate --graph"
 alias gli="git log -1 HEAD"
