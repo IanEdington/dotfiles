@@ -283,7 +283,7 @@ defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
 # Disable the crash reporter
 defaults write com.apple.CrashReporter DialogType -string "none"
 # Disable AirDrop
-defaults write com.apple.NetworkBrowser DisableAirDrop -bool YES
+# defaults write com.apple.NetworkBrowser DisableAirDrop -bool YES
 # Disable Internet Sharing
 defaults write /Library/Preferences/SystemConfiguration/com.apple.nat NAT -dict-add Enabled -int 0
 # Disable Screen Sharing
