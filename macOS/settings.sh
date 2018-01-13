@@ -24,20 +24,16 @@ defaults write NSGlobalDomain AppleLanguages -array "en-CA"
 defaults write NSGlobalDomain AppleLocale -string "en_CA"
 defaults write NSGlobalDomain AppleMeasurementUnits -string "Centimeters"
 defaults write NSGlobalDomain AppleMetricUnits -bool true
-# Set the timezone; see `sudo systemsetup -listtimezones` for other values
-sudo systemsetup -settimezone "America/Toronto" > /dev/null
 
 # Power Settings
-# Restart automatically if the computer freezes
-sudo systemsetup -setrestartfreeze on
 # Destroy FileVault key when sleep, force hibernation and modify standby and power nap settings.
 sudo pmset -a destroyfvkeyonstandby 1
 sudo pmset -a hibernatemode 3
-sudo pmset -a standbydelay 3600
 sudo pmset -a powernap 0
-sudo pmset -a standby 0
-sudo pmset -a standbydelay 0
-sudo pmset -a autopoweroff 0
+sudo pmset -a standby 1
+sudo pmset -a standbydelay 3600
+sudo pmset -a autopoweroff 1
+sudo pmset -a autopoweroffdelay 28800
 
 # Display
 # Enable subpixel font rendering on non-Apple LCDs
@@ -78,8 +74,6 @@ defaults write NSGlobalDomain KeyRepeat -int 6
 defaults write NSGlobalDomain InitialKeyRepeat -int 15
 # Stop iTunes from responding to the keyboard media keys
 launchctl unload -w /System/Library/LaunchAgents/com.apple.rcd.plist 2> /dev/null
-
-echo "line 79"
 
 # Hot corners
 # Possible values:
