@@ -4,10 +4,12 @@
     "eslint": ">=4.4.1",
     "exp": "^43.0.0",
     "ijavascript": "^5.0.20",
+    "node-gyp": "^3.6.2",
     "npm": "5.1.0",
-    "react-devtools": ">=2.5.0",
+    "react-devtools": "^3.0.0",
     "react-native-cli": "^2.0.1",
     "react-native-git-upgrade": "^0.2.7",
+    "simple-server": "^1.0.1",
     "typescript": "^2.4.2",
     "yarn": ">=0.27.5"
   }

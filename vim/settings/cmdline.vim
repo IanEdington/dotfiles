@@ -2,8 +2,6 @@ set path+=**
 set wildmenu
 set wildmode=longest:full
 
-echo "don't forget to use `:find `"
-
 "stuff to ignore when tab completing
 set wildignore=*.o,*.obj,*~
 set wildignore+=*vim/backups*

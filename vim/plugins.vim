@@ -39,6 +39,13 @@ Plug 'lifepillar/vim-solarized8'
 Plug 'ap/vim-css-color'
 
 "" IDE (debuging, help, project awareness)
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'mileszs/ack.vim'
+    let g:ackprg = 'ag --vimgrep --smart-case'
+    cnoreabbrev ag Ack
+    cnoreabbrev aG Ack
+    cnoreabbrev Ag Ack
+    cnoreabbrev AG Ack
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'scrooloose/syntastic' " linting
     let g:syntastic_mode_map={'mode': 'passive'}
