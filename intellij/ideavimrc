@@ -1,1 +1,61 @@
+let mapleader = ';'
+nnoremap <leader>vs :source ~/.ideavimrc<CR>
+
 set surround
+set scrolloff=4
+set history=1000
+
+" line numbers
+set number
+set relativenumber
+
+" search
+set incsearch
+set ignorecase
+set smartcase
+set wrapscan
+nnoremap sr :%s/
+nnoremap se :action SearchEverywhere<cr>
+
+" copy
+nnoremap pwf :action CopyReference<CR> " path to working file
+
+" move
+nnoremap gwk :action VimWindowUp<CR>
+nnoremap gwj :action VimWindowDown<CR>
+nnoremap gwh :action VimWindowLeft<CR>
+nnoremap gwl :action VimWindowRight<CR>
+
+nnoremap gwq :action VimWindowClose<CR>
+nnoremap gwo :action VimWindowOnly<CR>
+
+nnoremap gu :action
+
+" unimpaired mappings
+nnoremap ]p :action GotoNextError<CR>
+nnoremap [p :action GotoPreviousError<CR>
+nnoremap [<Space> O<esc>j0
+nnoremap ]<Space> o<esc>k0
+nnoremap [e ddkP
+nnoremap ]e ddp
+nnoremap [m :action MethodUp<cr>
+nnoremap ]m :action MethodDown<cr>
+nnoremap [c :action VcsShowPrevChangeMarker<cr>
+nnoremap ]c :action VcsShowNextChangeMarker<cr>
+
+" toggle options
+nnoremap cow :action EditorToggleUseSoftWraps<cr>
+nnoremap coh :set hlsearch!<cr>
+nnoremap coi :set ignorecase!<cr>
+nnoremap con :set number!<cr>
+nnoremap cor :set relativenumber!<cr>
+nnoremap cos :set relativenumber!<cr>
+
+
+noremap <CR> :
+
+" change word case
+nnoremap <leader>U viwU
+nnoremap <leader>u viwu
+inoremap <leader>U <esc>viwU
+inoremap <leader>u <esc>viwu

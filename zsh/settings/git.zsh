@@ -38,7 +38,7 @@ alias gap="ga -p"
 alias guns="git unstage"
 
 # Git Commit
-alias gc="git commit"
+alias gc="git commit --no-verify"
 alias gcm="gc -m"
 alias gcam="ga -A && gc -m"
 
@@ -84,8 +84,8 @@ alias gms="gm --squash"
 # Git Changing history
 alias gcp="git cherry-pick -x"
 alias gunc="git uncommit"
-alias gca="git commit --amend"
-alias gcaa="git commit --amend --reset-author"
+alias gca="gc --amend"
+alias gcaa="gc --amend --reset-author"
 alias grs="git reset"
 alias grsh="grs --hard"
 alias gr="git rebase"

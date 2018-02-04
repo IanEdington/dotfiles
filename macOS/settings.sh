@@ -27,13 +27,13 @@ defaults write NSGlobalDomain AppleMetricUnits -bool true
 
 # Power Settings
 # Destroy FileVault key when sleep, force hibernation and modify standby and power nap settings.
-sudo pmset -a destroyfvkeyonstandby 1
+sudo pmset DestroyFVKeyOnStandby 1
 sudo pmset -a hibernatemode 3
 sudo pmset -a powernap 0
 sudo pmset -a standby 1
 sudo pmset -a standbydelay 3600
-sudo pmset -a autopoweroff 1
-sudo pmset -a autopoweroffdelay 28800
+sudo pmset -a autopoweroff 0
+sudo pmset -a autopoweroffdelay 86400
 
 # Display
 # Enable subpixel font rendering on non-Apple LCDs

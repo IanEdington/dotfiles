@@ -17,7 +17,7 @@ set number " con - toggle
 set relativenumber "cor - toggle
 
 " Display tabs and trailing spaces visually
-set list listchars=tab:\⋙\ ,trail:·,eol:¬
+set list listchars=tab:\⋙\ ,trail:·
 
 "Start scrolling when we're 8 lines away from margins
 set scrolloff=5
