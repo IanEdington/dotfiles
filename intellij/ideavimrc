@@ -15,7 +15,7 @@ set ignorecase
 set smartcase
 set wrapscan
 nnoremap sr :%s/
-nnoremap se :action SearchEverywhere<cr>
+nnoremap se :action SearchEverywhere<CR>
 
 " copy
 nnoremap pwf :action CopyReference<CR> " path to working file
@@ -29,7 +29,9 @@ nnoremap gwl :action VimWindowRight<CR>
 nnoremap gwq :action VimWindowClose<CR>
 nnoremap gwo :action VimWindowOnly<CR>
 
-nnoremap gu :action
+nnoremap gu :action FindUsages<CR>
+" nnoremap gu :action ShowUsages<CR>
+" nnoremap gu :action HighlightUsagesInFile<CR>
 
 " unimpaired mappings
 nnoremap ]p :action GotoNextError<CR>
@@ -38,18 +40,18 @@ nnoremap [<Space> O<esc>j0
 nnoremap ]<Space> o<esc>k0
 nnoremap [e ddkP
 nnoremap ]e ddp
-nnoremap [m :action MethodUp<cr>
-nnoremap ]m :action MethodDown<cr>
-nnoremap [c :action VcsShowPrevChangeMarker<cr>
-nnoremap ]c :action VcsShowNextChangeMarker<cr>
+nnoremap [m :action MethodUp<CR>
+nnoremap ]m :action MethodDown<CR>
+nnoremap [c :action VcsShowPrevChangeMarker<CR>
+nnoremap ]c :action VcsShowNextChangeMarker<CR>
 
 " toggle options
-nnoremap cow :action EditorToggleUseSoftWraps<cr>
-nnoremap coh :set hlsearch!<cr>
-nnoremap coi :set ignorecase!<cr>
-nnoremap con :set number!<cr>
-nnoremap cor :set relativenumber!<cr>
-nnoremap cos :set relativenumber!<cr>
+nnoremap cow :action EditorToggleUseSoftWraps<CR>
+nnoremap coh :set hlsearch!<CR>
+nnoremap coi :set ignorecase!<CR>
+nnoremap con :set number!<CR>
+nnoremap cor :set relativenumber!<CR>
+nnoremap cos :set relativenumber!<CR>
 
 
 noremap <CR> :

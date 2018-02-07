@@ -4,6 +4,7 @@
     "eslint": ">=4.4.1",
     "exp": "^43.0.0",
     "ijavascript": "^5.0.20",
+    "jscodeshift": "^0.4.0",
     "mustache": "^2.3.0",
     "node-gyp": "^3.6.2",
     "npm": "5.1.0",

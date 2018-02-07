@@ -1,7 +1,3 @@
-action ShowUsages<cr>
-action HighlightUsagesInFile<cr>
-action FindUsages<CR>
-
 action PreviousOccurence<cr>
 action NextOccurence<cr>
 
