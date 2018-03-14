@@ -14,7 +14,7 @@
                 },
                 "rules": [
                     {
-                        "description": "Change caps_lock to fn (return if alone).",
+                        "description": "Change caps_lock -.",
                         "manipulators": [
                             {
                                 "from": {
@@ -25,16 +25,102 @@
                                         ]
                                     }
                                 },
-                                "to": [],
+                                "to": [
+                                    {
+                                        "key_code": "hyphen"
+                                    }
+                                ],
                                 "to_if_alone": [],
                                 "type": "basic"
                             }
                         ]
                     },
                     {
-                        "description": "Change return to option (return if alone).",
+                        "description": "Apple: Change spacebar to Command or (escape if alone).",
                         "manipulators": [
                             {
+                                "conditions": [
+                                    {
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1452
+                                            }
+                                        ],
+                                        "type": "device_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "spacebar",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "left_command"
+                                    }
+                                ],
+                                "to_if_alone": [
+                                    {
+                                        "key_code": "escape"
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Apple: Change Command_R to Control or (spacebar if alone).",
+                        "manipulators": [
+                            {
+                                "conditions": [
+                                    {
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1452
+                                            }
+                                        ],
+                                        "type": "device_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "right_command",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "right_control"
+                                    }
+                                ],
+                                "to_if_alone": [
+                                    {
+                                        "key_code": "spacebar"
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Apple: Change return to option (return if alone).",
+                        "manipulators": [
+                            {
+                                "conditions": [
+                                    {
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1452
+                                            }
+                                        ],
+                                        "type": "device_if"
+                                    }
+                                ],
                                 "from": {
                                     "key_code": "return_or_enter",
                                     "modifiers": {
@@ -48,6 +134,37 @@
                                         "key_code": "right_option"
                                     }
                                 ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Apple: Change Command_L to Control or (return if alone) on Apple.",
+                        "manipulators": [
+                            {
+                                "conditions": [
+                                    {
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1452
+                                            }
+                                        ],
+                                        "type": "device_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "left_command",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "left_control"
+                                    }
+                                ],
                                 "to_if_alone": [
                                     {
                                         "key_code": "return_or_enter"
@@ -58,9 +175,55 @@
                         ]
                     },
                     {
-                        "description": "Change spacebar to control or (space if alone).",
+                        "description": "Kinesis: Change Command_L to Command_L or (ESC if alone).",
                         "manipulators": [
                             {
+                                "conditions": [
+                                    {
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1523
+                                            }
+                                        ],
+                                        "type": "device_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "left_command",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "left_command"
+                                    }
+                                ],
+                                "to_if_alone": [
+                                    {
+                                        "key_code": "escape"
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Kinesis: Change spacebar to Command or (escape if alone).",
+                        "manipulators": [
+                            {
+                                "conditions": [
+                                    {
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 1523
+                                            }
+                                        ],
+                                        "type": "device_if"
+                                    }
+                                ],
                                 "from": {
                                     "key_code": "spacebar",
                                     "modifiers": {
@@ -84,21 +247,21 @@
                         ]
                     },
                     {
-                        "description": "Change Command_R to Command_R or (ESC if alone) on Apple.",
+                        "description": "Kinesis: Change return to option (return if alone).",
                         "manipulators": [
                             {
                                 "conditions": [
                                     {
                                         "identifiers": [
                                             {
-                                                "vendor_id": 1452
+                                                "vendor_id": 1523
                                             }
                                         ],
                                         "type": "device_if"
                                     }
                                 ],
                                 "from": {
-                                    "key_code": "right_command",
+                                    "key_code": "return_or_enter",
                                     "modifiers": {
                                         "optional": [
                                             "any"
@@ -107,48 +270,12 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "right_command"
+                                        "key_code": "right_control"
                                     }
                                 ],
                                 "to_if_alone": [
                                     {
-                                        "key_code": "escape"
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "Change Command_L to Command_L or (ESC if alone) on Apple.",
-                        "manipulators": [
-                            {
-                                "conditions": [
-                                    {
-                                        "identifiers": [
-                                            {
-                                                "vendor_id": 1452
-                                            }
-                                        ],
-                                        "type": "device_if"
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "left_command",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "left_command"
-                                    }
-                                ],
-                                "to_if_alone": [
-                                    {
-                                        "key_code": "escape"
+                                        "key_code": "return_or_enter"
                                     }
                                 ],
                                 "type": "basic"

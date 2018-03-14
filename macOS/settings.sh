@@ -178,11 +178,11 @@ echo "line 173"
 
 # ScreenShots
 # Save screenshots to the desktop
-defaults write com.apple.screencapture location -string "${HOME}/Desktop"
+defaults write com.apple.screencapture location -string "${HOME}/Downloads"
 # Save screenshots in PNG format (other options: BMP, GIF, JPG, PDF, TIFF)
-defaults write com.apple.screencapture type -string "png"
+defaults write com.apple.screencapture type -string "jpg"
 # Disable shadow in screenshots
-defaults write com.apple.screencapture disable-shadow -bool true
+defaults write com.apple.screencapture disable-shadow -bool false
 
 # System Wide Text
 # Display ASCII control characters using caret notation in standard text views

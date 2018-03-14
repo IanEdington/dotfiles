@@ -65,10 +65,12 @@
 	<string>2725 386 400 129 1440 -300 1920 1200 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>2090 306 620 392 1440 -300 1920 1200 </string>
+	<key>NSWindow Frame SessionsPreferences</key>
+	<string>1709 -414 606 469 1440 -540 2560 1440 </string>
 	<key>NSWindow Frame SharedPreferences</key>
 	<string>195 463 918 401 0 0 1440 900 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>308 300 1015 600 0 0 1440 900 </string>
+	<string>1440 -217 825 577 1440 -540 2560 1440 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>358 34 905 652 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
@@ -784,6 +786,8 @@
 	</dict>
 	<key>PrefsCustomFolder</key>
 	<string>/Users/ian/code/dotfiles/iterm2</string>
+	<key>Print In Black And White</key>
+	<true/>
 	<key>PromptOnQuit</key>
 	<false/>
 	<key>SUAutomaticallyUpdate</key>
@@ -797,7 +801,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2018-01-14T00:30:45Z</date>
+	<date>2018-02-13T19:53:50Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>SUSkippedVersion</key>
@@ -810,6 +814,8 @@
 	<string>/-+\~_.</string>
 	<key>findIgnoreCase_iTerm</key>
 	<true/>
+	<key>findMode_iTerm</key>
+	<integer>0</integer>
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>

@@ -1,40 +1,36 @@
 {
-
     "workbench.colorTheme": "Solarized Dark",
-
-    "editor.lineNumbers": "off",
+    "editor.lineNumbers": "relative",
     "editor.fontSize": 16,
     "editor.fontFamily": "OperatorMono Nerd Font, Menlo, Monaco, 'Courier New', monospace",
     "editor.minimap.enabled": false,
     "editor.renderIndentGuides": false,
     "vim.leader": ";",
-    "vim.insertModeKeyBindings": [
-        {
-            "before": ["j", "j"],
-            "after": ["<esc>"]
-        }
-   ],
+    "vim.useSystemClipboard": true,
+    "vim.foldfix": true,
+    "eslint.autoFixOnSave": true,
+    "eslint.run": "onSave",
     "vim.otherModesKeyBindingsNonRecursive": [
-        {
-            "before": [""],
-            "after": ["dd"]
-        },
-        {
-            "before": ["g", "w", "h"],
-            "after": ["dd"]
-        },
-        {
-            "before": ["<leader>","d"],
-            "after": ["d", "d"]
-        },
-        {
-            "before":["<C-n>"],
-            "after":[],
-            "commands": [
-                {
-                    "command": ":nohl"
-                }
-            ]
-        }
+      {
+        "before": [
+          "<enter>",
+          ":"
+        ],
+        "after": [
+          "d",
+          "d"
+        ]
+      },
+      {
+        "before": [
+          "coh"
+        ],
+        "after": [],
+        "commands": [
+          {
+            "command": ":nohl"
+          }
+        ]
+      }
     ],
 }

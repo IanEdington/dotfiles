@@ -30,6 +30,7 @@ nnoremap gwq :action VimWindowClose<CR>
 nnoremap gwo :action VimWindowOnly<CR>
 
 nnoremap gu :action FindUsages<CR>
+nnoremap gh :action ShowErrorDescription<CR>
 " nnoremap gu :action ShowUsages<CR>
 " nnoremap gu :action HighlightUsagesInFile<CR>
 
@@ -61,3 +62,13 @@ nnoremap <leader>U viwU
 nnoremap <leader>u viwu
 inoremap <leader>U <esc>viwU
 inoremap <leader>u <esc>viwu
+
+" tpope/vim-abolish Coercion
+nnoremap crc :action StringManipulation.ToCamelCaseAction<CR>
+nnoremap crm :action StringManipulation.ToPascalCaseAction<CR>
+nnoremap crs :action StringManipulation.ToSnakeCaseAction<CR>
+nnoremap cru :action StringManipulation.ToScreamingSnakeCaseAction<CR>
+nnoremap crk :action StringManipulation.ToHyphenCaseAction<CR>
+nnoremap cr. :action StringManipulation.ToDotStyleAction<CR>
+nnoremap cr<space> :action 
+nnoremap crt :action 
