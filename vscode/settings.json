@@ -5,25 +5,25 @@
     "editor.fontFamily": "OperatorMono Nerd Font, Menlo, Monaco, 'Courier New', monospace",
     "editor.minimap.enabled": false,
     "editor.renderIndentGuides": false,
+    "eslint.autoFixOnSave": true,
+    "eslint.run": "onSave",
+    "tslint.autoFixOnSave": false,
     "vim.leader": ";",
     "vim.useSystemClipboard": true,
     "vim.foldfix": true,
-    "eslint.autoFixOnSave": true,
-    "eslint.run": "onSave",
+    "vim.useCtrlKeys": false,
     "vim.otherModesKeyBindingsNonRecursive": [
       {
         "before": [
-          "<enter>",
-          ":"
+          "<CR>",
         ],
         "after": [
-          "d",
-          "d"
+          ":"
         ]
       },
       {
         "before": [
-          "coh"
+          "c", "o", "h"
         ],
         "after": [],
         "commands": [
