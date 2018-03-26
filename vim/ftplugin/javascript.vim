@@ -9,3 +9,6 @@ setlocal foldtext=IansFoldText()
 " syntastic
 let g:syntastic_javascript_closurecompiler_script = '/usr/local/bin/closure-compiler'
 let g:syntastic_javascript_checkers = ["eslint"]
+
+" deoplete
+let g:deoplete#complete_method = "omnifunc"

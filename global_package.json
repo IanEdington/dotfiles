@@ -10,6 +10,7 @@
     "js-beautify": "^1.7.5",
     "jscodeshift": "^0.4.0",
     "mustache": "^2.3.0",
+    "neovim": "^3.5.2",
     "node-gyp": "^3.6.2",
     "npm": "5.1.0",
     "postcss-cli": "^5.0.0",
@@ -20,7 +21,7 @@
     "react-svg-loader-cli": "^2.1.0",
     "simple-server": "^1.0.1",
     "svgo": "^1.0.3",
-    "typescript": "^2.4.2",
+    "typescript": "^2.7.2",
     "uglify-js": "^3.3.16",
     "yarn": ">=0.27.5"
   }

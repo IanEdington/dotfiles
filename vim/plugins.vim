@@ -43,10 +43,10 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'mileszs/ack.vim'
     let g:ackprg = 'ag --vimgrep --smart-case'
     cnoreabbrev ag Ack
-    cnoreabbrev aG Ack
-    cnoreabbrev Ag Ack
-    cnoreabbrev AG Ack
+    cnoreabbrev ack Ack
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    let g:deoplete#enable_at_startup = 1
+    let g:deoplete#disable_auto_complete = 1
 Plug 'scrooloose/syntastic' " linting
     let g:syntastic_mode_map={'mode': 'passive'}
     let g:syntastic_enable_signs=1
@@ -60,7 +60,6 @@ Plug 'scrooloose/syntastic' " linting
 Plug 'janko-m/vim-test' "testing use `;t`
     nnoremap <silent> <leader>t :TestFile<CR>
 Plug 'sbdchd/neoformat'
-    nnoremap = :Neoformat<CR>
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
     set updatetime=250
@@ -75,6 +74,17 @@ Plug 'octref/rootignore'
 " Plug 'jalvesaq/nvim-r' "r
 " Plug 'chrisbra/csv.vim'
 Plug 'sheerun/vim-polyglot'
+    let g:polyglot_disabled = ['javascript', 'typescript']
 " Java
 " Plug 'hsanson/vim-android'
 " Plug 'artur-shaik/vim-javacomplete2'
+" JavaSrcipt & TypeScript
+Plug 'pangloss/vim-javascript'
+Plug 'leafgarland/typescript-vim'
+" Plug 'mhartington/nvim-typescript', { 'do': ':UpdateRemotePlugins' }
+"     let g:nvim_typescript#javascript_support = 1
+Plug 'Shougo/vimproc.vim'
+Plug 'Quramy/tsuquyomi'
+    let g:tsuquyomi_javascript_support = 1
+    let g:tsuquyomi_disable_quickfix = 1
+    let g:syntastic_typescript_checkers = ['tsuquyomi'] " You shouldn't use 'tsc' checker.
