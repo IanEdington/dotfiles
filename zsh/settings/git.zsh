@@ -8,7 +8,7 @@ __git_files () {
 }
 
 alias gi='$EDITOR .gitignore'
-alias egs='$EDITOR `git status --short -- . | grep '"'"'^ \?[MR?]'"'"' | awk '"'"'{print $NF}'"'"'`'
+alias egs='$EDITOR `git status --short -- . | grep '"'"'^ \?[MAR?]'"'"' | awk '"'"'{print $NF}'"'"'`'
 alias egh='$EDITOR `git diff --name-only HEAD^`'
 
 # Git flow
