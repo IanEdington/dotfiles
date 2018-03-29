@@ -1,24 +1,35 @@
 {
     "workbench.colorTheme": "Solarized Dark",
     "editor.lineNumbers": "relative",
-    "editor.fontSize": 16,
+    "editor.fontSize": 20,
     "editor.fontFamily": "OperatorMono Nerd Font, Menlo, Monaco, 'Courier New', monospace",
     "editor.minimap.enabled": false,
     "editor.renderIndentGuides": false,
-    "eslint.autoFixOnSave": true,
     "eslint.run": "onSave",
-    "tslint.autoFixOnSave": false,
     "vim.leader": ";",
-    "vim.useSystemClipboard": true,
     "vim.foldfix": true,
     "vim.useCtrlKeys": false,
     "vim.otherModesKeyBindingsNonRecursive": [
       {
         "before": [
-          "<CR>",
+          "g", "w", "l"
         ],
-        "after": [
-          ":"
+        "after": [],
+        "commands": [
+          {
+            "command": "workbench.action.focusPreviousGroup"
+          }
+        ]
+      },
+      {
+        "before": [
+          "g", "w", "h"
+        ],
+        "after": [],
+        "commands": [
+          {
+            "command": "workbench.action.focusNextGroup"
+          }
         ]
       },
       {
@@ -29,6 +40,18 @@
         "commands": [
           {
             "command": ":nohl"
+          }
+        ]
+      },
+      {
+        "before": [
+          "="
+        ],
+        "after": [],
+        "commands": [
+          {
+            "command": "editor.action.formatDocument",
+            "args": []
           }
         ]
       }
