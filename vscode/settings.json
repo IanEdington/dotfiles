@@ -1,59 +1,133 @@
 {
-    "workbench.colorTheme": "Solarized Dark",
-    "editor.lineNumbers": "relative",
-    "editor.fontSize": 20,
-    "editor.fontFamily": "OperatorMono Nerd Font, Menlo, Monaco, 'Courier New', monospace",
-    "editor.minimap.enabled": false,
-    "editor.renderIndentGuides": false,
-    "eslint.run": "onSave",
-    "vim.leader": ";",
-    "vim.foldfix": true,
-    "vim.useCtrlKeys": false,
-    "vim.otherModesKeyBindingsNonRecursive": [
-      {
-        "before": [
-          "g", "w", "l"
-        ],
-        "after": [],
-        "commands": [
-          {
-            "command": "workbench.action.focusPreviousGroup"
-          }
-        ]
-      },
-      {
-        "before": [
-          "g", "w", "h"
-        ],
-        "after": [],
-        "commands": [
-          {
-            "command": "workbench.action.focusNextGroup"
-          }
-        ]
-      },
-      {
-        "before": [
-          "c", "o", "h"
-        ],
-        "after": [],
-        "commands": [
-          {
-            "command": ":nohl"
-          }
-        ]
-      },
-      {
-        "before": [
-          "="
-        ],
-        "after": [],
-        "commands": [
-          {
-            "command": "editor.action.formatDocument",
-            "args": []
-          }
-        ]
-      }
-    ],
+  "window.title": "${activeEditorLong}${separator}${rootName}",
+  "workbench.colorTheme": "Solarized Dark",
+  "editor.lineNumbers": "relative",
+  "editor.fontSize": 20,
+  "editor.fontFamily": "OperatorMono Nerd Font, Menlo, Monaco, 'Courier New', monospace",
+  "editor.minimap.enabled": false,
+  "editor.renderIndentGuides": false,
+  "vim.leader": ";",
+  "vim.foldfix": true,
+  "vim.useCtrlKeys": false,
+  "vim.easymotion": true,
+  "vim.otherModesKeyBindingsNonRecursive": [
+    {
+      "before": [
+        "<leader>",
+        "f",
+      ],
+      "after": [
+        "<leader>",
+        "<leader>",
+        "f"
+      ],
+    },
+    {
+      "before": [
+        "<leader>",
+        "F",
+      ],
+      "after": [
+        "<leader>",
+        "<leader>",
+        "F"
+      ],
+    },
+    {
+      "before": [
+        "u",
+      ],
+      "commands": [
+        {
+          "command": "undo"
+        }
+      ]
+    },
+    {
+      "before": [
+        "g",
+        "w",
+        "h"
+      ],
+      "commands": [
+        {
+          "command": "workbench.action.focusPreviousGroup"
+        }
+      ]
+    },
+    {
+      "before": [
+        "g",
+        "w",
+        "l"
+      ],
+      "commands": [
+        {
+          "command": "workbench.action.focusNextGroup"
+        }
+      ]
+    },
+    {
+      "before": [
+        "c",
+        "o",
+        "w"
+      ],
+      "commands": [
+        {
+          "command": "editor.action.toggleWordWrap"
+        }
+      ]
+    },
+    {
+      "before": [
+        "c",
+        "o",
+        "k"
+      ],
+      "after": [],
+      "commands": [
+        {
+          "command": "settings.cycle.colorTheme",
+        }
+      ]
+    },
+    {
+      "before": [
+        "c",
+        "o",
+        "h"
+      ],
+      "commands": [
+        {
+          "command": ":nohl"
+        }
+      ]
+    },
+    {
+      "before": [
+        "="
+      ],
+      "commands": [
+        {
+          "command": "editor.action.formatDocument",
+        }
+      ]
+    }
+  ],
+  "window.zoomLevel": -1,
+  "settings.cycle": [
+    {
+      "id": "colorTheme",
+      "values": [
+        {
+          "workbench.colorTheme": "Solarized Dark",
+        },
+        {
+          "workbench.colorTheme": "Solarized Light",
+        }
+      ]
+    }
+  ],
+  "explorer.confirmDelete": false,
 }
