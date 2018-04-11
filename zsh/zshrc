@@ -1,6 +1,6 @@
 # zshrc before
 if [[ -s "$HOME/.local/zsh/zshrc.before" ]]; then
-    source "${ZDOTDIR:-$HOME}/.local/zsh/zshrc.before"
+    source "$HOME/.local/zsh/zshrc.before"
 fi
 if [[ -s "${ZDOTDIR:-$HOME}/.zshrc.before" ]]; then
     source "${ZDOTDIR:-$HOME}/.zshrc.before"
@@ -22,4 +22,7 @@ for config_file ($HOME/.local/zsh/*.zsh) source $config_file;
 # zshrc after
 if [[ -s "${ZDOTDIR:-$HOME}/.zshrc.after" ]]; then
     source "${ZDOTDIR:-$HOME}/.zshrc.after"
+fi
+if [[ -s "$HOME/.local/zsh/zshrc.after" ]]; then
+    source "$HOME/.local/zsh/zshrc.after"
 fi
