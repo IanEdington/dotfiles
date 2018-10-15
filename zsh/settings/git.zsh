@@ -8,7 +8,7 @@ __git_files () {
 }
 
 alias gi='$EDITOR .gitignore'
-alias egs='code `git status --short -- . | grep '"'"'^ \?[MAR?]'"'"' | awk '"'"'{print $NF}'"'"'`'
+alias egs='$IDE `git status --short -- . | grep '"'"'^ \?[MAR?]'"'"' | awk '"'"'{print $NF}'"'"'`'
 alias egh='$EDITOR `git diff --name-only HEAD^`'
 
 # Git flow
@@ -66,13 +66,8 @@ alias gb="git branch -v"
 alias gpub="git recent-branches publish"
 alias gtr="git recent-branches track"
 alias gdmb="git branch --merged | grep -v "\*" | xargs -n 1 git branch -d"
-
-# Git Delete local and remote branch
-# http://stackoverflow.com/a/35324551/4301584
-function gitdelete(){
-    git push origin --delete $1
-    git branch -D $1
-}
+alias gbd="git branch -D -v"
+alias gbdr="git push origin --delete"
 
 # Merging
 alias gm="git merge"
@@ -84,6 +79,7 @@ alias gms="gm --squash"
 alias gcp="git cherry-pick -x"
 alias gunc="git uncommit"
 alias gca="gc --amend"
+alias gcae="gc --amend --no-edit"
 alias gcaa="gc --amend --reset-author"
 alias grs="git reset"
 alias grsh="grs --hard"
@@ -97,7 +93,6 @@ alias grv="git remote -v"
 alias grr="git remote rm"
 alias grad="git remote add"
 alias gf="git fetch --all --prune"
-alias gbd="git branch -D -v"
 
 # Staged and cached are the same thing
 alias gp="git push"

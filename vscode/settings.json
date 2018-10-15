@@ -7,7 +7,6 @@
   "editor.minimap.enabled": false,
   "editor.renderIndentGuides": false,
   "vim.leader": ";",
-  "vim.foldfix": true,
   "vim.useCtrlKeys": false,
   "vim.easymotion": true,
   "vim.otherModesKeyBindingsNonRecursive": [
@@ -130,4 +129,7 @@
     }
   ],
   "explorer.confirmDelete": false,
+  "jest.autoEnable": false,
+  "editor.codeActionsOnSave": {},
+  "auto-close-tag.fullMode": true,
 }

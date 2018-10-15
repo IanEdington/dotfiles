@@ -7,6 +7,7 @@ bindkey -v
 # set -o vi
 export EDITOR=vim
 export VISUAL=vim
+export IDE=idea
 
 # TODO change to cmd-< cmd->
 # bindkey '^a' beginning-of-line
