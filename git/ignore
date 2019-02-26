@@ -3,7 +3,6 @@
 .LSOverride
 
 # Editor files
-.idea
 .project
 .settings
 tags

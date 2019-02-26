@@ -17,9 +17,6 @@
 [diff]
     algorithm = patience
     # mnemonicprefix = true # might be useful once I understand git diff
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
 [format]
     pretty = format:%>|(18,trunc)%C(blue)%ad %C(yellow)%<(8)%h%C(green)%D %C(blue)%s %C(magenta)[%an]
 [include]
@@ -34,9 +31,6 @@
 [mergetool "mvimdiff"]
     cmd="mvim -c 'Gdiff' $MERGED"     # use fugitive.vim for 3-way merge
     keepbackup=false
-[mergetool "sourcetree"]
-	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
 [pull]
     rebase = preserve
 [push]

@@ -7,6 +7,7 @@ path=(
         /usr/{bin,sbin}
         /{bin,sbin}
         /opt/X11/bin
+        /usr/local/opt/mysql@5.7/bin
     )
 
 fpath=(

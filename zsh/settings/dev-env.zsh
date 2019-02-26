@@ -27,3 +27,5 @@ chmodweb () {
     find $@ -type d -exec chmod 755 {} \;
     find $@ -type f -exec chmod 644 {} \;
 }
+
+export HAXE_STD_PATH="/usr/local/lib/haxe/std"

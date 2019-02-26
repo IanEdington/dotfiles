@@ -6,8 +6,6 @@ set scrolloff=4
 set history=1000
 
 " line numbers
-set number
-set relativenumber
 
 " search
 set incsearch
@@ -70,5 +68,5 @@ nnoremap crs :action StringManipulation.ToSnakeCaseAction<CR>
 nnoremap cru :action StringManipulation.ToScreamingSnakeCaseAction<CR>
 nnoremap crk :action StringManipulation.ToHyphenCaseAction<CR>
 nnoremap cr. :action StringManipulation.ToDotStyleAction<CR>
-nnoremap cr<space> :action 
-nnoremap crt :action 
+nnoremap cr<space> :action
+nnoremap crt :action

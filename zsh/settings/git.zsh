@@ -3,9 +3,9 @@ alias git='noglob git'
 # alias stree='/Applications/SourceTree.app/Contents/Resources/stree'
 
 # Makes git auto completion faster favouring for local completions
-__git_files () {
-    _wanted files expl 'local files' _files
-}
+# __git_files () {
+#     _wanted files expl 'local files' _files
+# }
 
 alias gi='$EDITOR .gitignore'
 alias egs='$IDE `git status --short -- . | grep '"'"'^ \?[MAR?]'"'"' | awk '"'"'{print $NF}'"'"'`'
@@ -39,12 +39,13 @@ alias guns="git unstage"
 # Git Commit
 alias gc="git commit"
 alias gcm="gc -m"
+alias gct="ga . && gc -m temp --no-verify"
 alias gcam="ga -A && gc -m"
 
 # Git View
 alias gs="git status"
 alias gsh="git show"
-alias gl="gldog | head"
+alias gl="git --no-pager log --decorate --graph --color=always | head"
 alias gll="gladog"
 alias gladog="gldog --all"
 alias gldog="git log --decorate --graph"
@@ -61,8 +62,9 @@ alias gsta="gst apply"
 
 # Git Branch
 alias gco="git checkout"
+alias gcoom="gco origin/master"
 alias gbn="gco -b" # new branch aka checkout -b
-alias gb="git branch -v"
+alias gb="git --no-pager branch -v --sort=-committerdate"
 alias gpub="git recent-branches publish"
 alias gtr="git recent-branches track"
 alias gdmb="git branch --merged | grep -v "\*" | xargs -n 1 git branch -d"
