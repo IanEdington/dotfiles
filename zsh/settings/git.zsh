@@ -68,6 +68,7 @@ alias gb="git --no-pager branch -v --sort=-committerdate"
 alias gpub="git recent-branches publish"
 alias gtr="git recent-branches track"
 alias gdmb="git branch --merged | grep -v "\*" | xargs -n 1 git branch -d"
+alias gbdg="gcoom && git branch -vv | grep ': gone]' | grep -v '^*' | awk '{ print \$1 }' | xargs -n 1 git branch -D"
 alias gbd="git branch -D -v"
 alias gbdr="git push origin --delete"
 

@@ -3,6 +3,7 @@ path=(
         /usr/local/opt/coreutils/libexec/gnubin
         $HOME/.dotfiles/bin
         /usr/local/{bin,sbin}
+        $HOME/.yarn/bin
         $HOME/.config/yarn/global/node_modules/.bin
         /usr/{bin,sbin}
         /{bin,sbin}
