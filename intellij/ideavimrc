@@ -19,10 +19,10 @@ nnoremap se :action SearchEverywhere<CR>
 nnoremap pwf :action CopyReference<CR> " path to working file
 
 " move
-nnoremap gwk :action VimWindowUp<CR>
-nnoremap gwj :action VimWindowDown<CR>
-nnoremap gwh :action VimWindowLeft<CR>
-nnoremap gwl :action VimWindowRight<CR>
+nnoremap gwk :action NextSplitter<CR>
+nnoremap gwj :action NextSplitter<CR>
+nnoremap gwh :action NextSplitter<CR>
+nnoremap gwl :action NextSplitter<CR>
 
 nnoremap gwq :action VimWindowClose<CR>
 nnoremap gwo :action VimWindowOnly<CR>
