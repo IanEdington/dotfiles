@@ -11,18 +11,6 @@ alias gi='$EDITOR .gitignore'
 alias egs='$IDE `git status --short -- . | grep '"'"'^ \?[MAR?]'"'"' | awk '"'"'{print $NF}'"'"'`'
 alias egh='$EDITOR `git diff --name-only HEAD^`'
 
-# Git flow
-alias gfi="git flow init"
-alias gff="git flow feature"
-alias gffs="gff start"
-alias gfff="gff finish"
-alias gffr="gff rebase"
-alias gffp="gff publish"
-alias gfr="git flow release"
-alias gfv="git flow version"
-alias gfx="git flow hotfix"
-alias gfs="git flow support"
-
 # Git Add
 #alias ga="git add"
 function ga() {
