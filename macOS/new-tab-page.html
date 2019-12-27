@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Faire Quick Links</title>
+    <style type="text/css">
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        font-family: sans-serif;
+        font-size: 1.7em;
+      }
+
+      .expand-evenly {
+        flex: 1 0 0px;
+      }
+
+      .column {
+        display: flex;
+        flex-direction: column;
+        padding-left: 0.5em;
+        padding-right: 0.5em;
+      }
+
+      .row {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+      }
+
+      .main-column {
+        padding-top: 5vh;
+        max-width: 60vw;
+        margin: 0 auto;
+      }
+
+      h1,
+      h2 {
+        text-align: center;
+      }
+
+      ul {
+        list-style-type: none;
+        text-align: center;
+        padding: 0;
+        margin: 0;
+      }
+
+      li {
+        margin-bottom: 0.4em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="column main-column">
+      <h1>🔗</h1>
+      <div class="row">
+        <div class="column expand-evenly">
+          <h2>local</h2>
+          <ul id="local-list"></ul>
+        </div>
+        <div class="column expand-evenly">
+          <h2>stage</h2>
+          <ul id="stage-list"></ul>
+        </div>
+        <div class="column expand-evenly">
+          <h2>prod</h2>
+          <ul id="prod-list"></ul>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript">
+      const autorun = () => {
+        "use strict";
+
+        const allPaths = [
+          { path: "/admin", name: "admin", includeToken: true },
+          { path: "/internal/settings", name: "settings", includeToken: true },
+          { path: "/user/logout", name: "logout", includeToken: false },
+          '{{SIGN_UP_LINK}}',
+          '{{RELEASES_LINK}}'
+        ];
+
+        const stagingOnlyPaths = '{{STAGE_ONLY_PATHS}}';
+
+        const prodOnlyPaths = '{{PROD_ONLY_PATHS}}';
+
+        const localDomain = "http://localhost:3000";
+        const stageDomain = "https://www.faire-stage.com";
+        const prodDomain = "https://www.faire.com";
+
+        const getInnerHtml = (paths, domain, iflt) =>
+          paths
+            .map(
+              ({ path, name, includeToken }) =>
+                `<li><a href="${domain}${path}${
+                  includeToken ? `?iflt=${iflt}` : ""
+                }">${name}</a></li>`
+            )
+            .join("\n");
+
+        const localList = document.querySelector("#local-list");
+        const stageList = document.querySelector("#stage-list");
+        const prodList = document.querySelector("#prod-list");
+
+        const stagingIFLT = "";
+        const prodIFLT = "";
+
+        localList.innerHTML = getInnerHtml(
+          allPaths.concat(stagingOnlyPaths),
+          localDomain,
+          stagingIFLT
+        );
+        stageList.innerHTML = getInnerHtml(
+          allPaths.concat(stagingOnlyPaths),
+          stageDomain,
+          stagingIFLT
+        );
+        prodList.innerHTML = getInnerHtml(
+          allPaths.concat(prodOnlyPaths),
+          prodDomain,
+          prodIFLT
+        );
+      };
+      if (document.addEventListener)
+        document.addEventListener("DOMContentLoaded", autorun, false);
+      else if (document.attachEvent)
+        document.attachEvent("onreadystatechange", autorun);
+      else window.onload = autorun;
+    </script>
+  </body>
+</html>

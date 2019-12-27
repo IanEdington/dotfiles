@@ -1,6 +1,3 @@
-# .inputrc
-dotfiles::symlink_files ~/.dotfiles/zsh/inputrc ~/.inputrc
-
 # setup .zsh
 dotfiles::symlink_files ~/.dotfiles/zsh ~/.zsh
 dotfiles::symlink_files ~/.dotfiles/zsh/zshenv ~/.zshenv

@@ -27,7 +27,7 @@ defaults write NSGlobalDomain AppleMetricUnits -bool true
 
 # Power Settings
 # Destroy FileVault key when sleep, force hibernation and modify standby and power nap settings.
-sudo pmset DestroyFVKeyOnStandby 1
+sudo pmset -a DestroyFVKeyOnStandby 1
 sudo pmset -a hibernatemode 3
 sudo pmset -a powernap 0
 sudo pmset -a standby 1
@@ -178,7 +178,7 @@ echo "line 173"
 
 # ScreenShots
 # Save screenshots to the desktop
-defaults write com.apple.screencapture location -string "${HOME}/Downloads"
+defaults write com.apple.screencapture location -string "${HOME}/screenshots"
 # Save screenshots in PNG format (other options: BMP, GIF, JPG, PDF, TIFF)
 defaults write com.apple.screencapture type -string "jpg"
 # Disable shadow in screenshots
