@@ -42,10 +42,12 @@ let s:colorschemetoggle=0
 function! s:fold_column_toggle()
     if s:colorschemetoggle
         let s:colorschemetoggle=0
-        colorscheme solarized8_light_flat
+        set background=light
+        colorscheme solarized8_high
     else
         let s:colorschemetoggle=1
-        colorscheme solarized8_dark_flat
+        set background=dark
+        colorscheme solarized8_flat
     endif
 endfunction
 
