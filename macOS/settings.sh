@@ -56,7 +56,8 @@ sudo nvram SystemAudioVolume=%80
 defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 # Set prefered trackpad & mouse speed
-defaults write -g com.apple.trackpad.scaling 3
+defaults write -g com.apple.trackpad.scaling 1.5
+defaults -currentHost write NSGlobalDomain com.apple.trackpad.scaling 1.5
 defaults write -g com.apple.mouse.scaling 3
 # Trackpad: two finger right click
 defaults -currentHost write NSGlobalDomain com.apple.trackpad.enableSecondaryClick -bool true
