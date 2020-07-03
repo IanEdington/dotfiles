@@ -27,7 +27,7 @@ alias guns="git unstage"
 # Git Commit
 alias gc="git commit"
 alias gcm="gc -m"
-alias gct="ga . && gc -m temp --no-verify"
+alias gct="gc -m temp --no-verify"
 alias gcam="ga -A && gc -m"
 
 # Git View

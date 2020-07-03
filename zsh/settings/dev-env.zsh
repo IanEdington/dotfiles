@@ -4,15 +4,7 @@ fpath=(
         $fpath
     )
 
-autoload -Uz dev-android
-autoload -Uz dev-php
-autoload -Uz dev-js
-autoload -Uz dev-docker
-autoload -Uz dev-node
-autoload -Uz dev-python
-autoload -Uz dev-ruby
-autoload -Uz dev-gcp
-autoload -Uz dev-vagrant
+for dev_file ($HOME/.zsh/dev-env/*) autoload -Uz $(basename $dev_file)
 
 # MongoDB
 #alias mongodev='mongod --dbpath ~/.env/mongodb/data/'
