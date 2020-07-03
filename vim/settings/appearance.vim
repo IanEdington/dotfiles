@@ -33,8 +33,8 @@ set statusline+=%m
 set statusline+=%r
 set statusline+=%w " preview window flag
 set statusline+=%= " Expanding Space
-set statusline+=\ b%n " Current and Total Lines
-set statusline+=\ %4l/%-4L " Current and Total Lines
+set statusline+=\ b%n " Current buffer
+set statusline+=\ %4c/%l/%-4L " Current and Total Lines
 set statusline+=\ %P " Percent Through Document
 
 " Toggle ColorScheme
