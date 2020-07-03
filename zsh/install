@@ -1,15 +1,11 @@
 # setup .zsh
 dotfiles::symlink_files ~/.dotfiles/zsh ~/.zsh
 dotfiles::symlink_files ~/.dotfiles/zsh/zshenv ~/.zshenv
-dotfiles::symlink_files ~/.zsh/zshrc ~/.zsh/.zshrc
 
 # download prezto
 dotfiles::install_from_github https://github.com/sorin-ionescu/prezto.git ~/.zsh/.zprezto
 
-# setopt EXTENDED_GLOB
-for rcfile_path in ~/.zsh/.zprezto/runcoms/*; do
-    rcfile=$(basename "$rcfile_path")
-    if [[ $rcfile != zshrc && $rcfile != README.md ]]; then
-        dotfiles::symlink_files $rcfile_path ~/.zsh/.$rcfile
-    fi
+# install zprezto runcoms
+for runcom in "zlogin", "zlogout"; do
+    dotfiles::symlink_files ~/.zsh/.zprezto/runcoms/$runcom ~/.zsh/.$runcom
 done

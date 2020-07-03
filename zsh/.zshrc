@@ -6,9 +6,9 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zshrc.before" ]]; then
     source "${ZDOTDIR:-$HOME}/.zshrc.before"
 fi
 
-# Source Prezto's zshrc
-if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/runcoms/zshrc" ]]; then
-  source "${ZDOTDIR:-$HOME}/.zprezto/runcoms/zshrc"
+# initialize Prezto
+if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 else
   echo "Prezto is not installed"
 fi

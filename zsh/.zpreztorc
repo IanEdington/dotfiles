@@ -1,0 +1,63 @@
+ZPREZTORC_ROOT="${ZDOTDIR:-$HOME}/.zprezto/runcoms/zpreztorc"
+if [[ -s $ZPREZTORC_ROOT ]]; then
+  source $ZPREZTORC_ROOT
+else
+  echo "Error: zpreztorc runcom can't be found"
+fi
+
+#
+# General
+#
+
+# Set case-sensitivity for completion, history lookup, etc.
+zstyle ':prezto:*:*' case-sensitive 'no'
+
+# Set the Prezto modules to load (browse modules).
+# The order matters.
+zstyle ':prezto:load' pmodule \
+  'environment' \
+  'terminal' \
+  'editor' \
+  'history' \
+  'directory' \
+  'spectrum' \
+  'utility' \
+  'completion' \
+  'archive' \
+  'fasd' \
+  'git' \
+  'osx' \
+  'ruby' \
+  'syntax-highlighting' \
+  'history-substring-search' \
+  'ssh' \
+  'prompt'
+
+#
+# Editor
+#
+
+# Set the key mapping style to 'emacs' or 'vi'.
+zstyle ':prezto:module:editor' key-bindings 'vi'
+
+#
+# SSH
+#
+
+# Enable ssh-agent forwarding.
+# zstyle ':prezto:module:ssh-agent' forwarding 'yes'
+
+#
+# Terminal
+#
+
+# Auto set the tab and window titles.
+zstyle ':prezto:module:terminal' auto-title 'yes'
+
+#
+# Tmux
+#
+
+# Auto start a session when Zsh is launched.
+zstyle ':prezto:module:tmux' auto-start 'yes'
+
