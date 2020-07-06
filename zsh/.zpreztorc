@@ -6,6 +6,16 @@ else
 fi
 
 #
+# prompt
+#
+zstyle ':prezto:module:prompt' theme 'paradox'
+
+zstyle ':prezto:module:prompt' pwd-length 'short'
+# Tell prezto we can manage this prompt
+zstyle ':prezto:module:prompt' managed 'yes'
+
+
+#
 # General
 #
 
@@ -26,8 +36,8 @@ zstyle ':prezto:load' pmodule \
   'archive' \
   'fasd' \
   'git' \
+  'python' \
   'osx' \
-  'ruby' \
   'syntax-highlighting' \
   'history-substring-search' \
   'ssh' \
@@ -60,4 +70,11 @@ zstyle ':prezto:module:terminal' auto-title 'yes'
 
 # Auto start a session when Zsh is launched.
 zstyle ':prezto:module:tmux' auto-start 'yes'
+
+
+#
+# Python
+#
+zstyle ':prezto:module:python' skip-virtualenvwrapper-init 'on'
+zstyle ':prezto:module:python' conda-init 'on'
 
