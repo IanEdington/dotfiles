@@ -33,14 +33,19 @@ alias gcam="ga -A && gc -m"
 # Git View
 alias gs="git status"
 alias gsh="git show"
-alias gl="git --no-pager log --decorate --graph --color=always | head"
-alias gll="gladog"
-alias gladog="gldog --all"
-alias gldog="git log --decorate --graph"
-alias gli="git log -1 HEAD"
+
 alias gd="git diff"
 alias gdc="gd --cached -w"
 alias gds="gd --staged -w"
+
+# git log
+local GIT_LOG_FORMAT="format:%>|(18,trunc)%C(blue)%ad %C(yellow)%<(8)%h%C(green)%D %C(blue)%s %C(magenta)[%an]"
+local GIT_LOG="log --decorate --graph --format=\"$GIT_LOG_FORMAT\""
+alias gl="git --no-pager $GIT_LOG --color=always  | head"
+alias gll="gladog"
+alias gladog="gldog --all"
+alias gldog="git $GIT_LOG"
+alias gli="git log -1 HEAD"
 
 # Git Stash
 alias gst="git stash"
