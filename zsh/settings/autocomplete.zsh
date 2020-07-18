@@ -1,3 +1,5 @@
 autoload bashcompinit
 bashcompinit
-complete -C /usr/local/bin/terraform terraform
+complete -C terraform terraform
+complete -C aws_completer aws
+
