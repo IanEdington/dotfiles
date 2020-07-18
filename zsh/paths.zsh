@@ -10,11 +10,13 @@ path=(
         /{bin,sbin}
         /opt/X11/bin
         /usr/local/opt/mysql@5.7/bin
+        $HOME/opt/miniconda3/bin
     )
 
 fpath=(
         /usr/local/share/zsh-completions
         ${ZDOTDIR:-$HOME}/prezto-themes
+        ${ZDOTDIR:-$HOME}/completions
         ${ZDOTDIR:-$HOME}/.zsh.prompts
         $fpath
     )

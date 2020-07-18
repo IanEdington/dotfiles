@@ -6,6 +6,8 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zshrc.before" ]]; then
     source "${ZDOTDIR:-$HOME}/.zshrc.before"
 fi
 
+source "${ZDOTDIR:-$HOME}/paths.zsh"
+
 # initialize Prezto
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
