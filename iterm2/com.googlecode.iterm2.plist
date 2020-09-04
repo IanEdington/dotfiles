@@ -20,6 +20,8 @@
 	</array>
 	<key>Default Bookmark Guid</key>
 	<string>AD46FBEF-CCAE-4486-ACFB-3BCD3920E40D</string>
+	<key>HapticFeedbackForEsc</key>
+	<false/>
 	<key>HotkeyMigratedFromSingleToMulti</key>
 	<true/>
 	<key>LoadPrefsFromCustomFolder</key>
@@ -74,7 +76,7 @@
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>362 336 620 392 0 0 1344 840 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>480 503 810 577 0 0 1344 840 </string>
+	<string>534 202 810 577 0 0 1344 840 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>342 110 810 577 0 0 1152 720 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
@@ -728,28 +730,33 @@
 			<key>Visual Bell</key>
 			<true/>
 			<key>Window Type</key>
-			<integer>0</integer>
+			<integer>1</integer>
 			<key>Working Directory</key>
 			<string>/Users/admin</string>
 		</dict>
 	</array>
 	<key>NoSyncAllAppVersions</key>
 	<array>
-		<string>3.3.6</string>
-		<string>3.3.7</string>
+		<string>3.3.9</string>
 		<string>3.3.8</string>
+		<string>3.3.11</string>
+		<string>3.3.7</string>
+		<string>3.3.12</string>
+		<string>3.3.6</string>
 	</array>
+	<key>NoSyncCommandHistoryHasEverBeenUsed</key>
+	<true/>
 	<key>NoSyncFrame_SharedPreferences</key>
 	<dict>
 		<key>screenFrame</key>
-		<string>{{0, 0}, {1152, 720}}</string>
+		<string>{{0, 0}, {1344, 840}}</string>
 		<key>topLeft</key>
-		<string>{63, 651}</string>
+		<string>{176, 789}</string>
 	</dict>
 	<key>NoSyncInstallationId</key>
 	<string>14144C4F-DF06-4759-B0B1-7524E9AA6F9A</string>
 	<key>NoSyncLaunchExperienceControllerRunCount</key>
-	<integer>12</integer>
+	<integer>28</integer>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile</key>
 	<true/>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile_selection</key>
@@ -1086,6 +1093,14 @@
 				<key>isTerminal</key>
 				<true/>
 				<key>name</key>
+				<string>currentTab.currentSession.jobPid</string>
+				<key>nonterminalContext</key>
+				<integer>0</integer>
+			</dict>
+			<dict>
+				<key>isTerminal</key>
+				<true/>
+				<key>name</key>
 				<string>frame</string>
 				<key>nonterminalContext</key>
 				<integer>0</integer>
@@ -1111,6 +1126,22 @@
 				<true/>
 				<key>name</key>
 				<string>currentTab.currentSession.terminalIconName</string>
+				<key>nonterminalContext</key>
+				<integer>0</integer>
+			</dict>
+			<dict>
+				<key>isTerminal</key>
+				<true/>
+				<key>name</key>
+				<string>currentTab.currentSession.terminalWindowName</string>
+				<key>nonterminalContext</key>
+				<integer>0</integer>
+			</dict>
+			<dict>
+				<key>isTerminal</key>
+				<true/>
+				<key>name</key>
+				<string>currentTab.currentSession.lastCommand</string>
 				<key>nonterminalContext</key>
 				<integer>0</integer>
 			</dict>
@@ -1510,15 +1541,21 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2020-02-16T15:28:07Z</date>
+	<date>2020-07-27T13:06:32Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
+	<key>SUSkippedVersion</key>
+	<string>3.3.12</string>
 	<key>SUUpdateGroupIdentifier</key>
-	<integer>1573910708</integer>
+	<integer>3340422223</integer>
 	<key>SUUpdateRelaunchingMarker</key>
-	<true/>
+	<false/>
+	<key>SoundForEsc</key>
+	<false/>
 	<key>TabStyle</key>
 	<integer>3</integer>
+	<key>VisualIndicatorForEsc</key>
+	<false/>
 	<key>WordCharacters</key>
 	<string>/-+\~_.</string>
 	<key>findIgnoreCase_iTerm</key>
@@ -1528,6 +1565,6 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>3.3.8</string>
+	<string>3.3.12</string>
 </dict>
 </plist>

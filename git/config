@@ -21,6 +21,7 @@
     path = ~/.gitconfig.user
     path = ~/.config/git/user
     path = ~/.local/git/user
+    path = ~/.local/git/config
 [log]
     date = relative
 [merge]
@@ -115,3 +116,5 @@
 	process = git-lfs filter-process
 	required = true
 	clean = git-lfs clean -- %f
+[credential]
+	helper = osxkeychain

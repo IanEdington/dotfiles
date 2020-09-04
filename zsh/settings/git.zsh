@@ -42,9 +42,8 @@ alias gds="gd --staged -w"
 local GIT_LOG_FORMAT="format:%>|(18,trunc)%C(blue)%ad %C(yellow)%<(8)%h%C(green)%D %C(blue)%s %C(magenta)[%an]"
 local GIT_LOG="log --decorate --graph --format=\"$GIT_LOG_FORMAT\""
 alias gl="git --no-pager $GIT_LOG --color=always  | head"
-alias gll="gladog"
-alias gladog="gldog --all"
-alias gldog="git $GIT_LOG"
+alias gll="git $GIT_LOG --branches"
+alias glla="git $GIT_LOG --all"
 alias gli="git log -1 HEAD"
 
 # Git Stash

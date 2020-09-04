@@ -41,8 +41,8 @@ nnoremap [e ddkP
 nnoremap ]e ddp
 nnoremap [m :action MethodUp<CR>
 nnoremap ]m :action MethodDown<CR>
-nnoremap [c :action VcsShowPrevChangeMarker<CR>
 nnoremap ]c :action VcsShowNextChangeMarker<CR>
+nnoremap [c :action VcsShowPrevChangeMarker<CR>
 
 " toggle options
 nnoremap cow :action EditorToggleUseSoftWraps<CR>
@@ -53,8 +53,6 @@ nnoremap cor :set relativenumber!<CR>
 nnoremap cos :set relativenumber!<CR>
 
 
-noremap <CR> :
-
 " change word case
 nnoremap <leader>U viwU
 nnoremap <leader>u viwu
@@ -62,10 +60,10 @@ inoremap <leader>U <esc>viwU
 inoremap <leader>u <esc>viwu
 
 " tpope/vim-abolish Coercion
-nnoremap crc :action StringManipulation.ToCamelCaseAction<CR>
-nnoremap crm :action StringManipulation.ToPascalCaseAction<CR>
-nnoremap crs :action StringManipulation.ToSnakeCaseAction<CR>
-nnoremap cru :action StringManipulation.ToScreamingSnakeCaseAction<CR>
+nnoremap crc :action StringManipulation.ToCamelCase<CR>
+nnoremap crm :action StringManipulation.ToPascalCaseOrCamelCase<CR>
+nnoremap crs :action StringManipulation.ToSnakeCaseOrCamelCase<CR>
+" nnoremap cru :action StringManipulation.ToScreamingSnakeCaseAction<CR>
 nnoremap crk :action StringManipulation.ToHyphenCaseAction<CR>
 nnoremap cr. :action StringManipulation.ToDotStyleAction<CR>
 nnoremap cr<space> :action
