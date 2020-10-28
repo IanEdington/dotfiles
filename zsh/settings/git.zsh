@@ -44,7 +44,11 @@ local GIT_LOG="log --decorate --graph --format=\"$GIT_LOG_FORMAT\""
 alias gl="git --no-pager $GIT_LOG --color=always  | head"
 alias gll="git $GIT_LOG --branches"
 alias glla="git $GIT_LOG --all"
+alias gllr="git $GIT_LOG"
 alias gli="git log -1 HEAD"
+
+# git search
+alias gpickaxe="git log -p -S"
 
 # Git Stash
 alias gst="git stash"
@@ -55,12 +59,13 @@ alias gsta="gst apply"
 # Git Branch
 alias gco="git checkout"
 alias gcoom="gco origin/master"
+alias gcoog="gco origin/green"
 alias gbn="gco -b" # new branch aka checkout -b
 alias gb="git --no-pager branch -v --sort=-committerdate"
 alias gpub="git recent-branches publish"
 alias gtr="git recent-branches track"
 alias gdmb="git branch --merged | grep -v "\*" | xargs -n 1 git branch -d"
-alias gbdg="gcoom && git branch -vv | grep ': gone]' | grep -v '^*' | awk '{ print \$1 }' | xargs -n 1 git branch -D"
+alias gbdg="gf && gcoom && git branch -vv | grep ': gone]' | grep -v '^*' | awk '{ print \$1 }' | xargs -n 1 git branch -D"
 alias gbd="git branch -D -v"
 alias gbdr="git push origin --delete"
 
@@ -80,6 +85,7 @@ alias grs="git reset"
 alias grsh="grs --hard"
 alias gr="git rebase"
 alias grom="git rebase origin/master"
+alias grog="git rebase origin/green"
 alias gra="gr --abort"
 alias ggrc="gr --continue"
 alias gbi="gr --interactive"
