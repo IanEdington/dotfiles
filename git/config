@@ -118,3 +118,5 @@
 	clean = git-lfs clean -- %f
 [credential]
 	helper = osxkeychain
+[difftool]
+	prompt = false

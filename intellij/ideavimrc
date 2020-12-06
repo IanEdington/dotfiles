@@ -68,3 +68,6 @@ nnoremap crk :action StringManipulation.ToHyphenCaseAction<CR>
 nnoremap cr. :action StringManipulation.ToDotStyleAction<CR>
 nnoremap cr<space> :action
 nnoremap crt :action
+
+" tpope/vim-commentary
+Plug 'tpope/vim-commentary'
