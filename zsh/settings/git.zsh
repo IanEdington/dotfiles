@@ -58,7 +58,7 @@ alias gsta="gst apply"
 
 # Git Branch
 alias gco="git checkout"
-alias gcoom="gco origin/master"
+alias gcoom="gco origin/HEAD"
 alias gcoog="gco origin/green"
 alias gbn="gco -b" # new branch aka checkout -b
 alias gb="git --no-pager branch -v --sort=-committerdate"
@@ -94,7 +94,7 @@ alias gbi="gr --interactive"
 alias grv="git remote -v"
 alias grr="git remote rm"
 alias grad="git remote add"
-alias gf="git fetch --all --prune"
+alias gf="git fetch --prune"
 
 # Staged and cached are the same thing
 alias gp="git push"
