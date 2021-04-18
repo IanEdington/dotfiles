@@ -1,0 +1,10 @@
+[
+  {
+    "command": "toggleSideBar",
+    "accelerator": "Cmd+1"
+  },
+  {
+    "command": "toggleNoteList",
+    "accelerator": "Cmd+2"
+  }
+]

@@ -18,9 +18,6 @@
     algorithm = patience
     # mnemonicprefix = true # might be useful once I understand git diff
 [include]
-    path = ~/.gitconfig.user
-    path = ~/.config/git/user
-    path = ~/.local/git/user
     path = ~/.local/git/config
 [log]
     date = relative
@@ -120,10 +117,3 @@
 	helper = osxkeychain
 [difftool]
 	prompt = false
-[advice]
-	detachedHead = false
-[init]
-	defaultBranch = main
-[user]
-	name = Ian Edington
-	email = IanEdington@gmail.com

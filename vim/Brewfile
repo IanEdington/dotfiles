@@ -4,11 +4,8 @@
 brew 'neovim'
 
 # plugin requirments
-brew 'cmake' # YouCompleteMe
-brew 'go'
-brew 'mono'
-brew 'rust'
+# brew 'cmake' # YouCompleteMe
 brew 'editorconfig' # editorconfig
-brew 'pandoc' # vim-pandoc
-brew 'checkstyle' # syntastic java checker
+# brew 'pandoc' # vim-pandoc
+# brew 'checkstyle' # syntastic java checker
 brew 'ctags' # tag jumping vim

@@ -2,7 +2,6 @@
 ## open Font
 open Inconsolata\ for\ Powerline.otf
 
-## install shell integration and utilities
-curl -L https://iterm2.com/misc/install_shell_integration_and_utilities.sh | bash
-
-echo "\nMake sure you `.dotfiles/iterm2` to your iterm preferences\n"
+echo ""
+echo "#TODO: link the settings to sync with com.googlecode.iterm2.plist"
+echo ""

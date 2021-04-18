@@ -1,16 +1,37 @@
-brew "mas"
+cask "caffeine"
+cask "grandperspective"
 
-mas "1Password", id: 443987910
-mas "ActivityTimer", id: 808647808
-mas "ChronoMate", id: 472416858
-mas "Evernote", id: 406056744
-mas "GIPHY CAPTURE", id: 668208984
-mas "Install macOS Sierra", id: 1127487414
-mas "Install OS X El Capitan", id: 1018109117
-mas "Install OS X Mavericks", id: 675248567
-mas "Install OS X Yosemite", id: 915041082
-mas "Slack", id: 803453959
-mas "Telegram", id: 747648890
-mas "The Unarchiver", id: 425424353
-mas "WhatsApp", id: 1147396723
-mas "Xcode", id: 497799835
+cask "itsycal"
+cask "meetingbar"
+cask "karabiner-elements"
+
+cask "vlc"
+
+# TODO try to get quicklook working
+# cask "qlcolorcode"
+# cask "qlmarkdown"
+# cask "qlprettypatch"
+# cask "qlstephen"
+# cask "qlvideo"
+# cask "qlcolorcode"
+# cask "qlimagesize"
+# cask "qlmarkdown"
+# cask "qlprettypatch"
+# cask "qlstephen"
+# cask "qlvideo"
+# cask "quicklook-csv"
+# cask "quicklook-json"
+# cask "quicklookase"
+# cask "quicklook-csv"
+# cask "quicklook-json"
+# cask "quicklookase"
+# cask "webpquicklook"
+# cask "suspicious-package"
+
+# TODO see about color picker
+# cask "colorpicker-antetype"
+# cask "colorpicker-developer"
+# cask "colorpicker-hex"
+# cask "colorpicker-propicker"
+# cask "colorpicker-rcwebcolorpicker"
+# cask "colorpicker-skalacolor"

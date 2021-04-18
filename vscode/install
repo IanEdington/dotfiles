@@ -1,0 +1,3 @@
+dotfiles::symlink_files ~/.dotfiles/vscode/settings.json $HOME/Library/Application\ Support/Code/User/settings.json
+dotfiles::symlink_files ~/.dotfiles/vscode/snippets $HOME/Library/Application\ Support/Code/User/snippets
+

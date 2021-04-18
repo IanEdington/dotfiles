@@ -1,6 +1,5 @@
 # path, the 0 in the filename causes this to load first
 path=(
-        /usr/local/opt/coreutils/libexec/gnubin
         $HOME/.dotfiles/bin
         /usr/local/opt/python/libexec/bin
         /usr/local/{bin,sbin}
@@ -22,6 +21,6 @@ fpath=(
     )
 
 manpath=(
-        /usr/local/share/man
         $manpath
+        /usr/local/share/man
     )

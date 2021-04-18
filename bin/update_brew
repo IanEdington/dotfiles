@@ -5,7 +5,8 @@ which -s brew
 if [[ $? == 0 ]] ; then
     brew update
 else
-    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    echo "could not find homebrew"
+    exit 1
 fi
 
 # concatenate all Brewfiles and make sure they're installed
@@ -21,8 +22,6 @@ done
 brew bundle -v --file=$Brewfile_path
 brew upgrade
 brew cleanup
-brew cask cleanup
-brew prune
 brew doctor
 
 # Dump into temp folder

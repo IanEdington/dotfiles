@@ -5,20 +5,11 @@
 sudo softwareupdate -i -a
 
 # HomeBrew
-update.brew
-
-# Python
-pip2 install --upgrade pip
-pip2 freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip install -U
-pip3 install --upgrade pip
-pip3 freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip3 install -U
+update_brew
 
 # Vim
 vim +PlugInstall
 vim +PlugUpdate
-
-# JavaScript
-yarn global upgrade
 
 # Remove duplicates in the “Open With” menu (also see `lscleanup` alias)
 /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user

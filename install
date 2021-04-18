@@ -91,7 +91,7 @@ echo "dotfiles root " $DOTFILES_ROOT
 # in case people want to use commands in their scripts
 export PATH=/usr/local/sbin:$HOME/.dotfiles/bin:$PATH
 # Install brew
-update.brew
+update_brew
 # add brew's zsh and bash to the "acceptable shells" file
 echo "$(brew --prefix)/bin/bash" | sudo tee -a /etc/shells
 echo "$(brew --prefix)/bin/zsh" | sudo tee -a /etc/shells
@@ -108,23 +108,12 @@ xcode-select --install > /dev/null
 sudo xcodebuild -license accept
 
 # SymLink
-# Local dotfiles
-mkdir -p ~/Local/dotfiles/config
-dotfiles::symlink_files ~/Local/dotfiles/config ~/.config
-dotfiles::symlink_files ~/.dotfiles/global_package.json ~/.config/yarn/global/package.json
-dotfiles::symlink_files ~/.dotfiles/karabiner.json ~/.config/karabiner/karabiner.json
-# Git
-dotfiles::symlink_files ~/.dotfiles/git/config ~/.config/git/config
-dotfiles::symlink_files ~/.dotfiles/git/ignore ~/.config/git/ignore
 # Other
 dotfiles::symlink_files ~/.dotfiles/inputrc ~/.inputrc
 dotfiles::symlink_files ~/.dotfiles/profile ~/.profile
 dotfiles::symlink_files ~/.dotfiles/intellij/ideavimrc ~/.ideavimrc
 dotfiles::symlink_files ~/.dotfiles/tmux/tmux.conf ~/.tmux.conf;
 dotfiles::symlink_files ~/.dotfiles/editorconfig ~/.editorconfig
-
-# yarn
-yarn global install
 
 # Install Scripts
 # Run install scripts for each folder in dotfiles/
@@ -144,5 +133,3 @@ for dir in */ ; do
     # append path.bash files to bash $PATH
     cd ~/.dotfiles
 done
-
-update.all

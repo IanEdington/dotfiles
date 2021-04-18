@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# yarn
+# TODO fix global installs
+# yarn global install
