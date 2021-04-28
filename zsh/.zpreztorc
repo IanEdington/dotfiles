@@ -77,3 +77,6 @@ zstyle ':prezto:module:tmux' auto-start 'yes'
 zstyle ':prezto:module:python' skip-virtualenvwrapper-init 'on'
 zstyle ':prezto:module:python' conda-init 'on'
 
+# git
+zstyle ':prezto:module:git:alias' skip 'yes'
+

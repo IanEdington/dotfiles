@@ -22,6 +22,9 @@ export IDE=idea
 # note: This can result in issues with other terminal commands that depended on this delay. If you have issues try raising the delay.
 export KEYTIMEOUT=1
 
+# ctrl-d does not exit the terminal session
+set -o ignoreeof
+
 bindkey '^P' up-history
 bindkey '^N' down-history
 bindkey '^?' backward-delete-char

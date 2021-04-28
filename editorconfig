@@ -10,7 +10,7 @@ indent_style = space
 indent_size = 4
 tab_width = 4
 
-[*.{yml,js,jsx,vimrc,vim,json,tf}]
+[*.{yml,js,jsx,vimrc,vim,json,tf,ts,tsx}]
 indent_size = 2
 
 [*.md]

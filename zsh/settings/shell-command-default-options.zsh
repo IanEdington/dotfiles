@@ -40,7 +40,7 @@ alias rm="echo Dont Fn touch this! Use 'tr', or the full path i.e. '/bin/rm'"
 
 
 # Preferred 'mv' implementation
-alias mv='mv -iv'
+alias mv='gmv -iv'
 # verbose and interactive
 # Preferred 'mkdir' implementation
 alias mkdir='mkdir -pv'
@@ -55,7 +55,7 @@ alias path='echo -e ${PATH//:/\\n}'
 alias fpath='echo -e ${FPATH//:/\\n}'
 # trash: Moves a file to the MacOS trash
 
-alias tr='mv --verbose -f --backup=numbered --target-directory ~/.Trash/'
+alias tr='gmv --verbose -f --backup=numbered --target-directory ~/.Trash/'
 # ql: Opens any file in MacOS Quicklook Preview
 ql () { qlmanage -p "$*" >& /dev/null; }
 
