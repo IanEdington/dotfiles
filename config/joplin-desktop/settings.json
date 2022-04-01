@@ -1,0 +1,44 @@
+{
+	"$schema": "https://joplinapp.org/schema/settings.json",
+	"locale": "en_GB",
+	"api.token": "67f6158f4f81867efbb6ef4beef6d2e0a915f9a7f4edcfb1d7e39d82383928b869af8fddaea5f8d1efd861438b2f1b975faa9e53ec1ab15a03397c217190132e",
+	"markdown.plugin.softbreaks": false,
+	"markdown.plugin.typographer": false,
+	"spellChecker.language": "en-CA",
+	"ui.layout": {
+		"key": "root",
+		"children": [
+			{
+				"key": "sideBar",
+				"width": 250,
+				"visible": true
+			},
+			{
+				"key": "noteList",
+				"width": 250,
+				"visible": true
+			},
+			{
+				"key": "editor",
+				"visible": true
+			}
+		],
+		"visible": true
+	},
+	"noteVisiblePanes": [
+		"editor"
+	],
+	"theme": 7,
+	"themeAutoDetect": true,
+	"style.editor.fontFamily": "OperatorMono Nerd Font",
+	"dateFormat": "YYYY-MM-DD",
+	"preferredDarkTheme": 7,
+	"export.pdfPageSize": "Letter",
+	"editor.keyboardMode": "vim",
+	"style.editor.fontSize": 16,
+	"newNoteFocus": "title",
+	"editor.codeView": true,
+	"windowContentZoomFactor": 150,
+	"sync.target": 7,
+	"style.editor.contentMaxWidth": 600
+}

@@ -1,9 +1,10 @@
 {
   "dependencies": {
-    "depcheck": "^1.3.1",
+    "depcheck": "^1.4.0",
     "jscodeshift": "^0.7.0",
     "neovim": "^3.5.2",
     "onchange": "^6.1.0",
-    "react-js-to-ts": "^1.4.0"
+    "react-js-to-ts": "^1.4.0",
+    "typescript": "^4.2.4"
   }
 }

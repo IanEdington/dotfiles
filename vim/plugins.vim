@@ -33,9 +33,9 @@ Plug 'raimondi/delimitmate'
 " Plug 'mattn/emmet-vim' "emmet for vim, I wish I used it
 
 "" Appearance
-Plug 'lifepillar/vim-solarized8'
-    let g:solarized_term_italics=1
-    let g:solarized_use16 = 1
+" Plug 'lifepillar/vim-solarized8'
+    " let g:solarized_term_italics=1
+    " let g:solarized_use16 = 1
 " Plug 'ap/vim-css-color'
 
 "" IDE (debuging, help, project awareness)
@@ -64,7 +64,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
     set updatetime=250
 " set ignore files from .gitignore
-Plug 'octref/rootignore'
+" Plug 'octref/rootignore'
 
 "" Writting
 " Plug 'beloglazov/vim-online-thesaurus'

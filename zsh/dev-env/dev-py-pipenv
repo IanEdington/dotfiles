@@ -1,2 +1,7 @@
-eval "$(pyenv init -)"
+export PATH="$(python -m site --user-base)/bin":$PATH
+
 export PIPENV_IGNORE_VIRTUALENVS=1
+
+if [[ $(/usr/bin/type -t pipenv) ]]; then
+    eval "$(pipenv --completion)"
+fi

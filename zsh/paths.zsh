@@ -11,6 +11,7 @@ path=(
         /opt/X11/bin
         /usr/local/opt/mysql@5.7/bin
         $HOME/opt/miniconda3/bin
+        ${ZDOTDIR:-$HOME}/dev-env
     )
 
 fpath=(

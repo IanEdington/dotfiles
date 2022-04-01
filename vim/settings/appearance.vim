@@ -38,20 +38,20 @@ set statusline+=\ %4c/%l/%-4L " Current and Total Lines
 set statusline+=\ %P " Percent Through Document
 
 " Toggle ColorScheme
-let s:colorschemetoggle=0
-function! s:fold_column_toggle()
-    if s:colorschemetoggle
-        let s:colorschemetoggle=0
-        set background=light
-        colorscheme solarized8_high
-    else
-        let s:colorschemetoggle=1
-        set background=dark
-        colorscheme solarized8_flat
-    endif
-endfunction
+" let s:colorschemetoggle=0
+" function! s:fold_column_toggle()
+"     if s:colorschemetoggle
+"         let s:colorschemetoggle=0
+"         set background=light
+"         colorscheme solarized8_high
+"     else
+"         let s:colorschemetoggle=1
+"         set background=dark
+"         colorscheme solarized8_flat
+"     endif
+" endfunction
 
-silent call s:fold_column_toggle()
+" silent call s:fold_column_toggle()
 
-nnoremap <Plug>FoldColumnToggle :call <SID>fold_column_toggle()<CR>
-nmap cok <Plug>FoldColumnToggle
+" nnoremap <Plug>FoldColumnToggle :call <SID>fold_column_toggle()<CR>
+" nmap cok <Plug>FoldColumnToggle
