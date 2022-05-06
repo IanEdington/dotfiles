@@ -10,10 +10,9 @@ alias ls='pwd; ls -AF --color'
 alias ll='ls -AFGlh'
 # l: List in long format
 # h: use unit suffixes: Byte, Kilobyte, Megabyte, Gigabyte ...
+
 # lr: Full Recursive Directory Listing (I don't understand this)
 alias lr="ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/ /' -e 's/-/|/'"
-alias filetree='lr'
-alias ft='lr'
 
 # less
 alias l='less -i -s -u -w'
@@ -53,9 +52,15 @@ alias which='type -a'
 # path: Echo all executable Paths
 alias path='echo -e ${PATH//:/\\n}'
 alias fpath='echo -e ${FPATH//:/\\n}'
-# trash: Moves a file to the MacOS trash
 
-alias tr='gmv --verbose -f --backup=numbered --target-directory ~/.Trash/'
+# trash: Moves a file to the MacOS trash
+if [[ $OSTYPE == darwin* ]]; then
+    alias tr='gmv --verbose -f --backup=numbered --target-directory ~/.Trash/'
+else
+    alias tr='mv --verbose -f --backup=numbered --target-directory ~/.Trash/'
+fi
+
+
 # ql: Opens any file in MacOS Quicklook Preview
 ql () { qlmanage -p "$*" >& /dev/null; }
 
