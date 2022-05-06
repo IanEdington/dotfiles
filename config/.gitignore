@@ -1,0 +1,12 @@
+/nvim
+
+/joplin-desktop/database.sqlite
+/joplin-desktop/log.txt
+/joplin-desktop/resources/
+/joplin-desktop/tmp/
+
+/karabiner/automatic_backups/
+/gh/state.yml
+
+/yarn/global/node_modules
+

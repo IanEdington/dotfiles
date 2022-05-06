@@ -19,7 +19,9 @@ fi
 for config_file ($HOME/.zsh/settings/*.zsh) source $config_file
 
 # Source all *.zshrc files in .local
-for config_file ($HOME/.local/zsh/*.zsh) source $config_file;
+if [[ -s "$HOME/.local/zsh" ]]; then
+    for config_file ($HOME/.local/zsh/*.zsh) source $config_file;
+fi
 
 # zshrc after
 if [[ -s "${ZDOTDIR:-$HOME}/.zshrc.after" ]]; then

@@ -1,13 +1,3 @@
 *.tmp
 .idea
 
-# Joplin
-/config/joplin-desktop/database.sqlite
-/config/joplin-desktop/log.txt
-/config/joplin-desktop/resources/
-/config/joplin-desktop/tmp/
-
-/config/karabiner/automatic_backups/
-/config/gh/state.yml
-
-/config/yarn/global/node_modules

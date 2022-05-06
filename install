@@ -109,6 +109,7 @@ sudo xcodebuild -license accept
 
 # SymLink
 # Other
+dotfiles::symlink_files ~/.dotfiles/config ~/.config
 dotfiles::symlink_files ~/.dotfiles/inputrc ~/.inputrc
 dotfiles::symlink_files ~/.dotfiles/profile ~/.profile
 dotfiles::symlink_files ~/.dotfiles/intellij/ideavimrc ~/.ideavimrc
