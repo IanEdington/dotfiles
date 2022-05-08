@@ -39,7 +39,11 @@ alias rm="echo Dont Fn touch this! Use 'tr', or the full path i.e. '/bin/rm'"
 
 
 # Preferred 'mv' implementation
-alias mv='gmv -iv'
+if [[ $OSTYPE == darwin* ]]; then
+    alias mv='gmv -iv'
+else
+    alias mv='mv -iv'
+fi
 # verbose and interactive
 # Preferred 'mkdir' implementation
 alias mkdir='mkdir -pv'

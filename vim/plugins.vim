@@ -10,17 +10,6 @@ Plug 'editorconfig/editorconfig-vim'
 
 "" Text Editing
 Plug 'tpope/vim-commentary'
-    " remove commentary default mappings
-"     function! UnmapCommentary()
-"         unmap gc
-"         nunmap gcc
-"         nunmap cgc
-"         nunmap gcu
-"     endfunction
-"     autocmd VimEnter * call UnmapCommentary()
-"     " map commentary to <C-\>
-"     nmap <C-\> <Plug>CommentaryLine
-"     vmap <C-\> <Plug>Commentary
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-unimpaired'
@@ -30,16 +19,12 @@ Plug 'tpope/vim-unimpaired'
 Plug 'raimondi/delimitmate'
     let delimitMate_expand_cr=1
     let delimitMate_expand_space=1
-" Plug 'mattn/emmet-vim' "emmet for vim, I wish I used it
 
 "" Appearance
-" Plug 'lifepillar/vim-solarized8'
-    " let g:solarized_term_italics=1
-    " let g:solarized_use16 = 1
 " Plug 'ap/vim-css-color'
 
 "" IDE (debuging, help, project awareness)
-" Plug 'ctrlpvim/ctrlp.vim'
+Plug 'ctrlpvim/ctrlp.vim'
 " Plug 'mileszs/ack.vim'
     " let g:ackprg = 'ag --vimgrep --smart-case'
     " cnoreabbrev ag Ack
