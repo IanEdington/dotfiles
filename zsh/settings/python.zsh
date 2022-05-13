@@ -1,15 +1,10 @@
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/Users/ian/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+# conda initialize (CUSTOM)
+__conda_setup="$('conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
-else
-    if [ -f "/Users/ian/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/Users/ian/miniconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/Users/ian/miniconda3/bin:$PATH"
-    fi
+elif [[ "$no_conda" != true  ]]; then
+    echo '`conda` is not in your path. set $no_conda=true to ignore'
 fi
 unset __conda_setup
-# <<< conda initialize <<<
+# conda initialize
 
