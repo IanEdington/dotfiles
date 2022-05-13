@@ -45,12 +45,12 @@ nnoremap ]c :action VcsShowNextChangeMarker<CR>
 nnoremap [c :action VcsShowPrevChangeMarker<CR>
 
 " toggle options
-nnoremap cow :action EditorToggleUseSoftWraps<CR>
-nnoremap coh :set hlsearch!<CR>
-nnoremap coi :set ignorecase!<CR>
-nnoremap con :set number!<CR>
-nnoremap cor :set relativenumber!<CR>
-nnoremap cos :set relativenumber!<CR>
+nnoremap yow :action EditorToggleUseSoftWraps<CR>
+nnoremap yoh :set hlsearch!<CR>
+nnoremap yoi :set ignorecase!<CR>
+nnoremap yon :set number!<CR>
+nnoremap yor :set relativenumber!<CR>
+nnoremap yos :set relativenumber!<CR>
 
 
 " change word case
@@ -60,14 +60,13 @@ inoremap <leader>U <esc>viwU
 inoremap <leader>u <esc>viwu
 
 " tpope/vim-abolish Coercion
-nnoremap crc :action StringManipulation.ToCamelCase<CR>
-nnoremap crm :action StringManipulation.ToPascalCaseOrCamelCase<CR>
-nnoremap crs :action StringManipulation.ToSnakeCaseOrCamelCase<CR>
-" nnoremap cru :action StringManipulation.ToScreamingSnakeCaseAction<CR>
-nnoremap crk :action StringManipulation.ToHyphenCaseAction<CR>
-nnoremap cr. :action StringManipulation.ToDotStyleAction<CR>
-nnoremap cr<space> :action
-nnoremap crt :action
+noremap crs :action StringManipulation.ToSnakeCase<CR>
+noremap crm :action StringManipulation.ToPascalCase<CR>
+noremap crc :action StringManipulation.ToCamelCase<CR>
+noremap cru :action StringManipulation.ToScreamingSnakeCase<CR>
+noremap cr- :action StringManipulation.ToHyphenCaseAction<CR>
+noremap cr. :action StringManipulation.ToDotStyleAction<CR>
+noremap cr<space> :action StringManipulation.ToSentenceCaseOrCamelCase<CR>
 
 " tpope/vim-commentary
 Plug 'tpope/vim-commentary'
