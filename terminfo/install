@@ -1,8 +1,23 @@
 #!/usr/bin/env bash
+# Bash Strict Mode: http://redsymbol.net/articles/unofficial-bash-strict-mode/
 
-for termfile in *.terminfo; do
-    tic $termfile
-done;
+infocmp -x tmux-256color &> /dev/null
+if [[ $? > 0  ]]; then
+   tic -xe tmux-256color terminfo.src;
+fi
 
-#test
-echo `tput sitm`italics`tput ritm` `tput smso`standout`tput rmso`
+infocmp -x xterm-256color &> /dev/null
+if [[ $? > 0  ]]; then
+   tic -xe xterm-256color terminfo.src;
+fi
+
+# test italics
+# echo `tput sitm`italics`tput ritm` `tput smso`standout`tput rmso`
+
+# test 256color
+# for i in {0..255} ; do
+#     printf "\x1b[48;5;%sm%3d\e[0m " "$i" "$i"
+#     if (( i == 15 )) || (( i > 15 )) && (( (i-15) % 6 == 0 )); then
+#         printf "\n";
+#     fi
+# done
