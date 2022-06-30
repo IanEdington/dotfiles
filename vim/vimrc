@@ -7,8 +7,8 @@ let mapleader=";"
 let maplocalleader = "\\"
 
 " ==== Load before vimrc file ====
-if filereadable(expand("~/local/vim/vimrc.before"))
-    source ~/local/vim/vimrc.before
+if filereadable(expand("~/.local/vim/vimrc.before"))
+    source ~/.local/vim/vimrc.before
 endif
 
 " ==== Plugin Initialization ====

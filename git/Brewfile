@@ -1,5 +1,6 @@
-brew 'git', args: ['without-completions']
+brew 'git'
 brew 'git-extras'
 brew 'gh'
-brew 'diff-so-fancy'
 brew 'gpg'
+brew "tig"
+

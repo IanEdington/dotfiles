@@ -1,12 +1,7 @@
-brew "git", args: ["without-completions"]
-brew "gh"
-brew "bundler-completion"
 brew "coreutils"
 brew "docker"
-brew "editorconfig"
 brew "jq"
 brew "readline"
-brew "tig"
 brew "wget"
 brew "direnv"
-brew "python"
+brew "mosh"

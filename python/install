@@ -1,3 +1,7 @@
 #!/usr/bin/env bash
+# Bash Strict Mode: http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -euo pipefail
+IFS=$'\n\t'
+# Bash Strict Mode
 
-ln -s ~/.dotfiles/python/condarc ~/.condarc
+dotfiles::symlink_files ~/.dotfiles/python/condarc ~/.condarc

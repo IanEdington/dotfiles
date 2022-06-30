@@ -1,11 +1,5 @@
-# use macvim instead of vim
-# No longer using macvim
-# brew 'macvim', args: ['with-override-system-vim', 'with-cscope', 'with-lua', 'with-luajit', 'with-python3']
 brew 'neovim'
+brew 'vim'
 
 # plugin requirments
-# brew 'cmake' # YouCompleteMe
-brew 'editorconfig' # editorconfig
-# brew 'pandoc' # vim-pandoc
-# brew 'checkstyle' # syntastic java checker
 brew 'ctags' # tag jumping vim

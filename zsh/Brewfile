@@ -1,4 +1,3 @@
 brew 'zsh'
-# In order to use this build of zsh as your login shell, it must be added to /etc/shells.
 brew 'zsh-syntax-highlighting'
 brew 'zsh-completions'

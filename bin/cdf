@@ -1,3 +1,4 @@
+# cd to the last folder visited in Finder.app
 cdf () {
     currFolderPath=$( /usr/bin/osascript << EOT
         tell application "Finder"

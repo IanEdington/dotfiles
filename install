@@ -1,69 +1,10 @@
 #!/usr/bin/env bash
+# Bash Strict Mode: http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -euo pipefail
+IFS=$'\n\t'
+# Bash Strict Mode
 
-# install or update from git repo
-dotfiles::install_from_github () {
-    local package_dir github_repo starting_dir
-    github_repo=$1
-    package_dir=$2
-    starting_dir=$PWD
-
-    if [[ -e $package_dir ]]; then
-        cd $package_dir
-        git pull && git submodule update --init --remote --recursive
-    else
-        echo "clone into " $package_dir
-        git clone --depth 1 $github_repo $package_dir
-        cd $package_dir
-        git submodule update --init --remote --recursive
-    fi
-
-    cd $starting_dir
-}
-
-# returns 1 if $array contains a $string
-array_contains () { 
-    local array="$1[@]"
-    local seeking=$2
-    local in=1
-    for element in "${!array}"; do
-        if [[ $element == $seeking ]]; then
-            in=0
-            break
-        fi
-    done
-    return $in
-}
-
-dotfiles::symlink_files () {
-    local symlink_src symlink_dst
-    symlink_src=$1
-    symlink_dst=$2
-
-    # TODO check if link already exists
-
-    echo "linking:" "$symlink_dst" "->" "$symlink_src"
-
-    mkdir -p "$(dirname "$symlink_src")"
-    touch $symlink_src
-
-    if [ -h "$symlink_dst" ]; then
-        rm "$symlink_dst"
-    elif [ -e "$symlink_dst" ]; then
-        echo "$symlink_dst" " exists and is not a symlink! aboart aboart!"
-        echo "we aren't ready to handle this"
-        return
-        # TODO use the backup_func
-    elif [[ ! -e "$(dirname "$symlink_dst")" ]]; then
-        mkdir -p "$(dirname "$symlink_dst")"
-    fi
-
-    ln -s "$symlink_src" "$symlink_dst"
-}
-
-command_exists()
-{
-  command -v "$1" >/dev/null 2>&1
-}
+source bash_utils.sh
 
 # Starting the fun stuff
 # ----------------------
@@ -82,55 +23,31 @@ fi
 # Symlink the current folder to .dotfiles
 # ref: http://stackoverflow.com/a/246128/4301584
 DOTFILES_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd -P )"
-dotfiles::symlink_files $DOTFILES_ROOT ~/.dotfiles;
-cd ~/.dotfiles
+dotfiles::symlink_files $DOTFILES_ROOT $HOME/.dotfiles;
+cd $HOME/.dotfiles
 echo "dotfiles root " $DOTFILES_ROOT
 
-# Homebrew
-# Add dotfiles and homebrew bin to path
-# in case people want to use commands in their scripts
-export PATH=/usr/local/sbin:$HOME/.dotfiles/bin:$PATH
-# Install brew
-update_brew
-# add brew's zsh and bash to the "acceptable shells" file
-echo "$(brew --prefix)/bin/bash" | sudo tee -a /etc/shells
-echo "$(brew --prefix)/bin/zsh" | sudo tee -a /etc/shells
+# Make sure expected folders exist
+mkdir $HOME/.local
 
-# Xcode
-# full xcode installation is required
-xcodebuild -version
-if [[ $? != 0 ]] ; then
-    echo "you need to install xcode from the app store"
-    # exit
-fi
-# so is xcode command line tools
-xcode-select --install > /dev/null
-sudo xcodebuild -license accept
+# Add paths to this shell
+source $HOME/.dotfiles/path.sh
 
-# SymLink
-# Other
+# SymLink Other base configs
 dotfiles::symlink_files ~/.dotfiles/config ~/.config
 dotfiles::symlink_files ~/.dotfiles/inputrc ~/.inputrc
 dotfiles::symlink_files ~/.dotfiles/profile ~/.profile
-dotfiles::symlink_files ~/.dotfiles/intellij/ideavimrc ~/.ideavimrc
-dotfiles::symlink_files ~/.dotfiles/tmux/tmux.conf ~/.tmux.conf;
-dotfiles::symlink_files ~/.dotfiles/editorconfig ~/.editorconfig
 
 # Install Scripts
 # Run install scripts for each folder in dotfiles/
 for dir in */ ; do
-    echo Installing the $dir directory:
+    log Installing the $dir directory:
     cd $dir;
 
     if [ -f install ]; then
         source ./install
     fi
 
-    # dotfiles::symlink_files for each *.symlink
-    # append .zsh files to .zsh
-    # append path.zsh files to zsh $PATH
-    # append *completion.zsh to
-    # append .bash files to .profile
-    # append path.bash files to bash $PATH
-    cd ~/.dotfiles
+    cd $HOME/.dotfiles
 done
+

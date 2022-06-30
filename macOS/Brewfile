@@ -1,37 +1,11 @@
 cask "caffeine"
 cask "grandperspective"
-
 cask "itsycal"
-cask "meetingbar"
 cask "karabiner-elements"
+cask "dropbox"
 
+cask "alfred"
 cask "vlc"
 
-# TODO try to get quicklook working
-# cask "qlcolorcode"
-# cask "qlmarkdown"
-# cask "qlprettypatch"
-# cask "qlstephen"
-# cask "qlvideo"
-# cask "qlcolorcode"
-# cask "qlimagesize"
-# cask "qlmarkdown"
-# cask "qlprettypatch"
-# cask "qlstephen"
-# cask "qlvideo"
-# cask "quicklook-csv"
-# cask "quicklook-json"
-# cask "quicklookase"
-# cask "quicklook-csv"
-# cask "quicklook-json"
-# cask "quicklookase"
-# cask "webpquicklook"
-# cask "suspicious-package"
+mas "1Password", id: 443987910
 
-# TODO see about color picker
-# cask "colorpicker-antetype"
-# cask "colorpicker-developer"
-# cask "colorpicker-hex"
-# cask "colorpicker-propicker"
-# cask "colorpicker-rcwebcolorpicker"
-# cask "colorpicker-skalacolor"

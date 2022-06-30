@@ -4,6 +4,4 @@ set -euo pipefail
 IFS=$'\n\t'
 # Bash Strict Mode
 
-# iterm
-
-defaults write com.googlecode.iterm2 PrefsCustomFolder -string "$PWD"
+dotfiles::symlink_files $HOME/.dotfiles/intellij/ideavimrc $HOME/.ideavimrc

@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# Bash Strict Mode: http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -euo pipefail
+IFS=$'\n\t'
+# Bash Strict Mode
+
+source ../bash_utils.sh
+
+if ! is_darwin ; then
+    echo_yellow "-[ ] install missing packages. Find packages using:"
+    cat <<EOF
+        for Brewfile in ./*/Brewfile ; do
+            full_brewfile="\$full_brewfile\\n\$( cat \$Brewfile  )"
+        done
+        echo \$full_brewfile | sort
+EOF
+    exit
+fi
+
+# Install Brew programs
+update_brew
+
+# add brew's zsh and bash to the "acceptable shells" file
+echo "$(brew --prefix)/bin/bash" | sudo tee -a /etc/shells
+echo "$(brew --prefix)/bin/zsh" | sudo tee -a /etc/shells
+
+# Xcode
+# full xcode installation is required
+xcodebuild -version
+if [[ $? != 0 ]] ; then
+    echo_yellow "-[ ] TODO you need to install xcode from the app store"
+fi
+# so is xcode command line tools
+xcode-select --install > /dev/null
+sudo xcodebuild -license accept
+

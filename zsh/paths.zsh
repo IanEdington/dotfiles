@@ -9,6 +9,6 @@ fpath=(
     )
 
 manpath=(
-        $manpath
         /usr/local/share/man
+        $manpath
     )

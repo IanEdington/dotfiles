@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Bash Strict Mode: http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -euo pipefail
+IFS=$'\n\t'
+# Bash Strict Mode
+
+if [[ -f ~/.local/git/config ]] ; then
+    echo_yellow '-[ ] GIT: add user and email to ~/.config/git/config'
+    mkdir ~/.local/git
+    cat <<EOF > ~/.local/git/config
+[user]
+    name = 
+    email = 
+EOF
+fi
+

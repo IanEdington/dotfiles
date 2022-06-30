@@ -1,14 +1,44 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Tiny script to generate git statistics
 # Author: https://github.com/esc
 # From https://github.com/Naereen/git-stats/blob/master/git-stats.sh
+
+LOGOPTS=()
+END_AND_BEGIN=()
+#argument parsing
+while [ -n "$1" ]; do
+    case "$1" in
+     "-s")
+        shift
+        END_AND_BEGIN+=("--after=$1")
+    ;;
+    "-e")
+        shift
+        END_AND_BEGIN+=("--before=$1")
+    ;;
+    "-w")
+        LOGOPTS+=("-w")
+    ;;
+    "-C")
+        LOGOPTS+=("-C")
+    LOGOPTS+=("--find-copies-harder")
+    ;;
+    "-M")
+        LOGOPTS+=("-M")
+    ;;
+    esac
+    shift
+done
+
+# Test if the directory is a git
+git branch &> /dev/null || exit 3
 
 echo -e "$(basename $0): do statistics on this git repository."
 echo -e "  From https://github.com/esc/git-stats/"
 echo -e "\nNumber of commits per author:"
 
-git --no-pager shortlog -sn --all -- email-templates
-AUTHORS="$(git shortlog "${END_AND_BEGIN[@]}" -sn --all -- email-templates | cut -f2 | cut -f1 -d' ')"
+git --no-pager shortlog "${END_AND_BEGIN[@]}" -sn --all
+AUTHORS="$(git shortlog "${END_AND_BEGIN[@]}" -sn --all | cut -f2 | cut -f1 -d' ')"
 
 longtiret='----------------------------------------------------------------------------------------------------------'
 

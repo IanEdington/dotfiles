@@ -1,13 +1,17 @@
 #!/usr/bin/env bash
+# Bash Strict Mode: http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -euo pipefail
+IFS=$'\n\t'
+# Bash Strict Mode
 
-# If homebrew exists update if not install
-which -s brew
-if [[ $? == 0 ]] ; then
-    brew update
-else
-    echo "could not find homebrew"
+source ../bash_utils.sh
+
+if ! command_exists brew ; then
+    echo_red "could not find homebrew"
     exit 1
 fi
+
+brew update
 
 # concatenate all Brewfiles and make sure they're installed
 cd ~/.dotfiles
