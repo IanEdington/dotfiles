@@ -37,6 +37,10 @@ append_path "/usr/local/opt/mysql@5.7/bin"
 append_path "$HOME/opt/miniconda3/bin"
 append_path "${ZDOTDIR:-$HOME}/dev-env"
 
+if [[ -s "$HOME/.local/path.sh" ]]; then
+    source "$HOME/.local/path.sh"
+fi
+
 unset -f append_path
 unset -f prepend_path
 
