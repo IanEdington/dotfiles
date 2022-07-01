@@ -45,7 +45,7 @@ Plug 'ctrlpvim/ctrlp.vim'
 " Plug 'janko-m/vim-test' "testing use `;t`
 "     nnoremap <silent> <leader>t :TestFile<CR>
 Plug 'sbdchd/neoformat'
-Plug 'tpope/vim-fugitive'
+" Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
     set updatetime=250
 " set ignore files from .gitignore
