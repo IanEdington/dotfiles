@@ -6,4 +6,6 @@ IFS=$'\n\t'
 
 # iterm
 
-defaults write com.googlecode.iterm2 PrefsCustomFolder -string "$PWD"
+if is_darwin ; then
+    defaults write com.googlecode.iterm2 PrefsCustomFolder -string "$PWD"
+fi
