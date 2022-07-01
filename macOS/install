@@ -4,7 +4,7 @@ set -euo pipefail
 IFS=$'\n\t'
 # Bash Strict Mode
 
-source ../bash_utils.sh
+source ~/.dotfiles/bash_utils.sh
 
 if ! is_darwin ; then
     echo_yellow "-[ ] install missing packages. Find packages using:"
@@ -16,9 +16,13 @@ if ! is_darwin ; then
 EOF
     return
 fi
+if ! command_exists brew ; then
+    echo_red "Error: homebrew is a prerequisite for this script. Install from brew.sh"
+    exit 1
+fi
 
 # Install Brew programs
-# update_brew
+echo_yellow "-[ ] run \`update_brew\`"
 
 # add brew's zsh and bash to the "acceptable shells" file
 bash_count=$(cat /etc/shells | grep -c "$(brew --prefix)/bin/bash")

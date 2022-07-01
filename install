@@ -4,7 +4,7 @@ set -euo pipefail
 IFS=$'\n\t'
 # Bash Strict Mode
 
-source bash_utils.sh
+source ~/.dotfiles/bash_utils.sh
 
 # Starting the fun stuff
 # ----------------------

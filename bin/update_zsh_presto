@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# Bash Strict Mode: http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -euo pipefail
+IFS=$'\n\t'
+# Bash Strict Mode
+
+# install or update from git repo
+install_from_github () {
+    local package_dir github_repo
+    github_repo=$1
+    package_dir=$2
+
+    if [[ -e $package_dir ]]; then
+        cd $package_dir
+        git pull && git submodule update --init --remote --recursive
+    else
+        echo "clone into " $package_dir
+        git clone --depth 1 $github_repo $package_dir
+        cd $package_dir
+        git submodule update --init --remote --recursive
+    fi
+}
+
+# download or update prezto
+install_from_github https://github.com/sorin-ionescu/prezto.git ~/.zsh/.zprezto

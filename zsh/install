@@ -4,32 +4,12 @@ set -euo pipefail
 IFS=$'\n\t'
 # Bash Strict Mode
 
-# install or update from git repo
-dotfiles::install_from_github () {
-    local package_dir github_repo starting_dir
-    github_repo=$1
-    package_dir=$2
-    starting_dir=$PWD
-
-    if [[ -e $package_dir ]]; then
-        cd $package_dir
-        git pull && git submodule update --init --remote --recursive
-    else
-        echo "clone into " $package_dir
-        git clone --depth 1 $github_repo $package_dir
-        cd $package_dir
-        git submodule update --init --remote --recursive
-    fi
-
-    cd $starting_dir
-}
-
 # setup .zsh
 dotfiles::symlink_files ~/.dotfiles/zsh ~/.zsh
 dotfiles::symlink_files ~/.dotfiles/zsh/zshenv ~/.zshenv
 
 # download prezto
-dotfiles::install_from_github https://github.com/sorin-ionescu/prezto.git ~/.zsh/.zprezto
+echo_yellow "-[ ] download or update zsh presto using \`update_zsh_presto\`"
 
 # install zprezto runcoms
 dotfiles::symlink_files ~/.zsh/.zprezto/runcoms/zlogin ~/.zsh/.zlogin
