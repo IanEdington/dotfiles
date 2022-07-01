@@ -2,10 +2,9 @@ cask "caffeine"
 cask "grandperspective"
 cask "itsycal"
 cask "karabiner-elements"
-cask "dropbox"
 
 cask "alfred"
 cask "vlc"
 
-mas "1Password", id: 443987910
-
+mas "1Password 7", id: 1333542190
+mas "Xcode", id: "497799835"

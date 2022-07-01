@@ -7,26 +7,31 @@ IFS=$'\n\t'
 source ../bash_utils.sh
 
 if ! command_exists brew ; then
-    echo_red "could not find homebrew"
+    echo_red "Error: could not find homebrew"
     exit 1
 fi
 
-brew update
+HOMEBREW_NO_ENV_HINTS=true
+HOMEBREW_NO_INSTALL_CLEANUP=true
+
+brew update > /dev/null
 
 # concatenate all Brewfiles and make sure they're installed
 cd ~/.dotfiles
-Brewfile_path=~/.dotfiles/.tmp/Brewfile
-mkdir ~/.dotfiles/.tmp
+temp_dir=~/.dotfiles/.tmp
+Brewfile_path="$temp_dir/Brewfile"
+mkdir $temp_dir &> /dev/null || true
 /bin/rm $Brewfile_path
-for Brewfile in ./Brewfile ./*/Brewfile ; do
+for Brewfile in {./Brewfile,./*/Brewfile} ; do
     cat $Brewfile >> $Brewfile_path
 done
 
 # Install, Update, Cleanup ect.
-brew bundle -v --file=$Brewfile_path
-brew upgrade
-brew cleanup
-brew doctor
+brew upgrade -q
+brew bundle --no-upgrade --file=$Brewfile_path
+brew cleanup -q -s --prune=all
+brew doctor -q || true
+echo '\n\n'
 
 # Dump into temp folder
-brew bundle dump --file=${Brewfile_path}dump-`/bin/date -ju "+%Y-%m-%d-%H%M%S"`
+mv "$temp_dir/Brewfile.lock.json" "$temp_dir/Brewfile.lock.$(/bin/date -ju "+%Y-%m-%d-%H%M%S").json"

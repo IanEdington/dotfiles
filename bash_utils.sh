@@ -5,7 +5,6 @@ dotfiles::symlink_files () {
 
     # TODO check if link already exists
 
-    echo "linking:" "$symlink_dst" "->" "$symlink_src"
 
     mkdir -p "$(dirname "$symlink_src")"
     touch $symlink_src
@@ -13,8 +12,7 @@ dotfiles::symlink_files () {
     if [ -h "$symlink_dst" ]; then
         rm "$symlink_dst"
     elif [ -e "$symlink_dst" ]; then
-        echo "$symlink_dst" " exists and is not a symlink! aboart aboart!"
-        echo "we aren't ready to handle this"
+        echo_red "Error linking $symlink_dst->$symlink_src: $symlink_dst exists and is not a symlink!"
         return
         # TODO use the backup_func
     elif [[ ! -e "$(dirname "$symlink_dst")" ]]; then
@@ -25,7 +23,7 @@ dotfiles::symlink_files () {
 }
 
 log() {
-    if [[ LOG_LEVEL > 0 ]] ; then
+    if [[ ${LOG_LEVEL:-0} > 0 ]] ; then
         echo $@
     fi
 }

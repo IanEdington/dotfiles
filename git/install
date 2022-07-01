@@ -4,9 +4,9 @@ set -euo pipefail
 IFS=$'\n\t'
 # Bash Strict Mode
 
-if [[ -f ~/.local/git/config ]] ; then
+if [[ ! -f ~/.local/git/config ]] ; then
     echo_yellow '-[ ] GIT: add user and email to ~/.config/git/config'
-    mkdir ~/.local/git
+    mkdir ~/.local/git &> /dev/null || true
     cat <<EOF > ~/.local/git/config
 [user]
     name = 
