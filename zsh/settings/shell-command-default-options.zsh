@@ -89,3 +89,6 @@ function fn() {
 
 # ff: Find file under the current directory
 ff () { find . -name "$@" ; }
+
+# rsync compressed transfer
+alias rsync_d="rsync -pzrv"
