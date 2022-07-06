@@ -8,4 +8,6 @@ IFS=$'\n\t'
 
 if is_darwin ; then
     defaults write com.googlecode.iterm2 PrefsCustomFolder -string "$PWD"
+    defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder -bool true
+    defaults write com.googlecode.iterm2 NoSyncNeverRemindPrefsChangesLostForFile_selection -int 2
 fi

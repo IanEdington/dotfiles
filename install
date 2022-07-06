@@ -4,7 +4,15 @@ set -euo pipefail
 IFS=$'\n\t'
 # Bash Strict Mode
 
-source ~/.dotfiles/bash_utils.sh
+# ref: http://stackoverflow.com/a/246128/4301584
+DOTFILES_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd -P )"
+
+source "$DOTFILES_ROOT/bash_utils.sh"
+
+# Symlink the current folder to .dotfiles
+dotfiles::symlink_files $DOTFILES_ROOT $HOME/.dotfiles;
+cd $HOME/.dotfiles
+log "dotfiles root $DOTFILES_ROOT"
 
 # Starting the fun stuff
 # ----------------------
@@ -19,13 +27,6 @@ if command_exists sudo; then
         kill -0 "$$" || exit;
     done 2>/dev/null &
 fi
-
-# Symlink the current folder to .dotfiles
-# ref: http://stackoverflow.com/a/246128/4301584
-DOTFILES_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd -P )"
-dotfiles::symlink_files $DOTFILES_ROOT $HOME/.dotfiles;
-cd $HOME/.dotfiles
-log "dotfiles root $DOTFILES_ROOT"
 
 # Make sure expected folders exist
 mkdir $HOME/.local &> /dev/null || true
@@ -48,6 +49,7 @@ for dir in */ ; do
         source ./install
     fi
 
+    log Finished $dir directory:
     cd $HOME/.dotfiles
 done
 

@@ -19,4 +19,4 @@ if [[ ! -f ~/.vim/autoload/plug.vim ]] ; then
 fi
 
 #Install Plugins
-echo_yellow "-[ ] install vim plugins using \`update_vim_plugins\`"
+update_vim_plugins

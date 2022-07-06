@@ -25,19 +25,20 @@ fi
 echo_yellow "-[ ] run \`update_brew\`"
 
 # add brew's zsh and bash to the "acceptable shells" file
-bash_count=$(cat /etc/shells | grep -c "$(brew --prefix)/bin/bash")
+bash_count=$(cat /etc/shells | grep -c "$(brew --prefix)/bin/bash" || true)
 if [[ $bash_count < 1 ]] ; then
-    echo "$(brew --prefix)/bin/bash" | sudo tee -a /etc/shells &> /dev/null
+    echo "$(brew --prefix)/bin/bash" | sudo tee -a /etc/shells > /dev/null
 fi
-zsh_count=$(cat /etc/shells | grep -c "$(brew --prefix)/bin/zsh")
+zsh_count=$(cat /etc/shells | grep -c "$(brew --prefix)/bin/zsh" || true)
 if [[ $zsh_count < 1 ]] ; then
-    echo "$(brew --prefix)/bin/zsh" | sudo tee -a /etc/shells &> /dev/null
+    echo "$(brew --prefix)/bin/zsh" | sudo tee -a /etc/shells > /dev/null
 fi
 
 echo_yellow "-[ ] install dropbox"
 
 # Xcode
 # full xcode installation is required
+set +e
 xcodebuild -version &> /dev/null
 if [[ $? != 0 ]] ; then
     echo_yellow "-[ ] TODO you need to install xcode from the app store"
@@ -48,3 +49,4 @@ if [[ $? != 0 ]] ; then
     xcode-select --install
     sudo xcodebuild -license accept
 fi
+set -e

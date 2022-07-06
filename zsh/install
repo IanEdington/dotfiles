@@ -9,7 +9,7 @@ dotfiles::symlink_files ~/.dotfiles/zsh ~/.zsh
 dotfiles::symlink_files ~/.dotfiles/zsh/zshenv ~/.zshenv
 
 # download prezto
-echo_yellow "-[ ] download or update zsh presto using \`update_zsh_presto\`"
+update_zsh_presto
 
 # install zprezto runcoms
 dotfiles::symlink_files ~/.zsh/.zprezto/runcoms/zlogin ~/.zsh/.zlogin

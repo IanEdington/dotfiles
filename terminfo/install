@@ -4,6 +4,7 @@ set -euo pipefail
 IFS=$'\n\t'
 # Bash Strict Mode
 
+set +e
 infocmp -x tmux-256color &> /dev/null
 if [[ $? > 0  ]]; then
    tic -xe tmux-256color terminfo.src;

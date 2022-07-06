@@ -21,7 +21,7 @@ cd ~/.dotfiles
 temp_dir=~/.dotfiles/.tmp
 Brewfile_path="$temp_dir/Brewfile"
 mkdir $temp_dir &> /dev/null || true
-/bin/rm $Brewfile_path
+/bin/rm $Brewfile_path &> /dev/null || true
 for Brewfile in {./Brewfile,./*/Brewfile} ; do
     cat $Brewfile >> $Brewfile_path
 done
