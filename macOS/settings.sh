@@ -56,6 +56,9 @@ sudo nvram SystemAudioVolume=" "
 # Trackpad: enable tap to click for this user and for the login screen
 defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+defaults write com.apple.AppleMultitouchTrackpad ActuationStrength -int 0
+defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
 # Set prefered trackpad & mouse speed
 defaults write -g com.apple.trackpad.scaling 1.5
 defaults -currentHost write NSGlobalDomain com.apple.trackpad.scaling 1.5
@@ -267,6 +270,10 @@ sudo systemsetup -setremoteappleevents off
 sudo systemsetup -f -setremotelogin off
 # Disable Remote Management
 # sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -deactivate -stop
+
+# TTY
+defaults write com.apple.speech.synthesis.general.prefs SpokenUIUseSpeakingHotKeyCombo -int 291
+defaults write com.apple.speech.voice.prefs SelectedVoiceID -int 184844483
 
 # Applications
 # ------------
