@@ -8,8 +8,10 @@ source ~/.dotfiles/bash_utils.sh
 
 if is_darwin ; then
     dotfiles::symlink_files $HOME/.dotfiles/vscode/settings.json $HOME/Library/Application\ Support/Code/User/settings.json
+    dotfiles::symlink_files $HOME/.dotfiles/vscode/keybindings.json $HOME/Library/Application\ Support/Code/User/keybindings.json
     dotfiles::symlink_files $HOME/.dotfiles/vscode/snippets $HOME/Library/Application\ Support/Code/User/snippets
-    dotfiles::symlink_files /Applications/Visual Studio Code.app/Contents/Resources/app/bin/code $HOME/.local/bin/code
+    dotfiles::symlink_files "/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code" $HOME/.local/bin/code
+
 else
     dotfiles::symlink_files $HOME/.dotfiles/vscode/settings.json $HOME/.config/Code/User/settings.json
     dotfiles::symlink_files $HOME/.dotfiles/vscode/snippets $HOME/.config/Code/User/snippets

@@ -1,11 +1,10 @@
 {
   "window.title": "${activeEditorLong}${separator}${rootName}",
-  "workbench.colorTheme": "Solarized Dark",
+  "workbench.colorTheme": "Default High Contrast",
   "editor.lineNumbers": "relative",
   "editor.fontSize": 20,
   "editor.fontFamily": "OperatorMono Nerd Font, Menlo, Monaco, 'Courier New', monospace",
   "editor.minimap.enabled": false,
-  "editor.renderIndentGuides": false,
   "vim.leader": ";",
   "vim.useCtrlKeys": false,
   "vim.easymotion": true,
@@ -114,7 +113,6 @@
       ]
     }
   ],
-  "window.zoomLevel": -1,
   "settings.cycle": [
     {
       "id": "colorTheme",
@@ -132,4 +130,6 @@
   "jest.autoEnable": false,
   "editor.codeActionsOnSave": {},
   "auto-close-tag.fullMode": true,
+  "editor.guides.indentation": false,
+  "window.zoomLevel": 2,
 }
