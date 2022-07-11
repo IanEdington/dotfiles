@@ -28,7 +28,7 @@
     cmd="mvim -c 'Gdiff' $MERGED"     # use fugitive.vim for 3-way merge
     keepbackup=false
 [pull]
-    rebase = preserve
+	rebase = merges
 [push]
     default = simple
 [alias]
