@@ -33,6 +33,14 @@ command_exists() {
   [[ $? == 0 ]]
 }
 
+if_command_failed() {
+    set +e
+    eval $@ &> /dev/null
+    test=$?
+    set -e
+    [[ $test > 0 ]]
+}
+
 echo_red() {
     local Yellow ColorOff
     Red='\033[0;31m'

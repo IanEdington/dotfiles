@@ -46,3 +46,4 @@ unset -f prepend_path
 
 export PATH
 
+export TERMINFO_DIRS=$TERMINFO_DIRS:$HOME/.local/share/terminfo

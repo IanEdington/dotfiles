@@ -4,15 +4,26 @@ set -euo pipefail
 IFS=$'\n\t'
 # Bash Strict Mode
 
-set +e
-infocmp -x tmux-256color &> /dev/null
-if [[ $? > 0  ]]; then
-   tic -xe tmux-256color terminfo.src;
+source ~/.dotfiles/bash_utils.sh
+
+if ! is_darwin ; then
+    # only run on macOS
+    return
+fi
+if [[ ! -f /usr/local/opt/ncurses/bin/infocmp ]]; then
+    echo_red "-[ ] run again once brew ncurses is installed"
 fi
 
-infocmp -x xterm-256color &> /dev/null
-if [[ $? > 0  ]]; then
-   tic -xe xterm-256color terminfo.src;
+
+if if_command_failed "/usr/bin/infocmp -x tmux-256color"; then
+    # ref: https://gpanders.com/blog/the-definitive-guide-to-using-tmux-256color-on-macos/
+    /bin/rm tmux-256color.src
+    /usr/local/opt/ncurses/bin/infocmp -x tmux-256color \
+        | sed -e 's/pairs#65536/pairs#32767/g' \
+        | sed -e 's/pairs#0x10000/pairs#32767/g' \
+        > tmux-256color.src
+    /usr/bin/tic -x -o $HOME/.local/share/terminfo tmux-256color.src
+    /bin/rm tmux-256color.src
 fi
 
 # test italics
