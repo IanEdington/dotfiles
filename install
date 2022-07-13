@@ -30,9 +30,10 @@ fi
 
 # Make sure expected folders exist
 mkdir $HOME/.local &> /dev/null || true
+mkdir $HOME/.local/bin &> /dev/null || true
 
 # Add paths to this shell
-source $HOME/.dotfiles/path.sh
+source $HOME/.dotfiles/env.sh
 
 # SymLink Other base configs
 dotfiles::symlink_files ~/.dotfiles/config ~/.config

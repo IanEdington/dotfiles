@@ -22,6 +22,10 @@ prepend_path () {
 prepend_path "$HOME/.local/bin"
 prepend_path "$HOME/.dotfiles/bin"
 
+if [[ -s "$HOME/.local/env.sh" ]]; then
+    source "$HOME/.local/env.sh"
+fi
+
 append_path "/usr/local/opt/coreutils/libexec/gnubin"
 append_path "/usr/local/opt/python/libexec/bin"
 append_path "/usr/local/bin"
@@ -35,15 +39,14 @@ append_path "/sbin"
 append_path "/opt/X11/bin"
 append_path "/usr/local/opt/mysql@5.7/bin"
 append_path "$HOME/opt/miniconda3/bin"
+append_path "${CONDA_INSTALL_DIR:-"$HOME/miniconda"}/bin"
 append_path "${ZDOTDIR:-$HOME}/dev-env"
-
-if [[ -s "$HOME/.local/path.sh" ]]; then
-    source "$HOME/.local/path.sh"
-fi
 
 unset -f append_path
 unset -f prepend_path
 
 export PATH
 
-export TERMINFO_DIRS=$TERMINFO_DIRS:$HOME/.local/share/terminfo
+TERMINFO_DIRS=$TERMINFO_DIRS:$HOME/.local/share/terminfo
+
+export TERMINFO_DIRS

@@ -1,4 +1,4 @@
-source $HOME/.dotfiles/path.sh
+source $HOME/.dotfiles/env.sh
 
 fpath=(
         /usr/local/share/zsh-completions
