@@ -2,9 +2,6 @@
 if [[ -s "$HOME/.local/zsh/zshrc.before" ]]; then
     source "$HOME/.local/zsh/zshrc.before"
 fi
-if [[ -s "${ZDOTDIR:-$HOME}/.zshrc.before" ]]; then
-    source "${ZDOTDIR:-$HOME}/.zshrc.before"
-fi
 
 source "${ZDOTDIR:-$HOME}/paths.zsh"
 
@@ -24,9 +21,6 @@ if [[ -s "$HOME/.local/zsh" ]]; then
 fi
 
 # zshrc after
-if [[ -s "${ZDOTDIR:-$HOME}/.zshrc.after" ]]; then
-    source "${ZDOTDIR:-$HOME}/.zshrc.after"
-fi
 if [[ -s "$HOME/.local/zsh/zshrc.after" ]]; then
     source "$HOME/.local/zsh/zshrc.after"
 fi
