@@ -47,6 +47,8 @@ unset -f prepend_path
 
 export PATH
 
-TERMINFO_DIRS=$TERMINFO_DIRS:$HOME/.local/share/terminfo
+if [[ "$(uname -s)" == "Darwin" ]]; then
+    TERMINFO_DIRS=${TERMINFO_DIRS:-''}:$HOME/.local/share/terminfo
+fi
 
 export TERMINFO_DIRS
