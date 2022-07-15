@@ -3,7 +3,7 @@
   "workbench.colorTheme": "Default High Contrast",
   "editor.lineNumbers": "relative",
   "editor.fontSize": 20,
-  "editor.fontFamily": "OperatorMono Nerd Font, Menlo, Monaco, 'Courier New', monospace",
+  "editor.fontFamily": "Jetbrains Mono,OperatorMono Nerd Font, Menlo, Monaco, 'Courier New', monospace",
   "editor.minimap.enabled": false,
   "vim.leader": ";",
   "vim.useCtrlKeys": false,
@@ -132,4 +132,7 @@
   "auto-close-tag.fullMode": true,
   "editor.guides.indentation": false,
   "window.zoomLevel": 2,
+  "terminal.external.linuxExec": "xterm-256color",
+  "terminal.integrated.copyOnSelection": true,
+  "terminal.integrated.enableBell": true,
 }
