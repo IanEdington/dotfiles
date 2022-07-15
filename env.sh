@@ -52,3 +52,6 @@ if [[ "$(uname -s)" == "Darwin" ]]; then
 fi
 
 export TERMINFO_DIRS
+
+# path config folder
+export XDG_CONFIG_HOME="$HOME/.config"
