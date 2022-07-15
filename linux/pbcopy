@@ -1,4 +1,9 @@
 #! /usr/bin/env bash
 
-cat - > /dev/clipboard
+if [[ -f /dev/clipboard ]]; then
+    cat - > /dev/clipboard
+else
+    /bin/rm ~/.local/clipboard
+    cat - > ~/.local/clipboard
+fi
 
