@@ -35,6 +35,8 @@ if [[ $zsh_count < 1 ]] ; then
 fi
 
 echo_yellow "-[ ] install dropbox"
+echo_yellow "-[ ] install 1Password"
+echo_yellow "-[ ] install jetbrains mono https://www.jetbrains.com/lp/mono/"
 
 # Xcode
 # full xcode installation is required

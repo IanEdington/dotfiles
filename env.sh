@@ -1,3 +1,11 @@
+# homebrew
+if [[ -f /opt/homebrew/bin/brew ]] ; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+if [[ -f /usr/local/Homebrew/bin/brew ]] ; then
+    eval "$(/usr/local/Homebrew/bin/brew shellenv)"
+fi
+
 # Append "$1" to $PATH when not already in.
 # Copied from Arch Linux, see #12803 for details.
 append_path () {
@@ -19,6 +27,8 @@ prepend_path () {
     esac
 }
 
+prepend_path "$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin"
+prepend_path "$HOMEBREW_PREFIX/opt/python/libexec/bin"
 prepend_path "$HOME/.local/bin"
 prepend_path "$HOME/.dotfiles/bin"
 
@@ -26,10 +36,6 @@ if [[ -s "$HOME/.local/env.sh" ]]; then
     source "$HOME/.local/env.sh"
 fi
 
-append_path "/usr/local/opt/coreutils/libexec/gnubin"
-append_path "/usr/local/opt/python/libexec/bin"
-append_path "/usr/local/bin"
-append_path "/usr/local/sbin"
 append_path "$HOME/.yarn/bin"
 append_path "$HOME/.config/yarn/global/node_modules/.bin"
 append_path "/usr/bin"
@@ -38,7 +44,6 @@ append_path "/bin"
 append_path "/sbin"
 append_path "/opt/X11/bin"
 append_path "/usr/local/opt/mysql@5.7/bin"
-append_path "$HOME/opt/miniconda3/bin"
 append_path "${CONDA_INSTALL_DIR:-"$HOME/miniconda"}/bin"
 append_path "${ZDOTDIR:-$HOME}/dev-env"
 
