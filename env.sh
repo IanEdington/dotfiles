@@ -27,8 +27,10 @@ prepend_path () {
     esac
 }
 
-prepend_path "$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin"
-prepend_path "$HOMEBREW_PREFIX/opt/python/libexec/bin"
+if [[ "${HOMEBREW_PREFIX:-word}" != 'word' ]]; then
+    prepend_path "$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin"
+    prepend_path "$HOMEBREW_PREFIX/opt/python/libexec/bin"
+fi
 prepend_path "$HOME/.local/bin"
 prepend_path "$HOME/.dotfiles/bin"
 
