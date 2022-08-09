@@ -2,7 +2,7 @@ cask "caffeine"
 cask "grandperspective"
 cask "itsycal"
 cask "karabiner-elements"
+cask "rectangle"
 
-cask "alfred"
 cask "vlc"
 cask "iterm2"
