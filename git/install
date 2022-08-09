@@ -4,8 +4,8 @@ set -euo pipefail
 IFS=$'\n\t'
 # Bash Strict Mode
 
-dotfiles::symlink_files ~/.dotfiles/git/config ~/.gitconfig
-dotfiles::symlink_files ~/.dotfiles/git/ignore ~/.gitignore
+dotfiles::symlink_files ~/.dotfiles/git/config ~/.config/git/config
+dotfiles::symlink_files ~/.dotfiles/git/ignore ~/.config/git/ignore
 
 if [[ ! -f ~/.local/git/config ]] ; then
     echo_yellow '-[ ] GIT: add user and email to ~/.config/git/config'
