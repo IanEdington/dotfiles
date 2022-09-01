@@ -131,8 +131,8 @@
   "editor.codeActionsOnSave": {},
   "auto-close-tag.fullMode": true,
   "editor.guides.indentation": false,
-  "window.zoomLevel": 2,
   "terminal.external.linuxExec": "xterm-256color",
   "terminal.integrated.copyOnSelection": true,
   "terminal.integrated.enableBell": true,
+  "editor.accessibilitySupport": "off",
 }
