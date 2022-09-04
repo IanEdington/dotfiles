@@ -6,10 +6,14 @@ alias git='noglob git'
 # __git_files () {
 #     _wanted files expl 'local files' _files
 # }
+function git_files_last_commit() { git show --name-status --pretty="format:" HEAD | grep '^ \?[MAR?]' | awk '{print $NF}';  }
+function git_files_since_last_commit() { git diff --name-only HEAD^; }
+function git_files_modified() { git status --short -- . | grep '^ \?[MAR?]' | awk '{print $NF}'; }
 
 alias gi='$EDITOR .gitignore'
-alias egs='$IDE `git status --short -- . | grep '"'"'^ \?[MAR?]'"'"' | awk '"'"'{print $NF}'"'"'`'
-alias egh='$EDITOR `git diff --name-only HEAD^`'
+alias egm='$EDITOR $(git_files_modified)'
+alias egh='$EDITOR $(git_files_last_commit)'
+alias egdh='$EDITOR $(git_files_since_last_commit)'
 
 # Git Add
 #alias ga="git add"
@@ -58,7 +62,10 @@ alias gsta="gst apply"
 
 # Git Branch
 alias gco="git checkout"
-alias gcoom="gco origin/HEAD"
+function gcoom() {
+    MAIN_BRANCH="$(git config user.main-brach)"
+    gco "origin/${MAIN_BRANCH:-HEAD}"
+}
 alias gcoog="gco origin/green"
 alias gbn="gco -b" # new branch aka checkout -b
 alias gb="git --no-pager branch -v --sort=-committerdate"
@@ -114,3 +121,5 @@ alias gsmu="gsm update"
 alias gbg="git bisect good"
 alias gbb="git bisect bad"
 alias gt="git tag"
+
+alias ts="tig status"
