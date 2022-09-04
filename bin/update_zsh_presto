@@ -12,12 +12,12 @@ install_from_github () {
 
     if [[ -e $package_dir ]]; then
         cd $package_dir
-        git pull && git submodule update --init --remote --recursive
+        git pull
+        git submodule update --recursive --force
     else
         echo "clone into " $package_dir
         git clone --depth 1 $github_repo $package_dir
         cd $package_dir
-        git submodule update --init --remote --recursive
     fi
 }
 
