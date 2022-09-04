@@ -1,7 +1,7 @@
 let mapleader = ';'
 nnoremap <leader>vs :source ~/.ideavimrc<CR>
 
-set surround
+Plug 'tpope/vim-surround'
 set scrolloff=4
 set history=1000
 
@@ -15,8 +15,24 @@ set wrapscan
 nnoremap sr :%s/
 nnoremap se :action SearchEverywhere<CR>
 
-" copy
+" copy path
 nnoremap pwf :action CopyReference<CR> " path to working file
+
+" Cut, Copy, Paste
+nnoremap <leader>x "+Ydd
+vnoremap <leader>x "+ygvd
+inoremap <leader>x <esc>"+Yddi
+
+nnoremap <leader>c "+Y
+vnoremap <leader>c "+y
+inoremap <leader>c <esc>"+Ya
+
+nnoremap <leader>v "+]p
+vnoremap <leader>v d"+]p
+inoremap <leader>v <esc>"+]pa
+nnoremap <leader>V "+]P
+vnoremap <leader>V d"+]P
+inoremap <leader>V <esc>"+]Pa
 
 " move
 nnoremap gwk :action NextSplitter<CR>
@@ -51,7 +67,6 @@ nnoremap yoi :set ignorecase!<CR>
 nnoremap yon :set number!<CR>
 nnoremap yor :set relativenumber!<CR>
 nnoremap yos :set relativenumber!<CR>
-
 
 " change word case
 nnoremap <leader>U viwU
