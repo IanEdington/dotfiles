@@ -92,3 +92,5 @@ ff () { find . -name "$@" ; }
 
 # rsync compressed transfer
 alias rsync_d="rsync -pzrv"
+
+alias source_zsh="source ${ZDOTDIR:-$HOME}/.zshrc"
