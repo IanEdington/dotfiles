@@ -1,9 +1,6 @@
 # homebrew
-if [[ -f /opt/homebrew/bin/brew ]] ; then
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-fi
-if [[ -f /usr/local/Homebrew/bin/brew ]] ; then
-    eval "$(/usr/local/Homebrew/bin/brew shellenv)"
+if [[ -f $HOMEBREW_PREFIX/bin/brew ]] ; then
+    eval "$($HOMEBREW_PREFIX/bin/brew shellenv)"
 fi
 
 # Append "$1" to $PATH when not already in.
@@ -45,7 +42,7 @@ append_path "/usr/sbin"
 append_path "/bin"
 append_path "/sbin"
 append_path "/opt/X11/bin"
-append_path "/usr/local/opt/mysql@5.7/bin"
+append_path "$HOMEBREW_PREFIX/opt/mysql@5.7/bin"
 append_path "${CONDA_INSTALL_DIR:-"$HOME/miniconda"}/bin"
 append_path "${ZDOTDIR:-$HOME}/dev-env"
 
