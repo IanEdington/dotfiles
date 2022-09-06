@@ -1,1 +1,1 @@
-alias ghpr='gpu && gh pr create --fill && gh pr view --web'
+alias ghpr='gpu && gh pr create --fill --draft && gh pr view --web'
