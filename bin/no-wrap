@@ -1,0 +1,5 @@
+#! /usr/bin/env bash
+
+printf '\033[?7l'
+cat -
+printf '\033[?7h'

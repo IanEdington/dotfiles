@@ -43,9 +43,9 @@ alias gdc="gd --cached -w"
 alias gds="gd --staged -w"
 
 # git log
-local GIT_LOG_FORMAT="format:%>|(18,trunc)%C(blue)%ad %C(yellow)%<(8)%h%C(green)%D %C(blue)%s %C(magenta)[%an]"
+local GIT_LOG_FORMAT="format:%>|(18,trunc)%C(blue)%ad %C(yellow)%<(8)%h %C(blue)%s %C(magenta)[%an] %C(green)%D"
 local GIT_LOG="log --decorate --graph --format=\"$GIT_LOG_FORMAT\""
-alias gl="git --no-pager $GIT_LOG --color=always  | head"
+alias gl="git --no-pager $GIT_LOG -10 --color=always | no-wrap"
 alias gll="git $GIT_LOG --branches"
 alias glla="git $GIT_LOG --all"
 alias gllr="git $GIT_LOG"
