@@ -2,7 +2,6 @@
   "window.title": "${activeEditorLong}${separator}${rootName}",
   "workbench.colorTheme": "Default High Contrast",
   "editor.lineNumbers": "relative",
-  "editor.fontSize": 20,
   "editor.fontFamily": "Jetbrains Mono,OperatorMono Nerd Font, Menlo, Monaco, 'Courier New', monospace",
   "editor.minimap.enabled": false,
   "vim.leader": ";",
@@ -135,4 +134,7 @@
   "terminal.integrated.copyOnSelection": true,
   "terminal.integrated.enableBell": true,
   "editor.accessibilitySupport": "off",
+  "debug.console.fontSize": 14,
+  "editor.fontSize": 14,
+  "terminal.integrated.fontSize": 14,
 }
