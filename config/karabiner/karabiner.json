@@ -2,7 +2,8 @@
     "global": {
         "check_for_updates_on_startup": true,
         "show_in_menu_bar": true,
-        "show_profile_name_in_menu_bar": false
+        "show_profile_name_in_menu_bar": false,
+        "unsafe_ui": false
     },
     "profiles": [
         {
@@ -122,40 +123,6 @@
                                 "to_if_alone": [
                                     {
                                         "key_code": "spacebar"
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "Apple: Change return to option (return if alone).",
-                        "manipulators": [
-                            {
-                                "conditions": [
-                                    {
-                                        "identifiers": [
-                                            {
-                                                "vendor_id": 76
-                                            },
-                                            {
-                                                "vendor_id": 1452
-                                            }
-                                        ],
-                                        "type": "device_if"
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "return_or_enter",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "right_option"
                                     }
                                 ],
                                 "type": "basic"
