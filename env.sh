@@ -43,7 +43,6 @@ append_path "/bin"
 append_path "/sbin"
 append_path "/opt/X11/bin"
 append_path "$HOMEBREW_PREFIX/opt/mysql@5.7/bin"
-append_path "${CONDA_INSTALL_DIR:-"$HOME/miniconda"}/bin"
 append_path "${ZDOTDIR:-$HOME}/dev-env"
 
 unset -f append_path
