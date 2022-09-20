@@ -1,0 +1,7 @@
+bind generic G none
+bind main G none
+bind generic g none
+
+bind generic gg move-first-line
+bind generic G move-last-line
+
