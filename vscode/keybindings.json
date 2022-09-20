@@ -96,66 +96,45 @@
         "command": "-workbench.action.quickOpen"
     },
     {
-        "key": "ctrl+t",
-        "command": "-editor.action.transposeLetters",
-        "when": "textInputFocus && !editorReadonly"
+        "key": "cmd+k",
+        "command": "-git.commitAll",
+        "when": "!commitInProgress && !inDebugMode && !terminalFocus"
     },
     {
-        "key": "ctrl+t",
-        "command": "-extension.vim_ctrl+t",
-        "when": "editorTextFocus && vim.active && vim.use<C-t> && !inDebugRepl"
+        "key": "cmd+n ctrl",
+        "command": "explorer.newFile"
     },
     {
-        "key": "ctrl+t",
-        "command": "editor.action.refactor",
-        "when": "editorHasCodeActionsProvider && editorTextFocus && !editorReadonly"
+        "key": "ctrl+d",
+        "command": "-workbench.action.debug.run",
+        "when": "debuggersAvailable && !inDebugMode && !terminalFocus"
     },
     {
-        "key": "ctrl+shift+r",
-        "command": "-editor.action.refactor",
-        "when": "editorHasCodeActionsProvider && editorTextFocus && !editorReadonly"
+        "key": "ctrl+d",
+        "command": "-deleteRight",
+        "when": "textInputFocus"
     },
     {
-        "key": "shift+f6",
-        "command": "-workbench.action.focusPreviousPart"
+        "key": "shift+tab",
+        "command": "-extension.vim_shift+tab",
+        "when": "editorFocus && vim.active && !inDebugRepl && vim.mode != 'Insert'"
     },
     {
-        "key": "shift+f6",
-        "command": "editor.action.rename",
-        "when": "editorHasRenameProvider && editorTextFocus && !editorReadonly"
+        "key": "ctrl+r",
+        "command": "-workbench.action.openRecent"
     },
     {
-        "key": "f2",
-        "command": "-editor.action.rename",
-        "when": "editorHasRenameProvider && editorTextFocus && !editorReadonly"
+        "key": "ctrl+r",
+        "command": "-workbench.action.tasks.reRunTask"
     },
     {
-        "key": "shift+cmd+c",
-        "command": "-workbench.action.terminal.openNativeConsole",
-        "when": "!terminalFocus"
+        "key": "ctrl+r",
+        "command": "-go.test.previous",
+        "when": "editorLangId == 'go'"
     },
     {
-        "key": "shift+cmd+c",
-        "command": "copyRelativeFilePath",
-        "when": "editorFocus"
-    },
-    {
-        "key": "cmd+k shift+alt+cmd+c",
-        "command": "-copyRelativeFilePath",
-        "when": "editorFocus"
-    },
-    {
-        "key": "cmd+1",
-        "command": "-workbench.action.focusFirstEditorGroup"
-    },
-    {
-        "key": "cmd+1",
-        "command": "workbench.view.explorer",
-        "when": "viewContainer.workbench.view.explorer.enabled"
-    },
-    {
-        "key": "shift+cmd+e",
-        "command": "-workbench.view.explorer",
-        "when": "viewContainer.workbench.view.explorer.enabled"
+        "key": "ctrl+r",
+        "command": "-workbench.action.quickOpenNavigateNextInRecentFilesPicker",
+        "when": "inQuickOpen && inRecentFilesPicker"
     }
 ]
