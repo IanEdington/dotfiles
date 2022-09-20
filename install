@@ -55,3 +55,4 @@ for dir in */ ; do
     cd $HOME/.dotfiles
 done
 
+echo_green "done"

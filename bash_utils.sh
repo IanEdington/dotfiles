@@ -53,6 +53,12 @@ echo_yellow() {
     ColorOff='\033[0m'
     echo -e "$Yellow$@$ColorOff"
 }
+echo_green() {
+    local LIGHT_GREEN ColorOff
+    LIGHT_GREEN='\033[1;32m'
+    ColorOff='\033[0m'
+    echo -e "$LIGHT_GREEN$@$ColorOff"
+}
 
 is_darwin() {
     [[ "$(uname -s)" == "Darwin" ]]
