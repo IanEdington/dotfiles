@@ -15,6 +15,12 @@ alias egm='$EDITOR $(git_files_modified)'
 alias egh='$EDITOR $(git_files_last_commit)'
 alias egdh='$EDITOR $(git_files_since_last_commit)'
 
+# WIP (partial commits)
+alias gct="gc -m \"TEMP: \$(git rev-parse --abbrev-ref HEAD) \$(date +\"%Y-%m-%d %T\")\" --no-verify"
+# via http://blog.apiaxle.com/post/handy-git-tips-to-stop-you-getting-fired/
+alias gsnap="git stash save \"snapshot: \$(date +\"%Y-%m-%d %T\") \$(git rev-parse --abbrev-ref HEAD)\" && git stash apply \"stash@{0}\""
+alias gsnaps="git stash list --grep \"^snapshot\""
+
 # Git Add
 #alias ga="git add"
 function ga() {
@@ -31,7 +37,6 @@ alias guns="git unstage"
 # Git Commit
 alias gc="git commit"
 alias gcm="gc -m"
-alias gct="gc -m temp --no-verify"
 alias gcam="ga -A && gc -m"
 
 # Git View
