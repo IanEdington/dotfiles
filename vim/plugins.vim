@@ -48,6 +48,7 @@ Plug 'sbdchd/neoformat'
 " Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
     set updatetime=250
+    let g:gitgutter_preview_win_floating = 1
 " set ignore files from .gitignore
 " Plug 'octref/rootignore'
 
