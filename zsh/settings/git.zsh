@@ -78,6 +78,7 @@ alias gpub="git recent-branches publish"
 alias gtr="git recent-branches track"
 alias gdmb="git branch --merged | grep -v "\*" | xargs -n 1 git branch -d"
 alias gbdg="gf && gcoom && git branch -vv | grep ': gone]' | grep -v '^*' | awk '{ print \$1 }' | xargs -n 1 git branch -D"
+# alternative "git fetch -p; git for-each-ref --format '%(refname) %(upstream:track)' refs/heads | awk '$2 == \"[gone]\" {sub(\"refs/heads/\", \"\", $1); print $1}' | xargs git br -D"
 alias gbd="git branch -D -v"
 alias gbdr="git push origin --delete"
 
@@ -115,10 +116,6 @@ alias gpa="git push --all"
 alias gpu='git push -u origin `git rev-parse --abbrev-ref HEAD`'
 alias gpl="git pull"
 alias gplr="git pull --rebase"
-
-alias gcln="git clean"
-alias gclndf="gcln -df"
-alias gclndfx="gcln -dfx"
 
 alias gsm="git submodule"
 alias gsmi="gsm init"
