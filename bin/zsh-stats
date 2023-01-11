@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Bash Strict Mode: http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -euo pipefail
+IFS=$'\n\t'
+# Bash Strict Mode
+
+fc -l 1 |
+    awk '{CMD[$2]++count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a; }' |
+    grep -v "./" |
+    column -c3 -s " " -t |
+    sort -nr |
+    nl |
+    head -n25;
