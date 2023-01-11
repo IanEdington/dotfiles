@@ -21,10 +21,6 @@ sudo scutil --set HostName "ians-laptop"
 sudo scutil --set LocalHostName "ians-laptop"
 sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "ians-laptop"
 # Set language and text formats
-defaults write NSGlobalDomain AppleLanguages -array "en-CA"
-defaults write NSGlobalDomain AppleLocale -string "en_CA"
-defaults write NSGlobalDomain AppleMeasurementUnits -string "Centimeters"
-defaults write NSGlobalDomain AppleMetricUnits -bool true
 
 # Power Settings
 # Destroy FileVault key when sleep, force hibernation and modify standby and power nap settings.
@@ -39,18 +35,15 @@ defaults write NSGlobalDomain AppleMetricUnits -bool true
 # Display
 # Enable subpixel font rendering on non-Apple LCDs
 # Reference: https://github.com/kevinSuttle/macOS-Defaults/issues/17#issuecomment-266633501
-defaults write NSGlobalDomain AppleFontSmoothing -int 1
-# Enable HiDPI display modes (requires restart)
-sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled -bool true
 # Increase window resize speed for Cocoa applications
 defaults write NSGlobalDomain NSWindowResizeTime -float 0.001
 # Hide the menu bar
 defaults write NSGlobalDomain _HIHideMenuBar -bool true
 
 # Sound
-# Disable the sound effects on boot
-sudo nvram SystemAudioVolume=" "
-# sudo nvram SystemAudioVolume=%80
+# Disable the sound effects
+defaults write "Apple Global Domain" com.apple.sound.beep.volume -int 0
+defaults write "Apple Global Domain" com.apple.sound.uiaudio.enabled -int 0
 
 # Mouse Trackpad input
 # Trackpad: enable tap to click for this user and for the login screen
@@ -68,6 +61,9 @@ defaults -currentHost write NSGlobalDomain com.apple.trackpad.enableSecondaryCli
 # Use scroll gesture with the Ctrl (^) modifier key to zoom
 defaults write com.apple.universalaccess closeViewScrollWheelToggle -bool true
 defaults write com.apple.universalaccess HIDScrollZoomModifierMask -int 262144
+# 3 finger drag
+defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingerDrag -bool true
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerDrag -bool true
 
 # keyboard input
 # Enable full keyboard access for all controls (e.g. enable Tab in modal dialogs)
@@ -222,20 +218,12 @@ defaults write com.apple.appstore ShowDebugMenu -bool true
 
 # Firmware
 # Check if the firmware password is enabled
-echo "\nFirmware `sudo firmwarepasswd -check`\n"
 # sudo firmwarepasswd -setpasswd -setmode command
 
 # FileVault
-echo "be aware that `sudo fdesetup status`"
 
 # Network
 # Firewall, logging, and stealth mode
-sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
-sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setloggingmode on
-sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on
-sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setallowsigned off
-sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setallowsignedapp off
-sudo pkill -HUP socketfilterfw
 # Disable IPv6
 # networksetup -listallnetworkservices | while read i; do SUPPORT=$(networksetup -getinfo "$i" | grep "IPv6: Automatic") && if [ -n "$SUPPORT" ]; then networksetup -setv6off "$i"; fi; done;
 # Captive Portal - sign on to insecure network
@@ -265,15 +253,11 @@ cupsctl --no-share-printers
 # launchctl unload -w /System/Library/LaunchDaemons/com.apple.AppleFileServer.plist;
 # launchctl unload -w /System/Library/LaunchDaemons/com.apple.smbd.plist
 # Disable Remote Apple Events
-sudo systemsetup -setremoteappleevents off
 # Disable Remote Login
-sudo systemsetup -f -setremotelogin off
 # Disable Remote Management
 # sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -deactivate -stop
 
 # TTY
-defaults write com.apple.speech.synthesis.general.prefs SpokenUIUseSpeakingHotKeyCombo -int 291
-defaults write com.apple.speech.voice.prefs SelectedVoiceID -int 184844483
 
 # Applications
 # ------------
@@ -342,7 +326,8 @@ defaults write com.apple.Safari InstallExtensionUpdatesAutomatically -bool true
 
 # Finder
 # Expose hidden files and Library folder in Finder:
-chflags nohidden ~/Library && xattr -d com.apple.FinderInfo ~/Library
+chflags nohidden ~/Library
+xattr -d com.apple.FinderInfo ~/Library
 sudo chflags nohidden /Volumes
 # Show icons for hard drives, servers, and removable media on the desktop
 defaults write com.apple.finder ShowExternalHardDrivesOnDesktop -bool true
@@ -445,15 +430,6 @@ defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
 # Address Book, Dashboard, iCal, TextEdit, and Disk Utility                   #
 ###############################################################################
 
-# Enable the debug menu in Address Book
-defaults write com.apple.addressbook ABShowDebugMenu -bool true
-
-# Enable Dashboard dev mode (allows keeping widgets on the desktop)
-# defaults write com.apple.dashboard devmode -bool true
-
-# Enable the debug menu in iCal (pre-10.8)
-defaults write com.apple.iCal IncludeDebugMenu -bool true
-
 # Use plain text mode for new TextEdit documents
 defaults write com.apple.TextEdit RichText -int 0
 # Open and save files as UTF-8 in TextEdit
@@ -469,208 +445,4 @@ defaults write com.apple.DiskUtility advanced-image-options -bool true
 # Auto-play videos when opened with QuickTime Player
 defaults write com.apple.QuickTimePlayerX MGPlayMovieOnOpen -bool true
 
-###############################################################################
-# Mac App Store                                                               #
-###############################################################################
-
-# Enable the WebKit Developer Tools in the Mac App Store
-defaults write com.apple.appstore WebKitDeveloperExtras -bool true
-
-# Enable Debug Menu in the Mac App Store
-defaults write com.apple.appstore ShowDebugMenu -bool true
-
-# Enable the automatic update check
-defaults write com.apple.SoftwareUpdate AutomaticCheckEnabled -bool true
-
-# Check for software updates daily, not just once per week
-# defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 1
-
-# Download newly available updates in background
-defaults write com.apple.SoftwareUpdate AutomaticDownload -int 1
-
-# Install System data files & security updates
-defaults write com.apple.SoftwareUpdate CriticalUpdateInstall -int 1
-
-# Automatically download apps purchased on other Macs
-# defaults write com.apple.SoftwareUpdate ConfigDataInstall -int 1
-
-# Turn on app auto-update
-defaults write com.apple.commerce AutoUpdate -bool true
-
-# Allow the App Store to reboot machine on macOS updates
-# defaults write com.apple.commerce AutoUpdateRestartRequired -bool true
-
-###############################################################################
-# Photos                                                                      #
-###############################################################################
-
-# Prevent Photos from opening automatically when devices are plugged in
-defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
-
-###############################################################################
-# Messages                                                                    #
-###############################################################################
-
-# Disable automatic emoji substitution (i.e. use plain text smileys)
-# defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "automaticEmojiSubstitutionEnablediMessage" -bool false
-
-# Disable smart quotes as it’s annoying for messages that contain code
-# defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "automaticQuoteSubstitutionEnabled" -bool false
-
-# Disable continuous spell checking
-# defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "continuousSpellCheckingEnabled" -bool false
-
-###############################################################################
-# Google Chrome & Google Chrome Canary                                        #
-###############################################################################
-
-# Disable the all too sensitive backswipe on trackpads
-defaults write com.google.Chrome AppleEnableSwipeNavigateWithScrolls -bool false
-defaults write com.google.Chrome.canary AppleEnableSwipeNavigateWithScrolls -bool false
-
-# Disable the all too sensitive backswipe on Magic Mouse
-defaults write com.google.Chrome AppleEnableMouseSwipeNavigateWithScrolls -bool false
-defaults write com.google.Chrome.canary AppleEnableMouseSwipeNavigateWithScrolls -bool false
-
-# Use the system-native print preview dialog
-# defaults write com.google.Chrome DisablePrintPreview -bool true
-# defaults write com.google.Chrome.canary DisablePrintPreview -bool true
-
-# Expand the print dialog by default
-defaults write com.google.Chrome PMPrintingExpandedStateForPrint2 -bool true
-defaults write com.google.Chrome.canary PMPrintingExpandedStateForPrint2 -bool true
-
-###############################################################################
-# GPGMail 2                                                                   #
-###############################################################################
-
-# Disable signing emails by default
-# defaults write ~/Library/Preferences/org.gpgtools.gpgmail SignNewEmailsByDefault -bool false
-
-###############################################################################
-# Opera & Opera Developer                                                     #
-###############################################################################
-
-# Expand the print dialog by default
-# defaults write com.operasoftware.Opera PMPrintingExpandedStateForPrint2 -boolean true
-# defaults write com.operasoftware.OperaDeveloper PMPrintingExpandedStateForPrint2 -boolean true
-
-###############################################################################
-# SizeUp.app                                                                  #
-###############################################################################
-
-# Start SizeUp at login
-# defaults write com.irradiatedsoftware.SizeUp StartAtLogin -bool true
-
-# Don’t show the preferences window on next start
-# defaults write com.irradiatedsoftware.SizeUp ShowPrefsOnNextStart -bool false
-
-###############################################################################
-# Sublime Text                                                                #
-###############################################################################
-
-# Install Sublime Text settings
-# cp -r init/Preferences.sublime-settings ~/Library/Application\ Support/Sublime\ Text*/Packages/User/Preferences.sublime-settings 2> /dev/null
-
-###############################################################################
-# Spectacle.app                                                               #
-###############################################################################
-
-# Set up my preferred keyboard shortcuts
-# cp -r init/spectacle.json ~/Library/Application\ Support/Spectacle/Shortcuts.json 2> /dev/null
-
-###############################################################################
-# Transmission.app                                                            #
-###############################################################################
-
-# Use `~/Documents/Torrents` to store incomplete downloads
-# defaults write org.m0k.transmission UseIncompleteDownloadFolder -bool true
-# defaults write org.m0k.transmission IncompleteDownloadFolder -string "${HOME}/Documents/Torrents"
-
-# Use `~/Downloads` to store completed downloads
-# defaults write org.m0k.transmission DownloadLocationConstant -bool true
-
-# Don’t prompt for confirmation before downloading
-# defaults write org.m0k.transmission DownloadAsk -bool false
-# defaults write org.m0k.transmission MagnetOpenAsk -bool false
-
-# Don’t prompt for confirmation before removing non-downloading active transfers
-# defaults write org.m0k.transmission CheckRemoveDownloading -bool true
-
-# Trash original torrent files
-# defaults write org.m0k.transmission DeleteOriginalTorrent -bool true
-
-# Hide the donate message
-# defaults write org.m0k.transmission WarningDonate -bool false
-# Hide the legal disclaimer
-# defaults write org.m0k.transmission WarningLegal -bool false
-
-# IP block list.
-# Source: https://giuliomac.wordpress.com/2014/02/19/best-blocklist-for-transmission/
-# defaults write org.m0k.transmission BlocklistNew -bool true
-# defaults write org.m0k.transmission BlocklistURL -string "http://john.bitsurge.net/public/biglist.p2p.gz"
-# defaults write org.m0k.transmission BlocklistAutoUpdate -bool true
-
-# Randomize port on launch
-# defaults write org.m0k.transmission RandomPort -bool true
-
-###############################################################################
-# Twitter.app                                                                 #
-###############################################################################
-
-# Disable smart quotes as it’s annoying for code tweets
-# defaults write com.twitter.twitter-mac AutomaticQuoteSubstitutionEnabled -bool false
-
-# Show the app window when clicking the menu bar icon
-# defaults write com.twitter.twitter-mac MenuItemBehavior -int 1
-
-# Enable the hidden ‘Develop’ menu
-# defaults write com.twitter.twitter-mac ShowDevelopMenu -bool true
-
-# Open links in the background
-# defaults write com.twitter.twitter-mac openLinksInBackground -bool true
-
-# Allow closing the ‘new tweet’ window by pressing `Esc`
-# defaults write com.twitter.twitter-mac ESCClosesComposeWindow -bool true
-
-# Show full names rather than Twitter handles
-# defaults write com.twitter.twitter-mac ShowFullNames -bool true
-
-# Hide the app in the background if it’s not the front-most window
-# defaults write com.twitter.twitter-mac HideInBackground -bool true
-
-###############################################################################
-# Tweetbot.app                                                                #
-###############################################################################
-
-# Bypass the annoyingly slow t.co URL shortener
-# defaults write com.tapbots.TweetbotMac OpenURLsDirectly -bool true
-
-###############################################################################
-# Kill affected applications                                                  #
-###############################################################################
-
-for app in "Activity Monitor" \
-	"Address Book" \
-	"Calendar" \
-	"cfprefsd" \
-	"Contacts" \
-	"Dock" \
-	"Finder" \
-	"Google Chrome Canary" \
-	"Google Chrome" \
-	"Mail" \
-	"Messages" \
-	"Opera" \
-	"Photos" \
-	"Safari" \
-	"SizeUp" \
-	"Spectacle" \
-	"SystemUIServer" \
-	"Transmission" \
-	"Tweetbot" \
-	"Twitter" \
-	"iCal"; do
-	killall "${app}" &> /dev/null
-done
 echo "Done. Note that some of these changes require a logout/restart to take effect."
