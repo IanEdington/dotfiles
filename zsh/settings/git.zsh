@@ -20,6 +20,9 @@ alias gct="gc -m \"TEMP: \$(git rev-parse --abbrev-ref HEAD) \$(date +\"%Y-%m-%d
 # via http://blog.apiaxle.com/post/handy-git-tips-to-stop-you-getting-fired/
 alias gsnap="git stash save \"snapshot: \$(date +\"%Y-%m-%d %T\") \$(git rev-parse --abbrev-ref HEAD)\" && git stash apply \"stash@{0}\""
 alias gsnaps="git stash list --grep \"^snapshot\""
+# via http://blog.apiaxle.com/post/handy-git-tips-to-stop-you-getting-fired/
+# snapshot = !git stash save "snapshot: $(date)" && git stash apply "stash@{0}"
+# snapshots = !git stash list --grep snapshot
 
 # Git Add
 #alias ga="git add"
@@ -74,6 +77,8 @@ function gcoom() {
 alias gcoog="gco origin/green"
 alias gbn="gco -b" # new branch aka checkout -b
 alias gb="git --no-pager branch -v --sort=-committerdate"
+# via http://stackoverflow.com/questions/5188320/how-can-i-get-a-list-of-git-branches-ordered-by-most-recent-commit
+# recent-branches = !git for-each-ref --count=15 --sort=-committerdate refs/heads/ --format='%(refname:short)'
 alias gpub="git recent-branches publish"
 alias gtr="git recent-branches track"
 alias gdmb="git branch --merged | grep -v "\*" | xargs -n 1 git branch -d"
