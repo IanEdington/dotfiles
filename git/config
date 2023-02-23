@@ -20,6 +20,7 @@
     date = relative
 [merge]
     tool = mvimdiff
+	conflictstyle = diff3
 [mergetool "mvimdiff"]
     cmd="vim -c 'Gdiff' $MERGED"     # use fugitive.vim for 3-way merge
     keepbackup=false

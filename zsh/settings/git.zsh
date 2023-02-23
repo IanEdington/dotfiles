@@ -76,6 +76,8 @@ function gcoom() {
 }
 alias gcoog="gco origin/green"
 alias gbn="gco -b" # new branch aka checkout -b
+# todo: make gb display date of last commit
+alias gbf='gb --format "%(HEAD) %(committerdate:relative) %(if)%(HEAD)%(then)%(color:black yellow)%(else)%(color:yellow)%(end)%(align:13)%(refname:short)%(color:reset)%(end) %(objectname:short) %(color:green)%(subject)%(color:reset) %(upstream:short) %(color:red)%(upstream:trackshort)"'
 alias gb="git --no-pager branch -v --sort=-committerdate"
 # via http://stackoverflow.com/questions/5188320/how-can-i-get-a-list-of-git-branches-ordered-by-most-recent-commit
 # recent-branches = !git for-each-ref --count=15 --sort=-committerdate refs/heads/ --format='%(refname:short)'

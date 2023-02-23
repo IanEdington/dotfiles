@@ -60,6 +60,12 @@ Plug 'airblade/vim-gitgutter'
 " Plug 'jalvesaq/nvim-r' "r
 " Plug 'chrisbra/csv.vim'
 Plug 'sheerun/vim-polyglot'
+
+" the default csv language definition in polyglot is frustratingly inaccurate
+" This disables that csv plugin in favour of rainbow csv
+let g:polyglot_disabled = ['csv']
+Plug 'mechatroner/rainbow_csv'
+
 " Java
 " Plug 'hsanson/vim-android'
 " Plug 'artur-shaik/vim-javacomplete2'
