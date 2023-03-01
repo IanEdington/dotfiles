@@ -104,6 +104,7 @@ alias gcaa="gc --amend --reset-author"
 alias grs="git reset"
 alias grsh="grs --hard"
 alias gr="git rebase"
+alias grs='git rebase -i `git merge-base HEAD origin/main`'
 alias grom="git rebase origin/HEAD"
 alias grog="git rebase origin/green"
 alias gra="gr --abort"
