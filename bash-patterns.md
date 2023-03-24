@@ -75,3 +75,15 @@ Colors:
     echo "$BROWN BROWN TEXT $ColorOff"
     echo "$YELLOW YELLOW TEXT $ColorOff"
     echo "$LIGHT_GRAY LIGHT_GRAY TEXT $ColorOff"
+
+Do something if a command succeeded/failed
+
+    set +e
+    git --no-pager grep $file_name > /dev/null
+    the_command_succeeded=$(test $? = 0 && some_other_command_succeeded && echo true || echo false)
+    set -e
+
+    if the_command_succeeded; then
+        echo "do something"
+    fi
+
