@@ -42,7 +42,7 @@ if_command_failed() {
 }
 
 echo_red() {
-    local Yellow ColorOff
+    local Red ColorOff
     Red='\033[0;31m'
     ColorOff='\033[0m'
     echo -e "$Red$@$ColorOff"
