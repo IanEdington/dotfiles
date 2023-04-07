@@ -19,11 +19,14 @@
 [log]
     date = relative
 [merge]
-    tool = mvimdiff
+    tool = vimdiff
 	conflictstyle = diff3
-[mergetool "mvimdiff"]
-    cmd="vim -c 'Gdiff' $MERGED"     # use fugitive.vim for 3-way merge
+[mergetool]
+    keepBackup = false
+[mergetool "vimdiff"]
+    cmd="vim -f -c 'Gdiffsplit!' $MERGED"
     keepbackup=false
+    prompt = false
 [pull]
 	rebase = merges
 [push]
