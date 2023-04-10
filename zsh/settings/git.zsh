@@ -70,12 +70,7 @@ alias gsta="gst apply"
 
 # Git Branch
 alias gco="git checkout"
-function gcoom() {
-    MAIN_BRANCH="$(git config user.main-brach)"
-    gco "origin/${MAIN_BRANCH:-HEAD}"
-}
-alias gcoog="gco origin/green"
-alias gbn="gco -b" # new branch aka checkout -b
+alias gcoom='gco origin/$(git config user.main-branch)'
 # todo: make gb display date of last commit
 alias gbf='gb --format "%(HEAD) %(committerdate:relative) %(if)%(HEAD)%(then)%(color:black yellow)%(else)%(color:yellow)%(end)%(align:13)%(refname:short)%(color:reset)%(end) %(objectname:short) %(color:green)%(subject)%(color:reset) %(upstream:short) %(color:red)%(upstream:trackshort)"'
 alias gb="git --no-pager branch -v --sort=-committerdate"
@@ -101,12 +96,10 @@ alias gunc="git uncommit"
 alias gca="gc --amend"
 alias gcae="gc --amend --no-edit"
 alias gcaa="gc --amend --reset-author"
-alias grs="git reset"
 alias grsh="grs --hard"
 alias gr="git rebase"
 alias grs='git rebase -i `git merge-base HEAD origin/main`'
-alias grom="git rebase origin/HEAD"
-alias grog="git rebase origin/green"
+alias grom='git rebase origin/$(git config user.main-branch)'
 alias gra="gr --abort"
 alias ggrc="gr --continue"
 alias gbi="gr --interactive"
