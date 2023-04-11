@@ -49,6 +49,7 @@ alias gsh="git show"
 alias gd="git diff"
 alias gdc="gd --cached -w"
 alias gds="gd --staged -w"
+alias gdb='gd $(git merge-base HEAD origin/HEAD)'
 
 # git log
 local GIT_LOG_FORMAT="format:%>|(18,trunc)%C(blue)%ad %C(yellow)%<(8)%h %C(blue)%s %C(magenta)[%an] %C(green)%D"
@@ -98,7 +99,7 @@ alias gcae="gc --amend --no-edit"
 alias gcaa="gc --amend --reset-author"
 alias grsh="grs --hard"
 alias gr="git rebase"
-alias grs='git rebase -i `git merge-base HEAD origin/main`'
+alias grs='git rebase -i `git merge-base HEAD origin/HEAD`'
 alias grom='git rebase origin/$(git config user.main-branch)'
 alias gra="gr --abort"
 alias ggrc="gr --continue"
