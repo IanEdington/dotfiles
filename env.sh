@@ -45,9 +45,6 @@ append_path "/opt/X11/bin"
 append_path "$HOMEBREW_PREFIX/opt/mysql@5.7/bin"
 append_path "${ZDOTDIR:-$HOME}/dev-env"
 
-unset -f append_path
-unset -f prepend_path
-
 export PATH
 
 if [[ "$(uname -s)" == "Darwin" ]]; then
