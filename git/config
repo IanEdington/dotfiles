@@ -11,6 +11,7 @@
     new = green
 [core]
     pager = diff-so-fancy | less --tabs=4 -RFX
+	excludesfile = /Users/ian/.gitignore_global
 [diff]
     algorithm = patience
     # mnemonicprefix = true # might be useful once I understand git diff
@@ -28,9 +29,10 @@
     keepbackup=false
     prompt = false
 [pull]
-	rebase = merges
+	rebase = true
 [push]
 	default = current
+	autoSetupRemote = true
 [filter "lfs"]
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
@@ -42,9 +44,14 @@
 	prompt = false
 [advice]
 	detachedHead = false
+	skippedCherryPicks = false
 [init]
 	defaultBranch = main
 [submodule]
 	recurse = true
 [user]
 	main-branch = main
+[rerere]
+	enabled = true
+[branch "main"]
+	pushRemote = NOPE

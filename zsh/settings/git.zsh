@@ -71,7 +71,6 @@ alias gsta="gst apply"
 
 # Git Branch
 alias gco="git checkout"
-alias gcoom='gco origin/$(git config user.main-branch)'
 # todo: make gb display date of last commit
 alias gbf='gb --format "%(HEAD) %(committerdate:relative) %(if)%(HEAD)%(then)%(color:black yellow)%(else)%(color:yellow)%(end)%(align:13)%(refname:short)%(color:reset)%(end) %(objectname:short) %(color:green)%(subject)%(color:reset) %(upstream:short) %(color:red)%(upstream:trackshort)"'
 alias gb="git --no-pager branch -v --sort=-committerdate"
@@ -80,7 +79,7 @@ alias gb="git --no-pager branch -v --sort=-committerdate"
 alias gpub="git recent-branches publish"
 alias gtr="git recent-branches track"
 alias gdmb="git branch --merged | grep -v "\*" | xargs -n 1 git branch -d"
-alias gbdg="gf && gcoom && git branch -vv | grep ': gone]' | grep -v '^*' | awk '{ print \$1 }' | xargs -n 1 git branch -D"
+alias gbdg="gf && grom && git branch -vv | grep ': gone]' | grep -v '^*' | awk '{ print \$1 }' | xargs -n 1 git branch -D"
 # alternative "git fetch -p; git for-each-ref --format '%(refname) %(upstream:track)' refs/heads | awk '$2 == \"[gone]\" {sub(\"refs/heads/\", \"\", $1); print $1}' | xargs git br -D"
 alias gbd="git branch -D -v"
 alias gbdr="git push origin --delete"
