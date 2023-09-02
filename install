@@ -37,7 +37,6 @@ mkdir $HOME/.local/bin &> /dev/null || true
 source $HOME/.dotfiles/env.sh
 
 # SymLink Other base configs
-dotfiles::symlink_files ~/.dotfiles/config ~/.config
 dotfiles::symlink_files ~/.dotfiles/inputrc ~/.inputrc
 dotfiles::symlink_files ~/.dotfiles/profile ~/.profile
 

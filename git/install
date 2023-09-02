@@ -7,6 +7,7 @@ IFS=$'\n\t'
 dotfiles::symlink_files ~/.dotfiles/git/config ~/.config/git/config
 dotfiles::symlink_files ~/.dotfiles/git/ignore ~/.config/git/ignore
 dotfiles::symlink_files ~/.dotfiles/git/tigrc ~/.tigrc
+dotfiles::symlink_files ~/.dotfiles/git/gh/config.yml ~/.config/gh/config.yml
 
 if [[ ! -f ~/.local/git/config ]] ; then
     echo_yellow '-[ ] GIT: add user and email to ~/.config/git/config'

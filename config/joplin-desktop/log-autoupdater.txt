@@ -1,6 +1,0 @@
-2021-08-23 16:16:17: "checkForUpdates: Initializing..."
-2021-08-23 16:16:17: "checkForUpdates: Checking with options {"includePreReleases":false}"
-2021-08-23 16:16:18: "Current version: 1.7.11"
-2021-08-23 16:16:18: "Latest version: 2.3.5"
-2021-08-23 16:16:18: "Is Pre-release:", "false"
-2021-08-23 16:16:19: "checkForUpdates: Done."
