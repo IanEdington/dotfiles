@@ -1,8 +1,3 @@
-# homebrew
-if [[ -f $HOMEBREW_PREFIX/bin/brew ]] ; then
-    eval "$($HOMEBREW_PREFIX/bin/brew shellenv)"
-fi
-
 # Append "$1" to $PATH when not already in.
 # Copied from Arch Linux, see #12803 for details.
 append_path () {
@@ -24,10 +19,14 @@ prepend_path () {
     esac
 }
 
+# homebrew
 if [[ "${HOMEBREW_PREFIX:-word}" != 'word' ]]; then
+    eval "$($HOMEBREW_PREFIX/bin/brew shellenv)"
     prepend_path "$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin"
     prepend_path "$HOMEBREW_PREFIX/opt/python/libexec/bin"
+    append_path "$HOMEBREW_PREFIX/opt/mysql@5.7/bin"
 fi
+
 prepend_path "$HOME/.local/bin"
 prepend_path "$HOME/.dotfiles/bin"
 
@@ -42,7 +41,6 @@ append_path "/usr/sbin"
 append_path "/bin"
 append_path "/sbin"
 append_path "/opt/X11/bin"
-append_path "$HOMEBREW_PREFIX/opt/mysql@5.7/bin"
 append_path "${ZDOTDIR:-$HOME}/dev-env"
 
 export PATH
