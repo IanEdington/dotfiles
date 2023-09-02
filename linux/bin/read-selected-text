@@ -1,0 +1,12 @@
+#! /bin/bash
+
+tts_pid=$(pidof espeak)
+
+if [ -z "$tts_pid"]
+then
+    xclip -out -selection primary | xclip -in -selection clipboard
+    xsel --clipboard | tr "\n" " " | espeak -s 300
+else 
+    kill $tts_pid
+fi
+
