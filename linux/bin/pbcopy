@@ -3,7 +3,6 @@
 if [[ -f /dev/clipboard ]]; then
     cat - > /dev/clipboard
 else
-    /bin/rm ~/.local/clipboard
-    cat - > ~/.local/clipboard
+    cat - | xclip -selection clipboard
 fi
 
