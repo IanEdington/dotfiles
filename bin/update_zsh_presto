@@ -16,7 +16,7 @@ install_from_github () {
         git submodule update --recursive --force
     else
         echo "clone into " $package_dir
-        git clone --depth 1 $github_repo $package_dir
+        git clone --recursive --depth 1 $github_repo $package_dir
         cd $package_dir
     fi
 }
