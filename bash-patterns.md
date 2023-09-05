@@ -4,6 +4,11 @@ This is a place to write them down so they are searchable in the place I write m
 
 Bash Strict Mode: http://redsymbol.net/articles/unofficial-bash-strict-mode/
 
+    #!/usr/bin/env bash
+    # Bash Strict Mode: http://redsymbol.net/articles/unofficial-bash-strict-mode/
+    set -euo pipefail
+    IFS=$'\n\t'
+
 Find files with given pattern and make file openable by intellij
 
     git grep -l ': MarketingEmailContentFilter' | sed "s|\(.*\)|file://$PWD/\1|g"
