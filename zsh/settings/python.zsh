@@ -1,5 +1,5 @@
 # conda initialize (CUSTOM)
-__conda_setup="$("${CONDA_INSTALL_DIR:-"$HOME/miniconda"}/bin/conda" 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$("${CONDA_INSTALL_DIR:-"$HOME/conda"}/bin/conda" 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 elif [[ "$no_conda" != true  ]]; then

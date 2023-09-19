@@ -17,6 +17,7 @@ for config_file ($HOME/.zsh/settings/*.zsh) source $config_file
 
 # Source all *.zshrc files in .local
 if [[ -s "$HOME/.local/zsh" ]]; then
+    touch "$HOME/.local/zsh/keep.zsh" # keep from throwing "no matches found"
     for config_file ($HOME/.local/zsh/*.zsh) source $config_file;
 fi
 
