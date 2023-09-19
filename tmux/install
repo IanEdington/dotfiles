@@ -6,3 +6,6 @@ IFS=$'\n\t'
 
 dotfiles::symlink_files $HOME/.dotfiles/tmux/tmux.conf $HOME/.tmux.conf;
 
+mkdir -P ~/.local/tmux &> /dev/null || true
+touch ~/.local/tmux/tmux.conf
+
