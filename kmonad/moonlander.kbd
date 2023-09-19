@@ -1,0 +1,14 @@
+
+(defcfg
+  input (device-file "/dev/input/by-id/usb-ZSA_Technology_Labs_Moonlander_Mark_I-event-kbd")
+  output (uinput-sink "My KMonad output")
+  cmp-seq lmet
+  cmp-seq-delay 5
+  fallthrough true
+  allow-cmd true
+)
+
+(defsrc lctl lmet rmet rctl)
+
+(deflayer modifiers lmet lctl rctl rmet)
+

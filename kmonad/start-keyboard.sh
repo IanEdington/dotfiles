@@ -3,11 +3,7 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-pid=$(pidof kmonad || echo "")
-
-if [[ ! -z "$pid" ]]
-then
-    kill $pid
-fi
+kill-keyboard
 
 kmonad ~/.dotfiles/kmonad/framework-builtin.kbd & disown
+kmonad ~/.dotfiles/kmonad/moonlander.kbd & disown
