@@ -13,13 +13,13 @@
   tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
   caps a    s    d    f    g    h    j    k    l    ;    '         ret
   lsft z    x    c    v    b    n    m    ,    .    /              rsft
-  lctl    lmet lalt                spc                 ralt rctl
+  lctl      lmet lalt                spc                 ralt rctl
 )
 
 (defalias
-  mes (tap-next-release esc lmet)
-  csp (tap-next-release spc lctl)
-  crt (tap-next-release ret lctl)
+  ces (tap-hold-next 200 esc lctl)
+  msp (tap-next-release spc lmet)
+  mrt (tap-hold-next 200 ret lmet)
 )
 
 (deflayer qwerty
@@ -27,5 +27,5 @@
   tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
   -    a    s    d    f    g    h    j    k    l    ;    '         ret
   lsft z    x    c    v    b    n    m    ,    .    /              rsft
-  lmet      lalt @crt           @mes                     @csp ralt
+  lmet      lalt @mrt           @ces                     @msp ralt
 )
