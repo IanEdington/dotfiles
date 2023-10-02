@@ -3,4 +3,7 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-sudo apt install vim tig
+sudo apt install \
+    direnv \
+    tig \
+    vim \
