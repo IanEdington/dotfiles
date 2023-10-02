@@ -56,4 +56,5 @@
 [rerere]
 	enabled = true
 [branch "main"]
+	# use `git config branch.main.pushRemote <remote>` to override this for a specific repo
 	pushRemote = NOPE
