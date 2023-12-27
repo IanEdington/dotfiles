@@ -38,6 +38,7 @@ mkdir $HOME/.local/bin &> /dev/null || true
 for dir in */ ; do
     log Installing the $dir directory:
     cd $dir;
+    echo "Installing $dir"
 
     if [ -f install ]; then
         source ./install
