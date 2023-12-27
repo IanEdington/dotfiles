@@ -11,7 +11,7 @@ dotfiles::symlink_files ~/.vim ~/.config/nvim
 mkdir ~/.local/vim &> /dev/null || true
 
 #Neovim
-pip -q --disable-pip-version-check --no-python-version-warning install neovim
+pip3 -q --disable-pip-version-check --no-python-version-warning install neovim
 
 # install plug
 if [[ ! -f ~/.vim/autoload/plug.vim ]] ; then

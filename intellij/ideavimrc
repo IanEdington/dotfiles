@@ -4,6 +4,7 @@ nnoremap <leader>vs :source ~/.ideavimrc<CR>
 " stop the UI sounds
 set visualbell
 set noerrorbells
+set ideajoin
 
 Plug 'tpope/vim-surround'
 set scrolloff=4
