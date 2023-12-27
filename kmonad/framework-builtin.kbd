@@ -9,23 +9,19 @@
 )
 
 (defsrc
-  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
-  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
-  caps a    s    d    f    g    h    j    k    l    ;    '         ret
-  lsft z    x    c    v    b    n    m    ,    .    /              rsft
-  lctl      lmet lalt                spc                 ralt rctl
+  caps
+
+  lctl lmet lalt spc  ralt rctl
 )
 
 (defalias
   ces (tap-hold-next 200 esc lctl)
-  msp (tap-next-release spc lmet)
+  msp (tap-next-release spc rmet)
   mrt (tap-hold-next 200 ret lmet)
 )
 
 (deflayer qwerty
-  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
-  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
-  -    a    s    d    f    g    h    j    k    l    ;    '         ret
-  lsft z    x    c    v    b    n    m    ,    .    /              rsft
-  lmet      lalt @mrt           @ces                     @msp ralt
+  -
+
+  lmet lalt @mrt @ces @msp ralt
 )

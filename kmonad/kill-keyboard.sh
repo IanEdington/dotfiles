@@ -3,12 +3,14 @@
 set -euo pipefail
 IFS=$'\n\t'
 
+sudo -v
+
 pids=$(pidof kmonad || echo "")
 
 if [[ ! -z "$pids" ]]
 then
     IFS=$'\n\t '
     for pid in "$pids"; do
-        kill $pid
+        sudo kill $pid
     done
 fi

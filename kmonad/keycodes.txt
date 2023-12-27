@@ -1,0 +1,13 @@
+use `sudo showkey` to see the keycodes
+
+caps keycode  58
+lshf keycode  42
+lctr keycode  29
+win  keycode 125
+lalt keycode  56
+spc  keycode  57
+ralt keycode 100
+rctr keycode  97
+rshf keycode  54
+rtn  keycode  28
+etc  keycode   1
