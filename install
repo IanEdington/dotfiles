@@ -7,8 +7,8 @@ IFS=$'\n\t'
 # ref: http://stackoverflow.com/a/246128/4301584
 DOTFILES_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd -P )"
 
-source "$DOTFILES_ROOT/bash_utils.sh"
-source "$DOTFILES_ROOT/env.sh"
+source "$DOTFILES_ROOT/shells/bash_utils.sh"
+source "$DOTFILES_ROOT/shells/env.sh"
 
 # Symlink the current folder to .dotfiles
 dotfiles::symlink_files $DOTFILES_ROOT $HOME/.dotfiles;
@@ -32,13 +32,6 @@ fi
 # Make sure expected folders exist
 mkdir $HOME/.local &> /dev/null || true
 mkdir $HOME/.local/bin &> /dev/null || true
-
-# Add paths to this shell
-source $HOME/.dotfiles/env.sh
-
-# SymLink Other base configs
-dotfiles::symlink_files ~/.dotfiles/inputrc ~/.inputrc
-dotfiles::symlink_files ~/.dotfiles/profile ~/.profile
 
 # Install Scripts
 # Run install scripts for each folder in dotfiles/

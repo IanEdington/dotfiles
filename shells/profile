@@ -1,1 +1,4 @@
 source $HOME/.dotfiles/shells/env.sh
+
+source $HOME/.bashrc
+
