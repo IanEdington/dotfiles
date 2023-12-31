@@ -7,13 +7,6 @@ IFS=$'\n\t'
 source ~/.dotfiles/shells/bash_utils.sh
 
 if ! is_darwin ; then
-    echo_yellow "-[ ] install missing packages. Find packages using:"
-    cat <<EOF
-        for Brewfile in {./Brewfile,./*/Brewfile} ; do
-            full_brewfile="\$full_brewfile\\n\$( cat \$Brewfile  )"
-        done
-        echo \$full_brewfile | sort
-EOF
     return
 fi
 if ! command_exists brew ; then
@@ -52,3 +45,5 @@ if [[ $? != 0 ]] ; then
     sudo xcodebuild -license accept
 fi
 set -e
+
+source ./terminfo/install
