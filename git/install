@@ -20,3 +20,5 @@ EOF
 fi
 
 mkdir -P ~/.local/share/tig &> /dev/null || true
+
+# sudo apt install gh git git-extras tig

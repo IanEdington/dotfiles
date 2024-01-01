@@ -60,6 +60,10 @@ echo_green() {
     echo -e "$LIGHT_GREEN$@$ColorOff"
 }
 
+is_linux() {
+    [[ "$(uname -s)" == "Linux" ]]
+}
+
 is_darwin() {
     [[ "$(uname -s)" == "Darwin" ]]
 }

@@ -8,3 +8,4 @@ dotfiles::symlink_files ~/.dotfiles/shells/inputrc ~/.inputrc
 dotfiles::symlink_files ~/.dotfiles/shells/bashrc ~/.bashrc
 dotfiles::symlink_files ~/.dotfiles/shells/profile ~/.profile
 
+# sudo apt install zsh mosh direnv

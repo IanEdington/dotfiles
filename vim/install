@@ -4,6 +4,8 @@ set -euo pipefail
 IFS=$'\n\t'
 # Bash Strict Mode
 
+# sudo apt install neovim
+
 # linking files
 dotfiles::symlink_files ~/.dotfiles/vim ~/.vim
 dotfiles::symlink_files ~/.vim/vimrc ~/.vimrc

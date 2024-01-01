@@ -6,3 +6,4 @@ IFS=$'\n\t'
 
 dotfiles::symlink_files ~/.dotfiles/editorconfig/editorconfig ~/.editorconfig
 
+# sudo apt install editorconfig

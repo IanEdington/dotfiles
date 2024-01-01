@@ -7,3 +7,5 @@ IFS=$'\n\t'
 # yarn
 # TODO fix global installs
 # yarn global install
+
+# todo install nvm

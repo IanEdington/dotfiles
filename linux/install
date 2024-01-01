@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# Bash Strict Mode: http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -euo pipefail
+IFS=$'\n\t'
+# Bash Strict Mode
+
+if ! is_linux ; then
+    return
+fi
+
+dotfiles::symlink_files ~/.dotfiles/linux/bin/pbcopy ~/.local/bin/pbcopy
+
+# sudo apt install screenkey \
+#                  vlc vlc-plugin-fluidsynth vlc-plugin-jack vlc-plugin-svg
+#                  fasd
+#                  fzy
+#                  jq
+#                  gpg
+
+# desktop tools
+# flatpak install flathub org.signal.Signal
+# flatpak install flathub com.slack.Slack
