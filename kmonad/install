@@ -4,5 +4,6 @@ set -euo pipefail
 IFS=$'\n\t'
 # Bash Strict Mode
 
+dotfiles::symlink_files ~/.dotfiles/packages/kmonad ~/.local/bin/kmonad
 dotfiles::symlink_files ~/.dotfiles/kmonad/start-keyboard.sh ~/.local/bin/start-keyboard
 dotfiles::symlink_files ~/.dotfiles/kmonad/kill-keyboard.sh ~/.local/bin/kill-keyboard
