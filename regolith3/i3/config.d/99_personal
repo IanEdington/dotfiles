@@ -1,0 +1,7 @@
+# increase and decrease brightness using keyboard keys
+# These are needed because of a linux kernel issue:
+# https://community.frame.work/t/responded-ubuntu-22-brightness-keys-not-working/22460
+## Custom // Increase Brightness // <> <F8> ##
+bindsym --release $mod+$alt+F7 exec --no-startup-id xdotool key --clearmodifiers XF86MonBrightnessDown
+## Custom // Decrease Brightness // <> <F7> ##
+bindsym --release $mod+$alt+F8 exec --no-startup-id xdotool key --clearmodifiers XF86MonBrightnessUp

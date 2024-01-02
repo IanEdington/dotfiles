@@ -6,3 +6,7 @@ IFS=$'\n\t'
 
 dotfiles::symlink_files ~/.dotfiles/regolith3 ~/.config/regolith3
 
+# sudo apt install regolith-desktop regolith-look-lascaille regolith-session-flashback brightnessctl
+
+# sudo apt remove i3rocks-cpu-usage i3rocks-net-traffic i3rocks-time
+
