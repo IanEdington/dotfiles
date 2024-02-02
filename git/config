@@ -55,6 +55,7 @@
 	main-branch = main
 [rerere]
 	enabled = true
+	autoupdate = true
 [branch "main"]
 	# use `git config branch.main.pushRemote <remote>` to override this for a specific repo
 	pushRemote = NOPE
