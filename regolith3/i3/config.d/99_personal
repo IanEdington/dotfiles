@@ -1,3 +1,5 @@
+# TODO: add some instructions about how to add new keyboard shortcuts
+
 # increase and decrease brightness using keyboard keys
 # These are needed because of a linux kernel issue:
 # https://community.frame.work/t/responded-ubuntu-22-brightness-keys-not-working/22460
@@ -5,3 +7,16 @@
 bindsym --release $mod+$alt+F7 exec --no-startup-id xdotool key --clearmodifiers XF86MonBrightnessDown
 ## Custom // Decrease Brightness // <> <F7> ##
 bindsym --release $mod+$alt+F8 exec --no-startup-id xdotool key --clearmodifiers XF86MonBrightnessUp
+
+# focus on windows when they open a url even in another workspace
+# https://unix.stackexchange.com/questions/714427/i3wm-how-to-automatically-switch-workspace-when-a-window-of-a-specific-applicat
+focus_on_window_activation focus
+for_window [class="^Firefox$"] focus
+
+# Keybindings https://i3wm.org/docs/userguide.html#keybindings
+# use `xmodmap -pke` to find keycodes
+# test using `sudo evtest` with `My KMonad output`
+
+## Launch // emoji picker // <Ctrl><Alt> ; ##
+bindsym Ctrl+$alt+semicolon exec --no-startup-id flatpak run it.mijorus.smile
+for_window [class="^smile$"] floating enable, move workspace current
