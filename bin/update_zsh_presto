@@ -11,9 +11,7 @@ install_from_github () {
     package_dir=$2
 
     if [[ -e $package_dir ]]; then
-        cd $package_dir
-        git pull
-        git submodule update --recursive --force
+        zprezto-update
     else
         echo "clone into " $package_dir
         git clone --recursive --depth 1 $github_repo $package_dir
