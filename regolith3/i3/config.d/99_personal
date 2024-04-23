@@ -20,3 +20,10 @@ for_window [class="^Firefox$"] focus
 ## Launch // emoji picker // <Ctrl><Alt> ; ##
 bindsym Ctrl+$alt+semicolon exec --no-startup-id flatpak run it.mijorus.smile
 for_window [class="^smile$"] floating enable, move workspace current
+
+## Launch // tts // <> p ##
+bindsym $mod+p exec --no-startup-id ~/.local/bin/read-selected-text
+
+## Screenshot
+bindsym Ctrl+Shift+3 exec flameshot full --path ~/Pictures/Screenshots
+bindsym Ctrl+Shift+4 exec flameshot gui --path ~/Pictures/Screenshots
