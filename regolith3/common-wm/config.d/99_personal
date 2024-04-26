@@ -22,7 +22,9 @@ bindsym Ctrl+$alt+semicolon exec --no-startup-id flatpak run it.mijorus.smile
 for_window [class="^smile$"] floating enable, move workspace current
 
 ## Launch // tts // <> p ##
-bindsym $mod+p exec --no-startup-id ~/.local/bin/read-selected-text
+bindsym $mod+p exec --no-startup-id ~/.local/bin/read-selected-text selection
+## Launch // tts from clipboard // <><Shift> p ##
+bindsym $mod+Ctrl+p exec --no-startup-id ~/.local/bin/read-selected-text clipboard
 
 ## Screenshot
 bindsym Ctrl+Shift+3 exec flameshot full --path ~/Pictures/Screenshots

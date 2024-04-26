@@ -1,12 +1,27 @@
-#! /bin/bash
+#!/usr/bin/env bash
 
-tts_pid=$(pidof espeak)
+piper_pid=$(pidof piper)
+aplay_pid=$(pidof aplay)
 
-if [ -z "$tts_pid"]
-then
-    xclip -out -selection primary | xclip -in -selection clipboard
-    xsel --clipboard | tr "\n" " " | espeak -s 300
-else 
-    kill $tts_pid
+voice="en_US-libritts_r-medium.onnx"
+
+if [[ "$piper_pid" || "$aplay_pid" ]]; then
+    kill $piper_pid
+    kill $aplay_pid
+else
+    if [[ "$1" == "clipboard" ]]; then
+        selection=$(xclip -out -selection primary)
+    else
+
+        selection=$(xclip -out -selection clipboard)
+    fi
+
+    echo $selection | \
+        tr "\n" " " | \
+        ~/.dotfiles/packages/piper/piper \
+            --model "$HOME/.dotfiles/packages/piper-models/$voice" \
+            --output-raw \
+            --length_scale 0.4 \
+            --sentence_silence 0.1 | \
+        aplay -r 22050 -f S16_LE -t raw -
 fi
-
