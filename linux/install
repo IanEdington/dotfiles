@@ -9,14 +9,8 @@ if ! is_linux ; then
 fi
 
 dotfiles::symlink_files ~/.dotfiles/linux/bin/pbcopy ~/.local/bin/pbcopy
+dotfiles::symlink_files ~/.dotfiles/linux/bin/pbpaste ~/.local/bin/pbpaste
+dotfiles::symlink_files ~/.dotfiles/linux/bin/read-selected-text ~/.local/bin/read-selected-text
 
-# sudo apt install screenkey \
-#                  vlc vlc-plugin-fluidsynth vlc-plugin-jack vlc-plugin-svg
-#                  fasd
-#                  fzy
-#                  jq
-#                  gpg
+source ./autokey/install
 
-# desktop tools
-# flatpak install flathub org.signal.Signal
-# flatpak install flathub com.slack.Slack

@@ -1,3 +1,5 @@
 *.tmp
 .idea
 
+packages/piper-models
+packages/piper

@@ -20,4 +20,4 @@ extract () {
     fi
 }
 
-extract $@
+extract "$@"

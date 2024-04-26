@@ -7,10 +7,11 @@ wm.gaps.inner.size: 0
 wm.window.border.size: 3
 
 # status bar
-i3xrocks.action.battery: ""
-i3xrocks.action.time: ""
+# i3xrocks.action.battery: ""
+# i3xrocks.action.time: ""
 i3xrocks.date.format2: "%m-%d %Hh%M"
-i3xrocks.label.time: ""
+# i3xrocks.label.time: ""
+wm.binding.ws_next: "x"
 
 #terminal
 gnome.terminal.font: JetBrains Mono 14
@@ -18,3 +19,4 @@ gnome.terminal.font: JetBrains Mono 14
 # keyboard shortcuts
 ## change lock command to super+shift+esc since super+esc is too easy
 wm.binding.lock: Shift+Escape
+
