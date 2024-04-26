@@ -9,14 +9,14 @@ if [[ "$piper_pid" || "$aplay_pid" ]]; then
     kill $piper_pid
     kill $aplay_pid
 else
-    if [[ "$1" == "clipboard" ]]; then
-        selection=$(xclip -out -selection primary)
+    if [[ "$1" == "selection" ]]; then
+        text=$(xclip -out -selection primary)
     else
 
-        selection=$(xclip -out -selection clipboard)
+        text=$(xclip -out -selection clipboard)
     fi
 
-    echo $selection | \
+    echo $text | \
         tr "\n" " " | \
         ~/.dotfiles/packages/piper/piper \
             --model "$HOME/.dotfiles/packages/piper-models/$voice" \
