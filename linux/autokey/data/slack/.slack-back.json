@@ -24,7 +24,7 @@
         "hotKey": "["
     },
     "filter": {
-        "regex": "^.*(slack).*$",
+        "regex": null,
         "isRecursive": false
     },
     "sendMode": "kb"

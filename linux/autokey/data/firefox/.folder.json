@@ -1,13 +1,8 @@
 {
-    "type": "phrase",
-    "description": "slack-forward",
-    "modes": [
-        3
-    ],
-    "usageCount": 8,
-    "prompt": false,
-    "omitTrigger": false,
-    "matchCase": false,
+    "type": "folder",
+    "title": "firefox",
+    "modes": [],
+    "usageCount": 2,
     "showInTrayMenu": false,
     "abbreviation": {
         "abbreviations": [],
@@ -21,11 +16,10 @@
         "modifiers": [
             "<ctrl>"
         ],
-        "hotKey": "]"
+        "hotKey": "<f7>"
     },
     "filter": {
-        "regex": null,
-        "isRecursive": false
-    },
-    "sendMode": "kb"
+        "regex": "^.*(firefox).*$",
+        "isRecursive": true
+    }
 }

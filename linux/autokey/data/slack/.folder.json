@@ -1,13 +1,8 @@
 {
-    "type": "phrase",
-    "description": "firefox-focus-tab-right",
-    "modes": [
-        3
-    ],
-    "usageCount": 1,
-    "prompt": false,
-    "omitTrigger": false,
-    "matchCase": false,
+    "type": "folder",
+    "title": "slack",
+    "modes": [],
+    "usageCount": 0,
     "showInTrayMenu": false,
     "abbreviation": {
         "abbreviations": [],
@@ -19,14 +14,12 @@
     },
     "hotkey": {
         "modifiers": [
-            "<ctrl>",
-            "<shift>"
+            "<ctrl>"
         ],
-        "hotKey": "]"
+        "hotKey": "<f7>"
     },
     "filter": {
-        "regex": null,
+        "regex": "^.*(slack).*$",
         "isRecursive": false
-    },
-    "sendMode": "kb"
+    }
 }
