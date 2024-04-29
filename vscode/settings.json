@@ -7,36 +7,26 @@
   "vim.leader": ";",
   "vim.useCtrlKeys": false,
   "vim.easymotion": true,
-  "vim.otherModesKeyBindingsNonRecursive": [
+  "vim.normalModeKeyBindingsNonRecursive": [
     {
       "before": [
-        "<leader>",
-        "f",
-      ],
-      "after": [
-        "<leader>",
-        "<leader>",
-        "f"
-      ],
-    },
-    {
-      "before": [
-        "<leader>",
-        "F",
-      ],
-      "after": [
-        "<leader>",
-        "<leader>",
-        "F"
-      ],
-    },
-    {
-      "before": [
-        "u",
+        "[",
+        "c"
       ],
       "commands": [
         {
-          "command": "undo"
+          "command": "workbench.action.editor.previousChange"
+        }
+      ]
+    },
+    {
+      "before": [
+        "]",
+        "c"
+      ],
+      "commands": [
+        {
+          "command": "workbench.action.editor.nextChange"
         }
       ]
     },
@@ -133,11 +123,6 @@
   "terminal.external.linuxExec": "xterm-256color",
   "terminal.integrated.copyOnSelection": true,
   "workbench.colorTheme": "Solarized Dark",
-  "vscode-home-assistant.hostUrl": "http://192.168.1.101:8123",
-  "vscode-home-assistant.longLivedAccessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmMWI4YTJhZDYzNDI0NDEzOGExZjlkMmU2ZTA3MzhlZCIsImlhdCI6MTcwNTYzNDQxMSwiZXhwIjoyMDIwOTk0NDExfQ.5Hc1ZSyWcfGD26NeXNkaEA2WhyfLFYCQDqpjwMy6GYw",
-  "settingsSync.ignoredExtensions": [
-    "keesschollaart.vscode-home-assistant"
-  ],
   "accessibility.signals.terminalBell": {
     "sound": "on"
   },
