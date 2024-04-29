@@ -12,5 +12,6 @@ dotfiles::symlink_files ~/.dotfiles/linux/bin/pbcopy ~/.local/bin/pbcopy
 dotfiles::symlink_files ~/.dotfiles/linux/bin/pbpaste ~/.local/bin/pbpaste
 dotfiles::symlink_files ~/.dotfiles/linux/bin/read-selected-text ~/.local/bin/read-selected-text
 
-source ./autokey/install
+dotfiles::symlink_files ~/.dotfiles/linux/albert.conf ~/.config/albert.conf
 
+source ./autokey/install
