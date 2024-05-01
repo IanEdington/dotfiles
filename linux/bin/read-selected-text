@@ -17,7 +17,7 @@ else
     fi
 
     echo $text | \
-        tr "\n" " " | \
+        tr -s " \\\/\n" " " | \
         ~/.dotfiles/packages/piper/piper \
             --model "$HOME/.dotfiles/packages/piper-models/$voice" \
             --output-raw \
