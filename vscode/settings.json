@@ -54,6 +54,11 @@
       ]
     },
     {
+      // git-gutter hunk undo
+      "before": ["<leader>", "h", "u"],
+      "commands": [{ "command": "git.revertSelectedRanges" }]
+    },
+    {
       "before": [
         "c",
         "o",
@@ -99,6 +104,58 @@
           "command": "editor.action.formatDocument",
         }
       ]
+    },
+    {
+      "before": ["<leader>", "x"],
+      "after": ["\"", "+", "Y", "d", "d"]
+    },
+    {
+      "before": ["<leader>", "c"],
+      "after": ["\"", "+", "Y"]
+    },
+    {
+      "before": ["<leader>", "v"],
+      "after": ["\"", "+", "]", "p"]
+    },
+    {
+      "before": ["<leader>", "V"],
+      "after": ["\"", "+", "]", "P"]
+    }
+  ],
+  "vim.visualModeKeyBindingsNonRecursive": [
+    {
+      "before": ["<leader>", "x"],
+      "after": ["\"", "+", "y", "g", "v", "d"]
+    },
+    {
+      "before": ["<leader>", "c"],
+      "after": ["\"", "+", "y"]
+    },
+    {
+      "before": ["<leader>", "v"],
+      "after": ["d", "\"", "+", "]", "p"]
+    },
+    {
+      "before": ["<leader>", "V"],
+      "after": ["d", "\"", "+", "]", "P"]
+    }
+  ],
+  "vim.insertModeKeyBindingsNonRecursive": [
+    {
+      "before": ["<leader>", "x"],
+      "after": ["<esc>", "\"", "+", "Y", "d", "d", "i"]
+    },
+    {
+      "before": ["<leader>", "c"],
+      "after": ["<esc>", "\"", "+", "Y", "a"]
+    },
+    {
+      "before": ["<leader>", "v"],
+      "after": ["<esc>", "\"", "+", "]", "p", "a"]
+    },
+    {
+      "before": ["<leader>", "V"],
+      "after": ["<esc>", "\"", "+", "]", "P", "a"]
     }
   ],
   "settings.cycle": [
@@ -126,4 +183,7 @@
     "sound": "on"
   },
   "terminal.integrated.enableVisualBell": true,
+  "files.autoSave": "afterDelay",
+  "chat.experimental.implicitContext": true,
+  "terminal.integrated.defaultProfile.linux": "zsh",
 }
