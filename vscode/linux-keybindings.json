@@ -1,4 +1,33 @@
 [
+    // navigate forwards and backwards using ctrl+[ and ctrl+]
+    {
+    
+        "key": "ctrl+[",
+        "command": "workbench.action.navigateBack",
+        "when": "canNavigateBack"
+    },
+    {
+        "key": "ctrl+]",
+        "command": "workbench.action.navigateForward",
+        "when": "canNavigateForward"
+    },
+    {
+        "key": "ctrl+]",
+        "command": "-editor.action.indentLines",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "ctrl+[",
+        "command": "-editor.action.outdentLines",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "ctrl+shift+-",
+        "command": "-workbench.action.navigateForward",
+        "when": "canNavigateForward"
+    },
+
+    // navigate between tabs using shift+ctrl+[ and shift+ctrl+]
     {
         "key": "shift+ctrl+[",
         "command": "workbench.action.previousEditor"
@@ -7,6 +36,8 @@
         "key": "shift+ctrl+]",
         "command": "workbench.action.nextEditor"
     },
+
+    // remove vscodevim ctrl-* keys I don't use
     {
         "key": "ctrl+k",
         "command": "-extension.vim_ctrl+k",

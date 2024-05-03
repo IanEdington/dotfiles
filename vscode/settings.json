@@ -185,5 +185,6 @@
   "terminal.integrated.enableVisualBell": true,
   "files.autoSave": "afterDelay",
   "chat.experimental.implicitContext": true,
+  "application.shellEnvironmentResolutionTimeout": 29,
   "terminal.integrated.defaultProfile.linux": "zsh",
 }
