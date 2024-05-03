@@ -5,7 +5,6 @@
   "editor.fontFamily": "Jetbrains Mono,OperatorMono Nerd Font, Menlo, Monaco, 'Courier New', monospace",
   "editor.minimap.enabled": false,
   "vim.leader": ";",
-  "vim.useCtrlKeys": false,
   "vim.easymotion": true,
   "vim.normalModeKeyBindingsNonRecursive": [
     {
