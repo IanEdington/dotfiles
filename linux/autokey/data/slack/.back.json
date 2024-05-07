@@ -1,10 +1,10 @@
 {
     "type": "phrase",
-    "description": "slack-forward",
+    "description": "back",
     "modes": [
         3
     ],
-    "usageCount": 8,
+    "usageCount": 18,
     "prompt": false,
     "omitTrigger": false,
     "matchCase": false,
@@ -21,7 +21,7 @@
         "modifiers": [
             "<ctrl>"
         ],
-        "hotKey": "]"
+        "hotKey": "["
     },
     "filter": {
         "regex": null,

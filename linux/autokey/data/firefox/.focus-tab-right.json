@@ -1,10 +1,10 @@
 {
     "type": "phrase",
-    "description": "firefox-focus-tab-right",
+    "description": "focus-tab-right",
     "modes": [
         3
     ],
-    "usageCount": 1,
+    "usageCount": 3,
     "prompt": false,
     "omitTrigger": false,
     "matchCase": false,

@@ -1,8 +1,13 @@
 {
-    "type": "folder",
-    "title": "slack",
-    "modes": [],
-    "usageCount": 29,
+    "type": "phrase",
+    "description": "forward",
+    "modes": [
+        3
+    ],
+    "usageCount": 24,
+    "prompt": false,
+    "omitTrigger": false,
+    "matchCase": false,
     "showInTrayMenu": false,
     "abbreviation": {
         "abbreviations": [],
@@ -16,10 +21,11 @@
         "modifiers": [
             "<ctrl>"
         ],
-        "hotKey": "<f7>"
+        "hotKey": "]"
     },
     "filter": {
-        "regex": "^.*(slack).*$",
-        "isRecursive": true
-    }
+        "regex": null,
+        "isRecursive": false
+    },
+    "sendMode": "kb"
 }
