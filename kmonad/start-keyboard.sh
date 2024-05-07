@@ -5,7 +5,7 @@ IFS=$'\n\t'
 
 sudo -v
 
-~/.dotfiles/kmonad/kill-keyboard.sh
+kill-keyboard
 
 sudo ~/.local/bin/kmonad ~/.dotfiles/kmonad/framework-builtin.kbd \
     &> /dev/null || true \
