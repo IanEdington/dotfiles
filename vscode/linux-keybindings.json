@@ -162,13 +162,7 @@
     // list up and down
     {
         "key": "ctrl+n",
-        "command": "list.focusDown",
-        "when": "listFocus && !inputFocus && !treestickyScrollFocused"
-    },
-    {
-        "key": "ctrl+p",
-        "command": "list.focusUp",
-        "when": "listFocus && !inputFocus && !treestickyScrollFocused"
+        "command": "-workbench.action.files.newUntitledFile"
     },
     {
         "key": "ctrl+p",
@@ -178,6 +172,26 @@
     {
         "key": "ctrl+p",
         "command": "-workbench.action.quickOpen"
+    },
+    {
+        "key": "ctrl+n",
+        "command": "list.focusDown",
+        "when": "listFocus && !inputFocus && !treestickyScrollFocused"
+    },
+    {
+        "key": "ctrl+p",
+        "command": "list.focusUp",
+        "when": "listFocus && !inputFocus && !treestickyScrollFocused"
+    },
+    {
+        "key": "ctrl+n",
+        "command": "workbench.action.quickOpenNavigateNext",
+        "when": "inQuickOpen"
+    },
+    {
+        "key": "ctrl+p",
+        "command": "workbench.action.quickOpenNavigatePrevious",
+        "when": "inQuickOpen"
     },
 
     // GitHub Copilot
