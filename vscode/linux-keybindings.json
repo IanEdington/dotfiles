@@ -39,6 +39,11 @@
 
     // remove vscodevim ctrl-* keys I don't use
     {
+        "key": "ctrl+u",
+        "command": "-cursorUndo",
+        "when": "textInputFocus"
+    },
+    {
         "key": "ctrl+k",
         "command": "-extension.vim_ctrl+k",
         "when": "editorTextFocus && vim.active && vim.use<C-k> && !inDebugRepl"
@@ -79,11 +84,6 @@
         "when": "editorTextFocus && vim.active && vim.use<C-y> && !inDebugRepl"
     },
     {
-        "key": "ctrl+u",
-        "command": "-cursorUndo",
-        "when": "textInputFocus"
-    },
-    {
         "key": "ctrl+i",
         "command": "-extension.vim_ctrl+i",
         "when": "editorTextFocus && vim.active && vim.use<C-i> && !inDebugRepl"
@@ -112,6 +112,11 @@
         "key": "ctrl+s",
         "command": "-extension.vim_ctrl+s",
         "when": "editorTextFocus && vim.active && vim.use<C-s> && !inDebugRepl"
+    },
+    {
+        "key": "ctrl+l",
+        "command": "-extension.vim_navigateCtrlL",
+        "when": "editorTextFocus && vim.active && vim.use<C-l> && !inDebugRepl"
     },
     {
         "key": "ctrl+f",
@@ -152,5 +157,59 @@
         "key": "ctrl+m",
         "command": "-extension.vim_ctrl+m",
         "when": "editorTextFocus && vim.active && vim.use<C-m> && !inDebugRepl || vim.active && vim.use<C-m> && !inDebugRepl && vim.mode == 'CommandlineInProgress' || vim.active && vim.use<C-m> && !inDebugRepl && vim.mode == 'SearchInProgressMode'"
+    },
+
+    // list up and down
+    {
+        "key": "ctrl+n",
+        "command": "list.focusDown",
+        "when": "listFocus && !inputFocus && !treestickyScrollFocused"
+    },
+    {
+        "key": "ctrl+p",
+        "command": "list.focusUp",
+        "when": "listFocus && !inputFocus && !treestickyScrollFocused"
+    },
+    {
+        "key": "ctrl+p",
+        "command": "workbench.action.quickOpen",
+        "when": "!listFocus"
+    },
+    {
+        "key": "ctrl+p",
+        "command": "-workbench.action.quickOpen"
+    },
+
+    // GitHub Copilot
+    {
+        "key": "ctrl+; ctrl+c",
+        "command": "workbench.panel.chat.view.copilot.focus"
+    },
+    {
+        "key": "ctrl+; ctrl+c",
+        "command": "-testing.debugAtCursor",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "ctrl+; ctrl+n",
+        "command": "workbench.action.chat.copilot.newChat"
+    },
+    
+    // Open in GitHub
+    {
+        "key": "ctrl+; ctrl+g",
+        "command": "extension.copyGitHubLinkToClipboard"
+    },
+    {
+        "key": "ctrl+l g",
+        "command": "-extension.openInGitHub"
+    },
+    {
+        "key": "ctrl+l c",
+        "command": "-extension.copyGitHubLinkToClipboard"
+    },
+    {
+        "key": "ctrl+l p",
+        "command": "-extension.openPrGitProvider"
     },
 ]
