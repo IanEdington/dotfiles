@@ -1,3 +1,4 @@
 exec autokey
 exec albert
 exec 1password
+exec start-keyboard
