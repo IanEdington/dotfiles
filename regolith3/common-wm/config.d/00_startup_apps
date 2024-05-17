@@ -1,4 +1,4 @@
 exec autokey
 exec albert
-exec 1password
-exec start-keyboard
+exec 1password --silent
+exec ~/.local/bin/start-keyboard

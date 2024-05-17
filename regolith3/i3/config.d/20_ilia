@@ -2,6 +2,7 @@
 set_from_resource $ilia.stylesheet ilia.stylesheet
 
 ## Launch // Application (Albert) // <> Space ##
+bindsym $mod+space exec --no-startup-id albert show
 
 ## Launch // Command // <><Shift> Space ##
 set_from_resource $wm.binding.launcher.cmd wm.binding.launcher.cmd Shift+space

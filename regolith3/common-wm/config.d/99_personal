@@ -29,3 +29,6 @@ bindsym $mod+Ctrl+p exec --no-startup-id ~/.local/bin/read-selected-text clipboa
 ## Screenshot
 bindsym Ctrl+Shift+3 exec flameshot full --path ~/Pictures/Screenshots
 bindsym Ctrl+Shift+4 exec flameshot gui --path ~/Pictures/Screenshots
+
+## 1Password Universal Access
+bindsym Ctrl+Shift+backslash exec 1password --quick-access
