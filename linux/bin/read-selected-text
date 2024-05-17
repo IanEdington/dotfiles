@@ -12,8 +12,7 @@ else
     if [[ "$1" == "selection" ]]; then
         text=$(xclip -out -selection primary)
     else
-
-        text=$(xclip -out -selection clipboard)
+        text=$(pbcopy)
     fi
 
     echo $text | \
