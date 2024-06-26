@@ -41,3 +41,6 @@ autokey-gtk
 
 pip
 speech-dispatcher
+
+fix start-keyboard script in wayland
+fix flameshot on wayland
