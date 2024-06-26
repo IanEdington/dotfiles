@@ -186,4 +186,13 @@
   "files.autoSave": "afterDelay",
   "chat.experimental.implicitContext": true,
   "terminal.integrated.defaultProfile.linux": "zsh",
+  "php.suggest.basic": true,
+  "php.validate.enable": true,
+  "github.copilot.enable": {
+    "*": false,
+    "plaintext": false,
+    "markdown": false,
+    "scminput": false
+  },
+  "github.copilot.editor.enableAutoCompletions": true,
 }

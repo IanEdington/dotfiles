@@ -53,6 +53,51 @@ nnoremap gh :action ShowErrorDescription<CR>
 " nnoremap gu :action ShowUsages<CR>
 " nnoremap gu :action HighlightUsagesInFile<CR>
 
+" remove vscodevim ctrl-* keys I don't use
+" ref: https://github.com/JetBrains/ideavim/blob/master/doc/sethandler.md
+sethandler <C-D> a:vim
+sethandler <C-U> a:vim
+
+sethandler <C-1> a:ide
+sethandler <C-2> a:ide
+sethandler <C-3> a:ide
+sethandler <C-4> a:ide
+sethandler <C-5> a:ide
+sethandler <C-6> a:ide
+sethandler <C-7> a:ide
+sethandler <C-8> a:ide
+sethandler <C-9> a:ide
+sethandler <C-0> a:ide
+sethandler <C-A> a:ide
+sethandler <C-B> a:ide
+sethandler <C-C> a:ide
+sethandler <C-E> a:ide
+sethandler <C-F> a:ide
+sethandler <C-G> a:ide
+sethandler <C-H> a:ide
+sethandler <C-I> a:ide
+sethandler <C-J> a:ide
+sethandler <C-K> a:ide
+sethandler <C-L> a:ide
+sethandler <C-M> a:ide
+sethandler <C-N> a:ide
+sethandler <C-O> a:ide
+sethandler <C-P> a:ide
+sethandler <C-Q> a:ide
+sethandler <C-R> a:ide
+sethandler <C-S> a:ide
+sethandler <C-T> a:ide
+sethandler <C-V> a:ide
+sethandler <C-W> a:ide
+sethandler <C-X> a:ide
+sethandler <C-Y> a:ide
+sethandler <C-Z> a:ide
+sethandler <C-[> a:ide
+sethandler <C-]> a:ide
+sethandler <C-\> a:ide
+sethandler <C-S-2> a:ide
+sethandler <C-S-6> a:ide
+
 " unimpaired mappings
 nnoremap ]p :action GotoNextError<CR>
 nnoremap [p :action GotoPreviousError<CR>
@@ -62,8 +107,11 @@ nnoremap [e ddkP
 nnoremap ]e ddp
 nnoremap [m :action MethodUp<CR>
 nnoremap ]m :action MethodDown<CR>
+
+" gitgutter
 nnoremap ]c :action VcsShowNextChangeMarker<CR>
 nnoremap [c :action VcsShowPrevChangeMarker<CR>
+nnoremap <leader>hu :action Vcs.RollbackChangedLines<CR>
 
 " toggle options
 nnoremap yow :action EditorToggleUseSoftWraps<CR>
