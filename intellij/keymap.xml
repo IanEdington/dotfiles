@@ -1,0 +1,26 @@
+<keymap version="1" name="My Very Own">
+  <action id="Back">
+    <keyboard-shortcut first-keystroke="ctrl open_bracket" />
+  </action>
+  <action id="EditorDown">
+    <keyboard-shortcut first-keystroke="ctrl n" />
+  </action>
+  <action id="EditorUnindentSelection">
+    <keyboard-shortcut first-keystroke="shift tab" />
+  </action>
+  <action id="EditorUp">
+    <keyboard-shortcut first-keystroke="ctrl p" />
+  </action>
+  <action id="Forward">
+    <keyboard-shortcut first-keystroke="ctrl close_bracket" />
+  </action>
+  <action id="GotoFile">
+    <keyboard-shortcut first-keystroke="ctrl o" />
+  </action>
+  <action id="copilot.chat.show">
+    <keyboard-shortcut first-keystroke="ctrl semicolon" second-keystroke="ctrl c" />
+  </action>
+  <action id="copilot.requestCompletions">
+    <keyboard-shortcut first-keystroke="ctrl semicolon" second-keystroke="ctrl i" />
+  </action>
+</keymap>
