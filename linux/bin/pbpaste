@@ -1,9 +1,9 @@
 #! /usr/bin/env bash
 
-if [[ "$XDG_SESSION_TYPE" == "wayland" ]]; then
+if command -v wl-paste >/dev/null && [[ "$XDG_SESSION_TYPE" == "wayland" ]]; then
     wl-paste -n
 elif command -v xclip >/dev/null && xclip -o -selection clipboard >/dev/null; then
-    xclip -o -selection clipboard
+    xclip -selection clipboard -out
 elif [[ -f /dev/clipboard ]]; then
     cat /dev/clipboard
 elif [[ -f ~/.local/clipboard ]]; then
