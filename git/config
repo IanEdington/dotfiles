@@ -56,8 +56,15 @@
 [rerere]
 	enabled = true
 	autoupdate = true
+
+# git-pile settings
+# Don't allow pushing main, master, or prod branches directly
+# use `git config branch.<branch_name>.pushRemote <remote>` to override this for a specific repo
+[branch "master"]
+	pushRemote = NOPE
 [branch "main"]
-	# use `git config branch.main.pushRemote <remote>` to override this for a specific repo
+	pushRemote = NOPE
+[branch "prod"]
 	pushRemote = NOPE
 [pile]
 	cleanupRemoteOnSubmitFailure = true
