@@ -89,3 +89,7 @@ flatpak install flathub it.mijorus.smile
     Kdenlive (versatile video editor)
     Geary (modern email client)
     Chromium (web browser)
+
+# MoonLander keyboard
+https://github.com/zsa/wally/wiki/Linux-instal
+

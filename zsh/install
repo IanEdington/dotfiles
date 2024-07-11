@@ -16,3 +16,8 @@ dotfiles::symlink_files ~/.zsh/.zprezto/runcoms/zlogin ~/.zsh/.zlogin
 dotfiles::symlink_files ~/.zsh/.zprezto/runcoms/zlogout ~/.zsh/.zlogout
 
 # sudo apt install zsh
+
+# set the default sheel environment to zsh
+if is_linux ; then
+    chsh -s $(which zsh)
+fi

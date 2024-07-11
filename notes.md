@@ -11,6 +11,10 @@ intellij:
 - cmd+= - larger text
 - cmd+- - smaller text
 
+vscode:
+- ;sr -> search all using vim
+- <ctrl>n -> down in pane
+
 vim:
 - `md` files: stop tabing in when `-` exists on the previous line
 

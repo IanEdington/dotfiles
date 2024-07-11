@@ -51,8 +51,6 @@ alias mkdir='mkdir -pv'
 alias less='less -FSRXc'
 # c: Clear terminal display
 alias c='clear'
-# which: Find executables
-alias which='type -a'
 # path: Echo all executable Paths
 alias path='echo -e ${PATH//:/\\n}'
 alias fpath='echo -e ${FPATH//:/\\n}'
