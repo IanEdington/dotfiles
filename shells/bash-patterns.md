@@ -94,3 +94,15 @@ Do something if a command succeeded/failed
         echo "do something"
     fi
 
+Select menu
+
+     select server in $(sed -n "s/^Host \(.*\)/\1/p" ~/.ssh/config) ; do [[ $server ]] && ssh $server ; break ; done
+
+Multi-line string variable
+
+    msg=$(cat << EndOfMessage
+    This is a message
+    with two lines
+    EndOfMessage
+    )
+    echo "$msg"
