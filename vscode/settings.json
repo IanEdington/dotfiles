@@ -195,4 +195,5 @@
     "scminput": false
   },
   "github.copilot.editor.enableAutoCompletions": true,
+  "openInGitHub.alwaysUseDefaultBranch": true,
 }

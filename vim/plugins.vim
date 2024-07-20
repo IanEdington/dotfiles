@@ -46,6 +46,8 @@ Plug 'ctrlpvim/ctrlp.vim'
 "     nnoremap <silent> <leader>t :TestFile<CR>
 Plug 'sbdchd/neoformat'
 Plug 'tpope/vim-fugitive'
+    " enables GitHub
+    Plug 'tpope/vim-rhubarb'
 Plug 'airblade/vim-gitgutter'
     set updatetime=250
     let g:gitgutter_preview_win_floating = 1

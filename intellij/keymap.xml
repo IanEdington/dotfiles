@@ -20,6 +20,9 @@
   <action id="Forward">
     <keyboard-shortcut first-keystroke="ctrl close_bracket" />
   </action>
+  <action id="Github.Open.In.Browser">
+    <keyboard-shortcut first-keystroke="ctrl k" second-keystroke="ctrl g" />
+  </action>
   <action id="GotoFile">
     <keyboard-shortcut first-keystroke="ctrl o" />
   </action>
