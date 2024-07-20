@@ -9,14 +9,16 @@ if ! is_linux ; then
 fi
 
 # make trash file
-mkdir ~/.Trash
+mkdir ~/.Trash &> /dev/null || true
 
 dotfiles::symlink_files ~/.dotfiles/linux/bin/pbcopy ~/.local/bin/pbcopy
 dotfiles::symlink_files ~/.dotfiles/linux/bin/pbpaste ~/.local/bin/pbpaste
 dotfiles::symlink_files ~/.dotfiles/linux/bin/read-selected-text ~/.local/bin/read-selected-text
+dotfiles::symlink_files ~/.dotfiles/linux/bin/update_ubuntu ~/.local/bin/update_ubuntu
 
 dotfiles::symlink_files ~/.dotfiles/linux/albert.conf ~/.config/albert.conf
 
 source ./autokey/install
 
-sudo apt update && sudo apt upgrade -y && sudo snap refresh
+echo "Installing packages"
+update_ubuntu
