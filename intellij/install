@@ -5,3 +5,27 @@ IFS=$'\n\t'
 # Bash Strict Mode
 
 dotfiles::symlink_files $HOME/.dotfiles/intellij/ideavimrc $HOME/.ideavimrc
+
+
+# link keymaps to each intellij instance
+SOURCE_FILE="$HOME/.dotfiles/intellij/keymaps.xml"
+BASE_DIR="$HOME/.config/JetBrains"
+if [ -d "$BASE_DIR" ]; then
+  # Iterate over each sub-directory inside the base directory
+  for SUB_DIR in "$BASE_DIR"/*; do
+    # Check if it is a directory
+    if [ -d "$SUB_DIR" ]; then
+      # Define the keymaps directory path
+      KEYMAPS_DIR="$SUB_DIR/keymaps"
+
+      # Create the keymaps directory if it doesn't exist
+      mkdir -p "$KEYMAPS_DIR" || true
+
+      # Define the symlink target path
+      SYMLINK_TARGET="$KEYMAPS_DIR/keymaps.xml"
+
+      # Create the symlink
+      ln -sf "$SOURCE_FILE" "$SYMLINK_TARGET"
+    fi
+  done
+fi
