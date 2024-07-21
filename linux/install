@@ -20,5 +20,7 @@ dotfiles::symlink_files ~/.dotfiles/linux/albert.conf ~/.config/albert.conf
 
 source ./autokey/install
 
+source ./settings.sh
+
 echo "Installing packages"
 update_ubuntu
