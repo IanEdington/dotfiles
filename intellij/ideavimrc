@@ -39,6 +39,9 @@ nnoremap <leader>V "+]P
 vnoremap <leader>V d"+]P
 inoremap <leader>V <esc>"+]Pa
 
+" formatting
+nnoremap <leader>fm :action ReformatCode<CR>
+
 " move
 nnoremap gwk :action NextSplitter<CR>
 nnoremap gwj :action NextSplitter<CR>

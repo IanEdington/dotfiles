@@ -97,7 +97,7 @@
     },
     {
       "before": [
-        "="
+        "<leader>", "f", "m"
       ],
       "commands": [
         {
@@ -196,4 +196,5 @@
   },
   "github.copilot.editor.enableAutoCompletions": true,
   "openInGitHub.alwaysUseDefaultBranch": true,
+  "update.mode": "none",
 }

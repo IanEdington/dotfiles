@@ -1,7 +1,7 @@
 [
     // navigate forwards and backwards using ctrl+[ and ctrl+]
     {
-    
+
         "key": "ctrl+[",
         "command": "workbench.action.navigateBack",
         "when": "canNavigateBack"
@@ -208,7 +208,7 @@
         "key": "ctrl+; ctrl+n",
         "command": "workbench.action.chat.copilot.newChat"
     },
-    
+
     // Open in GitHub
     {
         "key": "ctrl+; ctrl+g",
@@ -285,5 +285,28 @@
     {
         "key": "ctrl+k ctrl+g",
         "command": "openInGithub.openInGitHubFile"
+    },
+    {
+        "key": "ctrl+shift+n",
+        "command": "-workbench.action.newWindow"
+    },
+    {
+        "key": "ctrl+shift+n",
+        "command": "explorer.newFile"
+    },
+    {
+        "key": "ctrl+shift+l",
+        "command": "-selectAllSearchEditorMatches",
+        "when": "inSearchEditor"
+    },
+    {
+        "key": "ctrl+shift+l",
+        "command": "-editor.action.selectHighlights",
+        "when": "editorFocus"
+    },
+    {
+        "key": "ctrl+shift+l",
+        "command": "-addCursorsAtSearchResults",
+        "when": "fileMatchOrMatchFocus && searchViewletVisible"
     }
 ]
