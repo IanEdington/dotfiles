@@ -8,7 +8,7 @@ dotfiles::symlink_files $HOME/.dotfiles/intellij/ideavimrc $HOME/.ideavimrc
 
 
 # link keymaps to each intellij instance
-SOURCE_FILE="$HOME/.dotfiles/intellij/keymaps.xml"
+SOURCE_FILE="$HOME/.dotfiles/intellij/keymap.xml"
 BASE_DIR="$HOME/.config/JetBrains"
 if [ -d "$BASE_DIR" ]; then
   # Iterate over each sub-directory inside the base directory
@@ -22,7 +22,7 @@ if [ -d "$BASE_DIR" ]; then
       mkdir -p "$KEYMAPS_DIR" || true
 
       # Define the symlink target path
-      SYMLINK_TARGET="$KEYMAPS_DIR/keymaps.xml"
+      SYMLINK_TARGET="$KEYMAPS_DIR/keymap.xml"
 
       # Create the symlink
       ln -sf "$SOURCE_FILE" "$SYMLINK_TARGET"
