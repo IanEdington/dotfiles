@@ -69,6 +69,11 @@ sudo modprobe uinput
 
 freecad freecad-doc: not done
 
+# gnome extensions
+1. install gnome extension manager `sudo apt install gnome-shell-extension-manager`
+1. run `extension-manager` and install the following:
+    * auto-move-windows
+
 # framework suggested
 
 https://github.com/FrameworkComputer/linux-docs/blob/main/LinuxMint21-1-Manual-Setup-13thGen.md
