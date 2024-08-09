@@ -61,7 +61,8 @@ sudo modprobe uinput
     - install: https://docs.docker.com/engine/install/ubuntu/
         - sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
     - post-install: https://docs.docker.com/engine/install/linux-postinstall/
-openvpn3: https://openvpn.net/cloud-docs/owner/connectors/connector-user-guides/openvpn-3-client-for-linux.html
+- openvpn3: https://openvpn.net/cloud-docs/owner/connectors/connector-user-guides/openvpn-3-client-for-linux.html
+- OpenTofu: https://opentofu.org/docs/intro/install/deb/
 
 freecad freecad-doc: not done
 
