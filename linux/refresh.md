@@ -32,6 +32,7 @@ sudo apt install \
     git \
     curl \
     git-extras \
+    unity-tweak-tool unity-lens-applications unity-lens-files  \
     jq \
     mosh \
     neovim \

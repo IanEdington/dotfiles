@@ -18,6 +18,11 @@ vscode:
 vim:
 - `md` files: stop tabing in when `-` exists on the previous line
 
+# start using
+magnifier '<Alt><Super>8'
+magnifier-zoom-in '<Alt><Super>equal'
+magnifier-zoom-out '<Alt><Super>minus'
+
 
 # scoll speed
 decrease scroll speed as per this articel: https://forums.linuxmint.com/viewtopic.php?t=375106
