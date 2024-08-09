@@ -38,6 +38,7 @@ sudo apt install \
     neovim \
     tig \
     tmux \
+    zeal \ # offline documentation
     zsh
 
 # kmonad
@@ -58,6 +59,7 @@ sudo modprobe uinput
 - 1password & 1password-cli: https://support.1password.com/install-linux/#debian-or-ubuntu
 - signal-desktop: https://signal.org/download
 - slack: use snap - https://snapcraft.io/slack
+- firefox-developer-edition: https://askubuntu.com/a/1510266/392415
 - docker
     - install: https://docs.docker.com/engine/install/ubuntu/
         - sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin

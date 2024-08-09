@@ -45,6 +45,7 @@ Plug 'ctrlpvim/ctrlp.vim'
 " Plug 'janko-m/vim-test' "testing use `;t`
 "     nnoremap <silent> <leader>t :TestFile<CR>
 Plug 'sbdchd/neoformat'
+    let g:neoformat_try_node_exe = 1
 Plug 'tpope/vim-fugitive'
     " enables GitHub
     Plug 'tpope/vim-rhubarb'
@@ -75,3 +76,6 @@ Plug 'mechatroner/rainbow_csv'
 "     let g:polyglot_disabled = ['javascript', 'typescript']
 " Plug 'pangloss/vim-javascript'
 " Plug 'leafgarland/typescript-vim'
+
+" Github Copilot Codex
+Plug 'github/copilot.vim'

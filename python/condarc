@@ -556,3 +556,4 @@ channel_priority: strict
 # #   take. Defaults to 3.
 # #
 # unsatisfiable_hints_check_depth: 2
+changeps1: false
