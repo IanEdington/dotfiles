@@ -1,4 +1,3 @@
-/backups
 /view
 /.netrwhist
 /tmp
@@ -8,8 +7,6 @@
 /sessions
 /autoload/plug.vim
 :tags
-*~
-*.swp
 .VimballRecord
 view
 autoload/plug.vim.old
