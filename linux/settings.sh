@@ -39,10 +39,10 @@ gsettings set org.gnome.mutter overlay-key ""
 gsettings set org.gnome.desktop.interface gtk-key-theme "default"
 
 # Screen Shots
-gsettings set org.gnome.shell.keybindings screenshot "['<Shift><Super>3']"
+gsettings set org.gnome.shell.keybindings screenshot "['<Control><Alt>e']"
 gsettings set org.gnome.shell.keybindings screenshot-window "@as []"
-gsettings set org.gnome.shell.keybindings show-screen-recording-ui "['<Shift><Super>5']"
-gsettings set org.gnome.shell.keybindings show-screenshot-ui "['<Shift><Super>4']"
+gsettings set org.gnome.shell.keybindings show-screen-recording-ui "['<Control><Alt>t']"
+gsettings set org.gnome.shell.keybindings show-screenshot-ui "['<Control><Alt>r']"
 
 # access settings and quick settings
 gsettings set org.gnome.shell.keybindings toggle-quick-settings "['<Super>comma']"
@@ -94,14 +94,14 @@ gsettings set org.gnome.desktop.wm.keybindings toggle-fullscreen "['<Control><Al
 # Tab through windows
 
 # windows in a application group
-gsettings set org.gnome.desktop.wm.keybindings switch-group "['<Shift><Super>h']"
-gsettings set org.gnome.desktop.wm.keybindings switch-group-backward "['<Shift><Super>l']"
+gsettings set org.gnome.desktop.wm.keybindings switch-group "['<Shift><Super>h', '<Super>grave']"
+gsettings set org.gnome.desktop.wm.keybindings switch-group-backward "['<Shift><Super>l', '<Shift><Super>grave']"
 gsettings set org.gnome.desktop.wm.keybindings cycle-group "@as []"
 gsettings set org.gnome.desktop.wm.keybindings cycle-group-backward "@as []"
 # windows through windows in a workspace
 gsettings set org.gnome.shell.app-switcher current-workspace-only true
-gsettings set org.gnome.desktop.wm.keybindings switch-windows "['<Super>h']"
-gsettings set org.gnome.desktop.wm.keybindings switch-windows-backward "['<Super>l']"
+gsettings set org.gnome.desktop.wm.keybindings switch-windows "['<Super>h', '<Super>Tab']"
+gsettings set org.gnome.desktop.wm.keybindings switch-windows-backward "['<Super>l', '<Shift><Super>Tab']"
 gsettings set org.gnome.desktop.wm.keybindings cycle-windows "@as []"
 gsettings set org.gnome.desktop.wm.keybindings cycle-windows-backward "@as []"
 
