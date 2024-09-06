@@ -51,13 +51,6 @@ zstyle ':prezto:load' pmodule \
 zstyle ':prezto:module:editor' key-bindings 'vi'
 
 #
-# SSH
-#
-
-# Enable ssh-agent forwarding.
-# zstyle ':prezto:module:ssh-agent' forwarding 'yes'
-
-#
 # Terminal
 #
 
@@ -80,4 +73,7 @@ zstyle ':prezto:module:python' conda-init 'on'
 
 # git
 zstyle ':prezto:module:git:alias' skip 'yes'
+
+# prompt
+zstyle ':prezto:module:editor:info:keymap:primary' format '%B%F{blue}$%f%b'
 
