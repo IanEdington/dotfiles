@@ -308,5 +308,9 @@
         "key": "ctrl+shift+l",
         "command": "-addCursorsAtSearchResults",
         "when": "fileMatchOrMatchFocus && searchViewletVisible"
+    },
+    {
+        "key": "ctrl+shift+alt+n",
+        "command": "workbench.action.newWindow"
     }
 ]

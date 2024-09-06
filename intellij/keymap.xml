@@ -8,6 +8,9 @@
   <action id="$Paste">
     <keyboard-shortcut first-keystroke="ctrl v" />
   </action>
+  <action id="$SelectAll">
+    <keyboard-shortcut first-keystroke="ctrl a" />
+  </action>
   <action id="Back">
     <keyboard-shortcut first-keystroke="ctrl open_bracket" />
   </action>
@@ -20,6 +23,12 @@
   <action id="CodeCompletion">
     <keyboard-shortcut first-keystroke="ctrl space" />
   </action>
+  <action id="CollapseAll">
+    <keyboard-shortcut first-keystroke="ctrl minus" />
+  </action>
+  <action id="CopyPathFromRepositoryRootProvider">
+    <keyboard-shortcut first-keystroke="shift ctrl c" />
+  </action>
   <action id="Editor Copy">
     <keyboard-shortcut first-keystroke="ctrl c" />
   </action>
@@ -28,6 +37,12 @@
   </action>
   <action id="Editor Paste">
     <keyboard-shortcut first-keystroke="ctrl v" />
+  </action>
+  <action id="Editor SelectAll">
+    <keyboard-shortcut first-keystroke="ctrl a" />
+  </action>
+  <action id="EditorDecreaseFontSizeGlobal">
+    <keyboard-shortcut first-keystroke="ctrl minus" />
   </action>
   <action id="EditorDown">
     <keyboard-shortcut first-keystroke="ctrl n" />
@@ -38,11 +53,20 @@
   <action id="EditorEscape">
     <keyboard-shortcut first-keystroke="escape" />
   </action>
+  <action id="EditorIncreaseFontSizeGlobal">
+    <keyboard-shortcut first-keystroke="ctrl equals" />
+  </action>
+  <action id="EditorResetFontSize">
+    <keyboard-shortcut first-keystroke="ctrl 0" />
+  </action>
   <action id="EditorUnindentSelection">
     <keyboard-shortcut first-keystroke="shift tab" />
   </action>
   <action id="EditorUp">
     <keyboard-shortcut first-keystroke="ctrl p" />
+  </action>
+  <action id="ExpandAll">
+    <keyboard-shortcut first-keystroke="ctrl equals" />
   </action>
   <action id="Find">
     <keyboard-shortcut first-keystroke="ctrl f" />
@@ -61,6 +85,9 @@
   </action>
   <action id="GotoFile">
     <keyboard-shortcut first-keystroke="ctrl o" />
+  </action>
+  <action id="NewScratchFile">
+    <keyboard-shortcut first-keystroke="shift ctrl n" />
   </action>
   <action id="NextTab">
     <keyboard-shortcut first-keystroke="shift ctrl close_bracket" />

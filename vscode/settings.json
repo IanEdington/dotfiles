@@ -1,5 +1,5 @@
 {
-  "window.title": "${activeEditorLong}${separator}${rootName}",
+  "window.title": "${rootName}",
   "editor.lineNumbers": "relative",
   "editor.fontSize": 20,
   "editor.fontFamily": "Jetbrains Mono,OperatorMono Nerd Font, Menlo, Monaco, 'Courier New', monospace",
@@ -197,4 +197,7 @@
   "github.copilot.editor.enableAutoCompletions": true,
   "openInGitHub.alwaysUseDefaultBranch": true,
   "update.mode": "none",
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
 }
