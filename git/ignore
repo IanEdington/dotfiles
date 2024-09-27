@@ -29,7 +29,10 @@ Temporary Items
 .apdisk
 
 # Dev
+.env
 .env/
+.docs/
 /env
 .lvimrc
 .envrc
+/node_modules

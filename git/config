@@ -11,7 +11,7 @@
     new = green
 [core]
     pager = diff-so-fancy | less --tabs=4 -RFX
-	excludesfile = /Users/ian/.gitignore_global
+    excludesfile = ~/.config/git/ignore
 [diff]
     algorithm = patience
     # mnemonicprefix = true # might be useful once I understand git diff
