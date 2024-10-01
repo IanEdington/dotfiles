@@ -74,6 +74,4 @@ zstyle ':prezto:module:python' conda-init 'on'
 # git
 zstyle ':prezto:module:git:alias' skip 'yes'
 
-# prompt
-zstyle ':prezto:module:editor:info:keymap:primary' format '%B%F{blue}$%f%b'
 

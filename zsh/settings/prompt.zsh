@@ -1,11 +1,14 @@
 # Modify the Paradox prompt
 
+zstyle ':prezto:module:editor:info:keymap:primary' format '%B%F{blue}$%f%b'
+
 RPROMPT=""
 
 function prompt_paradox_print_elapsed_time() {
   local end_time=$(( SECONDS - _prompt_paradox_start_time ))
   local hours minutes seconds remainder
 
+  print -Pn "\n"
   if (( end_time >= 3600 )); then
     hours=$(( end_time / 3600 ))
     remainder=$(( end_time % 3600 ))
