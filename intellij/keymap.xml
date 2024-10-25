@@ -7,6 +7,7 @@
   </action>
   <action id="$Delete">
     <keyboard-shortcut first-keystroke="delete" />
+    <keyboard-shortcut first-keystroke="back_space" />
   </action>
   <action id="$Paste">
     <keyboard-shortcut first-keystroke="ctrl v" />
@@ -67,7 +68,7 @@
     <keyboard-shortcut first-keystroke="shift ctrl c" />
   </action>
   <action id="DatabaseView.PropertiesAction">
-    <keyboard-shortcut first-keystroke="ctrl semicolon" second-keystroke="ctrl semicolon" />
+    <keyboard-shortcut first-keystroke="shift ctrl comma" />
   </action>
   <action id="EditSource">
     <keyboard-shortcut first-keystroke="ctrl down" />
@@ -80,6 +81,7 @@
   </action>
   <action id="Editor Delete">
     <keyboard-shortcut first-keystroke="delete" />
+    <keyboard-shortcut first-keystroke="back_space" />
   </action>
   <action id="Editor Paste">
     <keyboard-shortcut first-keystroke="ctrl v" />
@@ -89,6 +91,7 @@
   </action>
   <action id="EditorBackSpace">
     <keyboard-shortcut first-keystroke="back_space" />
+    <keyboard-shortcut first-keystroke="shift back_space" />
   </action>
   <action id="EditorChooseLookupItem">
     <keyboard-shortcut first-keystroke="enter" />
@@ -107,7 +110,9 @@
   </action>
   <action id="EditorDown">
     <keyboard-shortcut first-keystroke="down" />
-    <keyboard-shortcut first-keystroke="ctrl n" />
+  </action>
+  <action id="EditorDownWithSelection">
+    <keyboard-shortcut first-keystroke="shift down" />
   </action>
   <action id="EditorEnter">
     <keyboard-shortcut first-keystroke="enter" />
@@ -118,11 +123,36 @@
   <action id="EditorIncreaseFontSizeGlobal">
     <keyboard-shortcut first-keystroke="ctrl equals" />
   </action>
+  <action id="EditorJoinLines">
+    <keyboard-shortcut first-keystroke="ctrl j" />
+  </action>
+  <action id="EditorLeft">
+    <keyboard-shortcut first-keystroke="left" />
+  </action>
+  <action id="EditorLeftWithSelection">
+    <keyboard-shortcut first-keystroke="shift left" />
+  </action>
+  <action id="EditorPasteSimple">
+    <keyboard-shortcut first-keystroke="ctrl alt v" />
+  </action>
+  <action id="EditorRight">
+    <keyboard-shortcut first-keystroke="right" />
+  </action>
+  <action id="EditorRightWithSelection">
+    <keyboard-shortcut first-keystroke="shift right" />
+  </action>
+  <action id="EditorTab">
+    <keyboard-shortcut first-keystroke="tab" />
+  </action>
   <action id="EditorUnindentSelection">
     <keyboard-shortcut first-keystroke="shift tab" />
   </action>
   <action id="EditorUp">
     <keyboard-shortcut first-keystroke="up" />
+    <keyboard-shortcut first-keystroke="ctrl k" />
+  </action>
+  <action id="EditorUpWithSelection">
+    <keyboard-shortcut first-keystroke="shift up" />
   </action>
   <action id="ExpandAll">
     <keyboard-shortcut first-keystroke="ctrl equals" />
@@ -132,6 +162,9 @@
   </action>
   <action id="FindInPath">
     <keyboard-shortcut first-keystroke="shift ctrl f" />
+  </action>
+  <action id="FocusEditor">
+    <keyboard-shortcut first-keystroke="escape" />
   </action>
   <action id="Forward">
     <keyboard-shortcut first-keystroke="ctrl close_bracket" />
@@ -153,25 +186,28 @@
   </action>
   <action id="List-selectNextRow">
     <keyboard-shortcut first-keystroke="down" />
-    <keyboard-shortcut first-keystroke="ctrl n" />
+    <keyboard-shortcut first-keystroke="ctrl j" />
   </action>
   <action id="List-selectPreviousRow">
     <keyboard-shortcut first-keystroke="up" />
-    <keyboard-shortcut first-keystroke="ctrl p" />
+    <keyboard-shortcut first-keystroke="ctrl k" />
   </action>
   <action id="ManageRecentProjects">
     <keyboard-shortcut first-keystroke="shift ctrl m" />
   </action>
   <action id="NavBar-selectDown">
     <keyboard-shortcut first-keystroke="down" />
-    <keyboard-shortcut first-keystroke="ctrl n" />
+    <keyboard-shortcut first-keystroke="ctrl j" />
   </action>
   <action id="NavBar-selectUp">
     <keyboard-shortcut first-keystroke="up" />
-    <keyboard-shortcut first-keystroke="ctrl p" />
+    <keyboard-shortcut first-keystroke="ctrl k" />
   </action>
   <action id="NewElement">
     <keyboard-shortcut first-keystroke="shift ctrl n" />
+  </action>
+  <action id="NextParameter">
+    <keyboard-shortcut first-keystroke="tab" />
   </action>
   <action id="NextTab">
     <keyboard-shortcut first-keystroke="shift ctrl close_bracket" />
@@ -186,20 +222,26 @@
   </action>
   <action id="PopupMenu-selectNext">
     <keyboard-shortcut first-keystroke="down" />
-    <keyboard-shortcut first-keystroke="ctrl n" />
+    <keyboard-shortcut first-keystroke="ctrl j" />
   </action>
   <action id="PopupMenu-selectPrevious">
     <keyboard-shortcut first-keystroke="up" />
-    <keyboard-shortcut first-keystroke="ctrl p" />
+    <keyboard-shortcut first-keystroke="ctrl k" />
+  </action>
+  <action id="PrevParameter">
+    <keyboard-shortcut first-keystroke="shift tab" />
   </action>
   <action id="PreviousTab">
     <keyboard-shortcut first-keystroke="shift ctrl open_bracket" />
   </action>
+  <action id="PreviousTemplateVariable">
+    <keyboard-shortcut first-keystroke="shift tab" />
+  </action>
+  <action id="RecentFiles">
+    <keyboard-shortcut first-keystroke="ctrl e" />
+  </action>
   <action id="Refactorings.QuickListPopupAction">
     <keyboard-shortcut first-keystroke="ctrl t" />
-  </action>
-  <action id="RenameElement">
-    <keyboard-shortcut first-keystroke="f2" />
   </action>
   <action id="SafeDelete">
     <keyboard-shortcut first-keystroke="ctrl delete" />
@@ -216,30 +258,40 @@
   <action id="ShowSettings">
     <keyboard-shortcut first-keystroke="ctrl comma" />
   </action>
+  <action id="SplitChooser.SplitTop">
+    <keyboard-shortcut first-keystroke="up" />
+    <keyboard-shortcut first-keystroke="ctrl k" />
+  </action>
+  <action id="SwitcherIterateItems">
+    <keyboard-shortcut first-keystroke="ctrl e" />
+  </action>
+  <action id="SwitcherRecentEditedChangedToggleCheckBox">
+    <keyboard-shortcut first-keystroke="ctrl e" />
+  </action>
   <action id="Table-selectNextRow">
     <keyboard-shortcut first-keystroke="down" />
-    <keyboard-shortcut first-keystroke="ctrl n" />
+    <keyboard-shortcut first-keystroke="ctrl j" />
   </action>
   <action id="Table-selectPreviousRow">
     <keyboard-shortcut first-keystroke="up" />
-    <keyboard-shortcut first-keystroke="ctrl p" />
+    <keyboard-shortcut first-keystroke="ctrl k" />
   </action>
   <action id="TerminalResetFontSize" />
   <action id="Tree-selectNext">
     <keyboard-shortcut first-keystroke="down" />
-    <keyboard-shortcut first-keystroke="ctrl n" />
+    <keyboard-shortcut first-keystroke="ctrl j" />
   </action>
   <action id="Tree-selectPrevious">
     <keyboard-shortcut first-keystroke="up" />
-    <keyboard-shortcut first-keystroke="ctrl p" />
+    <keyboard-shortcut first-keystroke="ctrl k" />
   </action>
   <action id="Vcs.CombinedDiff.CaretToNextBlock">
     <keyboard-shortcut first-keystroke="down" />
-    <keyboard-shortcut first-keystroke="ctrl n" />
+    <keyboard-shortcut first-keystroke="ctrl j" />
   </action>
   <action id="Vcs.CombinedDiff.CaretToPrevBlock">
     <keyboard-shortcut first-keystroke="up" />
-    <keyboard-shortcut first-keystroke="ctrl p" />
+    <keyboard-shortcut first-keystroke="ctrl k" />
   </action>
   <action id="copilot.applyInlays">
     <keyboard-shortcut first-keystroke="tab" />
