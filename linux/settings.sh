@@ -81,7 +81,7 @@ done
 
 # auto move windows to workspaces
 dconf write "/org/gnome/shell/enabled-extensions" "['ding@rastersoft.com', 'ubuntu-dock@ubuntu.com', 'tiling-assistant@ubuntu.com', 'auto-move-windows@gnome-shell-extensions.gcampax.github.com']"
-dconf write "/org/gnome/shell/extensions/auto-move-windows/application-list" "['org.gnome.Terminal.desktop:9', 'firefox-devedition.desktop:2', 'jetbrains-datagrip-df9acb29-00fd-4d39-ad03-180876092f7b.desktop:4', 'code.desktop:4', 'jetbrains-pycharm-fbf3f12f-658b-4d89-b1e2-dd79a673ca1c.desktop:4', 'signal-desktop.desktop:10', 'slack_slack.desktop:8', 'vivaldi-stable.desktop:2', 'jetbrains-webstorm-ce9f6128-45a5-434a-be9f-158ed642f714.desktop:4', 'jetbrains-phpstorm-9deaa717-0027-48e5-aaa1-3a4edd1fbd24.desktop:4', 'jetbrains-toolbox.desktop:4']"
+dconf write "/org/gnome/shell/extensions/auto-move-windows/application-list" "['org.gnome.Terminal.desktop:9', 'firefox-devedition.desktop:2', 'jetbrains-datagrip-df9acb29-00fd-4d39-ad03-180876092f7b.desktop:5', 'code.desktop:3', 'jetbrains-pycharm-fbf3f12f-658b-4d89-b1e2-dd79a673ca1c.desktop:4', 'signal-desktop.desktop:10', 'slack_slack.desktop:8', 'vivaldi-stable.desktop:2', 'jetbrains-webstorm-ce9f6128-45a5-434a-be9f-158ed642f714.desktop:4', 'jetbrains-phpstorm-9deaa717-0027-48e5-aaa1-3a4edd1fbd24.desktop:4', 'jetbrains-toolbox.desktop:4']"
 
 ##########################################
 ## Window Management ##
