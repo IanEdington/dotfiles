@@ -26,3 +26,7 @@ nnoremap <leader>U viwU
 nnoremap <leader>u viwu
 inoremap <leader>U <esc>viwU
 inoremap <leader>u <esc>viwu
+
+" Jump forward and backward using browser-like keybindings
+" :nnoremap <C-[> <C-o>
+" :nnoremap <C-]> <C-i>

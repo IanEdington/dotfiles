@@ -47,6 +47,11 @@
 [advice]
 	detachedHead = false
 	skippedCherryPicks = false
+	pushUpdateRejected = false
+	addEmptyPathspec = false
+	addIgnoredFile = false
+	forceDeleteBranch = false
+	mergeConflict = false
 [init]
 	defaultBranch = main
 [submodule]

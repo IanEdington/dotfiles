@@ -21,6 +21,9 @@
   <action id="ActivateCommitToolWindow">
     <keyboard-shortcut first-keystroke="ctrl 0" />
   </action>
+  <action id="ActivateDatabaseToolWindow">
+    <keyboard-shortcut first-keystroke="ctrl semicolon" second-keystroke="ctrl d" />
+  </action>
   <action id="ActivateDebugToolWindow">
     <keyboard-shortcut first-keystroke="ctrl 5" />
   </action>
@@ -243,6 +246,9 @@
   <action id="Refactorings.QuickListPopupAction">
     <keyboard-shortcut first-keystroke="ctrl t" />
   </action>
+  <action id="ReplaceInPath">
+    <keyboard-shortcut first-keystroke="shift ctrl r" />
+  </action>
   <action id="SafeDelete">
     <keyboard-shortcut first-keystroke="ctrl delete" />
   </action>
@@ -295,6 +301,9 @@
   </action>
   <action id="copilot.applyInlays">
     <keyboard-shortcut first-keystroke="tab" />
+  </action>
+  <action id="copilot.chat.inline">
+    <keyboard-shortcut first-keystroke="ctrl i" />
   </action>
   <action id="copilot.chat.show">
     <keyboard-shortcut first-keystroke="ctrl semicolon" second-keystroke="ctrl c" />
