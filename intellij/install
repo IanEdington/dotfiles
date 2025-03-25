@@ -8,8 +8,13 @@ dotfiles::symlink_files $HOME/.dotfiles/intellij/ideavimrc $HOME/.ideavimrc
 
 
 # link keymaps to each intellij instance
+if is_darwin; then
+  BASE_DIR="$HOME/Library/Application Support/JetBrains"
+else
+  BASE_DIR="$HOME/.config/JetBrains"
+fi
+
 SOURCE_FILE="$HOME/.dotfiles/intellij/keymap.xml"
-BASE_DIR="$HOME/.config/JetBrains"
 if [ -d "$BASE_DIR" ]; then
   # Iterate over each sub-directory inside the base directory
   for SUB_DIR in "$BASE_DIR"/*; do

@@ -36,6 +36,14 @@ fi
 mkdir $HOME/.local &> /dev/null || true
 mkdir $HOME/.local/bin &> /dev/null || true
 
+# Install python early
+echo "Installing python"
+source ./python/install
+
+if is_darwin && [ -f Brewfile ]; then
+    brew bundle
+fi
+
 # Install Scripts
 # Run install scripts for each folder in dotfiles/
 for dir in */ ; do
@@ -43,6 +51,9 @@ for dir in */ ; do
     cd $dir;
     echo "Installing $dir"
 
+    if is_darwin && [ -f Brewfile ]; then
+        brew bundle
+    fi
     if [ -f install ]; then
         source ./install
     fi

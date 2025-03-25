@@ -5,3 +5,8 @@ IFS=$'\n\t'
 # Bash Strict Mode
 
 dotfiles::symlink_files ~/.dotfiles/python/condarc ~/.condarc
+
+mkdir $HOME/.local/python &> /dev/null || true
+python3 -m venv ~/.local/python/user_env
+source ~/.local/python/user_env/bin/activate
+

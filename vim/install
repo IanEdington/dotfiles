@@ -11,6 +11,9 @@ dotfiles::symlink_files ~/.dotfiles/vim ~/.vim
 dotfiles::symlink_files ~/.vim/vimrc ~/.vimrc
 dotfiles::symlink_files ~/.vim ~/.config/nvim
 mkdir ~/.local/vim &> /dev/null || true
+mkdir -p ~/.cache/vim/backup/ &> /dev/null || true
+mkdir -p ~/.cache/vim/swap/ &> /dev/null || true
+mkdir -p ~/.cache/vim/undo/ &> /dev/null || true
 
 #Neovim
 pip3 -q --disable-pip-version-check --no-python-version-warning install neovim || true

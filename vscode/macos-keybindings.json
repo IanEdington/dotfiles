@@ -1,41 +1,171 @@
 // Place your key bindings in this file to override the defaultsauto[]
 [
+    // left hand tabs
     {
-        "key": "ctrl+u",
-        "command": "-list.focusPageUp",
-        "when": "listFocus && !inputFocus"
+        "key": "cmd+1",
+        "command": "workbench.view.explorer",
+        "when": "viewContainer.workbench.view.explorer.enabled"
     },
     {
-        "key": "ctrl+u",
-        "command": "extension.vim_ctrl+u",
-        "when": "editorTextFocus && vim.active && !inDebugRepl"
+        "key": "shift+cmd+e",
+        "command": "-workbench.view.explorer",
+        "when": "viewContainer.workbench.view.explorer.enabled"
+    },
+
+    // remove unused focus group shortcuts
+    {
+        "key": "cmd+k cmd+up",
+        "command": "-workbench.action.focusAboveGroup"
     },
     {
-        "key": "ctrl+u",
-        "command": "-extension.vim_ctrl+u",
-        "when": "editorTextFocus && vim.active && vim.use<C-u> && !inDebugRepl"
+        "key": "cmd+k cmd+down",
+        "command": "-workbench.action.focusBelowGroup"
     },
     {
-        "key": "cmd+n",
-        "command": "welcome.showNewFileEntries",
-        "when": "explorerViewletVisible && filesExplorerFocus && !explorerResourceReadonly && !inputFocus"
+        "key": "cmd+k cmd+left",
+        "command": "-workbench.action.focusLeftGroup"
     },
     {
-        "key": "cmd+n",
-        "command": "-workbench.action.files.newUntitledFile"
+        "key": "cmd+k cmd+right",
+        "command": "-workbench.action.focusRightGroup"
     },
     {
-        "key": "shift+cmd+w",
-        "command": "-workbench.action.closeWindow"
+        "key": "ctrl+cmd+right",
+        "command": "-workbench.action.moveEditorToNextGroup"
     },
     {
-        "key": "shift+cmd+n",
-        "command": "-workbench.action.newWindow"
+        "key": "ctrl+cmd+left",
+        "command": "-workbench.action.moveEditorToPreviousGroup"
+    },
+    {
+        "key": "cmd+1",
+        "command": "-workbench.action.focusFirstEditorGroup"
+    },
+    {
+        "key": "cmd+8",
+        "command": "-workbench.action.focusEighthEditorGroup"
+    },
+    {
+        "key": "cmd+5",
+        "command": "-workbench.action.focusFifthEditorGroup"
+    },
+    {
+        "key": "cmd+4",
+        "command": "-workbench.action.focusFourthEditorGroup"
+    },
+    {
+        "key": "cmd+2",
+        "command": "-workbench.action.focusSecondEditorGroup"
+    },
+    {
+        "key": "cmd+7",
+        "command": "-workbench.action.focusSeventhEditorGroup"
+    },
+    {
+        "key": "cmd+6",
+        "command": "-workbench.action.focusSixthEditorGroup"
+    },
+    {
+        "key": "cmd+3",
+        "command": "-workbench.action.focusThirdEditorGroup"
+    },
+    {
+        "key": "cmd+9",
+        "command": "-workbench.action.lastEditorInGroup"
+    },
+    {
+        "key": "ctrl+0",
+        "command": "-workbench.action.lastEditorInGroup"
+    },
+    {
+        "key": "ctrl+cmd+1",
+        "command": "-workbench.action.moveEditorToFirstGroup"
+    },
+    {
+        "key": "ctrl+cmd+9",
+        "command": "-workbench.action.moveEditorToLastGroup"
+    },
+
+    // indent and outdent/dedent/unindent lines
+    {
+        "key": "tab",
+        "command": "editor.action.indentLines",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "cmd+]",
+        "command": "-editor.action.indentLines",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "shift+tab",
+        "command": "editor.action.outdentLines",
+        "when": "editorTextFocus && !editorReadonly"
     },
     {
         "key": "cmd+[",
         "command": "-editor.action.outdentLines",
         "when": "editorTextFocus && !editorReadonly"
+    },
+
+    // Copilot
+    {
+        "key": "cmd+; cmd+c",
+        "command": "workbench.panel.chat",
+        "when": "workbench.panel.chat.view.copilot.active"
+    },
+    {
+        "key": "cmd+; cmd+c",
+        "command": "-testing.debugAtCursor",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "ctrl+cmd+i",
+        "command": "-workbench.panel.chat",
+        "when": "workbench.panel.chat.view.copilot.active"
+    },
+    {
+        "key": "ctrl+enter",
+        "command": "-github.copilot.generate",
+        "when": "editorTextFocus && github.copilot.activated && !commentEditorFocused && !inInteractiveInput && !interactiveEditorFocused"
+    },
+    {
+        "key": "cmd+; cmd+l",
+        "command": "workbench.action.chat.newChat",
+        "when": "chatIsEnabled && inChat && chatLocation != 'editing-session'"
+    },
+    {
+        "key": "ctrl+l",
+        "command": "-workbench.action.chat.newChat",
+        "when": "chatIsEnabled && inChat && chatLocation != 'editing-session'"
+    },
+    {
+        "key": "cmd+; cmd+l",
+        "command": "-testing.debugLastRun"
+    },
+    // Copy Paste
+    {
+        "key": "shift+cmd+c",
+        "command": "-workbench.action.terminal.openNativeConsole",
+        "when": "!terminalFocus"
+    },
+    {
+        "key": "shift+cmd+c",
+        "command": "copyRelativeFilePath"
+    },
+    {
+        "key": "shift+alt+cmd+c",
+        "command": "-copyRelativeFilePath",
+        "when": "!editorFocus"
+    },
+    {
+        "key": "cmd+k shift+alt+cmd+c",
+        "command": "-copyRelativeFilePath",
+        "when": "editorFocus"
+    },
+    {
+        "key": "cmd+k cmd+g",
+        "command": "openInGithub.openInGitHubFile"
     },
     {
         "key": "cmd+[",
@@ -43,98 +173,19 @@
         "when": "canNavigateBack"
     },
     {
-        "key": "ctrl+-",
+        "key": "browserback",
         "command": "-workbench.action.navigateBack",
         "when": "canNavigateBack"
     },
     {
-        "key": "shift+cmd+a",
-        "command": "workbench.action.showCommands"
+        "key": "cmd+]",
+        "command": "workbench.action.navigateForward",
+        "when": "canNavigateForward"
     },
     {
-        "key": "f1",
-        "command": "-workbench.action.showCommands"
+        "key": "browserforward",
+        "command": "-workbench.action.navigateForward",
+        "when": "canNavigateForward"
     },
-    {
-        "key": "shift+cmd+p",
-        "command": "-workbench.action.showCommands"
-    },
-    {
-        "key": "cmd+o",
-        "command": "-workbench.action.files.openFile",
-        "when": "false"
-    },
-    {
-        "key": "cmd+o",
-        "command": "-workbench.action.files.openFolderViaWorkspace",
-        "when": "!openFolderWorkspaceSupport && workbenchState == 'workspace'"
-    },
-    {
-        "key": "cmd+o",
-        "command": "-workbench.action.files.openFileFolder",
-        "when": "isMacNative && openFolderWorkspaceSupport"
-    },
-    {
-        "key": "cmd+o",
-        "command": "-workbench.action.files.openLocalFileFolder",
-        "when": "remoteFileDialogVisible"
-    },
-    {
-        "key": "cmd+o",
-        "command": "workbench.action.gotoSymbol"
-    },
-    {
-        "key": "shift+cmd+o",
-        "command": "-workbench.action.gotoSymbol"
-    },
-    {
-        "key": "shift+cmd+o",
-        "command": "workbench.action.quickOpen"
-    },
-    {
-        "key": "cmd+p",
-        "command": "-workbench.action.quickOpen"
-    },
-    {
-        "key": "cmd+k",
-        "command": "-git.commitAll",
-        "when": "!commitInProgress && !inDebugMode && !terminalFocus"
-    },
-    {
-        "key": "cmd+n ctrl",
-        "command": "explorer.newFile"
-    },
-    {
-        "key": "ctrl+d",
-        "command": "-workbench.action.debug.run",
-        "when": "debuggersAvailable && !inDebugMode && !terminalFocus"
-    },
-    {
-        "key": "ctrl+d",
-        "command": "-deleteRight",
-        "when": "textInputFocus"
-    },
-    {
-        "key": "shift+tab",
-        "command": "-extension.vim_shift+tab",
-        "when": "editorFocus && vim.active && !inDebugRepl && vim.mode != 'Insert'"
-    },
-    {
-        "key": "ctrl+r",
-        "command": "-workbench.action.openRecent"
-    },
-    {
-        "key": "ctrl+r",
-        "command": "-workbench.action.tasks.reRunTask"
-    },
-    {
-        "key": "ctrl+r",
-        "command": "-go.test.previous",
-        "when": "editorLangId == 'go'"
-    },
-    {
-        "key": "ctrl+r",
-        "command": "-workbench.action.quickOpenNavigateNextInRecentFilesPicker",
-        "when": "inQuickOpen && inRecentFilesPicker"
-    }
+    // next
 ]
