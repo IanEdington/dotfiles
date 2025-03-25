@@ -1,0 +1,24 @@
+yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+sudo yabai --load-sa
+
+yabai -m config top_padding 3
+yabai -m config bottom_padding 3
+yabai -m config left_padding 3
+yabai -m config right_padding 3
+yabai -m config window_gap 10
+yabai -m config debug_output on
+
+# Web browsers
+yabai -m rule --add space=2 app="^(Google Chrome|Firefox|Brave Browser)$"
+# Text editors
+yabai -m rule --add space=3 app="^(Code)$"
+# Jetbrains
+yabai -m rule --add space=4 manage=off app="^(IntelliJ IDEA|PhpStorm|WebStorm|RubyMine|PyCharm|DataGrip)$"
+# DataGrip
+yabai -m rule --add space=5 app="^(DataGrip)$"
+# Music
+yabai -m rule --add space=6 app="^(Spotify|Amazon Music)$"
+# Work Chat
+yabai -m rule --add space=8 app="^(Slack)"
+# Terminal
+yabai -m rule --add space=9 app="^(iTerm2)$"

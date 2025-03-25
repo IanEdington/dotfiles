@@ -49,3 +49,13 @@ set -e
 dotfiles::symlink_files ~/.dotfiles/macOS/karabiner.json ~/.config/karabiner/karabiner.json
 
 source ./terminfo/install
+
+# skhd
+dotfiles::symlink_files ~/.dotfiles/macOS/skhdrc ~/.config/skhd/skhdrc
+brew install koekeishiya/formulae/skhd
+skhd --start-service
+
+dotfiles::symlink_files ~/.dotfiles/macOS/yabairc ~/.config/yabai/yabairc
+brew install koekeishiya/formulae/yabai
+yabai --start-service
+
