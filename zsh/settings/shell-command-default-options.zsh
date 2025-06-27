@@ -39,12 +39,27 @@ alias rm="echo Dont Fn touch this! Use 'tr', or the full path i.e. '/bin/rm'"
 
 
 # Preferred 'mv' implementation
+# Use a function instead of alias to avoid interfering with nvm and other tools
 if [[ $OSTYPE == darwin* ]]; then
-    alias mv='gmv -iv'
+    mv() {
+        # Only use interactive/verbose flags when called directly from command line
+        if [[ -t 0 && -t 1 && -t 2 ]]; then
+            command gmv -iv "$@"
+        else
+            command mv "$@"
+        fi
+    }
 else
-    alias mv='mv -iv'
+    mv() {
+        # Only use interactive/verbose flags when called directly from command line  
+        if [[ -t 0 && -t 1 && -t 2 ]]; then
+            command mv -iv "$@"
+        else
+            command mv "$@"
+        fi
+    }
 fi
-# verbose and interactive
+
 # Preferred 'mkdir' implementation
 alias mkdir='mkdir -pv'
 # Preferred 'less' implementation
@@ -82,7 +97,11 @@ alias tree='tree -Fc -L 2'
 # usage: fn foo
 # to find all files containing 'foo' in the name
 function fn() {
-    find . -name "*$1*"
+    $DIR=${2:-.}
+    find "$DIR" -name "*$1*"
+}
+function gfn() {
+    git ls-files | grep "$1"
 }
 
 # ff: Find file under the current directory
