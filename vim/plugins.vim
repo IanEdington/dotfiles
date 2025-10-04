@@ -76,6 +76,3 @@ Plug 'mechatroner/rainbow_csv'
 "     let g:polyglot_disabled = ['javascript', 'typescript']
 " Plug 'pangloss/vim-javascript'
 " Plug 'leafgarland/typescript-vim'
-
-" Github Copilot Codex
-Plug 'github/copilot.vim'

@@ -41,7 +41,7 @@ alias rm="echo Dont Fn touch this! Use 'tr', or the full path i.e. '/bin/rm'"
 # Preferred 'mv' implementation
 # Use a function instead of alias to avoid interfering with nvm and other tools
 if [[ $OSTYPE == darwin* ]]; then
-    mv() {
+    function mv() {
         # Only use interactive/verbose flags when called directly from command line
         if [[ -t 0 && -t 1 && -t 2 ]]; then
             command gmv -iv "$@"
@@ -50,7 +50,7 @@ if [[ $OSTYPE == darwin* ]]; then
         fi
     }
 else
-    mv() {
+    function mv() {
         # Only use interactive/verbose flags when called directly from command line  
         if [[ -t 0 && -t 1 && -t 2 ]]; then
             command mv -iv "$@"

@@ -35,4 +35,5 @@ Temporary Items
 /env
 .lvimrc
 .envrc
+.aider.*
 /node_modules

@@ -1,3 +1,5 @@
+source ~/.local/python/user_env
+
 # conda initialize (CUSTOM)
 __conda_setup="$("${CONDA_INSTALL_DIR:-"$HOME/conda"}/bin/conda" 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then

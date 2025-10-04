@@ -16,14 +16,17 @@
   <action id="$SelectAll">
     <keyboard-shortcut first-keystroke="meta a" />
   </action>
+  <action id="AIAssistant.Chat.AIPopupChat">
+    <keyboard-shortcut first-keystroke="meta i" />
+  </action>
+  <action id="AIAssistant.Editor.AskAiAssistantInEditor">
+    <keyboard-shortcut first-keystroke="meta i" />
+  </action>
   <action id="ActivateBookmarksToolWindow">
     <keyboard-shortcut first-keystroke="meta 2" />
   </action>
   <action id="ActivateCommitToolWindow">
     <keyboard-shortcut first-keystroke="meta 0" />
-  </action>
-  <action id="ActivateDatabaseToolWindow">
-    <keyboard-shortcut first-keystroke="ctrl semicolon" second-keystroke="ctrl d" />
   </action>
   <action id="ActivateDebugToolWindow">
     <keyboard-shortcut first-keystroke="meta 5" />
@@ -66,6 +69,9 @@
   </action>
   <action id="Console.Execute.Multiline">
     <keyboard-shortcut first-keystroke="meta enter" />
+  </action>
+  <action id="Console.Jdbc.Execute.2">
+    <keyboard-shortcut first-keystroke="shift meta enter" />
   </action>
   <action id="Console.TableResult.AddRow" />
   <action id="CopyPathFromRepositoryRootProvider">
@@ -249,7 +255,7 @@
     <keyboard-shortcut first-keystroke="meta t" />
   </action>
   <action id="ReplaceInPath">
-    <keyboard-shortcut first-keystroke="shift ctrl r" />
+    <keyboard-shortcut first-keystroke="shift meta r" />
   </action>
   <action id="SafeDelete">
     <keyboard-shortcut first-keystroke="meta delete" />
@@ -292,6 +298,9 @@
   <action id="Tree-selectPrevious">
     <keyboard-shortcut first-keystroke="up" />
     <keyboard-shortcut first-keystroke="ctrl k" />
+  </action>
+  <action id="UiAssistant.ScriptGeneratorSettings">
+    <keyboard-shortcut first-keystroke="meta semicolon" second-keystroke="meta c" />
   </action>
   <action id="Vcs.CombinedDiff.CaretToNextBlock">
     <keyboard-shortcut first-keystroke="down" />

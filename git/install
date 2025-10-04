@@ -21,4 +21,6 @@ fi
 
 mkdir -P ~/.local/share/tig &> /dev/null || true
 
+gh extension install github/gh-copilot
+
 # sudo apt install gh git git-extras tig

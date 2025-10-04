@@ -31,6 +31,28 @@
     },
     {
       "before": [
+        "[",
+        "p"
+      ],
+      "commands": [
+        {
+          "command": "editor.action.marker.prev"
+        }
+      ]
+    },
+    {
+      "before": [
+        "]",
+        "p"
+      ],
+      "commands": [
+        {
+          "command": "editor.action.marker.next"
+        }
+      ]
+    },
+    {
+      "before": [
         "g",
         "w",
         "h"
@@ -217,4 +239,11 @@
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "git.blame.editorDecoration.enabled": true,
+  "yaml.schemas": {
+    "/Users/ian/.vscode/extensions/continue.continue-1.0.13-darwin-arm64/config-yaml-schema.json": [
+      ".continue/**/*.yaml"
+    ]
+  },
+  "workbench.activityBar.orientation": "vertical"
 }

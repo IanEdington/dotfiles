@@ -88,16 +88,6 @@
 
     // indent and outdent/dedent/unindent lines
     {
-        "key": "tab",
-        "command": "editor.action.indentLines",
-        "when": "editorTextFocus && !editorReadonly"
-    },
-    {
-        "key": "cmd+]",
-        "command": "-editor.action.indentLines",
-        "when": "editorTextFocus && !editorReadonly"
-    },
-    {
         "key": "shift+tab",
         "command": "editor.action.outdentLines",
         "when": "editorTextFocus && !editorReadonly"
@@ -109,11 +99,6 @@
     },
 
     // Copilot
-    {
-        "key": "cmd+; cmd+c",
-        "command": "workbench.panel.chat",
-        "when": "workbench.panel.chat.view.copilot.active"
-    },
     {
         "key": "cmd+; cmd+c",
         "command": "-testing.debugAtCursor",
@@ -187,5 +172,75 @@
         "command": "-workbench.action.navigateForward",
         "when": "canNavigateForward"
     },
-    // next
+    {
+        "key": "cmd+0",
+        "command": "-workbench.action.focusSideBar"
+    },
+    {
+        "key": "cmd+0",
+        "command": "workbench.view.scm",
+        "when": "workbench.scm.active"
+    },
+    {
+        "key": "ctrl+shift+g",
+        "command": "-workbench.view.scm",
+        "when": "workbench.scm.active"
+    },
+    {
+        "key": "cmd+down",
+        "command": "git.openFile"
+    },
+    {
+        "key": "cmd+q",
+        "command": "-workbench.action.quit"
+    },
+    {
+        "key": "shift+cmd+m",
+        "command": "workbench.action.openRecent"
+    },
+    {
+        "key": "ctrl+r",
+        "command": "-workbench.action.openRecent"
+    },
+    {
+        "key": "cmd+t",
+        "command": "-workbench.action.showAllSymbols"
+    },
+    {
+        "key": "cmd+t",
+        "command": "editor.action.refactor",
+        "when": "editorHasCodeActionsProvider && textInputFocus && !editorReadonly"
+    },
+    {
+        "key": "ctrl+shift+r",
+        "command": "-editor.action.refactor",
+        "when": "editorHasCodeActionsProvider && textInputFocus && !editorReadonly"
+    },
+    {
+        "key": "alt+enter",
+        "command": "editor.action.quickFix",
+        "when": "editorHasCodeActionsProvider && textInputFocus && !editorReadonly"
+    },
+    {
+        "key": "cmd+.",
+        "command": "-editor.action.quickFix",
+        "when": "editorHasCodeActionsProvider && textInputFocus && !editorReadonly"
+    },
+    {
+        "key": "cmd+k cmd+s",
+        "command": "workbench.action.openGlobalKeybindings"
+    },
+    {
+        "key": "cmd+r cmd+s",
+        "command": "-workbench.action.openGlobalKeybindings"
+    },
+    {
+        "key": "cmd+w",
+        "command": "-workbench.action.closeWindow",
+        "when": "!editorIsOpen && !multipleEditorGroups"
+    },
+    {
+        "key": "cmd+i",
+        "command": "-composer.startComposerPrompt"
+    }
 ]
