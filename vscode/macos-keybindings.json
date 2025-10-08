@@ -242,5 +242,15 @@
     {
         "key": "cmd+i",
         "command": "-composer.startComposerPrompt"
+    },
+    {
+        "key": "cmd+down",
+        "command": "explorer.openToSide",
+        "when": "filesExplorerFocus && !inputFocus"
+    },
+    {
+        "key": "cmd+down",
+        "command": "list.select",
+        "when": "filesExplorerFocus && !inputFocus"
     }
 ]
