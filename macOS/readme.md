@@ -1,6 +1,31 @@
 # Previous Mac setup in case I go back
 
 ## Mac Settings
+### yabai scripting-addition loader
+
+The yabai scripting addition is loaded automatically at login via a root LaunchDaemon installed by `macOS/install`.
+
+- Script: `macOS/yabai/yabai-load-sa.sh`
+- Plist: `macOS/yabai/com.ianedington.yabai.plist`
+- Installed to:
+  - `/usr/local/libexec/yabai-load-sa` (root:wheel 755)
+  - `/Library/LaunchDaemons/com.ianedington.yabai.plist` (root:wheel 644)
+
+Manage the daemon:
+
+```bash
+sudo launchctl print system/com.ianedington.yabai
+sudo tail -f /var/log/com.ianedington.yabai.out
+sudo tail -f /var/log/com.ianedington.yabai.err
+```
+
+To force reload after edits:
+
+```bash
+sudo launchctl bootout system /Library/LaunchDaemons/com.ianedington.yabai.plist || true
+sudo launchctl bootstrap system /Library/LaunchDaemons/com.ianedington.yabai.plist
+sudo launchctl kickstart -k system/com.ianedington.yabai
+```
 
 Places to look for settings:
 - nvram - boot settings

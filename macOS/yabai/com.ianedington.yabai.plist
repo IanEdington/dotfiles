@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>com.ianedington.yabai</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/usr/local/libexec/yabai-load-sa</string>
+  </array>
+  <key>RunAtLoad</key><true/>
+  <key>KeepAlive</key><true/>
+  <!-- Umask 022 (octal) is 18 decimal -->
+  <key>Umask</key><integer>18</integer>
+  <key>StandardOutPath</key><string>/var/log/com.ianedington.yabai.out</string>
+  <key>StandardErrorPath</key><string>/var/log/com.ianedington.yabai.err</string>
+</dict>
+</plist>
+
+

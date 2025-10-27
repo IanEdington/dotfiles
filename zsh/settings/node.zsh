@@ -8,8 +8,8 @@ echo $PNPM_HOME
 export PNPM_HOME="$HOME/.local/share/pnpm"
 [ ! -d "$PNPM_HOME" ] && mkdir -p "$PNPM_HOME"
 case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;
-  *) export PATH="$PNPM_HOME:$PATH" ;
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 
 # Load nvm (prioritize Homebrew on macOS, fallback to standard installation)

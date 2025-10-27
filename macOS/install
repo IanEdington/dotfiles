@@ -52,10 +52,35 @@ source ./terminfo/install
 
 # skhd
 dotfiles::symlink_files ~/.dotfiles/macOS/skhdrc ~/.config/skhd/skhdrc
-brew install koekeishiya/formulae/skhd
-skhd --start-service
+skhd --start-service || true
 
 dotfiles::symlink_files ~/.dotfiles/macOS/yabairc ~/.config/yabai/yabairc
-brew install koekeishiya/formulae/yabai
-yabai --start-service
+yabai --start-service || true
+
+# yabai scripting-addition loader (LaunchDaemon)
+SCRIPT_SRC=~/.dotfiles/macOS/yabai/yabai-load-sa.sh
+SCRIPT_DST=/usr/local/libexec/yabai-load-sa
+PLIST_SRC=~/.dotfiles/macOS/yabai/com.ianedington.yabai.plist
+PLIST_DST=/Library/LaunchDaemons/com.ianedington.yabai.plist
+LABEL=com.ianedington.yabai
+
+# Install script only if missing
+if [ -f "$SCRIPT_SRC" ] && [ ! -x "$SCRIPT_DST" ]; then
+    sudo install -d -m 0755 -o root -g wheel /usr/local/libexec
+    sudo install -m 0755 -o root -g wheel "$SCRIPT_SRC" "$SCRIPT_DST"
+fi
+
+# Install plist only if missing
+if [ -f "$PLIST_SRC" ] && [ ! -f "$PLIST_DST" ]; then
+    sudo install -m 0644 -o root -g wheel "$PLIST_SRC" "$PLIST_DST"
+fi
+
+# If job not loaded, bootstrap and start
+if ! sudo launchctl print system/$LABEL >/dev/null 2>&1; then
+    if [ -f "$PLIST_DST" ]; then
+        sudo launchctl bootstrap system "$PLIST_DST"
+        sudo launchctl enable system/$LABEL
+        sudo launchctl kickstart -k system/$LABEL
+    fi
+fi
 
