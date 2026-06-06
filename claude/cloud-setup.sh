@@ -31,11 +31,17 @@ trap 'rm -rf "${CLONE_DIR}"' EXIT
 # If it fails, Claude reads this message and can inform the user at session start.
 mkdir -p "${CLAUDE_TARGET_DIR}"
 cat > "${CLAUDE_TARGET_DIR}/CLAUDE.md" <<'FAILURE_NOTICE'
-> **Setup notice — read this first.**
-> The cloud-setup script failed to clone the dotfiles repo, so your personal
-> CLAUDE.md did not load. Please let the user know at the start of this session:
-> "Your personal Claude config (CLAUDE.md from dotfiles) did not load — the
-> setup script couldn't reach GitHub. Working with defaults for this session."
+## IMPORTANT — action required before responding to anything else
+
+The cloud-setup script could not clone the dotfiles repo, so your personal
+CLAUDE.md did not load and your preferences are unavailable for this session.
+
+**Notify the user immediately with this message (before doing anything else):**
+
+> ⚠️ Your personal Claude config (CLAUDE.md from your dotfiles) did not load —
+> the setup script couldn't reach GitHub. I'm working with defaults for this
+> session. Check that your environment's network policy allows outbound HTTPS
+> to github.com, then restart the session to pick up your config.
 FAILURE_NOTICE
 
 echo "[cloud-setup] Cloning dotfiles from ${DOTFILES_REPO} ..."
