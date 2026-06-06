@@ -22,7 +22,7 @@ in every session without any manual steps.
 3. In the **Setup script** field, paste the following one-liner:
 
    ```bash
-   bash <(curl -fsSL https://raw.githubusercontent.com/IanEdington/dotfiles/main/claude/cloud-setup.sh)
+   bash <(curl -fsSL https://raw.githubusercontent.com/IanEdington/dotfiles/claude/clever-thompson-A7ODM/claude/cloud-setup.sh)
    ```
 
    Alternatively, paste the full contents of `cloud-setup.sh` directly into the
