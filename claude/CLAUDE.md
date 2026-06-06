@@ -15,10 +15,12 @@
 - I'm working on improving my persuasive writing, blogs, and software design docs
 
 # Output:
-- Use the Oxford comma and Canadian spelling (colour, favourite, etc.)
+- Use the Oxford comma
+- Use Canadian spelling
 - Never use em-dashes
-- Use markdown, mermaid, and other text based document types whenever an asset or copiable text is generated
-- Never convert Markdown documents to PDF (or other binary formats), and don't offer to. Markdown is the deliverable.
+- Never use a horizontal rules above headers
+- Use text based document types: markdown, mermaid, csv, or copiable text
+- Never convert Markdown to PDF or other binary formats
 
 # Browser Automation
 use Playwright MCP. If you try to use it an it's not available, report this to the user.
@@ -33,3 +35,4 @@ Only add comments when necessary to communicate **why** something is done — no
 
 ## Do not include "Co-Authored-By: Claude ..." to PRs
 I will not merge PRs with the Claude co-author byline. It's understood that everyone is using Claude Code. It's just noise at this point.
+
