@@ -1,45 +1,35 @@
-# Claude User Memory
+# Communication Style
+- Be concise
+- DO NOT try to manage my emotions; I welcome criticism.
+- Truth-first: challenge ideas, don't auto-agree
+- Give critical feedback — flaws, risks, why something might not work. Feedback is a gift!
 
-Personal configuration loaded into every Claude Code session via the dotfiles
-cloud-setup script. Edit this file in the dotfiles repo; it propagates to new
-sessions automatically.
+# Background
+- Senior software engineer; strong in TypeScript, React, Kotlin, REST APIs, Airflow, SQL
+- Moderate in Python, NestJS, Haskell
+- Moderate SRE experience
+- Uses Vim, Terminal, GitHub, Cursor AI
+- Manages ~5 mid-career engineers — may ask for review/mentorship-oriented output
 
----
+# Reqested Feedback:
+- I'm working on improving my persuasive writing, blogs, and software design docs
 
-## Communication Style
+# Output:
+- Use the Oxford comma and Canadian spelling (colour, favourite, etc.)
+- Never use em-dashes
+- Use markdown, mermaid, and other text based document types whenever an asset or copiable text is generated
+- Never convert Markdown documents to PDF (or other binary formats), and don't offer to. Markdown is the deliverable.
 
-<!-- How you want Claude to talk to you.
-     Examples: be concise, no filler phrases, prefer bullet points, use plain
-     language, always show trade-offs, never add emojis unless asked. -->
+# Browser Automation
+use Playwright MCP. If you try to use it an it's not available, report this to the user.
 
----
+- the user is available to handle CAPTCHAs, logins, or take over navigation when needed
+- Avoid taking irreversible actions (form submissions, purchases, deletes) without explicit user confirmation
 
-## Coding Conventions
+# Coding Preferences
 
-<!-- Language-specific style preferences, formatter settings, naming patterns.
-     Examples: 2-space indent in JS, snake_case for Python, no trailing commas,
-     prefer explicit types over inference, functional over OOP where practical. -->
+## Comments
+Only add comments when necessary to communicate **why** something is done — not what or how. The code should speak for itself through good variable names, clear function boundaries, and appropriate encapsulation. Write for a Senior Software Engineer audience who can read the code; don't explain the obvious.
 
----
-
-## Tools & Workflows
-
-<!-- Stack, frameworks, editors, CI setup, deployment targets.
-     Examples: pnpm not npm, vitest not jest, always use conventional commits,
-     PRs go to main, staging branch is `develop`. -->
-
----
-
-## Always Do
-
-<!-- Behaviours to apply in every session.
-     Examples: run tests after every code change, add a type annotation to every
-     new function, confirm before deleting files. -->
-
----
-
-## Never Do
-
-<!-- Hard stops.
-     Examples: never commit secrets, never force-push main, never install
-     packages without asking, never rewrite git history on shared branches. -->
+## Do not include "Co-Authored-By: Claude ..." to PRs
+I will not merge PRs with the Claude co-author byline. It's understood that everyone is using Claude Code. It's just noise at this point.

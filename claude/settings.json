@@ -1,0 +1,26 @@
+{
+  "model": "sonnet",
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "osascript -e 'display notification \"Claude needs your attention\" with title \"Claude Code\"'"
+          }
+        ]
+      }
+    ]
+  },
+  "editorMode": "vim",
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "@playwright/mcp@latest"
+      ]
+    }
+  },
+  "customInstructions": "NEVER push to origin/main or origin/master without explicit user permission. Always ask before running 'git push origin main' or 'git push origin master'. Commits are fine, and pushing to other brances is fine, but pushing to main or master requires confirmation."
+}

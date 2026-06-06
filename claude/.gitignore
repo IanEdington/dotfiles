@@ -1,0 +1,15 @@
+/.last-cleanup
+/.stats-cache.json
+/history.jsonl
+/backups/
+/cache/
+/chrome/
+/debug/
+/ide/
+/plans/
+/plugins/
+/projects/
+/sessions/
+/tasks/
+/telemetry/
+
