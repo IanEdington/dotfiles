@@ -4,7 +4,6 @@ export NVM_DIR="$HOME/.nvm"
 [ ! -d "$NVM_DIR" ] && mkdir -p "$NVM_DIR"
 
 # pnpm
-echo $PNPM_HOME
 export PNPM_HOME="$HOME/.local/share/pnpm"
 [ ! -d "$PNPM_HOME" ] && mkdir -p "$PNPM_HOME"
 case ":$PATH:" in
@@ -22,3 +21,6 @@ elif [[ -s "$NVM_DIR/nvm.sh" ]]; then
     source "$NVM_DIR/nvm.sh"
     [ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
 fi
+
+# Ensure nvm's node takes precedence over Homebrew's node in PATH
+[[ -n "$NVM_BIN" ]] && export PATH="$NVM_BIN:$PATH"
