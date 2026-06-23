@@ -20,11 +20,19 @@ prepend_path () {
 }
 
 # homebrew
-if [[ "${HOMEBREW_PREFIX:-word}" != 'word' ]]; then
-    eval "$($HOMEBREW_PREFIX/bin/brew shellenv)"
+if [[ -x "/opt/homebrew/bin/brew" ]]; then
+    export HOMEBREW_PREFIX="/opt/homebrew"
+elif [[ -x "/usr/local/bin/brew" ]]; then
+    export HOMEBREW_PREFIX="/usr/local"
+fi
+
+if [[ -n "${HOMEBREW_PREFIX:-}" ]]; then
+    prepend_path "$HOMEBREW_PREFIX/bin"
+    prepend_path "$HOMEBREW_PREFIX/sbin"
     prepend_path "$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin"
     prepend_path "$HOMEBREW_PREFIX/opt/python/libexec/bin"
     append_path "$HOMEBREW_PREFIX/opt/mysql@5.7/bin"
+    append_path "$HOMEBREW_PREFIX/opt/mysql-client/bin"
 fi
 
 prepend_path "$HOME/.local/bin"
