@@ -15,10 +15,15 @@
 #   - Idempotent: safe to run multiple times; later runs overwrite earlier ones.
 #   - Graceful failure: if the clone fails (no network, etc.) we warn and exit 0
 #     so the session still starts — just without the custom config.
+#   - Uses curl+tar instead of git clone: Claude Code remote sessions inject a
+#     git insteadOf rule routing all github.com traffic through a session-scoped
+#     proxy. The dotfiles repo is not in the session's authorized list, so
+#     git clone returns 403. curl is unaffected by git config.
 
 set -euo pipefail
 
 DOTFILES_REPO="https://github.com/IanEdington/dotfiles.git"
+DOTFILES_TARBALL="${DOTFILES_REPO%.git}/archive/refs/heads/main.tar.gz"
 CLONE_DIR="$(mktemp -d)"
 CLAUDE_SOURCE_DIR="${CLONE_DIR}/claude"
 CLAUDE_TARGET_DIR="${HOME}/.claude"
@@ -44,11 +49,10 @@ CLAUDE.md did not load and your preferences are unavailable for this session.
 > to github.com, then restart the session to pick up your config.
 FAILURE_NOTICE
 
-echo "[cloud-setup] Cloning dotfiles from ${DOTFILES_REPO} ..."
+echo "[cloud-setup] Downloading dotfiles from ${DOTFILES_TARBALL} ..."
 
-# Shallow clone — we only need the latest snapshot, not the full history.
-if ! git clone --depth 1 --quiet "${DOTFILES_REPO}" "${CLONE_DIR}" 2>&1; then
-  echo "[cloud-setup] WARNING: clone failed. Failure notice written to ~/.claude/CLAUDE.md." >&2
+if ! curl -fsSL "${DOTFILES_TARBALL}" | tar -xz -C "${CLONE_DIR}" --strip-components=1; then
+  echo "[cloud-setup] WARNING: download failed. Failure notice written to ~/.claude/CLAUDE.md." >&2
   exit 0
 fi
 
