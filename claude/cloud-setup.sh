@@ -29,6 +29,11 @@ CLONE_DIR="$(mktemp -d)"
 CLAUDE_SOURCE_DIR="${CLONE_DIR}/claude"
 CLAUDE_TARGET_DIR="${HOME}/.claude"
 
+# Best-effort steps (like rtk below) log here instead of just stderr, because
+# nothing reads this script's console output once the cached environment is
+# built — CLAUDE.md tells Claude to check this file and report failures.
+ERRORS_LOG="${CLAUDE_TARGET_DIR}/cloud-setup-errors.log"
+
 # Ensure cleanup of the temp dir no matter how the script exits.
 trap 'rm -rf "${CLONE_DIR}"' EXIT
 
@@ -36,6 +41,15 @@ trap 'rm -rf "${CLONE_DIR}"' EXIT
 # If the clone succeeds this gets overwritten with the real config.
 # If it fails, Claude reads this message and can inform the user at session start.
 mkdir -p "${CLAUDE_TARGET_DIR}"
+: > "${ERRORS_LOG}"
+
+# Appends to ERRORS_LOG (in addition to stderr) so failures in best-effort
+# steps reach the user even though nobody watches this script run live.
+log_warning() {
+  echo "[cloud-setup] WARNING: $*" >&2
+  echo "$*" >> "${ERRORS_LOG}"
+}
+
 cat > "${CLAUDE_TARGET_DIR}/CLAUDE.md" <<'FAILURE_NOTICE'
 ## IMPORTANT — action required before responding to anything else
 
@@ -84,11 +98,11 @@ if curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/refs/heads/master/ins
     if rtk init -g --auto-patch; then
       echo "[cloud-setup] rtk installed and hooked into settings.json."
     else
-      echo "[cloud-setup] WARNING: rtk installed but 'rtk init -g --auto-patch' failed; hook not registered." >&2
+      log_warning "rtk installed but 'rtk init -g --auto-patch' failed; hook not registered."
     fi
   else
-    echo "[cloud-setup] WARNING: rtk install script ran but 'rtk' is not on PATH." >&2
+    log_warning "rtk install script ran but 'rtk' is not on PATH."
   fi
 else
-  echo "[cloud-setup] WARNING: rtk install failed (network?). Continuing without it." >&2
+  log_warning "rtk install failed (network?). rtk is unavailable this session."
 fi
