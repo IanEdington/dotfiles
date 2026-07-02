@@ -7,7 +7,8 @@
 # "Environment setup script" field in the Claude Code web UI.
 #
 # Requirements:
-#   - The environment's network policy must allow outbound HTTPS to github.com.
+#   - The environment's network policy must allow outbound HTTPS to github.com
+#     (and objects.githubusercontent.com, for rtk release binaries below).
 #   - No authentication needed; the dotfiles repo is public.
 #
 # Design notes:
@@ -68,3 +69,26 @@ cp -r "${CLAUDE_SOURCE_DIR}/." "${CLAUDE_TARGET_DIR}/"
 
 echo "[cloud-setup] Done. ${CLAUDE_TARGET_DIR} contents:"
 ls "${CLAUDE_TARGET_DIR}"
+
+# --- rtk: compress verbose CLI output before it reaches the model --------
+# rtk (https://github.com/rtk-ai/rtk) proxies commands like git/test-runners/
+# package managers and returns filtered output, cutting token usage on long
+# cloud sessions. `rtk init -g --auto-patch` registers a PreToolUse hook in
+# the settings.json we just copied above, so it must run after that copy.
+# Best-effort: install/hook failures must not fail session startup.
+echo "[cloud-setup] Installing rtk ..."
+
+if curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/refs/heads/master/install.sh | sh; then
+  export PATH="${HOME}/.local/bin:${PATH}"
+  if command -v rtk >/dev/null 2>&1; then
+    if rtk init -g --auto-patch; then
+      echo "[cloud-setup] rtk installed and hooked into settings.json."
+    else
+      echo "[cloud-setup] WARNING: rtk installed but 'rtk init -g --auto-patch' failed; hook not registered." >&2
+    fi
+  else
+    echo "[cloud-setup] WARNING: rtk install script ran but 'rtk' is not on PATH." >&2
+  fi
+else
+  echo "[cloud-setup] WARNING: rtk install failed (network?). Continuing without it." >&2
+fi
