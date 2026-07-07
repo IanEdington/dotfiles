@@ -48,6 +48,5 @@ what a future session would otherwise have to rediscover.
 
 ## Writing conventions
 
-Concise and factual, Canadian spelling, Oxford comma, no em-dashes, no
-horizontal rule directly above a header, text-based formats only (Markdown,
-Mermaid, CSV/TSV). Write for a reader with zero session context.
+Concise and factual, text-based formats only (Markdown, Mermaid, CSV/TSV).
+Write for a reader with zero session context.

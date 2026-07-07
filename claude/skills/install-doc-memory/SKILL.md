@@ -78,9 +78,9 @@ files/doc-map.tsv                      empty map with format header
 
 Adjust during install if asked; otherwise install as shipped:
 
-- **Writing conventions** in the two repo skills and `docs-README.md`
-  (spelling, punctuation, format rules) are a style choice; keep them
-  consistent across all three files if changed.
+- **Writing conventions** in the two repo skills and `docs-README.md` (format
+  rules) are a style choice; keep them consistent across all three files if
+  changed.
 - **Review intervals** and the weekly cron in `doc-freshness.yml`.
 - **Label names** (`docs-not-needed`, `doc-review`); if renamed, update the
   workflow(s), `docs-README.md`, the doc-sync skill, and the CLAUDE.md

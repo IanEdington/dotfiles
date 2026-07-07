@@ -126,11 +126,9 @@ or secrets and credentials of any kind.
 
 ## Writing conventions
 
-Concise and factual. Canadian spelling, Oxford comma, no em-dashes, no
-horizontal rule directly above a header. Text-based formats only: Markdown,
-Mermaid, CSV/TSV. Write for a reader with zero session context, and link to
-sources (document ids, spec files, handbook sections) so claims can be
-re-verified later.
+Concise and factual. Text-based formats only: Markdown, Mermaid, CSV/TSV.
+Write for a reader with zero session context, and link to sources (document
+ids, spec files, handbook sections) so claims can be re-verified later.
 
 ## Porting this to another repo
 
