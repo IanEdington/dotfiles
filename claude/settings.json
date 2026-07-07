@@ -1,5 +1,23 @@
 {
-  "model": "sonnet",
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "editorMode": "vim",
+  "includeCoAuthoredBy": false,
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
+  "permissions": {
+    "deny": [
+      "Bash(git push origin main:*)",
+      "Bash(git push origin master:*)",
+      "Bash(git push -u origin main:*)",
+      "Bash(git push -u origin master:*)",
+      "Bash(git push --force origin main:*)",
+      "Bash(git push --force origin master:*)",
+      "Bash(git push -f origin main:*)",
+      "Bash(git push -f origin master:*)"
+    ]
+  },
   "hooks": {
     "Notification": [
       {
@@ -7,20 +25,21 @@
         "hooks": [
           {
             "type": "command",
-            "command": "osascript -e 'display notification \"Claude needs your attention\" with title \"Claude Code\"'"
+            "command": "[ \"$(uname)\" = Darwin ] && osascript -e 'display notification \"Claude needs your attention\" with title \"Claude Code\"' || true"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if command -v rtk >/dev/null 2>&1; then rtk hook claude; fi"
           }
         ]
       }
     ]
-  },
-  "editorMode": "vim",
-  "mcpServers": {
-    "playwright": {
-      "command": "npx",
-      "args": [
-        "@playwright/mcp@latest"
-      ]
-    }
-  },
-  "customInstructions": "NEVER push to origin/main or origin/master without explicit user permission. Always ask before running 'git push origin main' or 'git push origin master'. Commits are fine, and pushing to other brances is fine, but pushing to main or master requires confirmation."
+  }
 }

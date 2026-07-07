@@ -1,15 +1,28 @@
+# On macOS, ~/.claude is a symlink to this directory (see ./install), so
+# Claude Code writes its runtime state here. Blocklist by choice: a new
+# untracked file shows up in `git status` and prompts a decision (track it or
+# add it here), at the cost of occasionally committing state by accident.
+# NEVER track: .credentials.json (OAuth tokens on Linux hosts).
+/.credentials.json
 /.last-cleanup
 /.stats-cache.json
-/history.jsonl
 /backups/
 /cache/
 /chrome/
 /debug/
+/file-history/
+/history.jsonl
 /ide/
+/launcher-settings.json
 /plans/
 /plugins/
+/policy-limits.json
 /projects/
+/session-env
 /sessions/
+/shell-snapshots/
+/stats-cache.json
+/statsig/
 /tasks/
 /telemetry/
-
+/todos/

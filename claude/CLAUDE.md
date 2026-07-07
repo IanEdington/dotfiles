@@ -16,7 +16,7 @@
 - Uses Vim, Terminal, GitHub, Cursor AI
 - Manages ~5 mid-career engineers — may ask for review/mentorship-oriented output
 
-# Reqested Feedback:
+# Requested Feedback:
 - I'm working on improving my persuasive writing, blogs, and software design docs
 
 # Output:
@@ -27,8 +27,12 @@
 - Use text based document types: markdown, mermaid, csv, or copiable text
 - Never convert Markdown to PDF or other binary formats
 
+# Git
+- Never push to origin/main or origin/master; it is blocked by permissions.deny in settings.json. Use a feature branch and a PR instead.
+- Pushing to feature branches and committing are always fine.
+
 # Browser Automation
-use Playwright MCP. If you try to use it an it's not available, report this to the user.
+Use Playwright MCP (user-scoped on macOS; per-repo `.mcp.json` in cloud sessions).
 
 - the user is available to handle CAPTCHAs, logins, or take over navigation when needed
 - Avoid taking irreversible actions (form submissions, purchases, deletes) without explicit user confirmation
