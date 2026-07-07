@@ -1,0 +1,10 @@
+# Shared memory map: which docs cover which areas of the repo.
+# One rule per line, tab-separated:
+#   <code globs, space-separated>	<doc path or glob>	<what to update>
+# A rule arms when any changed file matches a code glob; it is satisfied when
+# any changed file matches the doc path or glob.
+# Consumed by scripts/check-doc-sync.sh (via the Doc Sync PR check) and the
+# doc-sync skill, and referenced from CLAUDE.md. Edit this file, not the
+# check, to change coverage.
+# Example rule (replace with this repo's areas):
+#apps/example/*	docs/example/*	DESIGN.md / integrations.md / decisions.md / open-questions.md
