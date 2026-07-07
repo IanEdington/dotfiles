@@ -6,8 +6,10 @@ delivery mechanisms:
 - **macOS (local)**: `./install` symlinks `~/.claude` to this directory.
   Edits here are live immediately, and anything Claude Code writes at runtime
   (sessions, caches, `policy-limits.json`, `stats-cache.json`) lands in this
-  directory but is kept out of git by the whitelist `.gitignore`. Any new
-  config file must be re-included there explicitly.
+  directory but is kept out of git by the `.gitignore` blocklist. A new
+  untracked file in `git status` means Claude Code grew a new runtime file:
+  decide to track it or add it to the blocklist. Never track
+  `.credentials.json`.
 - **Cloud**: `cloud-setup.sh` is pasted into the environment setup script in
   the Claude Code web UI. It downloads the repo tarball (tracked files only)
   and copies `claude/` over `~/.claude`, coexisting with the runtime-managed
@@ -22,7 +24,11 @@ delivery mechanisms:
 | Permissions, hooks, attribution | `settings.json` | Enforced by the harness, not the model |
 | Keybindings | `keybindings.json` | |
 | MCP servers | `~/.claude.json` via `claude mcp add` (macOS), per-repo `.mcp.json` (cloud) | settings.json does not load MCP servers |
-| Vim mode | `/vim` once per machine; persists in `~/.claude.json` | Not a settings.json key |
+| Vim mode | `editorMode` in `settings.json` | |
+
+`~/.claude.json` also holds OAuth state and per-project trust; it is managed
+by Claude Code and not safe to edit directly. Go through `claude mcp add` /
+`/config` instead.
 
 ## settings.json notes
 
