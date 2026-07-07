@@ -22,16 +22,17 @@ Paste this into the environment's setup script field in the Claude Code web
 UI:
 
 ```bash
-# Claude dotfiles bootstrap. DOTFILES_REF is a branch, tag, or SHA and is
-# part of this script's text, so pasting a new ref forces the environment
-# cache to rebuild with exactly that version.
+# Claude dotfiles bootstrap, always tracking main. Bump DOTFILES_VERSION and
+# re-paste to rebuild this environment's cached image now; otherwise it
+# refreshes on its own within ~7 days. The version rides on the URL as a
+# query param, which also skips any stale CDN copy of the raw file.
 # Download-then-run (not curl|bash) so a failed fetch reaches the else branch.
-export DOTFILES_REF="main"
-if curl -fsSL "https://raw.githubusercontent.com/IanEdington/dotfiles/${DOTFILES_REF}/claude/cloud-setup.sh" -o /tmp/dotfiles-cloud-setup.sh; then
+DOTFILES_VERSION=1
+if curl -fsSL "https://raw.githubusercontent.com/IanEdington/dotfiles/main/claude/cloud-setup.sh?v=${DOTFILES_VERSION}" -o /tmp/dotfiles-cloud-setup.sh; then
   bash /tmp/dotfiles-cloud-setup.sh
 else
   mkdir -p ~/.claude
-  printf 'Tell the user: dotfiles cloud-setup.sh could not be fetched (ref %s); this session runs with default config.\n' "${DOTFILES_REF}" > ~/.claude/CLAUDE.md
+  printf 'Tell the user: dotfiles cloud-setup.sh could not be fetched (version %s); this session runs with default config.\n' "${DOTFILES_VERSION}" > ~/.claude/CLAUDE.md
 fi
 ```
 
@@ -39,17 +40,15 @@ fi
 
 The setup script runs once per environment, then the filesystem snapshot is
 cached. The cache rebuilds only when the setup script text (or allowed
-network hosts) changes, or after roughly seven days. Two strategies:
+network hosts) changes, or after roughly seven days. Since the snippet
+tracks main, every rebuild picks up the latest config, so pushed changes
+propagate everywhere within a week with no action.
 
-- **`DOTFILES_REF="main"`** (default above): every rebuild picks up latest
-  main, so changes propagate everywhere within a week with no action. To
-  force one environment to update now, change any character of its setup
-  script (bump a comment) and start a session.
-- **Pin a SHA or tag** (`DOTFILES_REF="v2026.07.07"`): publish flow is push
-  to main, tag it, update the ref here and in each environment. Pasting the
-  new ref rebuilds immediately. Trade-off: a pinned environment never drifts,
-  which also means it never auto-updates; the seven-day rebuild refetches the
-  same pinned ref forever.
+To update an environment immediately: push to main, bump `DOTFILES_VERSION`
+in the environment's setup script, and start a session. To pin an exact
+version instead, `export DOTFILES_REF=<tag or SHA>` before the curl line and
+use the ref in the URL; cloud-setup.sh downloads the tarball at
+`DOTFILES_REF` (default main).
 
 ## What lives where
 
