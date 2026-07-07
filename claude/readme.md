@@ -69,9 +69,9 @@ by Claude Code and not safe to edit directly. Go through `claude mcp add` /
 - `attribution: { commit: "", pr: "" }` suppresses the Claude byline;
   `includeCoAuthoredBy: false` is the deprecated spelling kept for older CLI
   versions.
-- Pushes to main/master prompt for confirmation (`permissions.ask`); force
-  pushes to main/master are denied. This is the enforceable version of the
-  Git rule in CLAUDE.md.
+- Pushes to origin main/master, including force pushes, are denied outright
+  (`permissions.deny`). This is the enforceable version of the Git rule in
+  CLAUDE.md.
 - The rtk PreToolUse hook is guarded with `command -v rtk`, so it is a no-op
   on machines without rtk. In cloud, `cloud-setup.sh` installs rtk and runs
   `rtk init -g --auto-patch`; if that ever produces a duplicate hook entry,

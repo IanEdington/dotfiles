@@ -28,7 +28,7 @@
 - Never convert Markdown to PDF or other binary formats
 
 # Git
-- Never push to origin/main or origin/master without asking me first (enforced via permissions.ask in settings.json).
+- Never push to origin/main or origin/master; it is blocked by permissions.deny in settings.json. Use a feature branch and a PR instead.
 - Pushing to feature branches and committing are always fine.
 
 # Browser Automation
