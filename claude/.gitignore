@@ -1,15 +1,15 @@
-/.last-cleanup
-/.stats-cache.json
-/history.jsonl
-/backups/
-/cache/
-/chrome/
-/debug/
-/ide/
-/plans/
-/plugins/
-/projects/
-/sessions/
-/tasks/
-/telemetry/
-
+# On macOS, ~/.claude is a symlink to this directory (see ./install), so
+# Claude Code writes all of its runtime state (sessions, projects, caches,
+# runtime-managed config like policy-limits.json) right here in the repo.
+#
+# Whitelist approach: ignore everything, then re-include only the files we
+# deliberately manage. A new config file added to this directory must also be
+# re-included below, or git will not see it.
+/*
+!/.gitignore
+!/CLAUDE.md
+!/settings.json
+!/keybindings.json
+!/cloud-setup.sh
+!/install
+!/readme.md

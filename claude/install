@@ -4,6 +4,14 @@ set -euo pipefail
 IFS=$'\n\t'
 # Bash Strict Mode
 
-# setup .zsh
+# ~/.claude is a symlink to this directory, so local edits to settings.json /
+# CLAUDE.md are live immediately and runtime state is kept out of git by the
+# whitelist .gitignore here.
 dotfiles::symlink_files ~/.dotfiles/claude ~/.claude
+
+# Claude Code reads user-scoped MCP servers from ~/.claude.json (via
+# `claude mcp add`), not from settings.json.
+if command_exists claude && ! claude mcp get playwright &> /dev/null; then
+    claude mcp add --scope user playwright -- npx -y @playwright/mcp@latest
+fi
 

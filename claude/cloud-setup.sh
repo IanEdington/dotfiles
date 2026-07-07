@@ -23,8 +23,11 @@
 
 set -euo pipefail
 
-DOTFILES_REPO="https://github.com/IanEdington/dotfiles.git"
-DOTFILES_TARBALL="${DOTFILES_REPO%.git}/archive/refs/heads/main.tar.gz"
+# DOTFILES_REF accepts a branch, tag, or commit SHA. Defaults to main so new
+# sessions always get the latest config; export a tag/SHA in the environment
+# setup script to pin instead (e.g. after a bad push to main).
+DOTFILES_REF="${DOTFILES_REF:-main}"
+DOTFILES_TARBALL="https://github.com/IanEdington/dotfiles/archive/${DOTFILES_REF}.tar.gz"
 CLONE_DIR="$(mktemp -d)"
 CLAUDE_SOURCE_DIR="${CLONE_DIR}/claude"
 CLAUDE_TARGET_DIR="${HOME}/.claude"
