@@ -10,11 +10,46 @@ delivery mechanisms:
   untracked file in `git status` means Claude Code grew a new runtime file:
   decide to track it or add it to the blocklist. Never track
   `.credentials.json`.
-- **Cloud**: `cloud-setup.sh` is pasted into the environment setup script in
-  the Claude Code web UI. It downloads the repo tarball (tracked files only)
-  and copies `claude/` over `~/.claude`, coexisting with the runtime-managed
-  files already there. It defaults to `main`; export `DOTFILES_REF` in the
-  setup script to pin a tag or SHA.
+- **Cloud**: each cloud environment's setup script (web UI) runs the
+  [snippet below](#cloud-environment-setup-script), which fetches
+  `cloud-setup.sh`. That script downloads the repo tarball (tracked files
+  only) and copies `claude/` over `~/.claude`, coexisting with the
+  runtime-managed files already there.
+
+## Cloud environment setup script
+
+Paste this into the environment's setup script field in the Claude Code web
+UI:
+
+```bash
+# Claude dotfiles bootstrap. DOTFILES_REF is a branch, tag, or SHA and is
+# part of this script's text, so pasting a new ref forces the environment
+# cache to rebuild with exactly that version.
+# Download-then-run (not curl|bash) so a failed fetch reaches the else branch.
+export DOTFILES_REF="main"
+if curl -fsSL "https://raw.githubusercontent.com/IanEdington/dotfiles/${DOTFILES_REF}/claude/cloud-setup.sh" -o /tmp/dotfiles-cloud-setup.sh; then
+  bash /tmp/dotfiles-cloud-setup.sh
+else
+  mkdir -p ~/.claude
+  printf 'Tell the user: dotfiles cloud-setup.sh could not be fetched (ref %s); this session runs with default config.\n' "${DOTFILES_REF}" > ~/.claude/CLAUDE.md
+fi
+```
+
+### Updating environments
+
+The setup script runs once per environment, then the filesystem snapshot is
+cached. The cache rebuilds only when the setup script text (or allowed
+network hosts) changes, or after roughly seven days. Two strategies:
+
+- **`DOTFILES_REF="main"`** (default above): every rebuild picks up latest
+  main, so changes propagate everywhere within a week with no action. To
+  force one environment to update now, change any character of its setup
+  script (bump a comment) and start a session.
+- **Pin a SHA or tag** (`DOTFILES_REF="v2026.07.07"`): publish flow is push
+  to main, tag it, update the ref here and in each environment. Pasting the
+  new ref rebuilds immediately. Trade-off: a pinned environment never drifts,
+  which also means it never auto-updates; the seven-day rebuild refetches the
+  same pinned ref forever.
 
 ## What lives where
 

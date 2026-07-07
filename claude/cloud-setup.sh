@@ -3,8 +3,9 @@
 # cloud session.  Cloud sessions start with an empty home directory, so this
 # script populates ~/.claude before the session begins.
 #
-# Usage: paste this script (or a `curl | bash` one-liner pointing here) into the
-# "Environment setup script" field in the Claude Code web UI.
+# Usage: paste the bootstrap snippet from claude/readme.md (a `curl | bash`
+# one-liner pointing here) into the "Environment setup script" field in the
+# Claude Code web UI.
 #
 # Requirements:
 #   - The environment's network policy must allow outbound HTTPS to github.com
