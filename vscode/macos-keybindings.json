@@ -252,5 +252,10 @@
         "key": "cmd+down",
         "command": "list.select",
         "when": "filesExplorerFocus && !inputFocus"
+    },
+    {
+        "key": "cmd+enter",
+        "command": "-planEditor.acceptPlan",
+        "when": "markdownPlanEditorActive"
     }
 ]

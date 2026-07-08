@@ -33,5 +33,3 @@ brew cleanup -q -s --prune=all
 brew doctor -q || true
 echo '\n\n'
 
-# Dump into temp folder
-mv "$temp_dir/Brewfile.lock.json" "$temp_dir/Brewfile.lock.$(/bin/date -ju "+%Y-%m-%d-%H%M%S").json"

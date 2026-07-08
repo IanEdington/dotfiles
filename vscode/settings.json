@@ -218,7 +218,6 @@
   },
   "github.copilot.editor.enableAutoCompletions": true,
   "openInGitHub.alwaysUseDefaultBranch": true,
-  "update.mode": "none",
   "github.copilot.advanced": {
     "authProvider": "github"
   },
@@ -239,11 +238,76 @@
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "[sql]": {
+   "editor.defaultFormatter": "ReneSaarsoo.sql-formatter-vsc",
+   "editor.formatOnSave": true
+  },
+  "SQL-Formatter-VSCode.dialect": "mysql",
+  "SQL-Formatter-VSCode.keywordCase": "upper",
+  "SQL-Formatter-VSCode.functionCase": "upper",
+  "SQL-Formatter-VSCode.dataTypeCase": "upper",
+  "SQL-Formatter-VSCode.ignoreTabSettings": true,
+  "SQL-Formatter-VSCode.tabSizeOverride": 4,
   "git.blame.editorDecoration.enabled": true,
+  "cursor.cpp.disabledLanguages": [
+    "plaintext",
+    "markdown",
+    "scminput"
+  ],
+  "cursor.composer.textSizeScale": 1.15,
+  "database-client.autoSync": true,
+  "database-client.telemetry.usesOnlineServices": false,
+  "dotfiles.repository": "https://github.com/IanEdington/dotfiles.git",
+  "dotfiles.targetPath": "~/.dotfiles",
+  "docker.extension.enableComposeLanguageServer": false,
+  "terminal.integrated.defaultProfile.osx": "zsh",
+  "terminal.integrated.defaultProfile.linux": "zsh",
+  "window.commandCenter": true,
+  "terminal.integrated.persistentSessionScrollback": 1000,
+  "terminal.integrated.scrollback": 10000,
+  "workbench.activityBar.orientation": "vertical",
+  "workbench.colorTheme": "Visual Studio Dark",
+  "vs-kubernetes": {
+    "vscode-kubernetes.minikube-path-mac": "/Users/ian/.vs-kubernetes/tools/minikube/darwin-arm64/minikube",
+    "vs-kubernetes.crd-code-completion": "disabled"
+  },
+  "[dockercompose]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "editor.autoIndent": "advanced",
+    "editor.quickSuggestions": {
+      "other": true,
+      "comments": false,
+      "strings": true
+    },
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "[github-actions-workflow]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "[php]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "cursor.composer.queueMessageDefaultBehavior": "queue",
+  "terraform.mcp.server.enable": true,
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "application.shellEnvironmentResolutionTimeout": 30,
+  "cursor.composer.usageSummaryDisplay": "always",
+  "workbench.statusBar.visible": false,
   "yaml.schemas": {
-    "/Users/ian/.vscode/extensions/continue.continue-1.0.13-darwin-arm64/config-yaml-schema.json": [
+    "file:///Users/ian/.vscode/extensions/continue.continue-1.2.14-darwin-arm64/config-yaml-schema.json": [
       ".continue/**/*.yaml"
     ]
   },
-  "workbench.activityBar.orientation": "vertical"
+  "remote.defaultExtensionsIfInstalledLocally": [
+    "GitHub.vscode-pull-request-github"
+  ],
+  "claudeCode.preferredLocation": "panel",
+  "claudeCode.allowDangerouslySkipPermissions": true,
+  "chat.tools.terminal.autoApprove": {
+    "ddev": true
+  },
+  "security.promptForLocalFileProtocolHandling": false,
 }

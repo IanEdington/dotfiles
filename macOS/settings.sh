@@ -31,6 +31,8 @@ sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.serve
 # sudo pmset -a standbydelay 3600
 # sudo pmset -a autopoweroff 0
 # sudo pmset -a autopoweroffdelay 86400
+# turn off chime when power is disconnected
+defaults write com.apple.PowerChime ChimeOnNoHardware -bool true
 
 # Display
 # Enable subpixel font rendering on non-Apple LCDs

@@ -195,6 +195,12 @@
   <action id="GotoSymbol">
     <keyboard-shortcut first-keystroke="shift meta o" />
   </action>
+  <action id="InlinePromptGenerateCodeAction">
+    <keyboard-shortcut first-keystroke="tab" />
+  </action>
+  <action id="InsertInlineCompletionAction">
+    <keyboard-shortcut first-keystroke="tab" />
+  </action>
   <action id="List-selectNextRow">
     <keyboard-shortcut first-keystroke="down" />
     <keyboard-shortcut first-keystroke="ctrl j" />

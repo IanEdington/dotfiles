@@ -8,15 +8,13 @@
                         "description": "Disable Alt + Tab",
                         "manipulators": [
                             {
-                                "type": "basic",
+                                "conditions": [],
                                 "from": {
                                     "key_code": "tab",
-                                    "modifiers": {
-                                        "mandatory": ["option"]
-                                    }
+                                    "modifiers": { "mandatory": ["option"] }
                                 },
                                 "to": [],
-                                "conditions": []
+                                "type": "basic"
                             }
                         ]
                     },
@@ -24,13 +22,13 @@
                         "description": "Disable Command+Tab Cycle windows",
                         "manipulators": [
                             {
-                                "type": "basic",
+                                "conditions": [],
                                 "from": {
                                     "key_code": "tab",
                                     "modifiers": { "mandatory": ["command"] }
                                 },
                                 "to": [],
-                                "conditions": []
+                                "type": "basic"
                             }
                         ]
                     },
@@ -185,7 +183,10 @@
         },
         {
             "name": "none",
-            "virtual_hid_keyboard": { "country_code": 0 }
+            "virtual_hid_keyboard": {
+                "country_code": 0,
+                "keyboard_type_v2": "ansi"
+            }
         }
     ]
 }
