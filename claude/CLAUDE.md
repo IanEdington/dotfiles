@@ -25,7 +25,7 @@
 - Never use em-dashes
 - Never use a horizontal rules above headers
 - Use text based document types: markdown, mermaid, csv, or copiable text
-- Never convert Markdown to PDF or other binary formats
+- Never convert Markdown to PDF or other binary formats, unless explicitely asked
 
 # Git
 - Never push to origin/main or origin/master; it is blocked by permissions.deny in settings.json. Use a feature branch and a PR instead.

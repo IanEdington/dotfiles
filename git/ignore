@@ -38,3 +38,5 @@ Temporary Items
 .aider.*
 .cursor/
 /node_modules
+
+**/.claude/settings.local.json
