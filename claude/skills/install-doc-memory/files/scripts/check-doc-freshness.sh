@@ -27,16 +27,11 @@ frontmatter() {
   ' "$1"
 }
 
-# epoch <YYYY-MM-DD>: seconds since epoch, GNU or BSD date.
-epoch() {
-  date -u -d "$1" +%s 2>/dev/null || date -u -j -f '%Y-%m-%d' "$1" +%s 2>/dev/null
-}
-
 while IFS= read -r doc; do
   reviewed=$(frontmatter "$doc" "last-reviewed")
   interval=$(frontmatter "$doc" "review-interval-days")
   [ -n "$reviewed" ] || continue
-  reviewed_epoch=$(epoch "$reviewed") || {
+  reviewed_epoch=$(date -u -d "$reviewed" +%s 2>/dev/null) || {
     printf '%s\tmalformed last-reviewed: %s\n' "$doc" "$reviewed"
     stale=1
     continue
