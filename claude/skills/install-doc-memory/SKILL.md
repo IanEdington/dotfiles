@@ -49,7 +49,9 @@ files/doc-map.tsv                      empty map with format header
    update. Map only areas that have (or are getting) docs; an unmapped area is
    simply unenforced. Confirm the rules with the user before committing.
 4. **Create `docs/README.md`** from `files/docs-README.md`, replacing the
-   `TODAY` placeholder in the frontmatter with today's date (UTC). If the
+   `TODAY` placeholder in the frontmatter with today's date (UTC) and leaving
+   `doc-memory-version` as shipped (it records which bundle version was
+   installed; the sibling update-doc-memory skill migrates older installs). If the
    repo keeps docs somewhere other than `docs/`, adjust the paths here, in
    the map, and in both scripts consistently.
 5. **Create or organize the memory docs.** For each mapped area, docs live in
@@ -78,6 +80,9 @@ files/doc-map.tsv                      empty map with format header
 
 Adjust during install if asked; otherwise install as shipped:
 
+- **Writing conventions** in the two repo skills and `docs-README.md`
+  (spelling, punctuation, format rules) are a style choice; keep them
+  consistent across all three files if changed.
 - **Review intervals** and the weekly cron in `doc-freshness.yml`.
 - **Label names** (`docs-not-needed`, `doc-review`); if renamed, update the
   workflow(s), `docs-README.md`, the doc-sync skill, and the CLAUDE.md
@@ -90,3 +95,6 @@ Adjust during install if asked; otherwise install as shipped:
 - Enforcement stays at the PR gate. Do not reintroduce per-editor hooks
   (Stop/PostToolUse) as the enforcement mechanism; they miss shell edits,
   humans, and other tools, and they nag every turn.
+- Every change to `files/` appends an entry to `../CHANGELOG.md` with
+  migration notes and bumps `doc-memory-version` in `files/docs-README.md`,
+  so update-doc-memory can carry installed repos forward.

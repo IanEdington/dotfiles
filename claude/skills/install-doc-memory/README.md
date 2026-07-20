@@ -7,16 +7,28 @@ changing mapped code without its docs, calendar-driven freshness reviews with
 a weekly overdue-docs issue, and two repo skills (**doc-sync**, **doc-review**)
 for the write and review paths.
 
+Its sibling, `../update-doc-memory/`, brings an already-installed repo up to
+`../CHANGELOG.md`'s current version without clobbering repo-specific content.
+
 ## Use
 
-Symlink or copy this directory to `~/.claude/skills/install-doc-memory/`,
-then in any repo tell Claude to "install the doc memory system" (or invoke
-`/install-doc-memory`). `SKILL.md` is the install procedure; `files/` holds
-the generic artifacts it copies in. Everything repo-specific (the doc map,
-the docs themselves, the CLAUDE.md index) is written during install.
+This directory lives at `~/.claude/skills/install-doc-memory/` via the
+`claude` dotfiles symlink, so in any repo tell Claude to "install the doc
+memory system" (or invoke `/install-doc-memory`). `SKILL.md` is the install
+procedure; `files/` holds the generic artifacts it copies in. Everything
+repo-specific (the doc map, the docs themselves, the CLAUDE.md index) is
+written during install; installed repos carry a `doc-memory-version` stamp
+in `docs/README.md` frontmatter that `update-doc-memory` compares against
+`../CHANGELOG.md`.
 
 Manual install: follow the steps in `SKILL.md` by hand; every file in
 `files/` is copy-pastable as-is.
+
+## Evolving the system
+
+Change the files in `files/`, append a `../CHANGELOG.md` entry with
+migration notes, and bump `doc-memory-version` in `files/docs-README.md`.
+Installed repos catch up by running `/update-doc-memory`.
 
 ## Design notes
 
