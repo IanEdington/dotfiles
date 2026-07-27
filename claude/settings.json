@@ -24,7 +24,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "if [ \"$(git config --global user.email)\" = noreply@anthropic.com ]; then git config --global user.name 'Ian Edington' && git config --global user.email 'ian.edington@gmail.com'; fi"
+            "command": "if [ \"$(git config --global user.email)\" = noreply@anthropic.com ]; then git config --global include.path \"$HOME/.claude/git-identity.config\"; fi"
           }
         ]
       }
