@@ -80,71 +80,17 @@ by Claude Code and not safe to edit directly. Go through `claude mcp add` /
   install rtk on the Mac (https://github.com/rtk-ai/rtk).
 - The macOS notification hook is guarded by `uname`, so it is a no-op on
   Linux cloud sessions.
-- The `SessionStart` hook sets the git author identity for cloud sessions.
-  Cloud starts with `user.name = Claude` / `user.email =
-  noreply@anthropic.com`, and local identity lives in `~/.local/git/config`,
-  which `git/install` creates but never tracks — so it cannot reach cloud.
-  Setting it in `cloud-setup.sh` does not work either: the harness writes
-  `~/.gitconfig` a few seconds *after* the setup script finishes, and would
-  overwrite it. A session-start hook runs late enough to win.
-
-  The hook only rewrites the identity when it is exactly the Anthropic cloud
-  default, so it is a no-op on macOS. That guard matters: on macOS a
-  `git config --global` write creates `~/.gitconfig`, which git prefers over
-  `~/.config/git/config`, shadowing the entire symlinked config.
-
-  The identity itself lives in `git-identity.config`, not inline in the hook,
-  so per-repo overrides are possible. See below.
-
-  Cloud commits are signed with an Anthropic SSH key (`gpg.ssh.program` in
-  the harness gitconfig). Since that key is not registered to this account,
-  authored-as-Ian cloud commits show as **Unverified** on GitHub. Committing
-  still works. To trade the identity back for a green badge, drop the hook.
-
-## Per-repo identities in cloud
-
-`git-identity.config` sets the personal identity as the default and includes
-`~/.claude/git-identity.local.config`, which is untracked and optional (git
-skips a missing include silently). Locally, per-repo identity is still set in
-each repo's `.git/config` by hand; that does not survive a cloud session's
-fresh clone, so cloud needs its own routing.
-
-**This repo is public, so work emails and employer org names must not be
-committed here.** The mechanism ships in the repo; the identities go in each
-environment's setup-script field in the web UI, which is private. Append to
-the bootstrap snippet, after the `cloud-setup.sh` call:
-
-```bash
-cat > ~/.claude/git-identity.acme.config <<'EOF'
-[user]
-	email = ian@acme.example
-EOF
-cat > ~/.claude/git-identity.local.config <<'EOF'
-[includeIf "hasconfig:remote.*.url:**/AcmeCorp/**"]
-	path = ~/.claude/git-identity.acme.config
-[includeIf "hasconfig:remote.*.url:*AcmeCorp/**"]
-	path = ~/.claude/git-identity.acme.config
-EOF
-```
-
-Since environments already map to work contexts (`canopy`, `Platform`), each
-one only needs the identity it actually uses.
-
-Two traps, both verified by testing rather than assumed:
-
-- **Two patterns per org, not one.** `**/ORG/**` matches `https://` and
-  `ssh://` remotes; `*ORG/**` matches the scp-style `git@github.com:ORG/repo`.
-  Neither form matches both.
-- **Never put a host or port in the pattern.** In cloud, `remote.origin.url`
-  is not `github.com`. The harness rewrites it to a session proxy like
-  `http://local_proxy@127.0.0.1:41729/git/ORG/REPO`, with a port that changes
-  every session. Only the `/ORG/REPO` tail is stable. A `github.com` pattern
-  matches locally, silently never matches in cloud, and the commit gets the
-  default email with no error.
-
-The failure mode here is quiet: a non-matching pattern produces a
-wrong-but-valid author, not an error. After changing a pattern, verify with
-`git config user.email` inside a repo of that org.
+- The `SessionStart` hook points the harness gitconfig at
+  `git-identity.config`, which owns the cloud git author identity and
+  documents how to add per-repo overrides. It fires only when the identity is
+  the Anthropic cloud default, so it is a no-op on macOS — necessary, because
+  a `git config --global` write there creates `~/.gitconfig`, which git
+  prefers over `~/.config/git/config` and would shadow the symlinked config.
+  It has to be a hook rather than a line in `cloud-setup.sh`: the harness
+  writes `~/.gitconfig` after the setup script finishes.
+- Cloud commits are signed with an Anthropic SSH key not registered to this
+  account, so they show as **Unverified** on GitHub. Dropping the
+  `SessionStart` hook trades the identity back for a verified badge.
 
 ## Failure reporting in cloud
 
