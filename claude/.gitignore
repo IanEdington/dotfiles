@@ -2,8 +2,14 @@
 # Claude Code writes its runtime state here. Blocklist by choice: a new
 # untracked file shows up in `git status` and prompts a decision (track it or
 # add it here), at the cost of occasionally committing state by accident.
-# NEVER track: .credentials.json (OAuth tokens on Linux hosts).
+# NEVER track: .credentials.json (OAuth tokens on Linux hosts), or the
+# git-identity overrides below — this repo is public and those carry work
+# email addresses and employer org names. Only git-identity.config (personal
+# default plus the include mechanism) is tracked.
 /.credentials.json
+/git-identity.local.config
+/git-identity.*.config
+!/git-identity.config
 /.last-cleanup
 /.stats-cache.json
 /backups/

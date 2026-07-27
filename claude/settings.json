@@ -19,6 +19,16 @@
     ]
   },
   "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [ \"$(git config --global user.email)\" = noreply@anthropic.com ]; then git config --global include.path \"$HOME/.claude/git-identity.config\"; fi"
+          }
+        ]
+      }
+    ],
     "Notification": [
       {
         "matcher": "*",
