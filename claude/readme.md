@@ -55,6 +55,7 @@ use the ref in the URL; cloud-setup.sh downloads the tarball at
 | Concern | Where | Why |
 | --- | --- | --- |
 | Preferences, instructions | `CLAUDE.md` | Read on every session start |
+| Git author identity (cloud) | `SessionStart` hook in `settings.json` | The harness writes `~/.gitconfig` after the setup script runs |
 | Permissions, hooks, attribution | `settings.json` | Enforced by the harness, not the model |
 | Keybindings | `keybindings.json` | |
 | MCP servers | `~/.claude.json` via `claude mcp add` (macOS), per-repo `.mcp.json` (cloud) | settings.json does not load MCP servers |
@@ -79,6 +80,23 @@ by Claude Code and not safe to edit directly. Go through `claude mcp add` /
   install rtk on the Mac (https://github.com/rtk-ai/rtk).
 - The macOS notification hook is guarded by `uname`, so it is a no-op on
   Linux cloud sessions.
+- The `SessionStart` hook sets the git author identity for cloud sessions.
+  Cloud starts with `user.name = Claude` / `user.email =
+  noreply@anthropic.com`, and local identity lives in `~/.local/git/config`,
+  which `git/install` creates but never tracks — so it cannot reach cloud.
+  Setting it in `cloud-setup.sh` does not work either: the harness writes
+  `~/.gitconfig` a few seconds *after* the setup script finishes, and would
+  overwrite it. A session-start hook runs late enough to win.
+
+  The hook only rewrites the identity when it is exactly the Anthropic cloud
+  default, so it is a no-op on macOS. That guard matters: on macOS a
+  `git config --global` write creates `~/.gitconfig`, which git prefers over
+  `~/.config/git/config`, shadowing the entire symlinked config.
+
+  Cloud commits are signed with an Anthropic SSH key (`gpg.ssh.program` in
+  the harness gitconfig). Since that key is not registered to this account,
+  authored-as-Ian cloud commits show as **Unverified** on GitHub. Committing
+  still works. To trade the identity back for a green badge, drop the hook.
 
 ## Failure reporting in cloud
 
