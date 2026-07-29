@@ -31,6 +31,7 @@
 - Never push to origin/main or origin/master; it is blocked by permissions.deny in settings.json. Use a feature branch and a PR instead.
 - Pushing to feature branches and committing are always fine.
 - Whenever referencing a PR or issue (e.g. `#8`), always format it as a Markdown link to the full GitHub URL instead of bare `#8`: `[owner/repo#8](https://github.com/owner/repo/pull/8)` (use `/issues/` instead of `/pull/` for issues). Never output a bare `#<number>` reference.
+- You may not be the only session working this repo. Before force-pushing or resetting a branch, `git fetch` and check for commits you don't recognize — another session may have pushed there concurrently.
 
 # Browser Automation
 Use Playwright MCP (user-scoped on macOS; per-repo `.mcp.json` in cloud sessions).
@@ -40,6 +41,10 @@ Use Playwright MCP (user-scoped on macOS; per-repo `.mcp.json` in cloud sessions
 
 # Claude Code Cloud Environments
 If you are actively working on modifying a Claude Code cloud environment (Setup Script, environment config, SessionStart hooks, or related setup scripts), first read `claude/docs/cloud-environments.md` in this repo for known gotchas and patterns.
+
+## Claude Code Cloud sessions
+- Session network/GitHub access is scoped — some installs, clones, or package fetches can 403 or hang for reasons outside your control (not a bug in what you're doing). If something reachable everywhere else suddenly isn't, suspect scoping before you suspect your approach.
+- The git remote here is a local caching proxy, not GitHub directly, and can lag behind reality. If `git log origin/main` looks stale or contradicts what you expect, cross-check with `curl https://raw.githubusercontent.com/<owner>/<repo>/main/<path>` before trusting it.
 
 # Coding Preferences
 
