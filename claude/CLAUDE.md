@@ -38,6 +38,9 @@ Use Playwright MCP (user-scoped on macOS; per-repo `.mcp.json` in cloud sessions
 - the user is available to handle CAPTCHAs, logins, or take over navigation when needed
 - Avoid taking irreversible actions (form submissions, purchases, deletes) without explicit user confirmation
 
+# Claude Code Cloud Environments
+If you are actively working on modifying a Claude Code cloud environment (Setup Script, environment config, SessionStart hooks, or related setup scripts), first read `claude/docs/cloud-environments.md` in this repo for known gotchas and patterns.
+
 # Coding Preferences
 
 ## Comments
