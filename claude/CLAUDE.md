@@ -30,6 +30,7 @@
 # Git
 - Never push to origin/main or origin/master; it is blocked by permissions.deny in settings.json. Use a feature branch and a PR instead.
 - Pushing to feature branches and committing are always fine.
+- Whenever referencing a PR or issue (e.g. `#8`), always format it as a Markdown link to the full GitHub URL instead of bare `#8`: `[owner/repo#8](https://github.com/owner/repo/pull/8)` (use `/issues/` instead of `/pull/` for issues). Never output a bare `#<number>` reference.
 
 # Browser Automation
 Use Playwright MCP (user-scoped on macOS; per-repo `.mcp.json` in cloud sessions).
