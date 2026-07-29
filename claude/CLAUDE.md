@@ -1,5 +1,5 @@
 # Session Startup Checks
-- At the start of every session, check whether `~/.claude/cloud-setup-errors.log` exists and is non-empty.
+- At the start of every session, check whether `~/.cloud-setup-errors.log` exists and is non-empty.
 - If it has content, read it and tell me immediately, before anything else, what failed during cloud environment setup (e.g., rtk failing to install). Mention it once per session, then proceed normally.
 - If the file doesn't exist or is empty, say nothing about it.
 

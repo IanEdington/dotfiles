@@ -36,7 +36,7 @@ CLAUDE_TARGET_DIR="${HOME}/.claude"
 # Best-effort steps (like rtk below) log here instead of just stderr, because
 # nothing reads this script's console output once the cached environment is
 # built — CLAUDE.md tells Claude to check this file and report failures.
-ERRORS_LOG="${CLAUDE_TARGET_DIR}/cloud-setup-errors.log"
+ERRORS_LOG="${HOME}/.cloud-setup-errors.log"
 
 # Ensure cleanup of the temp dir no matter how the script exits.
 trap 'rm -rf "${CLONE_DIR}"' EXIT

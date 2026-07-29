@@ -96,5 +96,5 @@ by Claude Code and not safe to edit directly. Go through `claude mcp add` /
 
 `cloud-setup.sh` writes a failure notice into `~/.claude/CLAUDE.md` before
 downloading (overwritten on success), and best-effort steps append to
-`~/.claude/cloud-setup-errors.log`. CLAUDE.md instructs Claude to report that
+`~/.cloud-setup-errors.log`. CLAUDE.md instructs Claude to report that
 log at session start.
