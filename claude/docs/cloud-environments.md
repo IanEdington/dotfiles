@@ -23,6 +23,22 @@
 - A local `.claude/setup-env.sh` convenience wrapper should just delegate to the same canonical script, never a second copy to keep in sync.
 - Avoid the tempting alternative of an orphan git branch + CI workflow that builds and caches dependency output as a tarball — it can work, but it's a lot of undebuggable machinery that doesn't transfer between repos. Only reach for it if Setup Script genuinely can't do the job.
 
+**Setup Script phase network connectivity:**
+
+Reachable / works:
+- Standard package managers: `apt`, `pip`, `npm`, `packagist.org` (composer)
+- `raw.githubusercontent.com` — for fetching scripts/files by exact path on a specific branch (404s if the path/branch doesn't exist, same as anywhere else)
+- Plain GitHub Release asset downloads — `github.com/<owner>/<repo>/releases/download/<tag>/<asset>` (redirects to `objects.githubusercontent.com`). This works for any public repo, not just ones this session is attached to.
+- Vendor-specific release CDNs, e.g. `get.helm.sh`
+- `awscliv2.zip` from `awscliv2.amazonaws.com`
+- Any host explicitly added to the environment's Custom network access allowlist (e.g. `mise.jdx.dev` once added — confirmed clean DNS/TCP/TLS/200 after allowlisting)
+
+Blocked by default (egress allowlist, not a real network failure):
+- Hosts not on the allowlist return a proxy-level 403 with `x-deny-reason: host_not_allowed` — DNS/TCP/TLS all succeed, so this is a policy block, not unreachable infrastructure. Fixable per-environment by adding the host to Custom network access. Confirmed for `mise.jdx.dev` before/after allowlisting.
+
+Blocked regardless of allowlisting — this is the important one:
+- `api.github.com` — 403s with `"GitHub access to this repository is not enabled for this session"` for any repo not attached to this session/environment as a source. This is scope-based, not host-based, so allowlisting the host doesn't fix it. Confirmed in both a live session and the real Setup Script phase — the phase's broader access (which does help e.g. `composer install` pull third-party PHP packages, presumably via a different backend path) does not extend to tools that call `api.github.com` directly, like `mise install`'s `aqua` backend, which failed identically in both phases for every third-party tool repo (opentofu, sops, argocd, helmfile, jq, yq, pre-commit, helm).
+
 **Other gotchas:**
 - The sandbox's git remote is a local proxy, not GitHub directly — its cached view of a branch can lag behind reality. If `git log origin/main` looks stale, cross-check with a direct `curl` to `raw.githubusercontent.com/<owner>/<repo>/main/<path>`.
 - Multiple sessions can work the same repo on the same branch name concurrently. Before force-pushing or resetting, `git fetch` and check for unrecognized commits on the remote.
