@@ -40,6 +40,9 @@ while :; do
   pid=$(pgrep -u "$CONSOLE_USER" -x Dock || true)
   if [ -n "$pid" ] && [ "$pid" != "$last_pid" ]; then
     log "Dock pid=$pid detected; loading SA"
+    # Injecting into a Dock that is still initializing loses the race and fails;
+    # let it settle before the first attempt.
+    sleep 3
     if load_sa; then
       log "SA loaded for Dock pid=$pid"
       # Only mark this Dock as handled on success, so a transient failure retries.
