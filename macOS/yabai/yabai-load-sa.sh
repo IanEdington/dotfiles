@@ -45,7 +45,7 @@ while :; do
       # Only mark this Dock as handled on success, so a transient failure retries.
       last_pid="$pid"
     else
-      log "load-sa failed; will retry. If this persists, the scripting addition is likely stale or missing: run 'sudo yabai --install-sa' (required after every yabai or macOS update), and confirm SIP is partially disabled per https://github.com/koekeishiya/yabai/wiki"
+      log "load-sa failed; will retry. If this persists see macOS/readme.md: check SIP (csrutil status), the arm64e boot-arg (nvram boot-args), and whether yabai supports the running macOS version."
       sleep 10
     fi
   fi

@@ -29,16 +29,36 @@ sudo launchctl kickstart -k system/com.ianedington.yabai
 
 #### Troubleshooting `load-sa failed`
 
-`yabai --load-sa` injects the scripting addition into Dock. It fails when the
-installed addition is missing or built against a different macOS/yabai version:
+`yabai --load-sa` installs and injects the scripting addition into Dock in one
+step, as root. (`--install-sa` was removed in yabai v6; there is no separate
+install command.) Run it by hand first, since its error text is the real signal:
 
 ```bash
-sudo yabai --install-sa   # re-run after every yabai or macOS update
-sudo yabai --load-sa      # verify by hand; the error text is the real signal
+sudo yabai --load-sa
 ```
 
-It also fails when SIP is not partially disabled. Check with `csrutil status`;
-the yabai wiki lists the exact flags required for your macOS version.
+Checks, in the order worth doing:
+
+1. **SIP.** `csrutil status` must show `Filesystem Protections: disabled`,
+   `Debugging Restrictions: disabled`, and `NVRAM Protections: disabled`. On
+   Apple Silicon that is `csrutil enable --without fs --without debug --without
+   nvram` from recoveryOS.
+2. **arm64e boot-arg.** Apple Silicon also needs
+   `sudo nvram boot-args=-arm64e_preview_abi` plus a reboot to allow
+   non-Apple-signed arm64e binaries. Verify with `nvram boot-args`.
+3. **Version match.** The addition is built per macOS release. After a macOS
+   update, `payload (0x..) doesn't support this macOS version!` means yabai
+   itself needs updating (`brew upgrade yabai`), not reinstalling the addition.
+   A brand new major macOS release may have no SA support yet.
+4. **Sudoers hash.** The `/private/etc/sudoers.d/yabai` entry pins a SHA256 of
+   the yabai binary and must be regenerated after every `brew upgrade yabai`:
+
+   ```bash
+   echo "$(whoami) ALL=(root) NOPASSWD: sha256:$(shasum -a 256 $(which yabai) | cut -d " " -f 1) $(which yabai) --load-sa" | sudo tee /private/etc/sudoers.d/yabai
+   ```
+
+   This only affects the passwordless path in `yabairc`; the LaunchDaemon
+   already runs as root and does not need it.
 
 The daemon logs yabai's own stderr, so `sudo tail -f
 /var/log/com.ianedington.yabai.out` shows the underlying error rather than just
