@@ -1,5 +1,6 @@
 *.tmp
 .idea
+__pycache__/
 
 packages/piper-models
 packages/piper
