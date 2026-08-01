@@ -7,7 +7,7 @@ individually, and update this note in the same commit.
 
 | | |
 | --- | --- |
-| Upstream | Anthropic `skill-creator`, exact source URL not recorded at import |
+| Upstream | https://github.com/anthropics/skills/tree/main/skills/skill-creator |
 | Vendored | 2026-08-01, from a tarball supplied by the repo owner |
 | Upstream file dates | 2026-07-24 (tarball member mtimes) |
 | Tarball MD5 | `e7656f662412d0c457ba944884a32e30` |
@@ -16,10 +16,15 @@ individually, and update this note in the same commit.
 
 ## Version
 
-Upstream ships no version number and this copy has no upstream ref to diff
-against, so the tarball hash and the 2026-07-24 file dates above are the only
-handle on which revision this is. If a later import needs a real comparison,
-record the source URL and commit SHA at that point.
+Upstream ships no version number, so the tarball hash and the 2026-07-24 file
+dates above are the handle on which revision this is.
+
+This copy is not `anthropics/skills` main. As of 2026-08-01 it is one section
+ahead: "Package and Present" names `SendUserFile` as a delivery tool and
+describes the Save skill button, where main still assumes `present_files`
+only. It is byte-identical to the copy Claude Code cloud ships at
+`/mnt/skills/examples/skill-creator`, so it appears to be an internal build
+that main has not caught up to. Diff against both before re-vendoring.
 
 ## Licence notes
 

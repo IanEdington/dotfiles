@@ -1,5 +1,9 @@
 # things I want to do
 
+- re-enable GitHub Issues on this repo (disabled, so nothing can be filed)
+- move `claude/skills/CHANGELOG.md` into `install-doc-memory/`; it only
+  versions doc-memory, but its path implies it covers every skill. Six
+  `../CHANGELOG.md` refs in install-doc-memory and update-doc-memory follow.
 - quickadd to workflowy
 - auto start `start-keybaord`
 - i3wm: open notificaions when clicked
