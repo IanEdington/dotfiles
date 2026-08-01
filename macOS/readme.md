@@ -27,6 +27,23 @@ sudo launchctl bootstrap system /Library/LaunchDaemons/com.ianedington.yabai.pli
 sudo launchctl kickstart -k system/com.ianedington.yabai
 ```
 
+#### Troubleshooting `load-sa failed`
+
+`yabai --load-sa` injects the scripting addition into Dock. It fails when the
+installed addition is missing or built against a different macOS/yabai version:
+
+```bash
+sudo yabai --install-sa   # re-run after every yabai or macOS update
+sudo yabai --load-sa      # verify by hand; the error text is the real signal
+```
+
+It also fails when SIP is not partially disabled. Check with `csrutil status`;
+the yabai wiki lists the exact flags required for your macOS version.
+
+The daemon logs yabai's own stderr, so `sudo tail -f
+/var/log/com.ianedington.yabai.out` shows the underlying error rather than just
+`load-sa failed`.
+
 Places to look for settings:
 - nvram - boot settings
 - pmset - power settings
