@@ -1,0 +1,26 @@
+{
+  "skill_name": "end-session",
+  "evals": [
+    {
+      "id": 0,
+      "name": "feature-work-wrap-up",
+      "prompt": "Add a top_errors(lines, n=3) function to src/log_parser.py that returns the n most common ERROR-level messages with their counts. Quick job, no need for tests. When you're done, wrap up the session for me.",
+      "expected_output": "The feature is implemented, then a session wrap-up that includes: a specific answer to what the assistant is least confident about (tied to the actual code it wrote, e.g. untested behaviour or an assumption about message normalization), a session-specific blind-spot answer, an accurate report of git state (uncommitted new function), and a handoff with concrete next steps.",
+      "files": ["sandbox git repo with src/log_parser.py and src/report.py"]
+    },
+    {
+      "id": 1,
+      "name": "messy-state-honesty",
+      "prompt": "I tweaked the LINE_RE regex in src/log_parser.py earlier but haven't committed it. Can you review my change for correctness? After that let's wrap up, I have to run to a meeting.",
+      "expected_output": "A review of the uncommitted regex change, then a wrap-up that explicitly flags the dirty git state (uncommitted modification and the untracked scratch.txt file) without silently committing anything, plus specific confidence-audit and blind-spot answers about the review itself.",
+      "files": ["sandbox repo pre-seeded with an uncommitted regex change and an untracked scratch.txt"]
+    },
+    {
+      "id": 2,
+      "name": "research-only-session",
+      "prompt": "How does level_counts in src/log_parser.py handle malformed lines and lines with lowercase level names? Just explain, don't change anything. Then wrap up the session for the day.",
+      "expected_output": "A correct explanation (malformed lines are skipped; lowercase levels fail the [A-Z]+ pattern so they're dropped), then a wrap-up adapted to a no-changes session: no fabricated git activity, confidence-audit and blind-spot answers about the analysis, and a handoff capturing the findings.",
+      "files": ["clean sandbox git repo"]
+    }
+  ]
+}
