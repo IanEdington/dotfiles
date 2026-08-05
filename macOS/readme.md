@@ -50,6 +50,16 @@ entry with `−`, re-add `/opt/homebrew/bin/skhd` with `+`, then
 `skhd --restart-service`. Removing and re-adding matters; toggling the stale
 entry off and on does not refresh the signature it points at.
 
+#### `Formulae found in multiple taps`
+
+yabai and skhd moved from `koekeishiya` to `asmvik`. GitHub redirects the old
+URL, but Homebrew clones it again under the old owner name, so both taps hold
+identical formulae and every reference becomes ambiguous:
+
+```bash
+brew untap koekeishiya/formulae   # does not uninstall anything
+```
+
 #### Troubleshooting `load-sa failed`
 
 `yabai --load-sa` installs and injects the scripting addition into Dock in one
