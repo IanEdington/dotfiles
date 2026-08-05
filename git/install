@@ -19,8 +19,10 @@ if [[ ! -f ~/.local/git/config ]] ; then
 EOF
 fi
 
-mkdir -P ~/.local/share/tig &> /dev/null || true
+mkdir -p ~/.local/share/tig &> /dev/null || true
 
-gh extension install github/gh-copilot
+# `gh copilot` is a built-in command as of gh 2.x (Jan 2026) and the
+# github/gh-copilot extension is deprecated; installing it now fails with a
+# name collision, which aborted this whole script under `set -e`.
 
 # sudo apt install gh git git-extras tig
