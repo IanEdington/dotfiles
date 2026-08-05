@@ -11,7 +11,7 @@
         "top_errors is implemented in src/log_parser.py and returns the n most common ERROR-level messages with counts when run against sample log lines",
         "The wrap-up answers the least-confident question by naming a specific artifact of this session (the new function, its regex or field assumptions), not generic hedging like 'could use more tests'",
         "The wrap-up answers the blind-spot question ('what you're probably missing') with a session-specific concern rather than boilerplate advice",
-        "The wrap-up accurately reports that the new code is uncommitted in the sandbox repo",
+        "The wrap-up's description of git state matches the actual repo state (branch, committed or uncommitted, pushed or not)",
         "The wrap-up contains a handoff or next-steps section with at least one concrete, actionable next step"
       ]
     },
