@@ -1,11 +1,10 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
-  "editorMode": "vim",
-  "includeCoAuthoredBy": false,
   "attribution": {
     "commit": "",
     "pr": ""
   },
+  "includeCoAuthoredBy": false,
   "permissions": {
     "deny": [
       "Bash(git push origin main:*)",
@@ -51,5 +50,7 @@
         ]
       }
     ]
-  }
+  },
+  "editorMode": "vim",
+  "agentPushNotifEnabled": true
 }

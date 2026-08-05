@@ -7,9 +7,6 @@ cask "rectangle"
 cask "vlc"
 cask "iterm2"
 
-# yabai/skhd moved from koekeishiya to asmvik. Homebrew does not follow the
-# rename, so tapping the old name clones the same repo again and every formula
-# then resolves ambiguously: brew untap koekeishiya/formulae
 tap "asmvik/formulae"
 brew "yabai"
 brew "skhd"
