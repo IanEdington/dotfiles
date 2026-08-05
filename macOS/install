@@ -33,18 +33,17 @@ echo_yellow "-[ ] install jetbrains mono https://www.jetbrains.com/lp/mono/"
 
 # Xcode
 # full xcode installation is required
-set +e
-xcodebuild -version &> /dev/null
-if [[ $? != 0 ]] ; then
+# Test each command directly. Reading `$?` after a preceding `if` returns that
+# statement's status, not the command's, so the command line tools branch used
+# to fire on every run: an unwanted install popup and a sudo password prompt.
+if ! xcodebuild -version &> /dev/null ; then
     echo_yellow "-[ ] TODO you need to install xcode from the app store"
 fi
 # so is xcode command line tools
-xcode-select -version &> /dev/null
-if [[ $? != 0 ]] ; then
+if ! xcode-select -version &> /dev/null ; then
     xcode-select --install
     sudo xcodebuild -license accept
 fi
-set -e
 
 dotfiles::symlink_files ~/.dotfiles/macOS/karabiner.json ~/.config/karabiner/karabiner.json
 

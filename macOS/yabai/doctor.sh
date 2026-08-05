@@ -65,28 +65,29 @@ else
 fi
 
 # The sudoers entry pins a hash of the yabai binary, so it breaks on upgrade.
-if [ -f /private/etc/sudoers.d/yabai ]; then
+# Needs sudo to read; distinguish "cannot check" from "actually stale" so a
+# missing sudo timestamp does not masquerade as a real finding.
+if ! sudo -n true 2>/dev/null; then
+  warn "skipped sudoers and daemon checks (no cached sudo); run: sudo -v && $0"
+elif [ -f /private/etc/sudoers.d/yabai ]; then
   want=$(shasum -a 256 "$(command -v yabai)" | cut -d' ' -f1)
-  if sudo -n grep -q "$want" /private/etc/sudoers.d/yabai 2>/dev/null; then
+  if sudo grep -q "$want" /private/etc/sudoers.d/yabai; then
     ok "sudoers hash matches the yabai binary"
   else
-    warn "sudoers hash may be stale after a yabai upgrade; re-run macOS/install"
+    bad "sudoers hash is stale after a yabai upgrade; re-run macOS/install"
   fi
 fi
 
 echo "skhd"
+# skhd aborts at startup without Accessibility, so a running process is itself
+# proof the grant is intact. Only consult the log to explain why it is not
+# running; the log is append-only and keeps stale errors from earlier failures.
 if pgrep -x skhd >/dev/null; then
-  ok "skhd running"
+  ok "skhd running (implies Accessibility granted)"
+elif [ -f "/tmp/skhd_$USER.err.log" ] && grep -q "accessibility access" "/tmp/skhd_$USER.err.log"; then
+  bad "skhd aborted: no Accessibility. System Settings > Privacy & Security > Accessibility: remove the skhd entry, re-add $(command -v skhd), then skhd --restart-service"
 else
-  bad "skhd not running (skhd --start-service)"
-fi
-
-# skhd aborts on startup without Accessibility, and macOS revokes the grant
-# whenever the binary's signature changes (i.e. every brew upgrade).
-if [ -f "/tmp/skhd_$USER.err.log" ] && tail -20 "/tmp/skhd_$USER.err.log" | grep -q "accessibility access"; then
-  bad "skhd lacks Accessibility. System Settings > Privacy & Security > Accessibility: remove the skhd entry, re-add $(command -v skhd), then skhd --restart-service"
-else
-  ok "no Accessibility error in skhd log"
+  bad "skhd not running (skhd --start-service); see /tmp/skhd_$USER.err.log"
 fi
 
 if skhd --parse "$HOME/.config/skhd/skhdrc" >/dev/null 2>&1; then
