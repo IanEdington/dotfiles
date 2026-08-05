@@ -30,6 +30,11 @@ Never commit, push, or delete anything in this step; the wrap-up reports,
 the user decides. If state needs action ("2 unpushed commits on
 fix-parser"), name it precisely enough that the fix is a copy-paste away.
 
+Verify immediately before writing the report, not merely at the start of
+the wrap-up. Anything you run in between, even a smoke test dropping a
+`__pycache__`, makes an earlier status stale, and a wrap-up that says
+"clean" over a dirty tree teaches the user to distrust the whole report.
+
 ## Step 2: The two questions
 
 Answer both, in the report, every time. They are the point of this skill:
@@ -75,7 +80,8 @@ Propose, don't apply: give the exact text and the target (project
 `CLAUDE.md` for project facts, `~/.claude/CLAUDE.md` for cross-project
 preferences), and let the user say yes. Keep each proposal to a line or
 two; CLAUDE.md entries are read at every session start, so they must earn
-their tokens.
+their tokens. A good filter: would you tell this to a new developer
+joining the project? If not, it does not belong there.
 
 ## Step 4: Handoff
 
@@ -83,15 +89,23 @@ Write for a reader with zero context: the next session starts cold, and
 "continue where we left off" means nothing to it. Cover, briefly:
 
 - What changed this session, in terms of outcomes rather than narrative.
-- Open threads: what is unfinished, blocked, or deliberately deferred.
+- Decisions made and why, including alternatives rejected. Without the
+  why, the next session relitigates what was already settled.
+- Open threads: what is unfinished, blocked, or deliberately deferred, and
+  anything that rots overnight (expiring credentials, a pending approval,
+  a CI run still in flight).
+- How to confirm things still work: the command a skeptical next session
+  runs before trusting any of the above.
 - The first concrete action to take next time, specific enough to paste as
   the opening prompt.
 
 If the work is mid-flight and worth resuming with full context, mention
 that `claude --resume` restores this conversation, and suggest naming the
 session if it isn't named. If the repo has an established place for session
-notes, offer to write the handoff there; otherwise the report itself is the
-handoff.
+notes, offer to write the handoff there; when writing it to a file, stamp
+it with the date and current git ref so staleness is detectable, and put
+the next action under a scannable `## Pick up here` heading. Otherwise the
+report itself is the handoff.
 
 ## Report structure
 
