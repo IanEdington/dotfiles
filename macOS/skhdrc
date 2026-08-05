@@ -23,8 +23,8 @@ ctrl + shift - 9 : yabai -m window --space  9
 ctrl + shift - 0 : yabai -m window --space 10
 
 # Move within space
-# prev/next cycle the space's window list, which works in every layout;
-# west/east are spatial and do nothing when the layout is float.
-ctrl - h : yabai -m window --focus prev || yabai -m window --focus last
-ctrl - l : yabai -m window --focus next || yabai -m window --focus first
+# yabai's own prev/next follow stacking order, which reshuffles on every focus
+# change; cycle-window.sh orders by window id so the ring stays stable.
+ctrl - h : ~/.dotfiles/macOS/yabai/cycle-window.sh prev
+ctrl - l : ~/.dotfiles/macOS/yabai/cycle-window.sh next
 
