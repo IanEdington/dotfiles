@@ -52,10 +52,10 @@ source ./terminfo/install
 
 # skhd
 dotfiles::symlink_files ~/.dotfiles/macOS/skhdrc ~/.config/skhd/skhdrc
-skhd --start-service || true
+skhd --start-service || echo_red "Warning: skhd --start-service failed; run macOS/yabai/doctor.sh"
 
 dotfiles::symlink_files ~/.dotfiles/macOS/yabairc ~/.config/yabai/yabairc
-yabai --start-service || true
+yabai --start-service || echo_red "Warning: yabai --start-service failed; run macOS/yabai/doctor.sh"
 
 # yabai scripting-addition loader (LaunchDaemon)
 SCRIPT_SRC=~/.dotfiles/macOS/yabai/yabai-load-sa.sh
@@ -64,23 +64,39 @@ PLIST_SRC=~/.dotfiles/macOS/yabai/com.ianedington.yabai.plist
 PLIST_DST=/Library/LaunchDaemons/com.ianedington.yabai.plist
 LABEL=com.ianedington.yabai
 
-# Install script only if missing
-if [ -f "$SCRIPT_SRC" ] && [ ! -x "$SCRIPT_DST" ]; then
+# Always overwrite: installing only when missing meant edits to the repo copy
+# never reached the running daemon.
+changed=0
+if [ -f "$SCRIPT_SRC" ] && ! sudo cmp -s "$SCRIPT_SRC" "$SCRIPT_DST" ; then
     sudo install -d -m 0755 -o root -g wheel /usr/local/libexec
     sudo install -m 0755 -o root -g wheel "$SCRIPT_SRC" "$SCRIPT_DST"
+    changed=1
 fi
 
-# Install plist only if missing
-if [ -f "$PLIST_SRC" ] && [ ! -f "$PLIST_DST" ]; then
+if [ -f "$PLIST_SRC" ] && ! sudo cmp -s "$PLIST_SRC" "$PLIST_DST" ; then
     sudo install -m 0644 -o root -g wheel "$PLIST_SRC" "$PLIST_DST"
+    changed=1
 fi
 
-# If job not loaded, bootstrap and start
-if ! sudo launchctl print system/$LABEL >/dev/null 2>&1; then
-    if [ -f "$PLIST_DST" ]; then
+if [ -f "$PLIST_DST" ]; then
+    if ! sudo launchctl print system/$LABEL >/dev/null 2>&1; then
         sudo launchctl bootstrap system "$PLIST_DST"
         sudo launchctl enable system/$LABEL
         sudo launchctl kickstart -k system/$LABEL
+    elif [[ $changed == 1 ]]; then
+        sudo launchctl kickstart -k system/$LABEL
+    fi
+fi
+
+# The sudoers entry pins a SHA256 of the yabai binary, so it must be
+# regenerated after every `brew upgrade yabai`.
+if command_exists yabai ; then
+    yabai_path=$(command -v yabai)
+    yabai_hash=$(shasum -a 256 "$yabai_path" | cut -d' ' -f1)
+    sudoers_line="$(whoami) ALL=(root) NOPASSWD: sha256:$yabai_hash $yabai_path --load-sa"
+    if ! sudo grep -qxF "$sudoers_line" /private/etc/sudoers.d/yabai 2>/dev/null ; then
+        echo "$sudoers_line" | sudo tee /private/etc/sudoers.d/yabai > /dev/null
+        sudo chmod 0440 /private/etc/sudoers.d/yabai
     fi
 fi
 

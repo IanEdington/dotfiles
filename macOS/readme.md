@@ -27,6 +27,29 @@ sudo launchctl bootstrap system /Library/LaunchDaemons/com.ianedington.yabai.pli
 sudo launchctl kickstart -k system/com.ianedington.yabai
 ```
 
+#### Health check
+
+```bash
+./macOS/yabai/doctor.sh
+```
+
+Checks every layer in the order a failure propagates: SIP flags, the arm64e
+boot-arg, yabai running, the scripting addition actually responding, whether the
+installed loader has drifted from the repo, the sudoers hash, skhd running, and
+skhd's Accessibility grant. Run it first whenever "yabai stopped working".
+
+#### skhd hotkeys stop working after a `brew upgrade`
+
+macOS keys the Accessibility grant to the binary's code signature. Upgrading
+skhd changes the signature, so the grant is revoked while the entry in System
+Settings still *appears* enabled. skhd then aborts at startup with
+`must be run with accessibility access!` and every hotkey silently does nothing.
+
+Fix: System Settings > Privacy & Security > Accessibility, remove the `skhd`
+entry with `−`, re-add `/opt/homebrew/bin/skhd` with `+`, then
+`skhd --restart-service`. Removing and re-adding matters; toggling the stale
+entry off and on does not refresh the signature it points at.
+
 #### Troubleshooting `load-sa failed`
 
 `yabai --load-sa` installs and injects the scripting addition into Dock in one
