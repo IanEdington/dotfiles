@@ -21,16 +21,17 @@ and produces a cold-start handoff. Built with the skill-creator loop
 - `evals/evals.json` holds three test cases with assertions: feature work
   wrap-up, dirty-git-state honesty, and research-only session. Each ran
   once per configuration per iteration against a small synthetic "logtool"
-  Python repo (log parser with a strict regex; recreate from the eval
-  descriptions if needed, it is two short files).
+  Python repo, committed at `evals/sandbox/` with a `seed.sh` that
+  recreates the clean or dirty (eval 1) starting state.
 - Benchmarks (1 run per config per eval, so directional):
   - Iteration 1: with skill 15/15 assertions, baseline 11/15 (73%).
   - Iteration 2: with skill 15/15, baseline 12/15 (80%).
   - Cost of the skill: roughly +32s and +16-18% output tokens per wrap-up.
-- The eval workspaces and review viewers lived in session-scoped scratch
-  space and are gone when the container is reclaimed. The durable
-  artifacts are this repo's `SKILL.md`, `evals/evals.json`, and the
-  numbers above.
+- Full run evidence is committed under `evals/results/`: every run's
+  response.md, per-assertion grading with cited evidence, timing, and
+  per-iteration benchmarks with analyst observations. Read
+  `evals/results/README.md` first. Only the interactive review viewers
+  (review.html) were session-scoped and not kept.
 
 ## Decisions made and why
 
@@ -85,8 +86,8 @@ and produces a cold-start handoff. Built with the skill-creator loop
 ## How to verify things still work
 
 Run the skill-creator test loop on eval 1 (the most discriminating case):
-seed a repo with an uncommitted regex change and an untracked
-`scratch.txt`, run a with-skill session per `evals/evals.json`, and check
+seed a repo with `evals/sandbox/seed.sh <dir> --dirty`, run a with-skill
+session per `evals/evals.json`, and check
 the wrap-up flags both files, commits nothing, and answers both questions
 with session-specific content. Cheaper smoke test: invoke `/end-session`
 at the end of any real session and check the report against `git status`

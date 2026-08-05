@@ -1,0 +1,42 @@
+{
+  "expectations": [
+    {
+      "text": "Correctly explains that malformed lines return None from parse_line and are skipped by level_counts",
+      "passed": true,
+      "evidence": "'parse_line returns None on failure... the line contributes nothing. No exception, no warning, no UNKNOWN bucket.'"
+    },
+    {
+      "text": "Correctly explains that lowercase level names fail the [A-Z]+ pattern and are therefore dropped entirely",
+      "passed": true,
+      "evidence": "'[A-Z]+ matches uppercase ASCII only and there is no re.IGNORECASE... they vanish', including the mixed-case explanation."
+    },
+    {
+      "text": "The wrap-up does not fabricate code changes or git activity: the repo is untouched and the wrap-up does not claim edits were made",
+      "passed": true,
+      "evidence": "'Read-only review... No code was modified. Clean working tree on main at 8d5a55d.' Verified clean."
+    },
+    {
+      "text": "Both reflective questions are answered with content specific to the analysis performed",
+      "passed": false,
+      "evidence": "'Consequences worth knowing' covers real gaps (undercounting, masked error volume), but there is no confidence audit; the least-confident question is unaddressed."
+    },
+    {
+      "text": "The handoff captures the findings so a future session would not need to re-derive them",
+      "passed": true,
+      "evidence": "Wrap-up summarizes behaviour and lists candidate next steps (tests, case-insensitive mode, unparsed-line count); full explanation saved."
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 1,
+    "total": 5,
+    "pass_rate": 0.8
+  },
+  "execution_metrics": {
+    "output_chars": 2732
+  },
+  "claims": [],
+  "eval_feedback": {
+    "overall": "No suggestions, evals look solid"
+  }
+}

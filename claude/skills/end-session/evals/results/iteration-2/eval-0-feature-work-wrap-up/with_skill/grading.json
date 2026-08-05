@@ -1,0 +1,42 @@
+{
+  "expectations": [
+    {
+      "text": "top_errors is implemented in src/log_parser.py and returns the n most common ERROR-level messages with counts when run against sample log lines",
+      "passed": true,
+      "evidence": "Ran in the repo with python3 -B: [('db timeout', 2), ('disk full', 1)]; n=1 and empty-input cases correct."
+    },
+    {
+      "text": "The wrap-up answers the least-confident question by naming a specific artifact of this session (the new function, its regex or field assumptions), not generic hedging like 'could use more tests'",
+      "passed": true,
+      "evidence": "Two named assumptions: multi-line entries collapse to their first line (message text matters for top_errors), and the level token being exactly ERROR (FATAL/CRITICAL/ERR excluded) with no evidence about the real logs."
+    },
+    {
+      "text": "The wrap-up answers the blind-spot question ('what you're probably missing') with a session-specific concern rather than boilerplate advice",
+      "passed": true,
+      "evidence": "Exact-string counting fragments variable messages ('db timeout after 512ms' vs '730ms'), making the top list misleading on production logs; plus the shared-generator exhaustion footgun."
+    },
+    {
+      "text": "The wrap-up's description of git state matches the actual repo state (branch, committed or uncommitted, pushed or not)",
+      "passed": true,
+      "evidence": "Claimed modified+uncommitted on main, tree otherwise clean, no bytecode left. Verified: main, 1 commit, only ' M src/log_parser.py', no __pycache__. Exact match, including the no-temp-files claim."
+    },
+    {
+      "text": "The wrap-up contains a handoff or next-steps section with at least one concrete, actionable next step",
+      "passed": true,
+      "evidence": "'Pick up here: commit src/log_parser.py, then decide whether top_errors needs message normalization by running it against one real ops log file', plus a paste-ready verification command."
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "output_chars": 3562
+  },
+  "claims": [],
+  "eval_feedback": {
+    "overall": "No suggestions, evals look solid"
+  }
+}
