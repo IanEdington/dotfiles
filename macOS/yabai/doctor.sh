@@ -90,6 +90,17 @@ else
   bad "skhd not running (skhd --start-service); see /tmp/skhd_$USER.err.log"
 fi
 
+# Secure Keyboard Entry blocks event taps, so skhd receives nothing at all.
+# A service started at login cannot report this, so the symptom is silence.
+secure_pid=$(ioreg -l -d 1 -w 0 \
+  | sed -n 's/.*"kCGSSessionSecureInputPID"=\([0-9]*\).*/\1/p' \
+  | head -1)
+if [ -n "$secure_pid" ]; then
+  bad "secure keyboard entry is on (pid $secure_pid, $(ps -p "$secure_pid" -o comm= 2>/dev/null)); skhd gets no keys. Turn it off in that app's menu"
+else
+  ok "secure keyboard entry off"
+fi
+
 # No config check here: skhd treats any unrecognized option as "start", so
 # probing it with --parse or --help would spawn a stray instance. A running
 # skhd already proves the config parsed, since it refuses to start otherwise.

@@ -38,6 +38,19 @@ boot-arg, yabai running, the scripting addition actually responding, whether the
 installed loader has drifted from the repo, the sudoers hash, skhd running, and
 skhd's Accessibility grant. Run it first whenever "yabai stopped working".
 
+#### skhd hotkeys do nothing, but skhd is running and its log is empty
+
+Check for Secure Keyboard Entry. It blocks event taps process-wide, so skhd
+receives no keys at all:
+
+```
+skhd: secure keyboard entry is enabled by (658) 'iterm2'! abort..
+```
+
+Turn it off in the iTerm2 menu (iTerm2 > Secure Keyboard Entry), then
+`skhd --restart-service`. The service started at login does not log this, so
+the symptom is silence rather than an error.
+
 #### skhd hotkeys stop working after a `brew upgrade`
 
 macOS keys the Accessibility grant to the binary's code signature. Upgrading
