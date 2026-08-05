@@ -21,3 +21,8 @@ dotfiles::symlink_files ~/.zsh/.zprezto/runcoms/zlogout ~/.zsh/.zlogout
 if is_linux ; then
     chsh -s $(which zsh)
 fi
+
+# If this run upgraded zsh, its modules moved to a new Cellar path that the
+# already running shell still has cached, and zsh-syntax-highlighting fails to
+# dlopen zsh/regex on every prompt until the shell is replaced.
+echo_yellow "-[ ] if zsh was upgraded, run \`exec zsh\` to reload this shell"
