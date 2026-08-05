@@ -12,12 +12,19 @@ dotfiles::symlink_files () {
     if [ -h "$symlink_dst" ]; then
         rm "$symlink_dst"
     elif [ -e "$symlink_dst" ]; then
-        echo_red "Error linking $symlink_dst->$symlink_src: $symlink_dst exists and is not a symlink!"
-        return
-        # TODO use the backup_func
-    elif [[ ! -e "$(dirname "$symlink_dst")" ]]; then
-        mkdir -p "$(dirname "$symlink_dst")"
+        # A real file here is usually the app having rewritten its own config.
+        # Keep it rather than clobbering it, but do not block the install.
+        local backup_dst="$symlink_dst.backup"
+        local n=1
+        while [ -e "$backup_dst" ]; do
+            backup_dst="$symlink_dst.backup.$n"
+            n=$((n + 1))
+        done
+        mv "$symlink_dst" "$backup_dst"
+        echo_yellow "$symlink_dst was a real file; moved it to $backup_dst"
     fi
+
+    mkdir -p "$(dirname "$symlink_dst")"
 
     ln -s "$symlink_src" "$symlink_dst"
 }
