@@ -23,3 +23,8 @@ yabai -m rule --add space=6 app="^(Spotify|Amazon Music)$"
 yabai -m rule --add space=8 app="^(Slack)"
 # Terminal
 yabai -m rule --add space=9 app="^(iTerm2)$"
+
+# Rules only fire for windows created after they are registered, so at login
+# every window that opened before yabai started keeps whatever space it landed
+# on. Apply them once to the windows that already exist.
+yabai -m rule --apply
