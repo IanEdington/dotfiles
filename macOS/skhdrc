@@ -23,6 +23,6 @@ ctrl + shift - 9 : yabai -m window --space  9
 ctrl + shift - 0 : yabai -m window --space 10
 
 # Move within space
-ctrl - h : yabai -m window --focus $(yabai -m query --windows --space | jq '.[-1].id')
-ctrl - l : yabai -m window --focus $(yabai -m query --windows --space | jq '.[1].id')
+ctrl - h : yabai -m window --focus west || yabai -m window --focus last
+ctrl - l : yabai -m window --focus east || yabai -m window --focus first
 
