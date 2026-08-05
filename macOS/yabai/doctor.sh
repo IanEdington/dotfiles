@@ -47,10 +47,11 @@ else
   bad "yabai cannot query spaces; SA likely not loaded (see /var/log/com.ianedington.yabai.out)"
 fi
 
-if sudo -n launchctl print system/com.ianedington.yabai >/dev/null 2>&1; then
-  ok "SA loader daemon bootstrapped"
+# launchctl print needs root to answer; the daemon's own process does not.
+if pgrep -f /usr/local/libexec/yabai-load-sa >/dev/null 2>&1; then
+  ok "SA loader daemon running"
 else
-  warn "could not check SA loader daemon (needs sudo); run: sudo launchctl print system/com.ianedington.yabai"
+  bad "SA loader daemon not running; re-run macOS/install"
 fi
 
 # The installed copy drifts from the repo silently; compare them.
@@ -65,13 +66,12 @@ else
 fi
 
 # The sudoers entry pins a hash of the yabai binary, so it breaks on upgrade.
-# Needs sudo to read; distinguish "cannot check" from "actually stale" so a
-# missing sudo timestamp does not masquerade as a real finding.
-if ! sudo -n true 2>/dev/null; then
-  warn "skipped sudoers and daemon checks (no cached sudo); run: sudo -v && $0"
-elif [ -f /private/etc/sudoers.d/yabai ]; then
+# sudoers.d/yabai is 0440 root, so compare against the stamp macOS/install
+# writes rather than escalating just to run a check.
+if [ -f /private/etc/sudoers.d/yabai ]; then
   want=$(shasum -a 256 "$(command -v yabai)" | cut -d' ' -f1)
-  if sudo grep -q "$want" /private/etc/sudoers.d/yabai; then
+  got=$(cat ~/.local/share/dotfiles/yabai-sudoers-hash 2>/dev/null || true)
+  if [ "$want" = "$got" ]; then
     ok "sudoers hash matches the yabai binary"
   else
     bad "sudoers hash is stale after a yabai upgrade; re-run macOS/install"

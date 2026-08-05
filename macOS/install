@@ -65,21 +65,25 @@ LABEL=com.ianedington.yabai
 
 # Always overwrite: installing only when missing meant edits to the repo copy
 # never reached the running daemon.
+# Both destinations are world-readable (755 and 644), so comparing them needs
+# no privileges. Only escalate for the writes that actually require it.
 changed=0
-if [ -f "$SCRIPT_SRC" ] && ! sudo cmp -s "$SCRIPT_SRC" "$SCRIPT_DST" ; then
+if [ -f "$SCRIPT_SRC" ] && ! cmp -s "$SCRIPT_SRC" "$SCRIPT_DST" ; then
     sudo install -d -m 0755 -o root -g wheel /usr/local/libexec
     sudo install -m 0755 -o root -g wheel "$SCRIPT_SRC" "$SCRIPT_DST"
     changed=1
 fi
 
-if [ -f "$PLIST_SRC" ] && ! sudo cmp -s "$PLIST_SRC" "$PLIST_DST" ; then
+if [ -f "$PLIST_SRC" ] && ! cmp -s "$PLIST_SRC" "$PLIST_DST" ; then
     sudo install -m 0644 -o root -g wheel "$PLIST_SRC" "$PLIST_DST"
     changed=1
 fi
 
+# `launchctl print system/...` needs root just to answer, so use the daemon's
+# own process as the unprivileged liveness check instead.
 if [ -f "$PLIST_DST" ]; then
-    if ! sudo launchctl print system/$LABEL >/dev/null 2>&1; then
-        sudo launchctl bootstrap system "$PLIST_DST"
+    if ! pgrep -f "$SCRIPT_DST" > /dev/null 2>&1; then
+        sudo launchctl bootstrap system "$PLIST_DST" 2> /dev/null || true
         sudo launchctl enable system/$LABEL
         sudo launchctl kickstart -k system/$LABEL
     elif [[ $changed == 1 ]]; then
@@ -88,14 +92,19 @@ if [ -f "$PLIST_DST" ]; then
 fi
 
 # The sudoers entry pins a SHA256 of the yabai binary, so it must be
-# regenerated after every `brew upgrade yabai`.
+# regenerated after every `brew upgrade yabai`. The file itself is 0440 root,
+# so record the hash we last wrote somewhere readable and only escalate when it
+# actually changes; otherwise every run would prompt for a password.
 if command_exists yabai ; then
     yabai_path=$(command -v yabai)
     yabai_hash=$(shasum -a 256 "$yabai_path" | cut -d' ' -f1)
-    sudoers_line="$(whoami) ALL=(root) NOPASSWD: sha256:$yabai_hash $yabai_path --load-sa"
-    if ! sudo grep -qxF "$sudoers_line" /private/etc/sudoers.d/yabai 2>/dev/null ; then
+    stamp=~/.local/share/dotfiles/yabai-sudoers-hash
+    if [ "$(cat "$stamp" 2> /dev/null || true)" != "$yabai_hash" ] ; then
+        sudoers_line="$(whoami) ALL=(root) NOPASSWD: sha256:$yabai_hash $yabai_path --load-sa"
         echo "$sudoers_line" | sudo tee /private/etc/sudoers.d/yabai > /dev/null
         sudo chmod 0440 /private/etc/sudoers.d/yabai
+        mkdir -p "$(dirname "$stamp")"
+        echo "$yabai_hash" > "$stamp"
     fi
 fi
 
