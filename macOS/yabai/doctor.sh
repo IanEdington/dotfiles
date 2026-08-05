@@ -90,10 +90,14 @@ else
   bad "skhd not running (skhd --start-service); see /tmp/skhd_$USER.err.log"
 fi
 
-if skhd --parse "$HOME/.config/skhd/skhdrc" >/dev/null 2>&1; then
-  ok "skhdrc parses"
-else
-  warn "skhd --parse reported problems (or this skhd predates --parse)"
+# --parse is not in every skhd build; only report on it when it exists,
+# otherwise the check is indistinguishable from a real config error.
+if skhd --help 2>&1 | grep -q -- '--parse'; then
+  if skhd --parse "$HOME/.config/skhd/skhdrc" >/dev/null 2>&1; then
+    ok "skhdrc parses"
+  else
+    bad "skhdrc has parse errors: skhd --parse ~/.config/skhd/skhdrc"
+  fi
 fi
 
 echo
