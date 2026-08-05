@@ -40,6 +40,18 @@ mkdir $HOME/.local/bin &> /dev/null || true
 echo "Installing python"
 source ./python/install
 
+# Homebrew refuses to load formulae from third-party taps until they are
+# explicitly trusted, and `brew bundle` cannot express that. Keep this an
+# explicit list rather than trusting whatever a Brewfile happens to tap.
+TRUSTED_TAPS=(asmvik/formulae)
+if is_darwin && command_exists brew ; then
+    for trusted_tap in "${TRUSTED_TAPS[@]}" ; do
+        brew tap "$trusted_tap" > /dev/null 2>&1 || true
+        brew trust "$trusted_tap" > /dev/null 2>&1 \
+            || echo_red "Warning: could not trust $trusted_tap; its formulae will fail to install"
+    done
+fi
+
 if is_darwin && [ -f Brewfile ]; then
     brew bundle
 fi

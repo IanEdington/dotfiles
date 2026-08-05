@@ -50,6 +50,16 @@ entry with `−`, re-add `/opt/homebrew/bin/skhd` with `+`, then
 `skhd --restart-service`. Removing and re-adding matters; toggling the stale
 entry off and on does not refresh the signature it points at.
 
+#### `Refusing to load formula ... from untrusted tap`
+
+Homebrew requires third-party taps to be trusted explicitly. The top-level
+`install` trusts the taps in its `TRUSTED_TAPS` list before running
+`brew bundle`; to do it by hand:
+
+```bash
+brew trust asmvik/formulae
+```
+
 #### `Formulae found in multiple taps`
 
 yabai and skhd moved from `koekeishiya` to `asmvik`. GitHub redirects the old
