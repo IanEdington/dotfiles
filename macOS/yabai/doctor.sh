@@ -90,15 +90,9 @@ else
   bad "skhd not running (skhd --start-service); see /tmp/skhd_$USER.err.log"
 fi
 
-# --parse is not in every skhd build; only report on it when it exists,
-# otherwise the check is indistinguishable from a real config error.
-if skhd --help 2>&1 | grep -q -- '--parse'; then
-  if skhd --parse "$HOME/.config/skhd/skhdrc" >/dev/null 2>&1; then
-    ok "skhdrc parses"
-  else
-    bad "skhdrc has parse errors: skhd --parse ~/.config/skhd/skhdrc"
-  fi
-fi
+# No config check here: skhd treats any unrecognized option as "start", so
+# probing it with --parse or --help would spawn a stray instance. A running
+# skhd already proves the config parsed, since it refuses to start otherwise.
 
 echo
 if [ "$fail" -eq 0 ]; then
