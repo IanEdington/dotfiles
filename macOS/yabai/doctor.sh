@@ -45,15 +45,17 @@ fi
 # binary's mtime against when the process actually started.
 yabai_pid=$(pgrep -x yabai | head -1)
 if [ -n "$yabai_pid" ]; then
-  elapsed=$(ps -p "$yabai_pid" -o etimes= 2>/dev/null | tr -d ' ')
-  binary_mtime=$(stat -f %m "$(command -v yabai)" 2>/dev/null)
-  if [ -n "$elapsed" ] && [ -n "$binary_mtime" ]; then
-    started=$(( $(date +%s) - elapsed ))
-    if [ "$binary_mtime" -gt "$started" ]; then
-      bad "yabai was upgraded after the running process started; run: yabai --restart-service"
-    else
-      ok "running yabai is the installed build"
-    fi
+  # BSD ps has no etimes; lstart gives an absolute time date(1) can parse.
+  started_at=$(ps -p "$yabai_pid" -o lstart= 2>/dev/null | tr -s ' ')
+  started=$(date -j -f "%a %b %d %T %Y" "$started_at" +%s 2>/dev/null || true)
+  binary_mtime=$(stat -f %m "$(command -v yabai)" 2>/dev/null || true)
+  if [ -z "${started##*[!0-9]*}" ] || [ -z "${binary_mtime##*[!0-9]*}" ] \
+     || [ -z "$started" ] || [ -z "$binary_mtime" ]; then
+    warn "could not compare yabai's build to the running process"
+  elif [ "$binary_mtime" -gt "$started" ]; then
+    bad "yabai was upgraded after the running process started; run: yabai --restart-service"
+  else
+    ok "running yabai is the installed build"
   fi
 fi
 
