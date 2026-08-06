@@ -22,7 +22,16 @@ if is_linux ; then
     chsh -s $(which zsh)
 fi
 
-# If this run upgraded zsh, its modules moved to a new Cellar path that the
-# already running shell still has cached, and zsh-syntax-highlighting fails to
-# dlopen zsh/regex on every prompt until the shell is replaced.
-echo_yellow "-[ ] if zsh was upgraded, run \`exec zsh\` to reload this shell"
+# An upgrade moves zsh's modules to a new Cellar path that the running shell
+# still has cached, so zsh-syntax-highlighting fails to dlopen zsh/regex on
+# every prompt until the shell is replaced. Only say so when the version
+# actually changed since the last install.
+if command_exists zsh ; then
+    zsh_version=$(zsh --version | awk '{print $2}')
+    zsh_stamp=~/.local/share/dotfiles/zsh-version
+    if [ -f "$zsh_stamp" ] && [ "$(cat "$zsh_stamp")" != "$zsh_version" ] ; then
+        echo_yellow "-[ ] zsh upgraded to $zsh_version; run \`exec zsh\` to reload this shell"
+    fi
+    mkdir -p "$(dirname "$zsh_stamp")"
+    echo "$zsh_version" > "$zsh_stamp"
+fi
