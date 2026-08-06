@@ -73,14 +73,13 @@ Pattern that works well:
    if curl -fsSL "https://raw.githubusercontent.com/<owner>/<repo>/main/claude/cloud-environment-setup.sh" -o /tmp/setup.sh; then
      bash /tmp/setup.sh
    else
-     mkdir -p ~/.claude
-     echo "<repo>: could not fetch setup script during environment setup" >> ~/.claude/cloud-setup-errors.log
+     echo "<repo>: could not fetch setup script during environment setup" >> ~/.cloud-setup-errors.log
    fi
    ```
 
 3. Make the fetched script self-contained: clone the repo itself if needed,
    assume nothing about pre-existing checkouts.
-4. Log failures append-only to `~/.claude/cloud-setup-errors.log` and append
+4. Log failures append-only to `~/.cloud-setup-errors.log` and append
    `|| true` to non-critical commands so one flaky install does not brick the
    environment. Anything that truncates the log must run before anything
    that appends.
@@ -100,7 +99,7 @@ the network config (no manual rebuild button; cache also expires ~7 days).
 To verify a change:
 1. Edit the environment config and save (this schedules a rebuild).
 2. Start a separate fresh session in that environment.
-3. In it, check: `~/.claude/cloud-setup-errors.log` is empty, the expected
+3. In it, check: `~/.cloud-setup-errors.log` is empty, the expected
    files and binaries exist, and file timestamps are near container boot
    time (this is what proves the script ran at setup rather than the session
    using a stale cached image).
