@@ -19,4 +19,4 @@ if [[ ! -f ~/.local/git/config ]] ; then
 EOF
 fi
 
-mkdir -p ~/.local/share/tig &> /dev/null || true
+mkdir -P ~/.local/share/tig &> /dev/null || true
