@@ -1,31 +1,81 @@
 # Previous Mac setup in case I go back
 
-## Mac Settings
-### yabai scripting-addition loader
+## yabai + skhd
 
-The yabai scripting addition is loaded automatically at login via a root LaunchDaemon installed by `macOS/install`.
-
-- Script: `macOS/yabai/yabai-load-sa.sh`
-- Plist: `macOS/yabai/com.ianedington.yabai.plist`
-- Installed to:
-  - `/usr/local/libexec/yabai-load-sa` (root:wheel 755)
-  - `/Library/LaunchDaemons/com.ianedington.yabai.plist` (root:wheel 644)
-
-Manage the daemon:
+**Broken? Run this first.**
 
 ```bash
-sudo launchctl print system/com.ianedington.yabai
+./macOS/yabai/doctor.sh
+```
+
+It checks every layer and names the culprit. Everything below is what it points at.
+
+### Symptom → cause
+
+| Symptom | Cause | Fix |
+| --- | --- | --- |
+| Hotkeys dead, skhd running, log empty | Secure Keyboard Entry blocks all event taps | Turn it off (iTerm2 menu). If `loginwindow` holds it, log out and back in |
+| Hotkeys dead after `brew upgrade skhd` | Upgrade changed the signature, so macOS revoked Accessibility. The Settings entry still looks enabled | Settings > Privacy & Security > Accessibility: `−` the skhd entry, `+` re-add `/opt/homebrew/bin/skhd`, `skhd --restart-service` |
+| Windows ignore space rules at login | Rules only fire for windows created after they are registered | Already handled by `rule --apply` in `yabairc` |
+| `Refusing to load formula ... untrusted tap` | Homebrew needs explicit trust; a Brewfile cannot grant it | `brew trust asmvik/formulae` |
+| `Formulae found in multiple taps` | yabai moved koekeishiya → asmvik; Homebrew cloned the redirect as a second tap | `brew untap koekeishiya/formulae` (uninstalls nothing) |
+| `load-sa failed` in the daemon log | See below | |
+
+Toggling an Accessibility entry off and on does **not** work. The stale entry
+points at the old signature; it has to be removed and re-added.
+
+### `load-sa failed`
+
+The log carries yabai's own error. Read it first:
+
+```bash
 sudo tail -f /var/log/com.ianedington.yabai.out
-sudo tail -f /var/log/com.ianedington.yabai.err
+sudo yabai --load-sa   # or reproduce by hand
 ```
 
-To force reload after edits:
+Then, in order:
+
+1. **SIP** — `csrutil status` needs Filesystem Protections, Debugging
+   Restrictions, and NVRAM Protections all `disabled`. From recoveryOS:
+   `csrutil enable --without fs --without debug --without nvram`
+2. **arm64e boot-arg** — Apple Silicon needs
+   `sudo nvram boot-args=-arm64e_preview_abi` and a reboot. Check: `nvram boot-args`
+3. **`payload (0x..) doesn't support this macOS version`** — `brew upgrade yabai`.
+   The addition is built per macOS release, and a new major release may have no
+   support yet.
+4. **Sudoers hash** — `/private/etc/sudoers.d/yabai` pins a SHA256 of the yabai
+   binary, so it breaks on every upgrade. `macOS/install` regenerates it.
+
+`--install-sa` does not exist; it was removed in yabai v6. `--load-sa` installs
+and injects in one step, as root.
+
+### The daemon
+
+Loads the scripting addition at login and on every Dock restart, as root.
+
+| | |
+| --- | --- |
+| Script | `macOS/yabai/yabai-load-sa.sh` → `/usr/local/libexec/yabai-load-sa` |
+| Plist | `macOS/yabai/com.ianedington.yabai.plist` → `/Library/LaunchDaemons/` |
+| Logs | `/var/log/com.ianedington.yabai.{out,err}` |
 
 ```bash
-sudo launchctl bootout system /Library/LaunchDaemons/com.ianedington.yabai.plist || true
-sudo launchctl bootstrap system /Library/LaunchDaemons/com.ianedington.yabai.plist
-sudo launchctl kickstart -k system/com.ianedington.yabai
+sudo launchctl kickstart -k system/com.ianedington.yabai   # reload after edits
 ```
+
+`macOS/install` installs the script; editing the repo copy alone changes nothing.
+
+### Gotchas
+
+- **Layout is `float`**, so `padding` and `window_gap` in `yabairc` do nothing.
+  `yabai -m config layout bsp` turns tiling on.
+- **`ctrl-h`/`ctrl-l`** use `macOS/yabai/cycle-window.sh`, which sorts by window
+  id. yabai's own `prev`/`next` follow stacking order, which reshuffles on every
+  focus change.
+- **Accessibility revocation recurs** on every `brew upgrade skhd`. TCC grants
+  cannot be scripted.
+
+## Mac Settings
 
 Places to look for settings:
 - nvram - boot settings
@@ -70,6 +120,10 @@ Use `codesign -dvv $Path_to_App` to check the signature of an application.
 - Turn off safari's suggestions
 
 ### Enable Secure Keyboard Entry
+
+**Incompatible with skhd.** It blocks event taps, so every hotkey silently stops
+working. Pick one; see the yabai + skhd section above.
+
 Enable [Secure Keyboard Entry](https://security.stackexchange.com/questions/47749/how-secure-is-secure-keyboard-entry-in-mac-os-xs-terminal) in Terminal (unless you use [YubiKey](https://mig5.net/content/secure-keyboard-entry-os-x-blocks-interaction-yubikeys) or applications such as [TextExpander](https://smilesoftware.com/textexpander/secureinput)).
 
 ### Hosts file

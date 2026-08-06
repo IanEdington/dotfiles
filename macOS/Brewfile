@@ -7,6 +7,6 @@ cask "rectangle"
 cask "vlc"
 cask "iterm2"
 
-tap "koekeishiya/formulae"
+tap "asmvik/formulae"
 brew "yabai"
 brew "skhd"

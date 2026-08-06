@@ -21,3 +21,17 @@ dotfiles::symlink_files ~/.zsh/.zprezto/runcoms/zlogout ~/.zsh/.zlogout
 if is_linux ; then
     chsh -s $(which zsh)
 fi
+
+# An upgrade moves zsh's modules to a new Cellar path that the running shell
+# still has cached, so zsh-syntax-highlighting fails to dlopen zsh/regex on
+# every prompt until the shell is replaced. Only say so when the version
+# actually changed since the last install.
+if command_exists zsh ; then
+    zsh_version=$(zsh --version | awk '{print $2}')
+    zsh_stamp=~/.local/share/dotfiles/zsh-version
+    if [ -f "$zsh_stamp" ] && [ "$(cat "$zsh_stamp")" != "$zsh_version" ] ; then
+        echo_yellow "-[ ] zsh upgraded to $zsh_version; run \`exec zsh\` to reload this shell"
+    fi
+    mkdir -p "$(dirname "$zsh_stamp")"
+    echo "$zsh_version" > "$zsh_stamp"
+fi

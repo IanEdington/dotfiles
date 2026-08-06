@@ -3,21 +3,24 @@ dotfiles::symlink_files () {
     symlink_src=$1
     symlink_dst=$2
 
-    # TODO check if link already exists
-
-
-    mkdir -p "$(dirname "$symlink_src")"
-    touch $symlink_src
+    # A missing source is a typo in the caller, not something to paper over:
+    # creating it silently produces an empty file in the repo and a link that
+    # looks healthy while pointing at nothing.
+    if [ ! -e "$symlink_src" ]; then
+        echo_red "Error linking $symlink_dst->$symlink_src: source does not exist!"
+        return
+    fi
 
     if [ -h "$symlink_dst" ]; then
         rm "$symlink_dst"
     elif [ -e "$symlink_dst" ]; then
+        # Usually the app rewrote its own config over the link. Say so and leave
+        # it alone; moving someone's live config is the caller's call, not ours.
         echo_red "Error linking $symlink_dst->$symlink_src: $symlink_dst exists and is not a symlink!"
         return
-        # TODO use the backup_func
-    elif [[ ! -e "$(dirname "$symlink_dst")" ]]; then
-        mkdir -p "$(dirname "$symlink_dst")"
     fi
+
+    mkdir -p "$(dirname "$symlink_dst")"
 
     ln -s "$symlink_src" "$symlink_dst"
 }

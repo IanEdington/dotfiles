@@ -23,6 +23,8 @@ ctrl + shift - 9 : yabai -m window --space  9
 ctrl + shift - 0 : yabai -m window --space 10
 
 # Move within space
-ctrl - h : yabai -m window --focus $(yabai -m query --windows --space | jq '.[-1].id')
-ctrl - l : yabai -m window --focus $(yabai -m query --windows --space | jq '.[1].id')
+# yabai's own prev/next follow stacking order, which reshuffles on every focus
+# change; cycle-window.sh orders by window id so the ring stays stable.
+ctrl - h : ~/.dotfiles/macOS/yabai/cycle-window.sh prev
+ctrl - l : ~/.dotfiles/macOS/yabai/cycle-window.sh next
 

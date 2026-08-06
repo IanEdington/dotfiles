@@ -1,9 +1,11 @@
-# Troubleshooting `payload (0x3E) doesn't support this macOS version!`
-# Sometimes on system update you need to run: `yabai --load-sa`
+# The scripting addition is loaded by the com.ianedington.yabai LaunchDaemon,
+# which already watches for Dock restarts and reloads it as root. Doing it here
+# too would race a second injection against the daemon's, and would depend on
+# the sudoers hash staying in sync with the yabai binary.
+# See macOS/readme.md, and macOS/yabai/doctor.sh when the addition misbehaves.
 
-yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
-sudo yabai --load-sa
-
+# Padding and window_gap only take effect under a tiling layout; they are inert
+# while the layout is float. Kept so switching to bsp needs one line, not six.
 yabai -m config top_padding 3
 yabai -m config bottom_padding 3
 yabai -m config left_padding 3
@@ -23,3 +25,8 @@ yabai -m rule --add space=6 app="^(Spotify|Amazon Music)$"
 yabai -m rule --add space=8 app="^(Slack)"
 # Terminal
 yabai -m rule --add space=9 app="^(iTerm2)$"
+
+# Rules only fire for windows created after they are registered, so at login
+# every window that opened before yabai started keeps whatever space it landed
+# on. Apply them once to the windows that already exist.
+yabai -m rule --apply

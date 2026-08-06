@@ -24,11 +24,14 @@ log "dotfiles root $DOTFILES_ROOT"
 # Ask for the administrator password upfront
 if command_exists sudo; then
     sudo -v
-    # Keep-alive: update existing `sudo` time stamp until `.macos` has finished
+    # Keep-alive: refresh the sudo timestamp until this script exits.
+    # `|| true` matters: the subshell inherits `set -e`, so a single transient
+    # failure here would kill the keep-alive for the rest of the run and the
+    # next sudo call would prompt for a password again.
     while true; do
-        sudo -n true;
+        sudo -n true || true;
         sleep 60;
-        kill -0 "$$" || exit;
+        kill -0 "$$" 2>/dev/null || exit;
     done 2>/dev/null &
 fi
 

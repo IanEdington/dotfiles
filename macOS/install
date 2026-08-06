@@ -33,18 +33,17 @@ echo_yellow "-[ ] install jetbrains mono https://www.jetbrains.com/lp/mono/"
 
 # Xcode
 # full xcode installation is required
-set +e
-xcodebuild -version &> /dev/null
-if [[ $? != 0 ]] ; then
+# Test each command directly. Reading `$?` after a preceding `if` returns that
+# statement's status, not the command's, so the command line tools branch used
+# to fire on every run: an unwanted install popup and a sudo password prompt.
+if ! xcodebuild -version &> /dev/null ; then
     echo_yellow "-[ ] TODO you need to install xcode from the app store"
 fi
 # so is xcode command line tools
-xcode-select -version &> /dev/null
-if [[ $? != 0 ]] ; then
+if ! xcode-select -version &> /dev/null ; then
     xcode-select --install
     sudo xcodebuild -license accept
 fi
-set -e
 
 dotfiles::symlink_files ~/.dotfiles/macOS/karabiner.json ~/.config/karabiner/karabiner.json
 
@@ -52,10 +51,10 @@ source ./terminfo/install
 
 # skhd
 dotfiles::symlink_files ~/.dotfiles/macOS/skhdrc ~/.config/skhd/skhdrc
-skhd --start-service || true
+skhd --start-service || echo_red "Warning: skhd --start-service failed; run macOS/yabai/doctor.sh"
 
 dotfiles::symlink_files ~/.dotfiles/macOS/yabairc ~/.config/yabai/yabairc
-yabai --start-service || true
+yabai --start-service || echo_red "Warning: yabai --start-service failed; run macOS/yabai/doctor.sh"
 
 # yabai scripting-addition loader (LaunchDaemon)
 SCRIPT_SRC=~/.dotfiles/macOS/yabai/yabai-load-sa.sh
@@ -64,23 +63,48 @@ PLIST_SRC=~/.dotfiles/macOS/yabai/com.ianedington.yabai.plist
 PLIST_DST=/Library/LaunchDaemons/com.ianedington.yabai.plist
 LABEL=com.ianedington.yabai
 
-# Install script only if missing
-if [ -f "$SCRIPT_SRC" ] && [ ! -x "$SCRIPT_DST" ]; then
+# Always overwrite: installing only when missing meant edits to the repo copy
+# never reached the running daemon.
+# Both destinations are world-readable (755 and 644), so comparing them needs
+# no privileges. Only escalate for the writes that actually require it.
+changed=0
+if [ -f "$SCRIPT_SRC" ] && ! cmp -s "$SCRIPT_SRC" "$SCRIPT_DST" ; then
     sudo install -d -m 0755 -o root -g wheel /usr/local/libexec
     sudo install -m 0755 -o root -g wheel "$SCRIPT_SRC" "$SCRIPT_DST"
+    changed=1
 fi
 
-# Install plist only if missing
-if [ -f "$PLIST_SRC" ] && [ ! -f "$PLIST_DST" ]; then
+if [ -f "$PLIST_SRC" ] && ! cmp -s "$PLIST_SRC" "$PLIST_DST" ; then
     sudo install -m 0644 -o root -g wheel "$PLIST_SRC" "$PLIST_DST"
+    changed=1
 fi
 
-# If job not loaded, bootstrap and start
-if ! sudo launchctl print system/$LABEL >/dev/null 2>&1; then
-    if [ -f "$PLIST_DST" ]; then
-        sudo launchctl bootstrap system "$PLIST_DST"
+# `launchctl print system/...` needs root just to answer, so use the daemon's
+# own process as the unprivileged liveness check instead.
+if [ -f "$PLIST_DST" ]; then
+    if ! pgrep -f "$SCRIPT_DST" > /dev/null 2>&1; then
+        sudo launchctl bootstrap system "$PLIST_DST" 2> /dev/null || true
         sudo launchctl enable system/$LABEL
         sudo launchctl kickstart -k system/$LABEL
+    elif [[ $changed == 1 ]]; then
+        sudo launchctl kickstart -k system/$LABEL
+    fi
+fi
+
+# The sudoers entry pins a SHA256 of the yabai binary, so it must be
+# regenerated after every `brew upgrade yabai`. The file itself is 0440 root,
+# so record the hash we last wrote somewhere readable and only escalate when it
+# actually changes; otherwise every run would prompt for a password.
+if command_exists yabai ; then
+    yabai_path=$(command -v yabai)
+    yabai_hash=$(shasum -a 256 "$yabai_path" | cut -d' ' -f1)
+    stamp=~/.local/share/dotfiles/yabai-sudoers-hash
+    if [ "$(cat "$stamp" 2> /dev/null || true)" != "$yabai_hash" ] ; then
+        sudoers_line="$(whoami) ALL=(root) NOPASSWD: sha256:$yabai_hash $yabai_path --load-sa"
+        echo "$sudoers_line" | sudo tee /private/etc/sudoers.d/yabai > /dev/null
+        sudo chmod 0440 /private/etc/sudoers.d/yabai
+        mkdir -p "$(dirname "$stamp")"
+        echo "$yabai_hash" > "$stamp"
     fi
 fi
 
