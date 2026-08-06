@@ -39,6 +39,24 @@ else
   bad "yabai not running (yabai --start-service)"
 fi
 
+# A brew upgrade leaves the old build running until the service restarts, and
+# the loaded scripting addition then belongs to a different build. `yabai
+# --version` reports the binary on disk, not the live process, so compare the
+# binary's mtime against when the process actually started.
+yabai_pid=$(pgrep -x yabai | head -1)
+if [ -n "$yabai_pid" ]; then
+  elapsed=$(ps -p "$yabai_pid" -o etimes= 2>/dev/null | tr -d ' ')
+  binary_mtime=$(stat -f %m "$(command -v yabai)" 2>/dev/null)
+  if [ -n "$elapsed" ] && [ -n "$binary_mtime" ]; then
+    started=$(( $(date +%s) - elapsed ))
+    if [ "$binary_mtime" -gt "$started" ]; then
+      bad "yabai was upgraded after the running process started; run: yabai --restart-service"
+    else
+      ok "running yabai is the installed build"
+    fi
+  fi
+fi
+
 # The scripting addition is what makes space switching work; querying spaces
 # fails without it, which is the cheapest end-to-end proof it is loaded.
 if yabai -m query --spaces >/dev/null 2>&1; then

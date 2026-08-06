@@ -3,11 +3,13 @@ dotfiles::symlink_files () {
     symlink_src=$1
     symlink_dst=$2
 
-    # TODO check if link already exists
-
-
-    mkdir -p "$(dirname "$symlink_src")"
-    touch $symlink_src
+    # A missing source is a typo in the caller, not something to paper over:
+    # creating it silently produces an empty file in the repo and a link that
+    # looks healthy while pointing at nothing.
+    if [ ! -e "$symlink_src" ]; then
+        echo_red "Error linking $symlink_dst->$symlink_src: source does not exist!"
+        return
+    fi
 
     if [ -h "$symlink_dst" ]; then
         rm "$symlink_dst"
