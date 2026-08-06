@@ -40,7 +40,7 @@ Use Playwright MCP (user-scoped on macOS; per-repo `.mcp.json` in cloud sessions
 - Avoid taking irreversible actions (form submissions, purchases, deletes) without explicit user confirmation
 
 # Claude Code Cloud Environments
-If you are actively working on modifying a Claude Code cloud environment (Setup Script, environment config, SessionStart hooks, or related setup scripts), first read `claude/docs/cloud-environments.md` in this repo for known gotchas and patterns.
+If you are actively working on modifying a Claude Code cloud environment (Setup Script, environment config, SessionStart hooks, or related setup scripts), use the `cloud-environments` skill; its `references/gotchas.md` is the single source of truth for known gotchas and patterns.
 
 ## Claude Code Cloud sessions
 - Session network/GitHub access is scoped — some installs, clones, or package fetches can 403 or hang for reasons outside your control (not a bug in what you're doing). If something reachable everywhere else suddenly isn't, suspect scoping before you suspect your approach.

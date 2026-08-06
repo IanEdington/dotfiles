@@ -1,7 +1,7 @@
 # Claude Code Cloud Environments
 
-> The `cloud-environments` skill (`claude/skills/cloud-environments/`)
-> references this doc directly; it is the single living log of findings.
+> Single living log of empirically confirmed cloud-environment findings.
+> Append new confirmed discoveries here.
 
 **Setup Script vs. SessionStart hooks:** Setup Script (environment config field) runs once per environment build/rebuild, before a session starts. SessionStart hooks (`.claude/settings.json` in a repo) run every session, including resumes.
 
