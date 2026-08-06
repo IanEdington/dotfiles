@@ -14,15 +14,13 @@ to create them). Sessions run as root in an ephemeral Ubuntu 24.04 VM
 Two reference files back this skill. Read them when you reach the relevant
 step, not preemptively:
 
-- `references/gotchas.md`: empirically confirmed behaviour (network scoping,
-  what is reachable at Setup Script time, proxy quirks). Read this before
-  writing or debugging any Setup Script.
+- `../../docs/cloud-environments.md` (i.e. `~/.claude/docs/cloud-environments.md`,
+  since this skill ships inside the dotfiles `claude/` directory): empirically
+  confirmed behaviour (network scoping, what is reachable at Setup Script
+  time, proxy quirks). Read this before writing or debugging any Setup
+  Script, and append new confirmed findings to it.
 - `references/official.md`: condensed official docs (config fields, caching,
   network levels, hooks, limits) with source URLs.
-
-If working inside the user's dotfiles repo, `claude/docs/cloud-environments.md`
-there is the living log of new findings; prefer it if it disagrees with
-`references/gotchas.md`, and append new discoveries to it.
 
 ## Step 1: Decide what goes where
 
@@ -49,7 +47,7 @@ Levels: None, Trusted (default allowlist: package registries, GitHub, Docker
 registries, cloud SDKs), Full, and Custom (own allowlist, optionally on top
 of Trusted, wildcards like `*.internal.example.com` allowed).
 
-Critical distinctions (details in `references/gotchas.md`):
+Critical distinctions (details in `../../docs/cloud-environments.md`):
 - A blocked host returns a proxy-level 403 with `x-deny-reason:
   host_not_allowed`; DNS, TCP, and TLS all succeed. Fix: add the host to
   Custom network access. It is a policy block, not an outage.
