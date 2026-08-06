@@ -1,8 +1,5 @@
 # Claude Code Cloud Environments
-
-> This doc is the living log. The `cloud-environments` skill
-> (`claude/skills/cloud-environments/`) carries a copy in
-> `references/gotchas.md`; when adding findings here, sync that copy.
+> Copied from `claude/docs/cloud-environments.md` in the dotfiles repo, which is the living log. If the two disagree, the dotfiles doc wins; sync new findings back here.
 
 **Setup Script vs. SessionStart hooks:** Setup Script (environment config field) runs once per environment build/rebuild, before a session starts. SessionStart hooks (`.claude/settings.json` in a repo) run every session, including resumes.
 
