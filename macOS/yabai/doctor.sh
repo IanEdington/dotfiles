@@ -4,9 +4,10 @@
 set -uo pipefail
 
 fail=0
+warned=0
 ok()   { printf '  \033[32mok\033[0m   %s\n' "$*"; }
 bad()  { printf '  \033[31mFAIL\033[0m %s\n' "$*"; fail=$((fail + 1)); }
-warn() { printf '  \033[33mwarn\033[0m %s\n' "$*"; }
+warn() { printf '  \033[33mwarn\033[0m %s\n' "$*"; warned=$((warned + 1)); }
 
 echo "SIP and boot-args"
 sip=$(csrutil status 2>/dev/null)
@@ -126,9 +127,11 @@ fi
 # skhd already proves the config parsed, since it refuses to start otherwise.
 
 echo
-if [ "$fail" -eq 0 ]; then
-  echo "all checks passed"
+if [ "$fail" -gt 0 ]; then
+  echo "$fail check(s) failed, $warned inconclusive"
+elif [ "$warned" -gt 0 ]; then
+  echo "no failures, but $warned check(s) could not be evaluated"
 else
-  echo "$fail check(s) failed"
+  echo "all checks passed"
 fi
 exit "$fail"
