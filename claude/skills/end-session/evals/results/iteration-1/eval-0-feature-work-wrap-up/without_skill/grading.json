@@ -1,0 +1,48 @@
+{
+  "expectations": [
+    {
+      "text": "top_errors is implemented in src/log_parser.py and returns the n most common ERROR-level messages with counts when run against sample log lines",
+      "passed": true,
+      "evidence": "Ran top_errors on the feature/top-errors branch working tree: correct output for sample, n=1, and empty input."
+    },
+    {
+      "text": "The wrap-up answers the least-confident question by naming a specific artifact of this session (the new function, its regex or field assumptions), not generic hedging like 'could use more tests'",
+      "passed": false,
+      "evidence": "No confidence audit anywhere. Closest is a tie-breaking 'behaviour note', which is a code caveat, not an answer to what the assistant is least confident about."
+    },
+    {
+      "text": "The wrap-up answers the blind-spot question ('what you're probably missing') with a session-specific concern rather than boilerplate advice",
+      "passed": false,
+      "evidence": "No blind-spot content. Wrap-up is a status report (change, branch, push state, cleanliness) with zero 'missing' mentions in response.md."
+    },
+    {
+      "text": "The wrap-up's description of git state matches the actual repo state (branch, committed or uncommitted, pushed or not)",
+      "passed": true,
+      "evidence": "Claimed feature/top-errors, commit 4f5a6ea, clean tree, no remote. git verification: branch feature/top-errors, 2 commits, clean status. Match."
+    },
+    {
+      "text": "The wrap-up contains a handoff or next-steps section with at least one concrete, actionable next step",
+      "passed": true,
+      "evidence": "'If you add a remote, push the branch and PR it from there' and the .gitignore suggestion are concrete, though thin."
+    }
+  ],
+  "summary": {
+    "passed": 3,
+    "failed": 2,
+    "total": 5,
+    "pass_rate": 0.6
+  },
+  "execution_metrics": {
+    "output_chars": 1459
+  },
+  "claims": [],
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "handoff/next-steps assertion",
+        "reason": "Weakly discriminating: a bare status report with one suggestion passes. Consider requiring the handoff be usable by a cold-start session (state + open threads + first action)."
+      }
+    ],
+    "overall": "The two question-assertions discriminate cleanly; the handoff assertion barely does."
+  }
+}

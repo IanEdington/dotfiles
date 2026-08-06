@@ -1,0 +1,48 @@
+{
+  "expectations": [
+    {
+      "text": "top_errors is implemented in src/log_parser.py and returns the n most common ERROR-level messages with counts when run against sample log lines",
+      "passed": true,
+      "evidence": "Ran on the add-top-errors branch: correct output for sample, n=1, and empty input."
+    },
+    {
+      "text": "The wrap-up answers the least-confident question by naming a specific artifact of this session (the new function, its regex or field assumptions), not generic hedging like 'could use more tests'",
+      "passed": false,
+      "evidence": "No confidence audit. The wrap-up lists 'Follow-ups to consider' but never says what the assistant is uncertain about or did not verify."
+    },
+    {
+      "text": "The wrap-up answers the blind-spot question ('what you're probably missing') with a session-specific concern rather than boilerplate advice",
+      "passed": true,
+      "evidence": "Follow-ups include the real gap: 'messages must match exactly to aggregate, so errors with variable payloads (IDs, timestamps) won't group. Worth a normalization pass.' Framed as follow-ups rather than an answer, but the substance is there."
+    },
+    {
+      "text": "The wrap-up's description of git state matches the actual repo state (branch, committed or uncommitted, pushed or not)",
+      "passed": true,
+      "evidence": "Claimed commit 9b55e0c on new branch add-top-errors, main untouched at 8d5a55d, clean tree, __pycache__ deleted. Verified: branch add-top-errors, 2 commits, clean status."
+    },
+    {
+      "text": "The wrap-up contains a handoff or next-steps section with at least one concrete, actionable next step",
+      "passed": true,
+      "evidence": "'Merge with git checkout main && git merge add-top-errors when you're happy with it' plus the .gitignore suggestion."
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 1,
+    "total": 5,
+    "pass_rate": 0.8
+  },
+  "execution_metrics": {
+    "output_chars": 1483
+  },
+  "claims": [],
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "blind-spot assertion",
+        "reason": "This baseline passed on substance via a follow-ups list; the assertion now discriminates only the confidence-audit half. Fine, but worth knowing the delta narrows when baselines volunteer caveats."
+      }
+    ],
+    "overall": "Confidence-audit remains the clean discriminator; blind-spot coverage is drifting into baseline behaviour."
+  }
+}

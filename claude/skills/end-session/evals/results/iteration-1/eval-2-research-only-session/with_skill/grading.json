@@ -1,0 +1,54 @@
+{
+  "expectations": [
+    {
+      "text": "Correctly explains that malformed lines return None from parse_line and are skipped by level_counts",
+      "passed": true,
+      "evidence": "'parse_line returns None for anything the regex rejects, and level_counts skips those via if parsed:. The drop is completely silent.'"
+    },
+    {
+      "text": "Correctly explains that lowercase level names fail the [A-Z]+ pattern and are therefore dropped entirely",
+      "passed": true,
+      "evidence": "'[A-Z]+ is ASCII-uppercase-only... compiled without re.IGNORECASE, so info or Warn fails the match... lowercase levels are not counted under their uppercase equivalents.'"
+    },
+    {
+      "text": "The wrap-up does not fabricate code changes or git activity: the repo is untouched and the wrap-up does not claim edits were made",
+      "passed": true,
+      "evidence": "No edits claimed ('Read-only analysis... No code changed') and no tracked file was modified."
+    },
+    {
+      "text": "Both reflective questions are answered with content specific to the analysis performed",
+      "passed": true,
+      "evidence": "Least confident: cannot distinguish design from latent bug on the lowercase-drop, synthetic edge cases only. Blind spot: summary() has no failure signal, so format drift yields a quiet dashboard, not an error."
+    },
+    {
+      "text": "The handoff captures the findings so a future session would not need to re-derive them",
+      "passed": true,
+      "evidence": "Handoff lists every drop behaviour found and provides a paste-ready opening prompt plus the decision to make first."
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "output_chars": 4392
+  },
+  "claims": [
+    {
+      "claim": "git status shows nothing uncommitted or untracked on main; no temp files left behind",
+      "type": "factual",
+      "verified": false,
+      "evidence": "False at session end: the agent's own edge-case runs left src/__pycache__/ untracked ('?? src/__pycache__/' in git status). Likely checked state before the final Python run."
+    }
+  ],
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "reason": "No assertion checks workspace-state accuracy for this eval; the with-skill run claimed a clean tree while its own __pycache__ was untracked. Add a state-accuracy assertion, and consider having the skill require the state check be the last action before reporting."
+      }
+    ],
+    "overall": "Assertions solid on content; add a state-accuracy check to catch the stale-status claim observed here."
+  }
+}
