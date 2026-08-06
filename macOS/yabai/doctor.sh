@@ -46,10 +46,16 @@ fi
 # binary's mtime against when the process actually started.
 yabai_pid=$(pgrep -x yabai | head -1)
 if [ -n "$yabai_pid" ]; then
-  # BSD ps has no etimes; lstart gives an absolute time date(1) can parse.
-  started_at=$(ps -p "$yabai_pid" -o lstart= 2>/dev/null | tr -s ' ')
-  started=$(date -j -f "%a %b %d %T %Y" "$started_at" +%s 2>/dev/null || true)
-  binary_mtime=$(stat -f %m "$(command -v yabai)" 2>/dev/null || true)
+  # Absolute paths on purpose: brew's coreutils shadows date/stat with GNU
+  # builds that reject these BSD flags. lstart's field order is locale
+  # dependent, so try both. -L follows the Homebrew symlink to the real binary,
+  # whose mtime is the build, not the relink.
+  started_at=$(/bin/ps -p "$yabai_pid" -o lstart= 2>/dev/null)
+  for fmt in "%a %b %e %T %Y" "%a %e %b %T %Y"; do
+    started=$(/bin/date -j -f "$fmt" "$started_at" +%s 2>/dev/null) && break
+    started=""
+  done
+  binary_mtime=$(/usr/bin/stat -L -f %m "$(command -v yabai)" 2>/dev/null || true)
   if [ -z "${started##*[!0-9]*}" ] || [ -z "${binary_mtime##*[!0-9]*}" ] \
      || [ -z "$started" ] || [ -z "$binary_mtime" ]; then
     warn "could not compare yabai's build to the running process"
