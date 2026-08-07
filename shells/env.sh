@@ -61,3 +61,7 @@ export TERMINFO_DIRS
 
 # path config folder
 export XDG_CONFIG_HOME="$HOME/.config"
+
+# Shared provider cache for terraform and tofu. Both refuse to use the cache
+# when the directory is missing, so `shells/install` creates it.
+export TF_PLUGIN_CACHE_DIR="$HOME/.cache/terraform.d/plugin-cache"

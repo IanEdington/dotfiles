@@ -8,4 +8,6 @@ dotfiles::symlink_files ~/.dotfiles/shells/inputrc ~/.inputrc
 dotfiles::symlink_files ~/.dotfiles/shells/bashrc ~/.bashrc
 dotfiles::symlink_files ~/.dotfiles/shells/profile ~/.profile
 
+mkdir -p "${TF_PLUGIN_CACHE_DIR:-$HOME/.cache/terraform.d/plugin-cache}"
+
 # sudo apt install zsh mosh direnv
