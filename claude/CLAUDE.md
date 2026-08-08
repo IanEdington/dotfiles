@@ -60,22 +60,17 @@ Only add comments when necessary to communicate **why** something is done — no
 I will not merge PRs with the Claude co-author byline. It's understood that everyone is using Claude Code. It's just noise at this point.
 
 ## Write commands for a human reader
-Assume I will read every command before it runs, and that reviewing it is the point. Optimize for that, not for terseness.
+I read every command before it runs; reviewing it is the point.
 
-- Prefer the direct tool over a wrapper that hides the real command. A real `mysql`/`mariadb` client beats SQL wrapped in `wp eval`/`$wpdb`; `jq` beats a Python one-liner that shells out; `gh api` beats a hand-rolled `curl` with headers. Wrappers stack escaping layers (bash + host language + target language) and make the actual operation unreadable.
-- If the direct tool isn't installed on the target host, ask before installing it (it's a system change) rather than falling back to the escaped one-liner.
-- Put the payload (SQL, JSON, a script, a config block) in a multi-line heredoc so I can see the real content inline, rather than a one-liner of nested quotes or a reference to a file I can't see:
+- Use the direct tool, not a wrapper that hides the operation (`mysql` over SQL inside `wp eval`; `gh api` over hand-rolled `curl`). Wrappers stack escaping layers and make the real command unreadable. If the direct tool is missing on the host, ask before installing it.
+- Put payloads (SQL, JSON, config) in a heredoc, not nested quotes:
 
   ```bash
   ssh host 'mysql --batch --database=wordpress' <<'SQL'
-  SELECT ID, post_title, post_status
-  FROM wp_posts
-  WHERE post_type = 'page'
-  ORDER BY post_modified DESC
-  LIMIT 20;
+  SELECT ID, post_title FROM wp_posts LIMIT 20;
   SQL
   ```
 
-- Break long invocations across lines with `\` and use long flags (`--database=` over `-D`) when the short form isn't obvious.
-- Keep secrets out of the command line. Source credentials into shell variables on the remote side (e.g. from `.env`) and pass them via the environment (`MYSQL_PWD=...`) rather than `-p...`, so they never appear in my transcript or in `ps aux`.
+- Prefer long flags (`--database=` over `-D`) when the short form isn't obvious.
+- Keep secrets off the command line: pass via environment (`MYSQL_PWD=...` sourced from `.env` remotely), never `-p...`.
 
