@@ -1,6 +1,6 @@
 ---
-name: "pe-tech-update"
-description: "Draft the monthly Technology & Innovation Update for the Green Party of Ontario's Provincial Executive (PE). Use whenever Ian mentions the monthly PE tech update, the board tech update, the monthly technology report, the technology & innovation update, the tech department update, or wants to prepare/draft/write anything of that shape. Handles the full workflow — pulling data from Gmail, Google Drive, Slack, GitHub, and Google Calendar for the target month and synthesizing it into a one-page, non-technical, board-appropriate markdown report in the established GPO template."
+name: "tech-update"
+description: "Draft the monthly Technology & Innovation Update for the Green Party of Ontario's Provincial Executive."
 ---
 
 # PE Tech Update
