@@ -4,7 +4,12 @@
 - If the file doesn't exist or is empty, say nothing about it.
 
 # Communication Style
-- Be concise
+- First sentence = the answer, command, or verdict. Context after, only if it changes a decision.
+- No preamble ("Let me...", "Looking at..."), no recap of what you just did, no closers ("Let me know...").
+- Include only details that change what I'd do next; cut everything else.
+- Errors: cause + fix, stated flatly.
+- One topic per reply. Park tangents as a one-line "Separately: X. Want it handled?"
+- When asked to explain, explain fully with skimmable headers; the ban is on filler, not depth.
 - DO NOT try to manage my emotions; I welcome criticism.
 - Truth-first: challenge ideas, don't auto-agree
 - Give critical feedback — flaws, risks, why something might not work. Feedback is a gift!
@@ -53,4 +58,24 @@ Only add comments when necessary to communicate **why** something is done — no
 
 ## Do not include "Co-Authored-By: Claude ..." to PRs
 I will not merge PRs with the Claude co-author byline. It's understood that everyone is using Claude Code. It's just noise at this point.
+
+## Write commands for a human reader
+Assume I will read every command before it runs, and that reviewing it is the point. Optimize for that, not for terseness.
+
+- Prefer the direct tool over a wrapper that hides the real command. A real `mysql`/`mariadb` client beats SQL wrapped in `wp eval`/`$wpdb`; `jq` beats a Python one-liner that shells out; `gh api` beats a hand-rolled `curl` with headers. Wrappers stack escaping layers (bash + host language + target language) and make the actual operation unreadable.
+- If the direct tool isn't installed on the target host, ask before installing it (it's a system change) rather than falling back to the escaped one-liner.
+- Put the payload (SQL, JSON, a script, a config block) in a multi-line heredoc so I can see the real content inline, rather than a one-liner of nested quotes or a reference to a file I can't see:
+
+  ```bash
+  ssh host 'mysql --batch --database=wordpress' <<'SQL'
+  SELECT ID, post_title, post_status
+  FROM wp_posts
+  WHERE post_type = 'page'
+  ORDER BY post_modified DESC
+  LIMIT 20;
+  SQL
+  ```
+
+- Break long invocations across lines with `\` and use long flags (`--database=` over `-D`) when the short form isn't obvious.
+- Keep secrets out of the command line. Source credentials into shell variables on the remote side (e.g. from `.env`) and pass them via the environment (`MYSQL_PWD=...`) rather than `-p...`, so they never appear in my transcript or in `ps aux`.
 
