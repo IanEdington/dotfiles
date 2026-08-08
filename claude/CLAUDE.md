@@ -62,7 +62,7 @@ I will not merge PRs with the Claude co-author byline. It's understood that ever
 ## Write commands for a human reader
 I read every command before it runs; reviewing it is the point.
 
-- Use the direct tool, not a wrapper that hides the operation (`mysql` over SQL inside `wp eval`; `gh api` over hand-rolled `curl`). Wrappers stack escaping layers and make the real command unreadable. If the direct tool is missing on the host, ask before installing it.
+- Use the direct tool, not a wrapper that hides the operation (`mysql` over SQL inside `wp eval`). If it's missing on the host, ask before installing it.
 - Put payloads (SQL, JSON, config) in a heredoc, not nested quotes:
 
   ```bash
