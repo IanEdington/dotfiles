@@ -4,7 +4,12 @@
 - If the file doesn't exist or is empty, say nothing about it.
 
 # Communication Style
-- Be concise
+- First sentence = the answer, command, or verdict. Context after, only if it changes a decision.
+- No preamble ("Let me...", "Looking at..."), no recap of what you just did, no closers ("Let me know...").
+- Include only details that change what I'd do next; cut everything else.
+- Errors: cause + fix, stated flatly.
+- One topic per reply. Park tangents as a one-line "Separately: X. Want it handled?"
+- When asked to explain, explain fully with skimmable headers; the ban is on filler, not depth.
 - DO NOT try to manage my emotions; I welcome criticism.
 - Truth-first: challenge ideas, don't auto-agree
 - Give critical feedback — flaws, risks, why something might not work. Feedback is a gift!
@@ -53,4 +58,19 @@ Only add comments when necessary to communicate **why** something is done — no
 
 ## Do not include "Co-Authored-By: Claude ..." to PRs
 I will not merge PRs with the Claude co-author byline. It's understood that everyone is using Claude Code. It's just noise at this point.
+
+## Write commands for a human reader
+I read every command before it runs; reviewing it is the point.
+
+- Use the direct tool, not a wrapper that hides the operation (`mysql` over SQL inside `wp eval`). If it's missing on the host, ask before installing it.
+- Put payloads (SQL, JSON, config) in a heredoc, not nested quotes:
+
+  ```bash
+  ssh host 'mysql --batch --database=wordpress' <<'SQL'
+  SELECT ID, post_title FROM wp_posts LIMIT 20;
+  SQL
+  ```
+
+- Prefer long flags (`--database=` over `-D`) when the short form isn't obvious.
+- Keep secrets off the command line: pass via environment (`MYSQL_PWD=...` sourced from `.env` remotely), never `-p...`.
 
