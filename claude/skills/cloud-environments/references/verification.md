@@ -38,13 +38,17 @@ not summaries. If a command fails, show the error rather than working around it.
 
 Substitute the real repo path for REPO below.
 
-1. SETUP SCRIPT: did it run, and when?
+1. SETUP SCRIPT: did it run?
     - `cat ~/.cloud-setup-errors.log` (say "empty" or "missing" explicitly)
-    - `ls -la --time-style=full-iso REPO/vendor REPO/node_modules 2>&1`
-    - `uptime -s` for container boot time
-    - Are those files timestamped near boot (baked in at setup time) or minutes
-      after (installed by the SessionStart hook just now)? Say which, or say you
-      cannot tell.
+    - The SessionStart hook's own output is the reliable signal. If the hook
+      says it found the work already done and skipped it, then something
+      before the hook did that work, and the Setup Script is the only
+      candidate. Quote the line.
+    - If the Setup Script clones the repo, `git -C REPO rev-parse
+--is-shallow-repository` returning `true` proves the clone ran (a
+      session's own checkout is not shallow).
+    - `ls -la --time-style=full-iso REPO/vendor 2>&1` and `uptime -s` for
+      context, but see the warning below before drawing conclusions from them.
 
 2. WHAT IS INSTALLED
     - `cd REPO && git log --oneline -3 && git status --short && git branch --show-current`
@@ -81,9 +85,17 @@ Then answer directly:
 - `~/.cloud-setup-errors.log` naming a fetch failure usually means the Setup
   Script could not reach the file it was told to run. For a private repo,
   suspect `raw.githubusercontent.com` first (see gotchas.md).
-- Timestamps minutes after boot, not at boot, mean the Setup Script did not run
-  or did nothing, and the SessionStart hook silently covered for it. This is the
-  failure mode that looks like success: the session works, just slowly, every
-  time.
+- **Do not use timestamps versus `uptime -s` as your discriminator.** It is
+  tempting and it is wrong: the Setup Script can run _after_ the boot time the
+  container reports, so setup-built files legitimately postdate boot and look
+  exactly like something the session just installed. Observed directly:
+  `vendor/autoload.php` two and a half minutes after `uptime -s`, created by
+  the Setup Script, while the hook logged that it found it already present.
+  Use the hook's own output instead, and a shallow-clone check if the Setup
+  Script clones.
+- The failure mode that looks like success: the Setup Script did nothing and
+  the SessionStart hook covered for it, so the session works, just slowly,
+  every time. The hook saying it _did_ the install (rather than skipping it)
+  is what exposes this.
 - A dominant `~/.cache/composer/vcs` means the fallback ran. If you expected
   setup-time dists, the Setup Script did not do its job.
