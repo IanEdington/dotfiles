@@ -44,9 +44,9 @@ Substitute the real repo path for REPO below.
       says it found the work already done and skipped it, then something
       before the hook did that work, and the Setup Script is the only
       candidate. Quote the line.
-    - If the Setup Script clones the repo, `git -C REPO rev-parse
---is-shallow-repository` returning `true` proves the clone ran (a
-      session's own checkout is not shallow).
+    - Ask whether the repo is attached to this environment at all. If it is
+      not, and a checkout exists anyway, something cloned it and the Setup
+      Script is the only candidate.
     - `ls -la --time-style=full-iso REPO/vendor 2>&1` and `uptime -s` for
       context, but see the warning below before drawing conclusions from them.
 
@@ -91,11 +91,20 @@ Then answer directly:
   exactly like something the session just installed. Observed directly:
   `vendor/autoload.php` two and a half minutes after `uptime -s`, created by
   the Setup Script, while the hook logged that it found it already present.
-  Use the hook's own output instead, and a shallow-clone check if the Setup
-  Script clones.
+  Use the hook's own output instead.
 - The failure mode that looks like success: the Setup Script did nothing and
   the SessionStart hook covered for it, so the session works, just slowly,
   every time. The hook saying it _did_ the install (rather than skipping it)
   is what exposes this.
-- A dominant `~/.cache/composer/vcs` means the fallback ran. If you expected
-  setup-time dists, the Setup Script did not do its job.
+- **`rev-parse --is-shallow-repository` proves nothing either.** The platform's
+  own attached checkouts are shallow, so `true` is the answer whether the Setup
+  Script cloned the repo or the session was handed it. Confirmed across three
+  attached repos in one session, none of them cloned by the agent.
+- The composer caches are sharper than either. An **empty**
+  `~/.cache/composer/files` next to a large `~/.cache/composer/vcs` means the
+  install got no dist downloads at all, so it ran with session-level network
+  access rather than setup-level. Do not read a non-empty `vcs` as failure on
+  its own: packages with no `dist` entry in the lock can only ever be cloned,
+  so some `vcs` is normal. Count them first. A run that looked ambiguous on
+  cache size alone was unambiguous once its 12 source-only packages were
+  counted.
