@@ -20,18 +20,21 @@ step, not preemptively:
   confirmed findings to it.
 - `references/official.md`: condensed official docs (config fields, caching,
   network levels, hooks, limits) with source URLs.
+- `references/verification.md`: how to prove a Setup Script actually ran, and
+  the prompt to hand a fresh session. Read it at Step 4, and do not skip it.
 
 ## Step 1: Decide what goes where
 
 Three places to put setup, with different lifecycles:
 
-| Mechanism | Runs | Use for |
-|---|---|---|
-| Setup Script (env config field) | Once per environment build, then cached ~7 days | Installing toolchains, heavy dependencies, Docker images |
-| SessionStart hook (`.claude/settings.json` in repo) | Every session start and resume | Fast per-session setup, starting services, injecting context |
-| Environment variables (env config field) | Every session | Config values and tokens (visible to anyone with environment access; there is no secrets store) |
+| Mechanism                                           | Runs                                            | Use for                                                                                         |
+| --------------------------------------------------- | ----------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| Setup Script (env config field)                     | Once per environment build, then cached ~7 days | Installing toolchains, heavy dependencies, Docker images                                        |
+| SessionStart hook (`.claude/settings.json` in repo) | Every session start and resume                  | Fast per-session setup, starting services, injecting context                                    |
+| Environment variables (env config field)            | Every session                                   | Config values and tokens (visible to anyone with environment access; there is no secrets store) |
 
 Rules of thumb:
+
 - Anything slow or cacheable belongs in the Setup Script; SessionStart hooks
   add latency to every session.
 - Running processes (Postgres, Redis, docker compose stacks) are NOT cached;
@@ -47,8 +50,9 @@ registries, cloud SDKs), Full, and Custom (own allowlist, optionally on top
 of Trusted, wildcards like `*.internal.example.com` allowed).
 
 Critical distinctions (details in `references/gotchas.md`):
+
 - A blocked host returns a proxy-level 403 with `x-deny-reason:
-  host_not_allowed`; DNS, TCP, and TLS all succeed. Fix: add the host to
+host_not_allowed`; DNS, TCP, and TLS all succeed. Fix: add the host to
   Custom network access. It is a policy block, not an outage.
 - `api.github.com` access is scoped to repos attached to the session, and
   allowlisting the host does NOT fix it. Tools that hit the GitHub API for
@@ -63,21 +67,39 @@ Constraints: must exit 0 (non-zero fails session start), must finish within
 about 5 minutes, runs as root.
 
 Pattern that works well:
+
 1. Put the real install logic in a versioned script in the repo (e.g.
    `claude/cloud-environment-setup.sh`), not inline in the config field.
 2. Keep the config field a tiny download-then-run stub (never `curl | bash`,
    so a failed fetch hits the error branch instead of piping nothing):
 
-   ```bash
-   if curl -fsSL "https://raw.githubusercontent.com/<owner>/<repo>/main/claude/cloud-environment-setup.sh" -o /tmp/setup.sh; then
-     bash /tmp/setup.sh
-   else
-     echo "<repo>: could not fetch setup script during environment setup" >> ~/.cloud-setup-errors.log
-   fi
-   ```
+    ```bash
+    if curl -fsSL "https://raw.githubusercontent.com/<owner>/<repo>/main/claude/cloud-environment-setup.sh" -o /tmp/setup.sh; then
+      bash /tmp/setup.sh
+    else
+      echo "<repo>: could not fetch setup script during environment setup" >> ~/.cloud-setup-errors.log
+    fi
+    ```
 
 3. Make the fetched script self-contained: clone the repo itself if needed,
    assume nothing about pre-existing checkouts.
+   **The curl stub only works for a public repo.**
+   `raw.githubusercontent.com` 404s for private repos, so a fetch-and-run
+   stub copied from a public reference repo will silently take its error
+   branch and install nothing. For a private repo, reach the script through
+   a checkout instead, cloning first if it isn't there (the Setup Script
+   phase can clone private repos even though a live session cannot):
+
+    ```bash
+    REPO=/home/user/<repo>
+    [ -d "$REPO/.git" ] || git clone --depth 1 https://github.com/<owner>/<repo>.git "$REPO"
+    bash "$REPO/claude/cloud-environment-setup.sh" || true
+    ```
+
+    More generally: a pattern lifted from a working reference repo needs
+    re-verifying against yours. Public vs private is the difference that
+    bites most often, because everything else about the two looks identical.
+
 4. Log failures append-only to `~/.cloud-setup-errors.log` and append
    `|| true` to non-critical commands so one flaky install does not brick the
    environment. Anything that truncates the log must run before anything
@@ -90,18 +112,24 @@ Pattern that works well:
 
 ## Step 4: Verify from a fresh session
 
-A live session cannot validate its own Setup Script; the Setup Script phase
-has broader network access than sessions, and edits only apply to new
-sessions after a rebuild. Rebuilds are triggered by editing the script or
-the network config (no manual rebuild button; cache also expires ~7 days).
+**Read `references/verification.md` and do this. A Setup Script you have not
+verified this way is not finished, however carefully you wrote it.**
 
-To verify a change:
-1. Edit the environment config and save (this schedules a rebuild).
-2. Start a separate fresh session in that environment.
-3. In it, check: `~/.cloud-setup-errors.log` is empty, the expected
-   files and binaries exist, and file timestamps are near container boot
-   time (this is what proves the script ran at setup rather than the session
-   using a stale cached image).
+You cannot verify it from the session you are working in. The Setup Script
+phase has network access your session does not, and your session was built
+from the previous image, so local observations measure the wrong thing.
+Running the script by hand mid-session and watching it pass proves nothing.
+
+The failure mode is quiet: the SessionStart hook covers for a Setup Script
+that never ran, so sessions work, just slowly, forever. Nobody notices,
+because nothing is broken. That is exactly what makes the check worth
+running rather than reasoning about.
+
+`references/verification.md` has the loop and a ready-to-paste prompt for the
+fresh session. Step 1 of that loop (editing and saving the environment config
+to schedule a rebuild) can only be done by the human, so ask, and say exactly
+what to paste. You can spawn the verification session yourself with
+`create_session` rather than relaying output through the human.
 
 ## Debugging quick checks
 
