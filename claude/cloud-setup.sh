@@ -8,8 +8,7 @@
 # Claude Code web UI.
 #
 # Requirements:
-#   - The environment's network policy must allow outbound HTTPS to github.com
-#     (and objects.githubusercontent.com, for rtk release binaries below).
+#   - The environment's network policy must allow outbound HTTPS to github.com.
 #   - No authentication needed; the dotfiles repo is public.
 #
 # Design notes:
@@ -33,9 +32,9 @@ CLONE_DIR="$(mktemp -d)"
 CLAUDE_SOURCE_DIR="${CLONE_DIR}/claude"
 CLAUDE_TARGET_DIR="${HOME}/.claude"
 
-# Best-effort steps (like rtk below) log here instead of just stderr, because
-# nothing reads this script's console output once the cached environment is
-# built — CLAUDE.md tells Claude to check this file and report failures.
+# Best-effort steps log here instead of just stderr, because nothing reads
+# this script's console output once the cached environment is built —
+# CLAUDE.md tells Claude to check this file and report failures.
 ERRORS_LOG="${HOME}/.cloud-setup-errors.log"
 
 # Ensure cleanup of the temp dir no matter how the script exits.
@@ -87,26 +86,3 @@ cp -r "${CLAUDE_SOURCE_DIR}/." "${CLAUDE_TARGET_DIR}/"
 
 echo "[cloud-setup] Done. ${CLAUDE_TARGET_DIR} contents:"
 ls "${CLAUDE_TARGET_DIR}"
-
-# --- rtk: compress verbose CLI output before it reaches the model --------
-# rtk (https://github.com/rtk-ai/rtk) proxies commands like git/test-runners/
-# package managers and returns filtered output, cutting token usage on long
-# cloud sessions. `rtk init -g --auto-patch` registers a PreToolUse hook in
-# the settings.json we just copied above, so it must run after that copy.
-# Best-effort: install/hook failures must not fail session startup.
-echo "[cloud-setup] Installing rtk ..."
-
-if curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/refs/heads/master/install.sh | sh; then
-  export PATH="${HOME}/.local/bin:${PATH}"
-  if command -v rtk >/dev/null 2>&1; then
-    if rtk init -g --auto-patch; then
-      echo "[cloud-setup] rtk installed and hooked into settings.json."
-    else
-      log_warning "rtk installed but 'rtk init -g --auto-patch' failed; hook not registered."
-    fi
-  else
-    log_warning "rtk install script ran but 'rtk' is not on PATH."
-  fi
-else
-  log_warning "rtk install failed (network?). rtk is unavailable this session."
-fi
