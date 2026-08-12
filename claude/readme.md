@@ -73,11 +73,6 @@ by Claude Code and not safe to edit directly. Go through `claude mcp add` /
 - Pushes to origin main/master, including force pushes, are denied outright
   (`permissions.deny`). This is the enforceable version of the Git rule in
   CLAUDE.md.
-- The rtk PreToolUse hook is guarded with `command -v rtk`, so it is a no-op
-  on machines without rtk. In cloud, `cloud-setup.sh` installs rtk and runs
-  `rtk init -g --auto-patch`; if that ever produces a duplicate hook entry,
-  drop `--auto-patch` from the script. To get the same token savings locally,
-  install rtk on the Mac (https://github.com/rtk-ai/rtk).
 - The macOS notification hook is guarded by `uname`, so it is a no-op on
   Linux cloud sessions.
 - The `SessionStart` hook points the harness gitconfig at
