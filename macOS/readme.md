@@ -1,6 +1,6 @@
 # Previous Mac setup in case I go back
 
-## yabai + skhd
+## yabai + karabiner
 
 **Broken? Run this first.**
 
@@ -14,8 +14,9 @@ It checks every layer and names the culprit. Everything below is what it points 
 
 | Symptom | Cause | Fix |
 | --- | --- | --- |
-| Hotkeys dead, skhd running, log empty | Secure Keyboard Entry blocks all event taps | Turn it off (iTerm2 menu). If `loginwindow` holds it, log out and back in |
-| Hotkeys dead after `brew upgrade skhd` | Upgrade changed the signature, so macOS revoked Accessibility. The Settings entry still looks enabled | Settings > Privacy & Security > Accessibility: `−` the skhd entry, `+` re-add `/opt/homebrew/bin/skhd`, `skhd --restart-service` |
+| One hotkey does nothing, the rest work | Its `shell_command` failed. Karabiner reports nothing when a command exits non-zero | Run it the way Karabiner does: `env -i /bin/sh -c '<command>'` |
+| Edited `keybindings`, nothing changed | The JSON is compiled from it, not read from it | `macOS/yabai/gen-karabiner-rules.sh` |
+| Hotkeys revert to an older set | Karabiner's GUI replaced the symlink with a real file, detaching `~/.config` from the repo | `./macOS/yabai/doctor.sh` names it; re-run `macOS/install` |
 | Windows ignore space rules at login | Rules only fire for windows created after they are registered | Already handled by `rule --apply` in `yabairc` |
 | `Refusing to load formula ... untrusted tap` | Homebrew needs explicit trust; a Brewfile cannot grant it | `brew trust asmvik/formulae` |
 | `Formulae found in multiple taps` | yabai moved koekeishiya → asmvik; Homebrew cloned the redirect as a second tap | `brew untap koekeishiya/formulae` (uninstalls nothing) |
@@ -72,8 +73,27 @@ sudo launchctl kickstart -k system/com.ianedington.yabai   # reload after edits
 - **`ctrl-h`/`ctrl-l`** use `macOS/yabai/cycle-window.sh`, which sorts by window
   id. yabai's own `prev`/`next` follow stacking order, which reshuffles on every
   focus change.
-- **Accessibility revocation recurs** on every `brew upgrade skhd`. TCC grants
-  cannot be scripted.
+- **`shell_command` runs under a bare `/bin/sh`**, so Homebrew is not on PATH.
+  The generator prepends it; `cycle-window.sh` hardcodes its own paths.
+
+### Hotkeys
+
+`macOS/yabai/keybindings` is the source, in skhd's old `<mods> - <key> : <cmd>`
+syntax. `gen-karabiner-rules.sh` compiles it into a single generated rule in
+`macOS/karabiner.json`; edit the first, run the generator, commit both. The
+generator only ever touches its own rule, so the hand-written remaps above it
+are safe.
+
+The physical key is Command. `karabiner.json` remaps both Command keys to
+Control, and that remap lands before these rules match, so they are written
+against `ctrl`.
+
+**Why not skhd.** skhd read keys through a `CGEventTap`, and macOS starves
+every event tap while any app holds Secure Keyboard Entry. Slack leaks it
+whenever a password or SSO field loses focus in an unusual way, which killed
+every hotkey with nothing in any log. Karabiner reads from a virtual HID device
+below the window server and is unaffected. This also retired skhd's other
+recurring failure, Accessibility being revoked on every `brew upgrade`.
 
 ## Mac Settings
 
@@ -121,8 +141,9 @@ Use `codesign -dvv $Path_to_App` to check the signature of an application.
 
 ### Enable Secure Keyboard Entry
 
-**Incompatible with skhd.** It blocks event taps, so every hotkey silently stops
-working. Pick one; see the yabai + skhd section above.
+Safe with the yabai hotkeys since they moved to Karabiner, which reads below
+the window server. It still blocks every `CGEventTap`, so anything else that
+watches keys system-wide will go silent while it is on.
 
 Enable [Secure Keyboard Entry](https://security.stackexchange.com/questions/47749/how-secure-is-secure-keyboard-entry-in-mac-os-xs-terminal) in Terminal (unless you use [YubiKey](https://mig5.net/content/secure-keyboard-entry-os-x-blocks-interaction-yubikeys) or applications such as [TextExpander](https://smilesoftware.com/textexpander/secureinput)).
 
