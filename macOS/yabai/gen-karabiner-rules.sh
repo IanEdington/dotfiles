@@ -61,16 +61,30 @@ manipulators=$(
 rule=$(jq -n --arg description "$description" --argjson manipulators "$manipulators" \
   '{description: $description, manipulators: $manipulators}')
 
+command -v prettier >/dev/null || {
+  echo "prettier not found; brew install prettier" >&2
+  exit 1
+}
+
 # Profile 0 is "Default profile"; the only other one, "none", exists to turn
-# everything off. Keys are sorted and indented to match how Karabiner itself
-# rewrites this file, so its edits do not show up as whole-file diffs.
+# everything off.
+#
+# jq puts every object on its own line, which reformats the whole file and
+# buries the rule that actually changed. prettier collapses the short ones back
+# down; --sort-keys matches the key order already in the file. This gets close
+# to the existing formatting, not identical to it: prettier decides where to
+# collapse by a width rule, and this file was written by Karabiner, which
+# decides by its own.
 updated=$(jq --sort-keys --indent 4 --argjson rule "$rule" '
   .profiles[0].complex_modifications.rules |=
     (map(select(.description != $rule.description)) + [$rule])
-' "$config")
+' "$config" | prettier --parser json --tab-width 4 --print-width 100 --object-wrap=collapse)
 
+# Compare parsed, not byte for byte. Karabiner rewrites this file in its own
+# formatting whenever its GUI saves, so a textual comparison would call the
+# rules stale on the next save and stay wrong until someone regenerated.
 if [ "${1:-}" = "--check" ]; then
-  if printf '%s\n' "$updated" | cmp -s - "$config"; then
+  if [ "$(printf '%s' "$updated" | jq --sort-keys -c .)" = "$(jq --sort-keys -c . "$config")" ]; then
     exit 0
   fi
   echo "macOS/karabiner.json is stale; run macOS/yabai/gen-karabiner-rules.sh" >&2

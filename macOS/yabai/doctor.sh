@@ -8,7 +8,6 @@ warned=0
 ok()   { printf '  \033[32mok\033[0m   %s\n' "$*"; }
 bad()  { printf '  \033[31mFAIL\033[0m %s\n' "$*"; fail=$((fail + 1)); }
 warn() { printf '  \033[33mwarn\033[0m %s\n' "$*"; warned=$((warned + 1)); }
-info() { printf '  \033[34mnote\033[0m %s\n' "$*"; }
 
 echo "SIP and boot-args"
 sip=$(csrutil status 2>/dev/null)
@@ -135,17 +134,6 @@ if ~/.dotfiles/macOS/yabai/gen-karabiner-rules.sh --check 2>/dev/null; then
   ok "generated hotkeys match keybindings"
 else
   bad "karabiner.json is stale; run macOS/yabai/gen-karabiner-rules.sh"
-fi
-
-# Not a failure any more: Karabiner reads from a virtual HID device below the
-# window server, so secure input no longer starves the hotkeys the way it
-# starved skhd's event tap. Still worth naming, since it does block event taps
-# generally, and this used to be the answer to "why are my hotkeys dead".
-secure_pid=$(ioreg -l -d 1 -w 0 \
-  | sed -n 's/.*"kCGSSessionSecureInputPID"=\([0-9]*\).*/\1/p' \
-  | head -1)
-if [ -n "$secure_pid" ]; then
-  info "secure keyboard entry held by pid $secure_pid ($(ps -p "$secure_pid" -o comm= 2>/dev/null)); harmless for these hotkeys"
 fi
 
 echo
