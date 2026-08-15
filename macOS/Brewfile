@@ -9,4 +9,3 @@ cask "iterm2"
 
 tap "asmvik/formulae"
 brew "yabai"
-brew "skhd"

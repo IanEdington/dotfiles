@@ -1,6 +1,6 @@
 #!/bin/bash
-# Checks every layer the yabai + skhd setup depends on, in the order a failure
-# propagates. Each of these has silently broken at least once.
+# Checks every layer the yabai + karabiner setup depends on, in the order a
+# failure propagates. Each of these has silently broken at least once.
 set -uo pipefail
 
 fail=0
@@ -105,32 +105,36 @@ if [ -f /private/etc/sudoers.d/yabai ]; then
   fi
 fi
 
-echo "skhd"
-# skhd aborts at startup without Accessibility, so a running process is itself
-# proof the grant is intact. Only consult the log to explain why it is not
-# running; the log is append-only and keeps stale errors from earlier failures.
-if pgrep -x skhd >/dev/null; then
-  ok "skhd running (implies Accessibility granted)"
-elif [ -f "/tmp/skhd_$USER.err.log" ] && grep -q "accessibility access" "/tmp/skhd_$USER.err.log"; then
-  bad "skhd aborted: no Accessibility. System Settings > Privacy & Security > Accessibility: remove the skhd entry, re-add $(command -v skhd), then skhd --restart-service"
+echo "hotkeys (karabiner)"
+# karabiner_console_user_server is the piece that runs shell_command, so it is
+# the one whose absence kills hotkeys while remaps keep working.
+if pgrep -x karabiner_console_user_server >/dev/null; then
+  ok "karabiner_console_user_server running"
 else
-  bad "skhd not running (skhd --start-service); see /tmp/skhd_$USER.err.log"
+  bad "karabiner_console_user_server not running; open Karabiner-Elements"
 fi
 
-# Secure Keyboard Entry blocks event taps, so skhd receives nothing at all.
-# A service started at login cannot report this, so the symptom is silence.
-secure_pid=$(ioreg -l -d 1 -w 0 \
-  | sed -n 's/.*"kCGSSessionSecureInputPID"=\([0-9]*\).*/\1/p' \
-  | head -1)
-if [ -n "$secure_pid" ]; then
-  bad "secure keyboard entry is on (pid $secure_pid, $(ps -p "$secure_pid" -o comm= 2>/dev/null)); skhd gets no keys. Turn it off in that app's menu"
+# Karabiner replaces karabiner.json rather than writing through it whenever its
+# GUI saves, which silently swaps the symlink for a regular file. Everything
+# still works, and the repo quietly stops being the source of truth.
+live=~/.config/karabiner/karabiner.json
+if [ ! -e "$live" ]; then
+  bad "$live missing; re-run macOS/install"
+elif [ ! -L "$live" ]; then
+  bad "$live is a real file, not a symlink to the repo; save it over macOS/karabiner.json, then re-run macOS/install"
+elif cmp -s "$live" ~/.dotfiles/macOS/karabiner.json; then
+  ok "karabiner.json symlinked to the repo"
 else
-  ok "secure keyboard entry off"
+  bad "$live points somewhere other than the repo copy; re-run macOS/install"
 fi
 
-# No config check here: skhd treats any unrecognized option as "start", so
-# probing it with --parse or --help would spawn a stray instance. A running
-# skhd already proves the config parsed, since it refuses to start otherwise.
+# The hotkey rules are compiled from macOS/yabai/keybindings, so the committed
+# JSON can drift behind the file that is meant to be authoritative.
+if ~/.dotfiles/macOS/yabai/gen-karabiner-rules.sh --check 2>/dev/null; then
+  ok "generated hotkeys match keybindings"
+else
+  bad "karabiner.json is stale; run macOS/yabai/gen-karabiner-rules.sh"
+fi
 
 echo
 if [ "$fail" -gt 0 ]; then

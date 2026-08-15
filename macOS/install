@@ -49,10 +49,6 @@ dotfiles::symlink_files ~/.dotfiles/macOS/karabiner.json ~/.config/karabiner/kar
 
 source ./terminfo/install
 
-# skhd
-dotfiles::symlink_files ~/.dotfiles/macOS/skhdrc ~/.config/skhd/skhdrc
-skhd --start-service || echo_red "Warning: skhd --start-service failed; run macOS/yabai/doctor.sh"
-
 dotfiles::symlink_files ~/.dotfiles/macOS/yabairc ~/.config/yabai/yabairc
 yabai --start-service || echo_red "Warning: yabai --start-service failed; run macOS/yabai/doctor.sh"
 
