@@ -4,6 +4,7 @@
     "commit": ""
   },
   "includeCoAuthoredBy": false,
+  "cleanupPeriodDays": 365,
   "permissions": {
     "deny": [
       "Bash(git push origin main:*)",
