@@ -8,7 +8,12 @@
                         "description": "Disable Alt + Tab",
                         "manipulators": [
                             {
-                                "conditions": [],
+                                "conditions": [
+                                    {
+                                        "identifiers": [{ "product_id": 6505, "vendor_id": 12951 }],
+                                        "type": "device_unless"
+                                    }
+                                ],
                                 "from": {
                                     "key_code": "tab",
                                     "modifiers": { "mandatory": ["option"] }
@@ -22,7 +27,12 @@
                         "description": "Disable Command+Tab Cycle windows",
                         "manipulators": [
                             {
-                                "conditions": [],
+                                "conditions": [
+                                    {
+                                        "identifiers": [{ "product_id": 6505, "vendor_id": 12951 }],
+                                        "type": "device_unless"
+                                    }
+                                ],
                                 "from": {
                                     "key_code": "tab",
                                     "modifiers": { "mandatory": ["command"] }
@@ -36,6 +46,12 @@
                         "description": "Disable Cmd+H Hide",
                         "manipulators": [
                             {
+                                "conditions": [
+                                    {
+                                        "identifiers": [{ "product_id": 6505, "vendor_id": 12951 }],
+                                        "type": "device_unless"
+                                    }
+                                ],
                                 "description": "",
                                 "from": {
                                     "key_code": "h",
@@ -49,6 +65,12 @@
                         "description": "Apple: Change caps_lock -.",
                         "manipulators": [
                             {
+                                "conditions": [
+                                    {
+                                        "identifiers": [{ "product_id": 6505, "vendor_id": 12951 }],
+                                        "type": "device_unless"
+                                    }
+                                ],
                                 "from": {
                                     "key_code": "caps_lock",
                                     "modifiers": { "optional": ["any"] }
@@ -63,6 +85,12 @@
                         "description": "Apple: Change spacebar to Command or (escape if alone).",
                         "manipulators": [
                             {
+                                "conditions": [
+                                    {
+                                        "identifiers": [{ "product_id": 6505, "vendor_id": 12951 }],
+                                        "type": "device_unless"
+                                    }
+                                ],
                                 "from": {
                                     "key_code": "spacebar",
                                     "modifiers": { "optional": ["any"] }
@@ -77,6 +105,12 @@
                         "description": "Apple: Change Command_R to Control or (spacebar if alone).",
                         "manipulators": [
                             {
+                                "conditions": [
+                                    {
+                                        "identifiers": [{ "product_id": 6505, "vendor_id": 12951 }],
+                                        "type": "device_unless"
+                                    }
+                                ],
                                 "from": {
                                     "key_code": "right_command",
                                     "modifiers": { "optional": ["any"] }
@@ -91,6 +125,12 @@
                         "description": "Apple: Change Command_L to Control or (return if alone) on Apple.",
                         "manipulators": [
                             {
+                                "conditions": [
+                                    {
+                                        "identifiers": [{ "product_id": 6505, "vendor_id": 12951 }],
+                                        "type": "device_unless"
+                                    }
+                                ],
                                 "from": {
                                     "key_code": "left_command",
                                     "modifiers": { "optional": ["any"] }
@@ -379,7 +419,7 @@
                 },
                 {
                     "identifiers": { "is_keyboard": true, "product_id": 6505, "vendor_id": 12951 },
-                    "ignore": true,
+                    "ignore": false,
                     "manipulate_caps_lock_led": false
                 }
             ],
