@@ -24,7 +24,7 @@
 - It cannot be version-controlled or shared through the repo, and each environment holds its own copy — rotation is per-environment, by hand.
 - Prefer a tokened **tarball** (`curl -H "Authorization: Bearer $TOK" https://api.github.com/repos/<owner>/<repo>/tarball/<ref> | tar -xz`) over a tokened `git clone`: the clone writes the token into `.git/config` and the reflog, where it persists into the cached image and every session; the tarball leaves no token on disk.
 
-**Attached checkouts already exist at setup, before the Setup Script runs.** `/home/user/<repo>/` is a populated (shallow) git checkout by the time the field executes. So a setup script never needs to clone its own repo — discover `/home/user/*/` and run per-repo, rather than naming a hardcoded path (a hardcoded path is also how the field silently does nothing when a different repo is attached).
+**Attached checkouts already exist at setup, before the Setup Script runs.** `/home/user/<repo>/` is a populated (shallow) git checkout by the time the field executes, so the field's fast path is to run the repo's script straight out of that checkout — no clone needed. **Name the repo explicitly; do NOT glob `/home/user/*/` and run whatever setup scripts happen to be attached.** An environment that runs "whatever is attached" produces different tooling run to run, depending on which repos are mounted at build time — the opposite of the stability people rely on an environment to have. A named repo with a token fetch fallback (pattern below) builds the same tools every time, whether or not that repo is currently attached.
 
 **The Setup Script field runs under `set -e`.** A single failing command aborts the whole build and blocks session start — observed directly: a failing `git clone` exited 128 and the session would not start. Put `set +e` at the top of a probing/best-effort script, or guard every expected-failure command; a bare `|| true` on the last line does not protect the earlier ones.
 
@@ -32,6 +32,7 @@
 
 - Put the install logic in a versioned file in the repo (e.g. `claude/cloud-environment-setup.sh`), not inline in the Setup Script field. The field's job is to reach that file and run it.
 - **How the field reaches the file depends on repo visibility.** For a **public** repo, the tiny fetch-and-run stub works (download-then-run rather than `curl | bash`, so a failed fetch hits the `else` branch instead of piping nothing into bash):
+
     ```bash
     if curl -fsSL "https://raw.githubusercontent.com/<owner>/<repo>/main/claude/cloud-environment-setup.sh" -o /tmp/setup.sh; then
       bash /tmp/setup.sh
@@ -39,14 +40,44 @@
       echo "<repo>: could not fetch setup script during environment setup" >> ~/.cloud-setup-errors.log
     fi
     ```
-    For a **private** repo this stub silently installs nothing — `raw.githubusercontent.com` 404s (see above). Instead, run the script out of the attached checkout, which already exists at setup, discovering it rather than naming one repo:
+
+    For a **private** repo the stub 404s (`raw.githubusercontent.com` serves no private content), so name the repo explicitly and give it two paths: run the script from the attached checkout if it is there, and fall back to a tokened tarball fetch if it is not. The token is required, checked up front, and the field hard-fails on the placeholder — a misconfigured environment should fail loudly at build time, not quietly produce a half-set-up sandbox:
+
     ```bash
-    for d in /home/user/*/; do
-      s="$d/claude/cloud-environment-setup.sh"
-      [ -f "$s" ] && bash "$s" || true
-    done
+    # === REQUIRED: a GitHub token with read (contents) access to gpo/gpo-ca.
+    # The env-vars config section is NOT visible at setup time, so the token
+    # must be pasted here in the field. Plaintext, no secrets store — scope it
+    # read-only and rotate it.
+    GH_SETUP_TOKEN="REPLACE_WITH_TOKEN"
+
+    set -uo pipefail
+    OWNER=gpo; REPO=gpo-ca; REF=main
+    DIR="/home/user/$REPO"
+
+    if [ "$GH_SETUP_TOKEN" = "REPLACE_WITH_TOKEN" ] || [ -z "$GH_SETUP_TOKEN" ]; then
+      msg="$REPO setup: GH_SETUP_TOKEN not set in the Setup script field"
+      echo "$msg" >> ~/.cloud-setup-errors.log
+      echo "!! $msg — edit the field and rebuild." >&2
+      exit 1
+    fi
+
+    if [ ! -d "$DIR/.git" ]; then
+      echo "==> $REPO not attached; fetching $REF via token"
+      mkdir -p "$DIR"
+      if ! curl -fsSL -H "Authorization: Bearer $GH_SETUP_TOKEN" \
+             "https://api.github.com/repos/$OWNER/$REPO/tarball/$REF" \
+             | tar -xz -C "$DIR" --strip-components=1; then
+        msg="$REPO setup: token fetch of $REF failed (token, scope, or ref?)"
+        echo "$msg" >> ~/.cloud-setup-errors.log; echo "!! $msg" >&2; exit 1
+      fi
+    fi
+
+    bash "$DIR/claude/cloud-environment-setup.sh"
     ```
-- Do NOT write a `git clone` fallback "in case the checkout isn't there" — the setup phase cannot clone a private repo without a token (see the credential model section), so the fallback fails exactly when it would be needed. If you genuinely need a private repo that isn't attached, fetch it with an inline tokened tarball, not an anonymous clone.
+
+    The tokened fetch uses a `Bearer` header, not a token-in-URL clone, so the secret is never written to `.git/config` or the reflog.
+
+- Do NOT add an anonymous `git clone` fallback — the setup phase cannot clone a private repo without a token (see the credential model section), so it fails exactly when the fallback is needed. The tokened tarball above is the fallback.
 - Log failures to `~/.cloud-setup-errors.log`, append-only (I already check this at every session start, so reusing it costs nothing new — just make sure anything that truncates the file runs _before_ anything that appends to it).
 - A local `.claude/setup-env.sh` convenience wrapper should just delegate to the same canonical script, never a second copy to keep in sync.
 - Avoid the tempting alternative of an orphan git branch + CI workflow that builds and caches dependency output as a tarball — it can work, but it's a lot of undebuggable machinery that doesn't transfer between repos. Only reach for it if Setup Script genuinely can't do the job.
