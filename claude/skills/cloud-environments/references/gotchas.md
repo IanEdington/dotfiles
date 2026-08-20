@@ -44,38 +44,50 @@
     For a **private** repo the stub 404s (`raw.githubusercontent.com` serves no private content), so name the repo explicitly and give it two paths: run the script from the attached checkout if it is there, and fall back to a tokened tarball fetch if it is not. The token is required, checked up front, and the field hard-fails on the placeholder — a misconfigured environment should fail loudly at build time, not quietly produce a half-set-up sandbox:
 
     ```bash
-    # === REQUIRED: a GitHub token with read (contents) access to gpo/gpo-ca.
-    # The env-vars config section is NOT visible at setup time, so the token
-    # must be pasted here in the field. Plaintext, no secrets store — scope it
-    # read-only and rotate it.
-    GH_SETUP_TOKEN="REPLACE_WITH_TOKEN"
+    # REQUIRED: a token that can READ every private repo this setup pulls. The
+    # env-vars config section is NOT visible at setup time, so it is pasted here.
+    # Plaintext, no secrets store — scope it minimally and rotate it. A
+    # fine-grained PAT is single-owner; if setup spans two owners, use a classic
+    # `repo`-scope token or attach one side as a source (see notes below).
+    export GH_SETUP_TOKEN="REPLACE_WITH_TOKEN"
 
     set -uo pipefail
     OWNER=gpo; REPO=gpo-ca; REF=main
     DIR="/home/user/$REPO"
+    AUTH="Authorization: Bearer $GH_SETUP_TOKEN"
+
+    fail() { echo "$1" >> ~/.cloud-setup-errors.log; echo "!! $1" >&2; exit 1; }
 
     if [ "$GH_SETUP_TOKEN" = "REPLACE_WITH_TOKEN" ] || [ -z "$GH_SETUP_TOKEN" ]; then
-      msg="$REPO setup: GH_SETUP_TOKEN not set in the Setup script field"
-      echo "$msg" >> ~/.cloud-setup-errors.log
-      echo "!! $msg — edit the field and rebuild." >&2
-      exit 1
+      fail "$REPO setup: GH_SETUP_TOKEN not set in the Setup script field - edit the field and rebuild."
     fi
 
     if [ ! -d "$DIR/.git" ]; then
       echo "==> $REPO not attached; fetching $REF via token"
       mkdir -p "$DIR"
-      if ! curl -fsSL -H "Authorization: Bearer $GH_SETUP_TOKEN" \
-             "https://api.github.com/repos/$OWNER/$REPO/tarball/$REF" \
-             | tar -xz -C "$DIR" --strip-components=1; then
-        msg="$REPO setup: token fetch of $REF failed (token, scope, or ref?)"
-        echo "$msg" >> ~/.cloud-setup-errors.log; echo "!! $msg" >&2; exit 1
-      fi
+      # Download to a file and branch on the HTTP status - do NOT pipe curl|tar,
+      # or a failed fetch surfaces as "gzip: unexpected end of file".
+      tb="$(mktemp)"
+      code="$(curl -sSL -o "$tb" -w '%{http_code}' -H "$AUTH" \
+            "https://api.github.com/repos/$OWNER/$REPO/tarball/$REF")" || code=000
+      case "$code" in
+        200) tar -tzf "$tb" >/dev/null 2>&1 || fail "$REPO setup: $REF is not a valid tarball"
+             tar -xzf "$tb" -C "$DIR" --strip-components=1 || fail "$REPO setup: extracting $REF failed" ;;
+        404) fail "$REPO setup: HTTP 404 fetching $REF - token cannot see $OWNER/$REPO (owner/scope, or a fine-grained PAT that omits it). Use a classic repo-scope token or attach the repo." ;;
+        401) fail "$REPO setup: HTTP 401 fetching $REF - token missing/invalid/expired" ;;
+        000) fail "$REPO setup: could not reach api.github.com for $REF (network/DNS/TLS)" ;;
+        *)   fail "$REPO setup: HTTP $code fetching $REF (unexpected)" ;;
+      esac
+      rm -f "$tb"
     fi
 
     bash "$DIR/claude/cloud-environment-setup.sh"
     ```
 
     The tokened fetch uses a `Bearer` header, not a token-in-URL clone, so the secret is never written to `.git/config` or the reflog.
+    - **Download the tarball to a file and branch on the HTTP status; never pipe `curl | tar`.** A failed fetch otherwise surfaces as `gzip: stdin: unexpected end of file` and buries the real cause. `curl -sSL -o file -w '%{http_code}'` follows the `api.github.com` → `codeload` redirect and reports the final code; validate with `tar -tzf` before extracting.
+    - **A 404 from the tokened `api.github.com/.../tarball` means the token cannot see the repo, not a bad ref.** GitHub returns 404 (not 403) for a private repo a token can't read, to avoid disclosing its existence — so on a 404, check the token's owner and scope before touching the branch or ref. Confirmed: the slashed-branch tarball URL (`.../tarball/claude/my-branch`) resolves fine with a credential that can see the repo, so a 404 there was purely token access.
+    - **Fine-grained PATs are scoped to a single owner.** If setup pulls private repos across two owners (the app repo in one org, private composer/npm packages in another), no single fine-grained token covers both. Either use a classic `repo`-scope token (spans all owners the account can read, but it is read/write, so short expiry and delete after), or attach one side as a source and token only the other. The `gpo/*` app repo plus its private `gppackagist/*` composer plugins is exactly this case: a fine-grained `gppackagist` token 404s on `gpo/gpo-ca`.
 
 - Do NOT add an anonymous `git clone` fallback — the setup phase cannot clone a private repo without a token (see the credential model section), so it fails exactly when the fallback is needed. The tokened tarball above is the fallback.
 - Log failures to `~/.cloud-setup-errors.log`, append-only (I already check this at every session start, so reusing it costs nothing new — just make sure anything that truncates the file runs _before_ anything that appends to it).
