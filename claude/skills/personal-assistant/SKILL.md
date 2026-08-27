@@ -24,7 +24,7 @@ Companion files, kept next to this SKILL.md and committed to dotfiles:
 Run once, when the `triage/` labels don't exist yet (check with `list_labels`).
 
 1. Create Gmail labels: `triage/action` (Ian must do or reply to something), `triage/waiting` (his thread, ball in someone else's court), `triage/fyi` (worth a skim, no response owed), `triage/noise` (newsletters, notifications, receipts, marketing), `triage/drafted` (a staged draft exists), and `triage/unsure`.
-2. If `style-guide.md` is missing, build it: sample ~50 sent emails older than one month across varied recipients (full bodies, not snippets), plus Ian's Slack messages — #general posts for announcement style, ordinary channels for conversational style. Capture per-audience register, length, sign-offs, how he asks and how he says no, plus verbatim calibration quotes.
+2. If `style-guide.md` is missing, build it: sample ~50 sent emails older than one month across varied recipients (full bodies, not snippets), plus Ian's Slack messages — #general posts for announcement style, ordinary channels for conversational style. Capture per-audience register, length, sign-offs, how he asks and how he says no, plus verbatim calibration quotes. Exclude AI-drafted content from voice claims: anything with a Claude footer, comments he labels as Claude-aided, and text matching a known generated structure counts as what he accepts and ships, not what he types.
 3. Create `rules.md` from the template at the bottom of this file.
 
 ## Triage run

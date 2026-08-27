@@ -1,6 +1,6 @@
 # Ian Edington: Personal Communication Style Guide
 
-Built from sent email spanning March 1 to July 22, 2026 (~50 threads sampled from his GPO work addresses: ~15 threads read in full from June and July, ~14 read in full plus ~65 skimmed from March to mid June) and ~95 Slack messages (37 #general posts from March to August, plus ~60 channel, thread, and DM messages) in the Green Party of Ontario workspace, plus his GitHub activity in the public IanEdington/dotfiles repo (all 31 PR descriptions from July and August 2026, 12 review events, and the 8 review comments he wrote by hand). Every claim below is anchored in that sample. Ian's role: staff tech lead at the GPO, managing volunteers and vendors.
+Built from sent email spanning March 1 to July 22, 2026 (~50 threads sampled from his GPO work addresses: ~15 threads read in full from June and July, ~14 read in full plus ~65 skimmed from March to mid June) and ~95 Slack messages (37 #general posts from March to August, plus ~60 channel, thread, and DM messages) in the Green Party of Ontario workspace, plus his GitHub activity: the public IanEdington/dotfiles repo (31 PR descriptions, 8 hand-typed review comments) and ~20 hand-typed review comments from work-org repos where he reviewed volunteers’, reports’, and peers’ code (224 PRs reviewed across orgs; three multi-comment reviews read in full, July and August 2026). Every claim below is anchored in that sample. Ian's role: staff tech lead at the GPO, managing volunteers and vendors.
 
 ## Email register per audience
 
@@ -84,7 +84,7 @@ Based on 37 of his #general posts (March to August 2026); the March to May posts
 
 ## GitHub reviews and responses
 
-Based on IanEdington/dotfiles only (public, personal repo, 31 PRs, no issues). He is both author and reviewer there: most PR descriptions and review replies are Claude-drafted under his name, but 8 review comments are unmistakably hand-typed and give a clear picture of his reviewing voice.
+Based on IanEdington/dotfiles plus work-org reviews of volunteers', reports', and peers' code (~28 hand-typed review comments in total). His own repo shows the terse solo register; org reviews show a distinct mentorship register. Some of his review comments are Claude-aided; he marks these in the comment ("This is from Claude..."), and they are excluded from voice claims here, as are Claude-drafted PR descriptions.
 
 - Review comments are his tersest register, terser than Slack: lowercase openings, minimal punctuation, no greeting, no sign-off, no emoji. Zero emoji anywhere in the GitHub sample, unlike his email and Slack habits.
 - Change requests are stated as a flat preference plus the alternative he wants: "I don't like this change. I'd rather the script warns and not move". No softening preamble, but no bark either.
@@ -93,7 +93,11 @@ Based on IanEdington/dotfiles only (public, personal repo, 31 PRs, no issues). H
 - Nits are two to four words: "let's remove this section", "Needs a newline chat". He also uses an empty GitHub ```suggestion``` block as a wordless "delete this".
 - Questions probe intent rather than assert error: "Why are skills being ignored? Don't we want to capture skills here?"
 - Hard constraints are stated as absolutes in first person: "These can all be deny. I never want Claude to be able to push to origin main or origin master."
-- No approval reviews with text exist in the sample; on his own repo he merges without a formal approve, and review events are all COMMENTED state.
+- No approval reviews with text exist in the sample; on his own repo he merges without a formal approve, and his org approvals are bare APPROVED events with no body.
+- Reviewing volunteers' and reports' code, the terseness relaxes into teaching: he explains the mechanism behind a bug, not just the fix, sometimes with a small truth table or worked example in the comment; he pairs a correction with a ```suggestion``` block carrying the exact fix; and he flags his own uncertainty plainly ("I'm not sure if we're going to run into this issue, but I believe there's a bit of a chicken and egg issue with...").
+- Long security and failure-mode comments in his reviews are Claude-aided, and he labels them so in the comment itself ("This is from Claude and makes me wonder if..."). Do not treat that structured severity-scenario-fix register as his hand-typed voice; what is his is the practice of relaying tool findings transparently and adding his own question or judgement on top.
+- He scopes work in review: accepts a known-imperfect approach and asks for a TODO instead of blocking ("I don't think it's worth doing that in this version though. Can we add a TODO here?"), and states the general principle behind repeated feedback ("Basically we always want to break a form early with a validation rather than have it break silently for a user.").
+- Questions to reports probe intent before asserting error: "where will this file be used? I don't think we need a .env file in k8s...". A rare emoji appears when softening a direct bug catch on a report's code ("`false ?: true` is `true` 😬").
 - PR descriptions under his name are structured and technical: "## What changed" and "## Why" headers (or Problem / Root causes for debugging PRs), bullets of concrete file-level changes, precise numbers and dates, and a scope note for what the PR deliberately does not do. Most carry a "Generated by Claude Code" footer; the ones without it keep the same structure, so treat that shape as his accepted house style rather than a hand-typed voice.
 - The same fast-typing typos as email survive in review comments ("liens" for lines, "chat" for chap).
 
@@ -116,6 +120,8 @@ Based on IanEdington/dotfiles only (public, personal repo, 31 PRs, no issues). H
 15. GitHub review comment, August 2026 (change request as flat preference): "I don't like this change. I'd rather the script warns and not move"
 16. GitHub review comment, August 2026 (reason, then options): "this is just going to add noise to the install script. I'm not actually going to do this when install is run. can you either remove it or gate it on if zsh was upgraded?"
 17. GitHub review comment, July 2026 (hard constraint in first person): "These can all be deny. I never want Claude to be able to push to origin main or origin master."
+18. GitHub review of a volunteer's payment form, August 2026 (scope control): "So this is all done client side which is very fragile. Ideally we'd be doing some of this server side, possibly with a webhook. I don't think it's worth doing that in this version though. Can we add a TODO here?"
+19. GitHub review of a report's config PR, July 2026 (teaching with a suggestion block): "This is called null coalescing and is very powerful. Turnery operators are similar but act a little differently" followed by a six-line truth table of `?:` versus `??` results.
 
 ## Data gaps
 
@@ -123,6 +129,5 @@ Based on IanEdington/dotfiles only (public, personal repo, 31 PRs, no issues). H
 - Almost all email is GPO-related; no personal (non-work) correspondence appeared in the sample, so this guide describes his work voice only.
 - No examples of Ian using @here or @channel were found in 37 #general posts; the claim that he avoids them is inferred from those posts plus his own written norms, not from an explicit statement.
 - The Slack conversational sample now covers March to May as well as August 2026, but the older slice clusters on a handful of heavy days (mid-April and late May) and on DMs with two or three close collaborators.
-- The GitHub sample is a single public personal repo (IanEdington/dotfiles) where Ian is the only human participant, so his work-org review habits, how he reviews other people's code, how he approves, and how he responds to reviewers as an author are all unrepresented. The repo has no issues and no issue comments, so nothing can be said about his issue style.
-- The hand-typed GitHub evidence is thin: only 8 review comments across 3 PRs. Claims about his reviewing voice rest on those 8; treat them as directional, not definitive. Most PR descriptions and all review-thread replies in the repo are Claude-drafted, so they show what he accepts and ships under his name, not what he types.
+- The GitHub sample now spans his personal repo and work-org reviews (~28 hand-typed comments, three org reviews read in full), so the reviewing-voice claims are solid for reviewing volunteers' and reports' code. Still unrepresented: approval messages with text (his approvals are bare events), his author-side replies to human reviewers, and issue comments (none found), so nothing can be said about those registers.
 - Roughly a quarter of the March to mid-June sent mail is auto-generated (appointment bookings, out-of-office); those were excluded and tell us nothing about his voice.
