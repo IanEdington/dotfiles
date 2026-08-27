@@ -50,8 +50,12 @@ function! s:SyncBackgroundFromSystem() abort
         return
     endif
     let l:mode = trim(get(readfile(s:theme_state_file, '', 1), 0, ''))
-    if l:mode ==# 'dark' || l:mode ==# 'light'
-        let &background = l:mode
+    if l:mode ==# 'light'
+        set background=light
+        silent! colorscheme solarized8_high
+    elseif l:mode ==# 'dark'
+        set background=dark
+        silent! colorscheme solarized8_flat
     endif
 endfunction
 

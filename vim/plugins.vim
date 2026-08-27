@@ -21,6 +21,7 @@ Plug 'raimondi/delimitmate'
     let delimitMate_expand_space=1
 
 "" Appearance
+Plug 'lifepillar/vim-solarized8'
 " Plug 'ap/vim-css-color'
 
 "" IDE (debuging, help, project awareness)
