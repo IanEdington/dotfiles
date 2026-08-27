@@ -1,17 +1,18 @@
 ---
 name: "personal-assistant"
-description: "Act as Ian's personal assistant across Gmail, Slack, and Google Calendar: triage what actually needs him, label and surface it, stage draft replies, prep him for meetings, and learn from his corrections. Use when he asks to triage email or Slack, clear the inbox, run the assistant or PA pass, prep for the day, or set up recurring triage. Also handles first-time setup (labels and writing style guide)."
+description: "Act as Ian's personal assistant across Gmail, Slack, Google Calendar, and GitHub: triage what actually needs him, label and surface it, stage draft replies, prep him for meetings, and learn from his corrections. Use when he asks to triage email or Slack, clear the inbox, run the assistant or PA pass, prep for the day, or set up recurring triage, and on every scheduled /personal-assistant run. Also handles first-time setup (labels and writing style guide)."
 ---
 
 # Personal Assistant
 
-One pass over email, Slack, and calendar that turns everything into three piles: needs Ian, waiting on others, and safe to ignore. Never send anything. Email drafts are staged in Gmail Drafts; Slack replies are proposed in the report for one-tap approval; everything else gets labelled so the inbox itself shows the verdict.
+One pass over email, Slack, calendar, and GitHub that turns everything into three piles: needs Ian, waiting on others, and safe to ignore. Never send anything. Email drafts are staged in Gmail Drafts; Slack replies and GitHub responses are proposed in the report for one-tap approval; everything else gets labelled so the inbox itself shows the verdict.
 
 Hard rules that override everything else:
 
 1. **Never send.** Email: `create_draft` only — no `send_message`, no `forward`. Slack: `slack_send_message_draft` or propose text in the report; never `slack_send_message` without Ian approving that specific message in this conversation.
 2. **Never archive, trash, or mark spam during triage.** Labels only. Ian decides what leaves the inbox until the accuracy log (below) shows weeks of clean verdicts; even then, ask before changing this.
 3. **Never accept, decline, or move calendar events** without Ian approving the specific change.
+4. **Never post to GitHub** — no comments, reviews, approvals, merges, or thread resolutions. Proposed review replies go in the report as copy-ready text.
 
 Companion files, kept next to this SKILL.md and committed to dotfiles:
 
@@ -32,16 +33,17 @@ Run once, when the `triage/` labels don't exist yet (check with `list_labels`).
 2. Gather, batched in one turn:
    - **Email**: `search_threads` for `in:inbox -label:triage/action -label:triage/waiting -label:triage/fyi -label:triage/noise -label:triage/unsure`, newest first, up to ~40 threads. Already-labelled threads are done; this keeps runs idempotent and cheap.
    - **Slack**: DMs and @-mentions since the last run (default lookback 2 days). Skip channels `rules.md` lists as muted; always include people it lists as priority.
-   - **Calendar**: today and tomorrow.
+   - **Calendar**: today and tomorrow, in America/Toronto time.
+   - **GitHub**: PRs with review requested from Ian, PRs and issues where he is @-mentioned or assigned, and his own open PRs (CI status and unresolved review threads). Query only repos the session can reach; if GitHub access is scoped away, note it in the report and carry on.
 3. Judge each item with enough context: snippets are fine for obvious noise, but anything that might be `action` needs the full thread — the error that matters is missing a real ask, not over-reading.
 4. Email: apply exactly one triage label per thread (plus `triage/drafted` when applicable). Genuinely can't tell → `triage/unsure`, never a guess. Slack and calendar items carry the same categories in the report; Slack has no labels to write.
 
 ### Classification heuristics
 
-- **action**: a person asks Ian, by name or as the only plausible answerer, for a decision, review, reply, or task. Calendar invites needing a response. Deadlines that land on him. Slack DMs ending in an unanswered question.
-- **waiting**: the latest message in a thread Ian started or last replied to is from him, or someone said "I'll get back to you".
-- **fyi**: human-written, relevant, no ask. Threads where Ian is cc'd and the ask is addressed to someone else by name.
-- **noise**: automated senders, newsletters, marketing, receipts, notification emails (GitHub, ClickUp, LinkedIn, etc.), Slack bot messages and reaction-only pings. Exception: an automated alert a rule in `rules.md` marks as urgent stays `action`.
+- **action**: a person asks Ian, by name or as the only plausible answerer, for a decision, review, reply, or task. Calendar invites needing a response. Deadlines that land on him. Slack DMs ending in an unanswered question. GitHub: review requests waiting on him, changes-requested reviews on his PRs, red CI on his PRs, and unanswered questions directed at him in review threads.
+- **waiting**: the latest message in a thread Ian started or last replied to is from him, or someone said "I'll get back to you". GitHub: his PRs that are green and awaiting someone else's review.
+- **fyi**: human-written, relevant, no ask. Threads where Ian is cc'd and the ask is addressed to someone else by name. GitHub: merged or closed activity on things he touched, and review threads someone else already resolved.
+- **noise**: automated senders, newsletters, marketing, receipts, notification emails (GitHub, ClickUp, LinkedIn, etc.), Slack bot messages and reaction-only pings. GitHub email notifications are always noise — the GitHub sweep above is the source of truth, not the notification email. Exception: an automated alert a rule in `rules.md` marks as urgent stays `action`.
 
 ### The cc problem
 
@@ -64,12 +66,13 @@ For each `action` item where a reply is the action (not "go do a task"):
 
 - Read the full thread and `style-guide.md`. Also pull Ian's last 2-3 messages to this recipient in the same medium and match that specific register — he writes differently to his manager, his reports, and volunteers, and Slack is not email.
 - Draft the shortest reply that answers the actual ask. No invented commitments, dates, or facts; where a needed fact isn't in the thread, leave `[?: ...]` for Ian to fill rather than guessing.
-- Email: save with `create_draft` as a reply on the thread, add `triage/drafted`. Slack: stage with `slack_send_message_draft` where available, otherwise put the proposed text in the report.
+- Email: save with `create_draft` as a reply on the thread, add `triage/drafted`. Slack: stage with `slack_send_message_draft` where available, otherwise put the proposed text in the report. GitHub: proposed review replies and PR comments go in the report only, written in the style guide's GitHub register.
+- For a review request on someone else's PR, do not review the code on Ian's behalf; surface the PR with its size, age, and author so he can slot it in. A prep note ("touches X, the risky part is Y") is welcome when the diff is small enough to skim.
 - Skip drafting when the reply requires a decision only Ian can make and the draft would just be `[?]`s — mark `action` and move on.
 
 ## Report
 
-End every run with a compact summary, ordered by importance across mediums (not grouped by platform): one line each for `action` and `unsure` items — source (Email/Slack/Cal), who, the ask, draft staged or not — then calendar flags and prep notes, then counts only for `waiting`, `fyi`, and `noise`.
+End every run with a compact summary, ordered by importance across mediums (not grouped by platform): one line each for `action` and `unsure` items — source (Email/Slack/Cal/GitHub), who, the ask, draft staged or not — then calendar flags and prep notes, then counts only for `waiting`, `fyi`, and `noise`.
 
 ## Feedback loop
 
@@ -81,9 +84,20 @@ This is what keeps it accurate past week one. When Ian corrects a verdict ("that
 
 `rules.md` and `style-guide.md` live in the dotfiles repo, so on a machine with the repo checked out, commit changes to them on a feature branch when the session ends. In a cloud session without the repo, tell Ian the learned rule so he can add it.
 
-## Recurring setup
+## Scheduled runs
 
-When Ian asks to make this recurring: schedule a weekday task (suggest hourly during work hours) whose prompt is "Run the personal-assistant skill's triage pass. Setup is done; skip it." Unattended runs never draft to recipients not present in sent mail or prior Slack DMs, never send anything on Slack, and put anything ambiguous in `triage/unsure` rather than interrupting him. A separate deep-work mode on request: scan email and Slack every 15-30 minutes for a fixed window and ping him only on items matching the urgent criteria in `rules.md`.
+The morning Routine's entire prompt is `/personal-assistant` — all behaviour lives here so the schedule never drifts from the skill. A run with no human present (a Routine-fired session, or any run where Ian hasn't spoken this session) is an unattended run:
+
+- Do the full triage run above, skipping first-time setup when the `triage/` labels already exist.
+- Extra guardrails: never draft to recipients not present in Ian's sent mail or prior Slack DMs; put anything ambiguous in `triage/unsure` rather than guessing; ask no questions — record open questions in the report instead.
+- End with the report formatted as the morning summary below; it is delivered by notification and must stand alone without the session transcript.
+
+Morning summary format, two sections, readable in under two minutes:
+
+1. **Accomplished**: counts per triage label, drafts staged (recipient and subject each), calendar prep notes written.
+2. **Outstanding**: one line per `action` and `unsure` item — source (Email/Slack/Cal/GitHub), who, the ask, and whether a draft is waiting — ordered by importance across mediums, then anything the run could not do (auth failures, scoped-away access, ambiguities) stated plainly.
+
+When Ian asks for a different cadence, adjust the Routine's schedule, not its prompt. A separate deep-work mode on request: scan email and Slack every 15-30 minutes for a fixed window and ping him only on items matching the urgent criteria in `rules.md`.
 
 ## rules.md template
 
