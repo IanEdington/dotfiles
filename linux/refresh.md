@@ -41,6 +41,28 @@ sudo apt install \
     zeal \ # offline documentation
     zsh
 
+# mosh through a firewall
+mosh bootstraps over SSH, then switches to a UDP port in the range 60000-61000. If you see
+`mosh: Nothing received from server on UDP port 600xx`, SSH is fine but that UDP port is blocked
+somewhere between client and server.
+
+```
+# ufw on the server
+sudo ufw allow 60000:61000/udp
+
+# on a cloud VM, also open the range in the provider's firewall/security group,
+# not just the OS firewall
+
+# to confirm mosh-server is actually bound and listening
+sudo ss -ulnp | grep mosh-server
+```
+
+To open fewer ports, pin mosh to a small range and open only that:
+```
+mosh --server="mosh-server new -p 60000:60010" user@host
+```
+then `sudo ufw allow 60000:60010/udp`.
+
 # kmonad
 https://github.com/kmonad/kmonad/blob/master/doc/faq.md#q-how-do-i-get-uinput-permissions
 
