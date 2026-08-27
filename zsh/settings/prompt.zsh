@@ -27,3 +27,29 @@ function prompt_paradox_print_elapsed_time() {
   fi
   print -P " %F{blue}finished at: %F{green}%D{%H:%M:%S}%F{blue}%f"
 }
+
+# Paradox's host segment (user@host) is hardcoded to a black background --
+# see .zprezto/modules/prompt/functions/prompt_paradox_setup -- so it never
+# adapted to the system light/dark switch in theme-sync.zsh (the path/git
+# segments use black text on blue/green and are legible either way by
+# design; this one isn't). $DOTFILES_THEME_MODE is set there.
+function prompt_paradox_build_prompt {
+  local host_bg=black host_fg=default
+  if [[ "$DOTFILES_THEME_MODE" == "light" ]]; then
+    host_bg=white
+    host_fg=black
+  fi
+
+  prompt_paradox_start_segment $host_bg $host_fg '%(?::%F{red}✘ )%(!:%F{yellow}⚡ :)%(1j:%F{cyan}⚙ :)%F{blue}%n%F{red}@%F{green}%m%f'
+  prompt_paradox_start_segment blue black '$_prompt_paradox_pwd'
+
+  if [[ -n "$git_info" ]]; then
+    prompt_paradox_start_segment green black '$(escape-eval "${(e)git_info[ref]}${(e)git_info[status]}")'
+  fi
+
+  if [[ -n "$python_info" ]]; then
+    prompt_paradox_start_segment white black '$(escape-eval "${(e)python_info[virtualenv]}")'
+  fi
+
+  prompt_paradox_end_segment
+}
