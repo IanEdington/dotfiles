@@ -87,6 +87,27 @@ if [ -f "$PLIST_DST" ]; then
     fi
 fi
 
+# dark-notify LaunchAgent: keeps vim/zsh's light-dark state file (bin/theme-sync)
+# in sync with the system Appearance setting. Per-user agent, so no sudo needed.
+if command_exists dark-notify ; then
+    AGENT_LABEL=com.ianedington.dark-notify
+    AGENT_DST=~/Library/LaunchAgents/$AGENT_LABEL.plist
+    mkdir -p ~/Library/LaunchAgents
+    sed \
+        -e "s#__DARK_NOTIFY_BIN__#$(command -v dark-notify)#" \
+        -e "s#__THEME_SYNC_BIN__#$HOME/.dotfiles/bin/theme-sync#" \
+        ~/.dotfiles/macOS/theme/com.ianedington.dark-notify.plist > "$AGENT_DST.tmp"
+    if ! cmp -s "$AGENT_DST.tmp" "$AGENT_DST" 2> /dev/null ; then
+        mv "$AGENT_DST.tmp" "$AGENT_DST"
+        launchctl bootout "gui/$(id -u)/$AGENT_LABEL" 2> /dev/null || true
+        launchctl bootstrap "gui/$(id -u)" "$AGENT_DST"
+    else
+        rm -f "$AGENT_DST.tmp"
+    fi
+else
+    echo_yellow "-[ ] dark-notify not installed; run update_brew then re-run macOS/install to enable auto light/dark theme sync"
+fi
+
 # The sudoers entry pins a SHA256 of the yabai binary, so it must be
 # regenerated after every `brew upgrade yabai`. The file itself is 0440 root,
 # so record the hash we last wrote somewhere readable and only escalate when it

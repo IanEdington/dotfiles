@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>com.ianedington.dark-notify</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>__DARK_NOTIFY_BIN__</string>
+    <string>-c</string>
+    <string>__THEME_SYNC_BIN__</string>
+  </array>
+  <key>RunAtLoad</key><true/>
+  <key>KeepAlive</key><true/>
+  <key>StandardOutPath</key><string>/tmp/com.ianedington.dark-notify.out</string>
+  <key>StandardErrorPath</key><string>/tmp/com.ianedington.dark-notify.err</string>
+</dict>
+</plist>

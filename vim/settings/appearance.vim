@@ -37,21 +37,27 @@ set statusline+=\ b%n " Current buffer
 set statusline+=\ %4c/%l/%-4L " Current and Total Lines
 set statusline+=\ %P " Percent Through Document
 
-" Toggle ColorScheme
-" let s:colorschemetoggle=0
-" function! s:fold_column_toggle()
-"     if s:colorschemetoggle
-"         let s:colorschemetoggle=0
-"         set background=light
-"         colorscheme solarized8_high
-"     else
-"         let s:colorschemetoggle=1
-"         set background=dark
-"         colorscheme solarized8_flat
-"     endif
-" endfunction
+" Follow the system light/dark setting
+"
+" macOS/theme/ runs `dark-notify` as a LaunchAgent that writes the current
+" mode to this state file (via bin/theme-sync) whenever Appearance changes.
+" Vim only polls it -- on startup and on FocusGained/CursorHold -- so an
+" already-open buffer picks up a change without needing a restart.
+let s:theme_state_file = expand('~/.cache/dotfiles/theme-mode')
 
-" silent call s:fold_column_toggle()
+function! s:SyncBackgroundFromSystem() abort
+    if !filereadable(s:theme_state_file)
+        return
+    endif
+    let l:mode = trim(get(readfile(s:theme_state_file, '', 1), 0, ''))
+    if l:mode ==# 'dark' || l:mode ==# 'light'
+        let &background = l:mode
+    endif
+endfunction
 
-" nnoremap <Plug>FoldColumnToggle :call <SID>fold_column_toggle()<CR>
-" nmap cok <Plug>FoldColumnToggle
+augroup dotfiles_theme_sync
+    autocmd!
+    autocmd VimEnter,FocusGained,CursorHold * call s:SyncBackgroundFromSystem()
+augroup END
+
+call s:SyncBackgroundFromSystem()

@@ -10,3 +10,6 @@ cask "iterm2"
 
 tap "asmvik/formulae"
 brew "yabai"
+
+tap "cormacrelf/tap"
+brew "dark-notify"

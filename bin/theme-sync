@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Called by dark-notify (see macOS/theme/) whenever the system appearance
+# changes, with the new mode ("light" or "dark") as $1. Writes it to a state
+# file that vim and zsh poll on focus/prompt so open sessions pick it up
+# without restarting.
+set -euo pipefail
+
+mode="${1:?usage: theme-sync <light|dark>}"
+case "$mode" in
+    light|dark) ;;
+    *) echo "theme-sync: unrecognized mode '$mode'" >&2; exit 1 ;;
+esac
+
+state_dir="${XDG_CACHE_HOME:-$HOME/.cache}/dotfiles"
+mkdir -p "$state_dir"
+echo "$mode" > "$state_dir/theme-mode"
