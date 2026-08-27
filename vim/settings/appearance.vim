@@ -51,7 +51,8 @@ set statusline+=\ %P " Percent Through Document
 " showing (see zsh/settings/theme-sync.zsh, which repaints that via iTerm2's
 " it2setcolor). Setting &background here just picks readable foreground
 " colors -- comments, strings, etc -- for that background.
-let s:theme_state_file = expand('~/.cache/dotfiles/theme-mode')
+let s:cache_home = empty($XDG_CACHE_HOME) ? expand('~/.cache') : $XDG_CACHE_HOME
+let s:theme_state_file = s:cache_home . '/dotfiles/theme-mode'
 let s:last_theme_mode = ''
 
 function! s:SyncBackgroundFromSystem() abort
