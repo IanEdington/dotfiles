@@ -43,6 +43,12 @@ set statusline+=\ %P " Percent Through Document
 " mode to this state file (via bin/theme-sync) whenever Appearance changes.
 " Vim only polls it -- on startup and on FocusGained/CursorHold -- so an
 " already-open buffer picks up a change without needing a restart.
+"
+" No colorscheme plugin is installed; the default colorscheme deliberately
+" leaves Normal's background unset, so it inherits whatever the terminal is
+" showing (see zsh/settings/theme-sync.zsh, which repaints that via iTerm2's
+" it2setcolor). Setting &background here just picks readable foreground
+" colors -- comments, strings, etc -- for that background.
 let s:theme_state_file = expand('~/.cache/dotfiles/theme-mode')
 
 function! s:SyncBackgroundFromSystem() abort
@@ -50,12 +56,8 @@ function! s:SyncBackgroundFromSystem() abort
         return
     endif
     let l:mode = trim(get(readfile(s:theme_state_file, '', 1), 0, ''))
-    if l:mode ==# 'light'
-        set background=light
-        silent! colorscheme solarized8_high
-    elseif l:mode ==# 'dark'
-        set background=dark
-        silent! colorscheme solarized8_flat
+    if l:mode ==# 'dark' || l:mode ==# 'light'
+        let &background = l:mode
     endif
 endfunction
 
