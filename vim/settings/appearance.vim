@@ -48,9 +48,10 @@ set statusline+=\ %P " Percent Through Document
 "
 " No colorscheme plugin is installed; the default colorscheme deliberately
 " leaves Normal's background unset, so it inherits whatever the terminal is
-" showing (see zsh/settings/theme-sync.zsh, which repaints that via iTerm2's
-" it2setcolor). Setting &background here just picks readable foreground
-" colors -- comments, strings, etc -- for that background.
+" showing. That background is repainted via iTerm2's it2setcolor, normally
+" run by zsh's precmd hook (zsh/settings/theme-sync.zsh) -- but precmd
+" doesn't fire while vim owns the foreground, so vim calls the same script
+" itself here to cover that gap.
 let s:cache_home = empty($XDG_CACHE_HOME) ? expand('~/.cache') : $XDG_CACHE_HOME
 let s:theme_state_file = s:cache_home . '/dotfiles/theme-mode'
 let s:last_theme_mode = ''
@@ -63,6 +64,7 @@ function! s:SyncBackgroundFromSystem() abort
     if (l:mode ==# 'dark' || l:mode ==# 'light') && l:mode !=# s:last_theme_mode
         let s:last_theme_mode = l:mode
         let &background = l:mode
+        call system('~/.dotfiles/bin/theme-apply-terminal-colors ' . shellescape(l:mode))
     endif
 endfunction
 
