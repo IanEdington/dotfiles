@@ -10,3 +10,10 @@ dotfiles::symlink_files $HOME/.dotfiles/vscode/settings.json $HOME/.config/Code/
 dotfiles::symlink_files $HOME/.dotfiles/vscode/linux-keybindings.json $HOME/.config/Code/User/keybindings.json
 dotfiles::symlink_files $HOME/.dotfiles/vscode/snippets $HOME/.config/Code/User/snippets
 
+if command_exists code; then
+    while IFS= read -r extension; do
+        code --install-extension "$extension"
+    done < "$HOME/.dotfiles/vscode/extensions.txt"
+else
+    echo_yellow "-[ ] VSCODE: 'code' not on PATH, skipping extension install"
+fi
