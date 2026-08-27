@@ -242,7 +242,16 @@
    "editor.defaultFormatter": "ReneSaarsoo.sql-formatter-vsc",
    "editor.formatOnSave": true
   },
-  "SQL-Formatter-VSCode.dialect": "mysql",
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports.ruff": "explicit",
+      "source.fixAll.ruff": "explicit"
+    }
+  },
+  "python.analysis.typeCheckingMode": "basic",
+  "SQL-Formatter-VSCode.dialect": "postgresql",
   "SQL-Formatter-VSCode.keywordCase": "upper",
   "SQL-Formatter-VSCode.functionCase": "upper",
   "SQL-Formatter-VSCode.dataTypeCase": "upper",
@@ -255,18 +264,14 @@
     "scminput"
   ],
   "cursor.composer.textSizeScale": 1.15,
-  "database-client.autoSync": true,
-  "database-client.telemetry.usesOnlineServices": false,
   "dotfiles.repository": "https://github.com/IanEdington/dotfiles.git",
   "dotfiles.targetPath": "~/.dotfiles",
   "docker.extension.enableComposeLanguageServer": false,
   "terminal.integrated.defaultProfile.osx": "zsh",
-  "terminal.integrated.defaultProfile.linux": "zsh",
   "window.commandCenter": true,
   "terminal.integrated.persistentSessionScrollback": 1000,
   "terminal.integrated.scrollback": 10000,
   "workbench.activityBar.orientation": "vertical",
-  "workbench.colorTheme": "Visual Studio Dark",
   "vs-kubernetes": {
     "vscode-kubernetes.minikube-path-mac": "/Users/ian/.vs-kubernetes/tools/minikube/darwin-arm64/minikube",
     "vs-kubernetes.crd-code-completion": "disabled"
