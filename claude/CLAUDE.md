@@ -49,7 +49,6 @@ Use Playwright MCP (user-scoped on macOS; per-repo `.mcp.json` in cloud sessions
 If you are actively working on modifying a Claude Code cloud environment (Setup Script, environment config, SessionStart hooks, or related setup scripts), use the `cloud-environments` skill; its `references/gotchas.md` is the single source of truth for known gotchas and patterns.
 
 ## Claude Code Cloud sessions
-- Connector MCP tools may be set to "needs approval": a tool erroring "requires re-authorization (token expired)" while reads succeed usually means pending approval, not auth — retry after Ian approves rather than sending him to reconnect.
 - Session network/GitHub access is scoped — some installs, clones, or package fetches can 403 or hang for reasons outside your control (not a bug in what you're doing). If something reachable everywhere else suddenly isn't, suspect scoping before you suspect your approach.
 - The git remote here is a local caching proxy, not GitHub directly, and can lag behind reality. If `git log origin/main` looks stale or contradicts what you expect, cross-check with `curl https://raw.githubusercontent.com/<owner>/<repo>/main/<path>` before trusting it.
 
