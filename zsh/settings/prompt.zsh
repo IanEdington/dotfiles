@@ -28,6 +28,59 @@ function prompt_paradox_print_elapsed_time() {
   print -P " %F{blue}finished at: %F{green}%D{%H:%M:%S}%F{blue}%f"
 }
 
+# Populate dev-tooling info for the prompt, mirroring how prezto's python
+# module feeds $python_info. Everything here is derived from cheap file reads
+# except the DDEV running check, which asks docker (only when a .ddev project
+# is present in the current directory).
+#
+# node_info[label]: "<package manager> <package name>" when the directory is a
+#   Node project, e.g. "pnpm my-app". The manager is inferred from the lockfile
+#   (or package.json's packageManager field), defaulting to npm.
+# ddev_info[name]/[status]: the DDEV project name and a running/stopped glyph.
+function prompt_paradox_dev_info {
+  typeset -gA node_info ddev_info
+  node_info=() ddev_info=()
+  local line pm pkg
+
+  if [[ -f package.json ]]; then
+    if [[ -f pnpm-lock.yaml ]]; then pm=pnpm
+    elif [[ -f yarn.lock ]]; then pm=yarn
+    elif [[ -f bun.lockb || -f bun.lock ]]; then pm=bun
+    elif [[ -f package-lock.json ]]; then pm=npm
+    fi
+    for line in "${(@f)$(<package.json)}"; do
+      if [[ -z $pm && $line == *'"packageManager"'* ]]; then
+        pm=${${${line#*:}//[[:space:]\",]/}%%@*}
+      fi
+      if [[ -z $pkg && $line == *'"name"'* ]]; then
+        pkg=${${line#*:}//[[:space:]\",]/}
+      fi
+    done
+    node_info[label]="${pm:-npm}${pkg:+ $pkg}"
+  fi
+
+  if [[ -f .ddev/config.yaml ]]; then
+    ddev_info[name]=${PWD:t}
+    for line in "${(@f)$(<.ddev/config.yaml)}"; do
+      case $line in
+        (name:*) ddev_info[name]=${${line#*:}//[[:space:]\"]/} ;;
+      esac
+    done
+    if (( $+commands[docker] )) && [[ -n \
+      "$(docker ps --filter label=com.ddev.site-name=${ddev_info[name]} --format '{{.ID}}' 2>/dev/null)" ]]; then
+      ddev_info[status]='%F{green}●%f'
+    else
+      ddev_info[status]='%F{red}○%f'
+    fi
+  fi
+}
+# Populate in precmd (like prezto's git-info/python-info) so the arrays live in
+# the interactive shell. build_prompt runs inside $(...) command substitution
+# (a subshell) at prompt-render time, so anything it sets would be discarded
+# before the outer ${(e)...} evaluates the segments in the parent.
+autoload -Uz add-zsh-hook
+add-zsh-hook precmd prompt_paradox_dev_info
+
 # Paradox's segments are hardcoded solid colors -- see the locally installed
 # .zprezto/modules/prompt/functions/prompt_paradox_setup (NOT prezto's
 # current GitHub master, which has since added an escape-eval wrapper this
@@ -44,6 +97,8 @@ function prompt_paradox_build_prompt {
   local path_bg=blue path_fg=black
   local git_bg=green git_fg=black
   local python_bg=white python_fg=black
+  local node_bg=magenta node_fg=white
+  local ddev_bg=cyan ddev_fg=black
   if [[ "$DOTFILES_THEME_MODE" == "light" ]]; then
     host_bg=white
     host_fg=black
@@ -51,6 +106,7 @@ function prompt_paradox_build_prompt {
     path_fg=black
     git_bg=yellow
     git_fg=black
+    node_fg=black
   fi
 
   prompt_paradox_start_segment $host_bg $host_fg '%(?::%F{red}✘ )%(!:%F{yellow}⚡ :)%(1j:%F{cyan}⚙ :)%F{blue}%n%F{red}@%F{green}%m%f'
@@ -62,6 +118,14 @@ function prompt_paradox_build_prompt {
 
   if [[ -n "$python_info" ]]; then
     prompt_paradox_start_segment $python_bg $python_fg '${(e)python_info[virtualenv]}'
+  fi
+
+  if [[ -n "$node_info[label]" ]]; then
+    prompt_paradox_start_segment $node_bg $node_fg ' ${(e)node_info[label]} '
+  fi
+
+  if [[ -n "$ddev_info[name]" ]]; then
+    prompt_paradox_start_segment $ddev_bg $ddev_fg ' ddev ${(e)ddev_info[name]} ${(e)ddev_info[status]} '
   fi
 
   prompt_paradox_end_segment
