@@ -6,9 +6,17 @@ IFS=$'\n\t'
 
 source ~/.dotfiles/shells/bash_utils.sh
 
-dotfiles::symlink_files $HOME/.dotfiles/vscode/settings.json $HOME/.config/Code/User/settings.json
-dotfiles::symlink_files $HOME/.dotfiles/vscode/linux-keybindings.json $HOME/.config/Code/User/keybindings.json
-dotfiles::symlink_files $HOME/.dotfiles/vscode/snippets $HOME/.config/Code/User/snippets
+if is_darwin; then
+    VSCODE_USER_DIR="$HOME/Library/Application Support/Code/User"
+    dotfiles::symlink_files "$HOME/.dotfiles/vscode/settings.json" "$VSCODE_USER_DIR/settings.json"
+    dotfiles::symlink_files "$HOME/.dotfiles/vscode/macos-keybindings.json" "$VSCODE_USER_DIR/keybindings.json"
+    dotfiles::symlink_files "$HOME/.dotfiles/vscode/snippets" "$VSCODE_USER_DIR/snippets"
+else
+    VSCODE_USER_DIR="$HOME/.config/Code/User"
+    dotfiles::symlink_files "$HOME/.dotfiles/vscode/settings.json" "$VSCODE_USER_DIR/settings.json"
+    dotfiles::symlink_files "$HOME/.dotfiles/vscode/linux-keybindings.json" "$VSCODE_USER_DIR/keybindings.json"
+    dotfiles::symlink_files "$HOME/.dotfiles/vscode/snippets" "$VSCODE_USER_DIR/snippets"
+fi
 
 if command_exists code; then
     while IFS= read -r extension; do
