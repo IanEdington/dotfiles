@@ -2,6 +2,7 @@
 
 ## Standing rules
 <!-- sender/topic rules, one bullet each; these override SKILL.md heuristics -->
+- 2026-08-28: Ian approved archiving `triage/noise` threads when he asks in-session. Not yet automatic on every run; confirm before promoting to always-archive.
 
 ## People
 <!-- who Ian answers for, whose asks are always action, whose threads are never his -->
