@@ -29,10 +29,13 @@ function prompt_paradox_print_elapsed_time() {
 }
 
 # Paradox's host segment (user@host) is hardcoded to a black background --
-# see .zprezto/modules/prompt/functions/prompt_paradox_setup -- so it never
-# adapted to the system light/dark switch in theme-sync.zsh (the path/git
-# segments use black text on blue/green and are legible either way by
-# design; this one isn't). $DOTFILES_THEME_MODE is set there.
+# see the locally installed .zprezto/modules/prompt/functions/prompt_paradox_setup
+# (NOT prezto's current GitHub master, which has since added an escape-eval
+# wrapper this install predates -- copy from the installed file, not upstream,
+# if this ever needs re-syncing) -- so it never adapted to the system
+# light/dark switch in theme-sync.zsh (the path/git segments use black text
+# on blue/green and are legible either way by design; this one isn't).
+# $DOTFILES_THEME_MODE is set there.
 function prompt_paradox_build_prompt {
   local host_bg=black host_fg=default
   if [[ "$DOTFILES_THEME_MODE" == "light" ]]; then
@@ -44,11 +47,11 @@ function prompt_paradox_build_prompt {
   prompt_paradox_start_segment blue black '$_prompt_paradox_pwd'
 
   if [[ -n "$git_info" ]]; then
-    prompt_paradox_start_segment green black '$(escape-eval "${(e)git_info[ref]}${(e)git_info[status]}")'
+    prompt_paradox_start_segment green black '${(e)git_info[ref]}${(e)git_info[status]}'
   fi
 
   if [[ -n "$python_info" ]]; then
-    prompt_paradox_start_segment white black '$(escape-eval "${(e)python_info[virtualenv]}")'
+    prompt_paradox_start_segment white black '${(e)python_info[virtualenv]}'
   fi
 
   prompt_paradox_end_segment
