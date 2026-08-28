@@ -16,14 +16,3 @@ if command_exists claude && ! claude mcp get playwright &> /dev/null; then
 fi
 
 
-# Skills from the private personal-assistant repo (not part of dotfiles).
-# Symlink them in when a local clone exists; ~/.claude/skills is inside this
-# repo's working copy, so the symlink targets are gitignored (see .gitignore).
-for pa_dir in "$HOME/dev/personal-assistant" "$HOME/personal-assistant"; do
-    if [ -d "$pa_dir/skills" ]; then
-        for skill in "$pa_dir"/skills/*/; do
-            ln -sfn "${skill%/}" ~/.claude/skills/"$(basename "$skill")"
-        done
-        break
-    fi
-done

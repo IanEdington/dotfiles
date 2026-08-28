@@ -32,6 +32,3 @@
 /tasks/
 /telemetry/
 /todos/
-# Symlinks into the private personal-assistant repo (see ./install)
-/skills/personal-assistant
-/skills/memory
