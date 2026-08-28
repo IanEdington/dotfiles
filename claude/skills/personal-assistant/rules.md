@@ -18,4 +18,4 @@
 
 ## Accuracy log
 <!-- per run: date, counts, corrections received; review monthly -->
-- 2026-08-28: first run. Labels not created and no email labels applied (Gmail token expired mid-run); triage done from search results only. 7 action, 2 waiting, 8 fyi, 23 noise (unlabelled, report only). 0 drafts staged. 0 corrections.
+- 2026-08-28: first run. Gmail token expired mid-run; recovered after Ian re-approved the connector tools. Labels created, 33 inbox threads labelled: 7 action, 3 unsure, 1 waiting, 7 fyi, 22 noise (noise archived on Ian's request). 1 draft staged (Ailsa Kay, WHH website). 0 corrections.
