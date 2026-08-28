@@ -84,5 +84,22 @@ echo "[cloud-setup] Copying claude/ contents into ${CLAUDE_TARGET_DIR} ..."
 # Overwrite the failure notice (and any other files) with real config.
 cp -r "${CLAUDE_SOURCE_DIR}/." "${CLAUDE_TARGET_DIR}/"
 
+# Wire in skills from the private personal-assistant repo. The repo cannot be
+# fetched here (raw.githubusercontent.com 404s for private repos and the setup
+# phase has no credentials), so this relies on the repo being ATTACHED as a
+# source in the environment config — attached checkouts exist at
+# /home/user/<repo> before this script runs. Environments without it attached
+# simply skip the assistant skills; that is expected, so no error is logged.
+PA_DIR="/home/user/personal-assistant"
+if [ -d "${PA_DIR}/skills" ]; then
+  mkdir -p "${CLAUDE_TARGET_DIR}/skills"
+  for skill in "${PA_DIR}"/skills/*/; do
+    ln -sfn "${skill%/}" "${CLAUDE_TARGET_DIR}/skills/$(basename "${skill}")"
+  done
+  echo "[cloud-setup] Linked personal-assistant skills: $(ls "${PA_DIR}/skills")"
+else
+  echo "[cloud-setup] personal-assistant repo not attached; assistant skills not installed."
+fi
+
 echo "[cloud-setup] Done. ${CLAUDE_TARGET_DIR} contents:"
 ls "${CLAUDE_TARGET_DIR}"
