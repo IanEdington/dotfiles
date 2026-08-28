@@ -33,9 +33,12 @@ function prompt_paradox_print_elapsed_time() {
 # current GitHub master, which has since added an escape-eval wrapper this
 # install predates -- copy from the installed file, not upstream, if this
 # ever needs re-syncing) -- so none of them adapted to the system light/dark
-# switch in theme-sync.zsh. In light mode, flip every segment to a white
-# background with its signature hue as the text color instead, rather than
-# a solid colored chip. $DOTFILES_THEME_MODE is set there.
+# switch in theme-sync.zsh. In light mode, swap each segment's solid
+# background for a different light-family color per segment (not all the
+# same white -- prompt_paradox_start_segment only draws a chevron separator
+# between segments whose backgrounds differ, so same-colored neighbors
+# collapse into one flat, washed-out bar instead of distinct chips).
+# $DOTFILES_THEME_MODE is set there.
 function prompt_paradox_build_prompt {
   local host_bg=black host_fg=default
   local path_bg=blue path_fg=black
@@ -44,10 +47,10 @@ function prompt_paradox_build_prompt {
   if [[ "$DOTFILES_THEME_MODE" == "light" ]]; then
     host_bg=white
     host_fg=black
-    path_bg=white
-    path_fg=blue
-    git_bg=white
-    git_fg=green
+    path_bg=cyan
+    path_fg=black
+    git_bg=yellow
+    git_fg=black
   fi
 
   prompt_paradox_start_segment $host_bg $host_fg '%(?::%F{red}✘ )%(!:%F{yellow}⚡ :)%(1j:%F{cyan}⚙ :)%F{blue}%n%F{red}@%F{green}%m%f'
