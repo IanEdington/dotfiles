@@ -15,6 +15,7 @@
 
 ## Corrections
 <!-- dated log: was → should-have-been → generalized rule -->
+- 2026-08-28: draft cleanup. Kept 4 drafts Ian said to drop (Tax Receipt Software: already sent fresh; Joe Murray, logos to Clare, Nicolle meeting-records fwd: greeting-only or moot) → generalized: a greeting-only draft is a delete candidate regardless of recency, and check sent mail for a same-recipient/same-topic email before assuming an empty recent draft is still live.
 
 ## Accuracy log
 <!-- per run: date, counts, corrections received; review monthly -->
