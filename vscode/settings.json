@@ -96,19 +96,6 @@
       "before": [
         "c",
         "o",
-        "k"
-      ],
-      "after": [],
-      "commands": [
-        {
-          "command": "settings.cycle.colorTheme",
-        }
-      ]
-    },
-    {
-      "before": [
-        "c",
-        "o",
         "h"
       ],
       "commands": [
@@ -180,19 +167,6 @@
       "after": ["<esc>", "\"", "+", "]", "P", "a"]
     }
   ],
-  "settings.cycle": [
-    {
-      "id": "colorTheme",
-      "values": [
-        {
-          "workbench.colorTheme": "Solarized Dark",
-        },
-        {
-          "workbench.colorTheme": "Solarized Light",
-        }
-      ]
-    }
-  ],
   "explorer.confirmDelete": false,
   "jest.autoEnable": false,
   "editor.codeActionsOnSave": {},
@@ -210,17 +184,7 @@
   "terminal.integrated.defaultProfile.linux": "zsh",
   "php.suggest.basic": true,
   "php.validate.enable": true,
-  "github.copilot.enable": {
-    "*": false,
-    "plaintext": false,
-    "markdown": false,
-    "scminput": false
-  },
-  "github.copilot.editor.enableAutoCompletions": true,
   "openInGitHub.alwaysUseDefaultBranch": true,
-  "github.copilot.advanced": {
-    "authProvider": "github"
-  },
   "githubPullRequests.pullBranch": "never",
   "editor.accessibilitySupport": "off",
   "[javascript]": {
@@ -238,10 +202,6 @@
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "[sql]": {
-   "editor.defaultFormatter": "ReneSaarsoo.sql-formatter-vsc",
-   "editor.formatOnSave": true
-  },
   "[python]": {
     "editor.defaultFormatter": "charliermarsh.ruff",
     "editor.formatOnSave": true,
@@ -251,12 +211,6 @@
     }
   },
   "python.analysis.typeCheckingMode": "basic",
-  "SQL-Formatter-VSCode.dialect": "postgresql",
-  "SQL-Formatter-VSCode.keywordCase": "upper",
-  "SQL-Formatter-VSCode.functionCase": "upper",
-  "SQL-Formatter-VSCode.dataTypeCase": "upper",
-  "SQL-Formatter-VSCode.ignoreTabSettings": true,
-  "SQL-Formatter-VSCode.tabSizeOverride": 4,
   "git.blame.editorDecoration.enabled": true,
   "cursor.cpp.disabledLanguages": [
     "plaintext",
