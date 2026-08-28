@@ -32,3 +32,6 @@
 /tasks/
 /telemetry/
 /todos/
+/daemon/
+/jobs/
+/daemon.log

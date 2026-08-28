@@ -279,4 +279,7 @@
     "ddev": true
   },
   "security.promptForLocalFileProtocolHandling": false,
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
 }
