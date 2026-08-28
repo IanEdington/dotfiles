@@ -28,35 +28,51 @@ function prompt_paradox_print_elapsed_time() {
   print -P " %F{blue}finished at: %F{green}%D{%H:%M:%S}%F{blue}%f"
 }
 
-# Populate runtime-version info for the prompt, mirroring how prezto's python
-# module feeds $python_info. Gated on cheap marker-file checks so the (slower)
-# runtime binaries are only spawned in directories that actually use them.
+# Populate dev-tooling info for the prompt, mirroring how prezto's python
+# module feeds $python_info. Everything here is derived from cheap file reads
+# except the DDEV running check, which asks docker (only when a .ddev project
+# is present in the current directory).
 #
-# In a DDEV project the versions that actually run live in the container, not
-# on the host, so read them straight from .ddev/config.yaml (no Docker call)
-# instead of probing the host node/php.
+# node_info[label]: "<package manager> <package name>" when the directory is a
+#   Node project, e.g. "pnpm my-app". The manager is inferred from the lockfile
+#   (or package.json's packageManager field), defaulting to npm.
+# ddev_info[name]/[status]: the DDEV project name and a running/stopped glyph.
 function prompt_paradox_dev_info {
-  typeset -gA node_info php_info ddev_info
-  node_info=() php_info=() ddev_info=()
+  typeset -gA node_info ddev_info
+  node_info=() ddev_info=()
+
+  if [[ -f package.json ]]; then
+    local line pm pkg
+    if [[ -f pnpm-lock.yaml ]]; then pm=pnpm
+    elif [[ -f yarn.lock ]]; then pm=yarn
+    elif [[ -f bun.lockb || -f bun.lock ]]; then pm=bun
+    elif [[ -f package-lock.json ]]; then pm=npm
+    fi
+    for line in "${(@f)$(<package.json)}"; do
+      if [[ -z $pm && $line == *'"packageManager"'* ]]; then
+        pm=${${${line#*:}//[[:space:]\",]/}%%@*}
+      fi
+      if [[ -z $pkg && $line == *'"name"'* ]]; then
+        pkg=${${line#*:}//[[:space:]\",]/}
+      fi
+    done
+    node_info[label]="${pm:-npm}${pkg:+ $pkg}"
+  fi
 
   if [[ -f .ddev/config.yaml ]]; then
-    ddev_info[project]='ddev'
     local line
+    ddev_info[name]=${PWD:t}
     for line in "${(@f)$(<.ddev/config.yaml)}"; do
       case $line in
-        (php_version:*)    php_info[version]=${${line#*:}//[[:space:]\"]/} ;;
-        (nodejs_version:*) node_info[version]=${${line#*:}//[[:space:]\"]/} ;;
+        (name:*) ddev_info[name]=${${line#*:}//[[:space:]\"]/} ;;
       esac
     done
-    return
-  fi
-
-  if (( $+commands[node] )) && [[ -f package.json || -f .nvmrc || -f .node-version ]]; then
-    node_info[version]=${${(f)"$(node --version 2>/dev/null)"}#v}
-  fi
-
-  if (( $+commands[php] )) && [[ -f composer.json || -f .php-version ]]; then
-    php_info[version]="$(php -r 'echo PHP_VERSION;' 2>/dev/null)"
+    if (( $+commands[docker] )) && [[ -n \
+      "$(docker ps --filter label=com.ddev.site-name=${ddev_info[name]} --format '{{.ID}}' 2>/dev/null)" ]]; then
+      ddev_info[status]='%F{green}●%f'
+    else
+      ddev_info[status]='%F{red}○%f'
+    fi
   fi
 }
 
@@ -79,8 +95,7 @@ function prompt_paradox_build_prompt {
   local git_bg=green git_fg=black
   local python_bg=white python_fg=black
   local node_bg=magenta node_fg=white
-  local php_bg=cyan php_fg=black
-  local ddev_bg=yellow ddev_fg=black
+  local ddev_bg=cyan ddev_fg=black
   if [[ "$DOTFILES_THEME_MODE" == "light" ]]; then
     host_bg=white
     host_fg=black
@@ -102,16 +117,12 @@ function prompt_paradox_build_prompt {
     prompt_paradox_start_segment $python_bg $python_fg '${(e)python_info[virtualenv]}'
   fi
 
-  if [[ -n "$node_info[version]" ]]; then
-    prompt_paradox_start_segment $node_bg $node_fg ' node ${(e)node_info[version]} '
+  if [[ -n "$node_info[label]" ]]; then
+    prompt_paradox_start_segment $node_bg $node_fg ' ${(e)node_info[label]} '
   fi
 
-  if [[ -n "$php_info[version]" ]]; then
-    prompt_paradox_start_segment $php_bg $php_fg ' php ${(e)php_info[version]} '
-  fi
-
-  if [[ -n "$ddev_info[project]" ]]; then
-    prompt_paradox_start_segment $ddev_bg $ddev_fg ' ${(e)ddev_info[project]} '
+  if [[ -n "$ddev_info[name]" ]]; then
+    prompt_paradox_start_segment $ddev_bg $ddev_fg ' ddev ${(e)ddev_info[name]} ${(e)ddev_info[status]} '
   fi
 
   prompt_paradox_end_segment
