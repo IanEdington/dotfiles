@@ -202,6 +202,10 @@
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "[sql]": {
+   "editor.defaultFormatter": "ReneSaarsoo.sql-formatter-vsc",
+   "editor.formatOnSave": true
+  },
   "[python]": {
     "editor.defaultFormatter": "charliermarsh.ruff",
     "editor.formatOnSave": true,
@@ -211,6 +215,12 @@
     }
   },
   "python.analysis.typeCheckingMode": "basic",
+  "SQL-Formatter-VSCode.dialect": "postgresql",
+  "SQL-Formatter-VSCode.keywordCase": "upper",
+  "SQL-Formatter-VSCode.functionCase": "upper",
+  "SQL-Formatter-VSCode.dataTypeCase": "upper",
+  "SQL-Formatter-VSCode.ignoreTabSettings": true,
+  "SQL-Formatter-VSCode.tabSizeOverride": 4,
   "git.blame.editorDecoration.enabled": true,
   "cursor.cpp.disabledLanguages": [
     "plaintext",

@@ -10,6 +10,7 @@ formulahendry.code-runner
 github.remotehub
 mechatroner.rainbow-csv
 mermaidchart.vscode-mermaid-chart
+ms-azuretools.vscode-containers
 ms-kubernetes-tools.vscode-kubernetes-tools
 ms-python.debugpy
 ms-python.python
@@ -24,6 +25,7 @@ mtxr.sqltools-driver-mysql
 mtxr.sqltools-driver-pg
 njpwerner.autodocstring
 redhat.vscode-yaml
+ReneSaarsoo.sql-formatter-vsc
 sysoev.vscode-open-in-github
 vscodevim.vim
 xdebug.php-debug
