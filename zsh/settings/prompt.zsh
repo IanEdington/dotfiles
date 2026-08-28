@@ -28,30 +28,37 @@ function prompt_paradox_print_elapsed_time() {
   print -P " %F{blue}finished at: %F{green}%D{%H:%M:%S}%F{blue}%f"
 }
 
-# Paradox's host segment (user@host) is hardcoded to a black background --
-# see the locally installed .zprezto/modules/prompt/functions/prompt_paradox_setup
-# (NOT prezto's current GitHub master, which has since added an escape-eval
-# wrapper this install predates -- copy from the installed file, not upstream,
-# if this ever needs re-syncing) -- so it never adapted to the system
-# light/dark switch in theme-sync.zsh (the path/git segments use black text
-# on blue/green and are legible either way by design; this one isn't).
-# $DOTFILES_THEME_MODE is set there.
+# Paradox's segments are hardcoded solid colors -- see the locally installed
+# .zprezto/modules/prompt/functions/prompt_paradox_setup (NOT prezto's
+# current GitHub master, which has since added an escape-eval wrapper this
+# install predates -- copy from the installed file, not upstream, if this
+# ever needs re-syncing) -- so none of them adapted to the system light/dark
+# switch in theme-sync.zsh. In light mode, flip every segment to a white
+# background with its signature hue as the text color instead, rather than
+# a solid colored chip. $DOTFILES_THEME_MODE is set there.
 function prompt_paradox_build_prompt {
   local host_bg=black host_fg=default
+  local path_bg=blue path_fg=black
+  local git_bg=green git_fg=black
+  local python_bg=white python_fg=black
   if [[ "$DOTFILES_THEME_MODE" == "light" ]]; then
     host_bg=white
     host_fg=black
+    path_bg=white
+    path_fg=blue
+    git_bg=white
+    git_fg=green
   fi
 
   prompt_paradox_start_segment $host_bg $host_fg '%(?::%F{red}✘ )%(!:%F{yellow}⚡ :)%(1j:%F{cyan}⚙ :)%F{blue}%n%F{red}@%F{green}%m%f'
-  prompt_paradox_start_segment blue black '$_prompt_paradox_pwd'
+  prompt_paradox_start_segment $path_bg $path_fg '$_prompt_paradox_pwd'
 
   if [[ -n "$git_info" ]]; then
-    prompt_paradox_start_segment green black '${(e)git_info[ref]}${(e)git_info[status]}'
+    prompt_paradox_start_segment $git_bg $git_fg '${(e)git_info[ref]}${(e)git_info[status]}'
   fi
 
   if [[ -n "$python_info" ]]; then
-    prompt_paradox_start_segment white black '${(e)python_info[virtualenv]}'
+    prompt_paradox_start_segment $python_bg $python_fg '${(e)python_info[virtualenv]}'
   fi
 
   prompt_paradox_end_segment
