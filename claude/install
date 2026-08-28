@@ -15,4 +15,3 @@ if command_exists claude && ! claude mcp get playwright &> /dev/null; then
     claude mcp add --scope user playwright -- npx -y @playwright/mcp@latest
 fi
 
-
