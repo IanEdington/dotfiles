@@ -40,9 +40,9 @@ function prompt_paradox_print_elapsed_time() {
 function prompt_paradox_dev_info {
   typeset -gA node_info ddev_info
   node_info=() ddev_info=()
+  local line pm pkg
 
   if [[ -f package.json ]]; then
-    local line pm pkg
     if [[ -f pnpm-lock.yaml ]]; then pm=pnpm
     elif [[ -f yarn.lock ]]; then pm=yarn
     elif [[ -f bun.lockb || -f bun.lock ]]; then pm=bun
@@ -60,7 +60,6 @@ function prompt_paradox_dev_info {
   fi
 
   if [[ -f .ddev/config.yaml ]]; then
-    local line
     ddev_info[name]=${PWD:t}
     for line in "${(@f)$(<.ddev/config.yaml)}"; do
       case $line in
@@ -75,6 +74,12 @@ function prompt_paradox_dev_info {
     fi
   fi
 }
+# Populate in precmd (like prezto's git-info/python-info) so the arrays live in
+# the interactive shell. build_prompt runs inside $(...) command substitution
+# (a subshell) at prompt-render time, so anything it sets would be discarded
+# before the outer ${(e)...} evaluates the segments in the parent.
+autoload -Uz add-zsh-hook
+add-zsh-hook precmd prompt_paradox_dev_info
 
 # Paradox's segments are hardcoded solid colors -- see the locally installed
 # .zprezto/modules/prompt/functions/prompt_paradox_setup (NOT prezto's
@@ -88,8 +93,6 @@ function prompt_paradox_dev_info {
 # collapse into one flat, washed-out bar instead of distinct chips).
 # $DOTFILES_THEME_MODE is set there.
 function prompt_paradox_build_prompt {
-  prompt_paradox_dev_info
-
   local host_bg=black host_fg=default
   local path_bg=blue path_fg=black
   local git_bg=green git_fg=black
