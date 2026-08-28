@@ -10,7 +10,6 @@ formulahendry.code-runner
 github.remotehub
 mechatroner.rainbow-csv
 mermaidchart.vscode-mermaid-chart
-ms-azuretools.vscode-containers
 ms-kubernetes-tools.vscode-kubernetes-tools
 ms-python.debugpy
 ms-python.python
