@@ -13,8 +13,8 @@ it2setcolor="$HOME/.iterm2/it2setcolor"
 [[ -x "$it2setcolor" ]] || exit 0
 
 case "$mode" in
-    light) preset="Solarized Light" ;;
-    dark)  preset="Solarized Dark Higher Contrast" ;;
+    light) preset="Tango Light" ;;
+    dark)  preset="Tango Dark" ;;
     *) echo "theme-apply-terminal-colors: unrecognized mode '$mode'" >&2; exit 1 ;;
 esac
 
