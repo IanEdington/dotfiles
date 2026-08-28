@@ -1,5 +1,11 @@
 # things I want to do
 
+- install: consolidate the scattered `echo_yellow "-[ ] ..."` checklist items
+  (macOS/install, zsh/install, macOS/terminfo/install) into a single actionable
+  checklist printed at the bottom of the run, instead of interleaved mid-output
+- install: root `install` runs `python/install` twice (once "early" before
+  Brewfile, again via the per-directory loop) and `packages/install` hits
+  `externally-managed-environment` from pip; harmless today but worth a look
 - quickadd to workflowy
 - auto start `start-keybaord`
 - i3wm: open notificaions when clicked

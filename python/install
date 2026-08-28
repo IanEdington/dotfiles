@@ -4,9 +4,12 @@ set -euo pipefail
 IFS=$'\n\t'
 # Bash Strict Mode
 
-dotfiles::symlink_files ~/.dotfiles/python/condarc ~/.condarc
+# Root install runs this before `brew bundle`, so python/Brewfile's `uv` isn't
+# on PATH yet on a fresh machine; the official installer works on both macOS
+# and Linux and is a no-op once brew's uv takes over.
+if ! command_exists uv; then
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+    export PATH="$HOME/.local/bin:$PATH"
+fi
 
-mkdir $HOME/.local/python &> /dev/null || true
-python3 -m venv ~/.local/python/user_env
-source ~/.local/python/user_env/bin/activate
-
+uv python install 3.13
