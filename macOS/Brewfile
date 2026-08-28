@@ -1,4 +1,5 @@
 cask "caffeine"
+cask "darkmodebuddy"
 cask "grandperspective"
 cask "itsycal"
 cask "karabiner-elements"
