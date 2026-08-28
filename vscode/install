@@ -20,7 +20,11 @@ fi
 
 if command_exists code; then
     while IFS= read -r extension; do
-        code --install-extension "$extension"
+        # `code --install-extension` narrates every already-installed extension by
+        # default; only surface it when the install actually fails.
+        if ! code --install-extension "$extension" &> /dev/null; then
+            echo_yellow "-[ ] VSCODE: failed to install extension '$extension'"
+        fi
     done < "$HOME/.dotfiles/vscode/extensions.txt"
 else
     echo_yellow "-[ ] VSCODE: 'code' not on PATH, skipping extension install"
