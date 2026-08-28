@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# Repaints the current terminal session from the iTerm2 color preset
+# matching light/dark mode. `it2setcolor` writes escape codes to whichever
+# tty invokes it, so this can't be pushed centrally from the dark-notify
+# LaunchAgent (bin/theme-sync) -- every already-open terminal-attached
+# process has to call it itself. zsh's precmd hook does this at the shell
+# prompt; vim/settings/appearance.vim calls it directly too, since zsh's
+# precmd never fires while vim owns the foreground.
+set -euo pipefail
+
+mode="${1:?usage: theme-apply-terminal-colors <light|dark>}"
+it2setcolor="$HOME/.iterm2/it2setcolor"
+[[ -x "$it2setcolor" ]] || exit 0
+
+case "$mode" in
+    light) preset="Tango Light" ;;
+    dark)  preset="Tango Dark" ;;
+    *) echo "theme-apply-terminal-colors: unrecognized mode '$mode'" >&2; exit 1 ;;
+esac
+
+"$it2setcolor" preset "$preset"

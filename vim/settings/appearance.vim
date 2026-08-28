@@ -37,21 +37,40 @@ set statusline+=\ b%n " Current buffer
 set statusline+=\ %4c/%l/%-4L " Current and Total Lines
 set statusline+=\ %P " Percent Through Document
 
-" Toggle ColorScheme
-" let s:colorschemetoggle=0
-" function! s:fold_column_toggle()
-"     if s:colorschemetoggle
-"         let s:colorschemetoggle=0
-"         set background=light
-"         colorscheme solarized8_high
-"     else
-"         let s:colorschemetoggle=1
-"         set background=dark
-"         colorscheme solarized8_flat
-"     endif
-" endfunction
+" Follow the system light/dark setting
+"
+" macOS/theme/ runs `dark-notify` as a LaunchAgent that writes the current
+" mode to this state file (via bin/theme-sync) whenever Appearance changes.
+" Vim only polls it -- on startup and on FocusGained, the moment you come
+" back to it -- so an already-open buffer picks up a change without needing
+" a restart. Not CursorHold: vim-gitgutter sets updatetime=250, so that
+" would poll every 250ms while idle instead of once when it actually matters.
+"
+" No colorscheme plugin is installed; the default colorscheme deliberately
+" leaves Normal's background unset, so it inherits whatever the terminal is
+" showing. That background is repainted via iTerm2's it2setcolor, normally
+" run by zsh's precmd hook (zsh/settings/theme-sync.zsh) -- but precmd
+" doesn't fire while vim owns the foreground, so vim calls the same script
+" itself here to cover that gap.
+let s:cache_home = empty($XDG_CACHE_HOME) ? expand('~/.cache') : $XDG_CACHE_HOME
+let s:theme_state_file = s:cache_home . '/dotfiles/theme-mode'
+let s:last_theme_mode = ''
 
-" silent call s:fold_column_toggle()
+function! s:SyncBackgroundFromSystem() abort
+    if !filereadable(s:theme_state_file)
+        return
+    endif
+    let l:mode = trim(get(readfile(s:theme_state_file, '', 1), 0, ''))
+    if (l:mode ==# 'dark' || l:mode ==# 'light') && l:mode !=# s:last_theme_mode
+        let s:last_theme_mode = l:mode
+        let &background = l:mode
+        call system('~/.dotfiles/bin/theme-apply-terminal-colors ' . shellescape(l:mode))
+    endif
+endfunction
 
-" nnoremap <Plug>FoldColumnToggle :call <SID>fold_column_toggle()<CR>
-" nmap cok <Plug>FoldColumnToggle
+augroup dotfiles_theme_sync
+    autocmd!
+    autocmd VimEnter,FocusGained * call s:SyncBackgroundFromSystem()
+augroup END
+
+call s:SyncBackgroundFromSystem()
