@@ -6,6 +6,7 @@
   },
   "includeCoAuthoredBy": false,
   "permissions": {
+    "defaultMode": "auto",
     "deny": [
       "Bash(git push origin main:*)",
       "Bash(git push origin master:*)",
