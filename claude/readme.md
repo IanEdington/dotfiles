@@ -95,7 +95,10 @@ by Claude Code and not safe to edit directly. Go through `claude mcp add` /
   authoritative. The warning goes out on two channels because `systemMessage`
   alone renders as a collapsed "Claude Code notices" row in the web UI, which
   is easy to miss: `additionalContext` asks Claude to lead its next reply with
-  the same line, putting it in the main message flow.
+  the same line, putting it in the main message flow. The other two hook
+  output channels were tested in a cloud session and rejected: `exit 2` is
+  unmissable but erases the prompt it interrupts, and `terminalSequence` is
+  discarded entirely, escape codes and plain text alike.
 - Cloud commits are signed with an Anthropic SSH key not registered to this
   account, so they show as **Unverified** on GitHub. Dropping the
   `SessionStart` hook trades the identity back for a verified badge.
