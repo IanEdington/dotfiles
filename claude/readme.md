@@ -60,6 +60,7 @@ use the ref in the URL; cloud-setup.sh downloads the tarball at
 | Keybindings | `keybindings.json` | |
 | MCP servers | `~/.claude.json` via `claude mcp add` (macOS), per-repo `.mcp.json` (cloud) | settings.json does not load MCP servers |
 | Vim mode | `editorMode` in `settings.json` | |
+| Context usage warnings | `UserPromptSubmit` hook in `settings.json` | Cloud sessions have no status line |
 
 `~/.claude.json` also holds OAuth state and per-project trust; it is managed
 by Claude Code and not safe to edit directly. Go through `claude mcp add` /
@@ -83,6 +84,21 @@ by Claude Code and not safe to edit directly. Go through `claude mcp add` /
   prefers over `~/.config/git/config` and would shadow the symlinked config.
   It has to be a hook rather than a line in `cloud-setup.sh`: the harness
   writes `~/.gitconfig` after the setup script finishes.
+- The `UserPromptSubmit` hook runs `hooks/context-usage-warning.py`, which
+  warns once at 50% and once at 80% of the context window. Cloud sessions
+  render no status line, so this is the only ambient signal that context is
+  filling. Hook input carries no token counts, so the script derives usage
+  from the last assistant message in the transcript (input + cache read +
+  cache creation) and divides by a per-model window, overridable with
+  `CLAUDE_CODE_AUTO_COMPACT_WINDOW`. A model missing from the map falls back
+  to 200k and says so in the warning, so an early alert explains itself rather
+  than looking broken. The warning goes out on two channels because `systemMessage`
+  alone renders as a collapsed "Claude Code notices" row in the web UI, which
+  is easy to miss: `additionalContext` asks Claude to lead its next reply with
+  the same line, putting it in the main message flow. The other two hook
+  output channels were tested in a cloud session and rejected: `exit 2` is
+  unmissable but erases the prompt it interrupts, and `terminalSequence` is
+  discarded entirely, escape codes and plain text alike.
 - Cloud commits are signed with an Anthropic SSH key not registered to this
   account, so they show as **Unverified** on GitHub. Dropping the
   `SessionStart` hook trades the identity back for a verified badge.
