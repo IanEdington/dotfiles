@@ -90,9 +90,9 @@ by Claude Code and not safe to edit directly. Go through `claude mcp add` /
   filling. Hook input carries no token counts, so the script derives usage
   from the last assistant message in the transcript (input + cache read +
   cache creation) and divides by a per-model window, overridable with
-  `CLAUDE_CODE_AUTO_COMPACT_WINDOW`. That reads slightly low, because the
-  transcript lags the live conversation by up to a turn; `/context` is
-  authoritative. The warning goes out on two channels because `systemMessage`
+  `CLAUDE_CODE_AUTO_COMPACT_WINDOW`. A model missing from the map falls back
+  to 200k and says so in the warning, so an early alert explains itself rather
+  than looking broken. The warning goes out on two channels because `systemMessage`
   alone renders as a collapsed "Claude Code notices" row in the web UI, which
   is easy to miss: `additionalContext` asks Claude to lead its next reply with
   the same line, putting it in the main message flow. The other two hook
