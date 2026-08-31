@@ -60,6 +60,7 @@ use the ref in the URL; cloud-setup.sh downloads the tarball at
 | Keybindings | `keybindings.json` | |
 | MCP servers | `~/.claude.json` via `claude mcp add` (macOS), per-repo `.mcp.json` (cloud) | settings.json does not load MCP servers |
 | Vim mode | `editorMode` in `settings.json` | |
+| Context usage warnings | `UserPromptSubmit` hook in `settings.json` | Cloud sessions have no status line |
 
 `~/.claude.json` also holds OAuth state and per-project trust; it is managed
 by Claude Code and not safe to edit directly. Go through `claude mcp add` /
@@ -83,6 +84,16 @@ by Claude Code and not safe to edit directly. Go through `claude mcp add` /
   prefers over `~/.config/git/config` and would shadow the symlinked config.
   It has to be a hook rather than a line in `cloud-setup.sh`: the harness
   writes `~/.gitconfig` after the setup script finishes.
+- The `UserPromptSubmit` hook runs `hooks/context-usage-warning.py`, which
+  warns once at 50% and once at 80% of the context window. Cloud sessions
+  render no status line, so this is the only ambient signal that context is
+  filling. Hook input carries no token counts, so the script derives usage
+  from the last assistant message in the transcript (input + cache read +
+  cache creation) and divides by a per-model window, overridable with
+  `CLAUDE_CODE_AUTO_COMPACT_WINDOW`. That reads slightly low, because the
+  transcript lags the live conversation by up to a turn; `/context` is
+  authoritative. The message reaches the user through `systemMessage`, so it
+  never enters Claude's context.
 - Cloud commits are signed with an Anthropic SSH key not registered to this
   account, so they show as **Unverified** on GitHub. Dropping the
   `SessionStart` hook trades the identity back for a verified badge.
