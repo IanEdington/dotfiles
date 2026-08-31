@@ -92,8 +92,10 @@ by Claude Code and not safe to edit directly. Go through `claude mcp add` /
   cache creation) and divides by a per-model window, overridable with
   `CLAUDE_CODE_AUTO_COMPACT_WINDOW`. That reads slightly low, because the
   transcript lags the live conversation by up to a turn; `/context` is
-  authoritative. The message reaches the user through `systemMessage`, so it
-  never enters Claude's context.
+  authoritative. The warning goes out on two channels because `systemMessage`
+  alone renders as a collapsed "Claude Code notices" row in the web UI, which
+  is easy to miss: `additionalContext` asks Claude to lead its next reply with
+  the same line, putting it in the main message flow.
 - Cloud commits are signed with an Anthropic SSH key not registered to this
   account, so they show as **Unverified** on GitHub. Dropping the
   `SessionStart` hook trades the identity back for a verified badge.

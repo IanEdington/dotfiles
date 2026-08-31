@@ -81,11 +81,21 @@ def main() -> None:
         return
     state.write_text(str(highest))
 
+    headline = (
+        f"Context at ~{percent}% of the window ({tokens // 1000}k / {window // 1000}k)."
+    )
     print(
         json.dumps(
             {
-                "systemMessage": f"Context at ~{percent}% ({tokens // 1000}k / {window // 1000}k). "
-                f"Run /context for the exact figure, or /compact to summarize now."
+                "systemMessage": headline,
+                "hookSpecificOutput": {
+                    "hookEventName": "UserPromptSubmit",
+                    "additionalContext": (
+                        f"Context usage crossed {highest}%. {headline} Open your next reply "
+                        "with this one line verbatim, before anything else, then answer "
+                        f"normally: \"Heads up: {headline} /compact when convenient.\""
+                    ),
+                },
             }
         )
     )
