@@ -83,6 +83,19 @@ two; CLAUDE.md entries are read at every session start, so they must earn
 their tokens. A good filter: would you tell this to a new developer
 joining the project? If not, it does not belong there.
 
+### Memory files and docs
+
+CLAUDE.md holds rules; facts go elsewhere. Before the handoff, walk back
+through what this session learned and update the file that already owns
+each fact: a memory note if the repo has a memory system (follow its
+protocol), the README or design doc if the fact changes how the project
+works, an ADR if a decision was made. Only new or contradicted
+information counts; a doc that still reads true is left alone. Edit the
+existing file rather than adding a new one, and write current truth only
+(no "previously X, now Y"). Apply these edits directly, unlike CLAUDE.md
+proposals, but list every file touched in the wrap-up so the user can
+revert any of them.
+
 ## Step 4: Handoff
 
 Write for a reader with zero context: the next session starts cold, and
