@@ -73,15 +73,22 @@ say that.
 Most sessions produce none, and forcing one dilutes the file it lands in.
 But if during this session the user corrected you, you made the same
 mistake twice, or you burned time discovering something non-obvious about
-the project (a build quirk, a naming convention, a footgun), that is
-exactly what CLAUDE.md is for: it is the only memory that survives.
+the project (a build quirk, a naming convention, a footgun), write it
+down: nothing else survives the session.
 
-Propose, don't apply: give the exact text and the target (project
-`CLAUDE.md` for project facts, `~/.claude/CLAUDE.md` for cross-project
-preferences), and let the user say yes. Keep each proposal to a line or
-two; CLAUDE.md entries are read at every session start, so they must earn
-their tokens. A good filter: would you tell this to a new developer
-joining the project? If not, it does not belong there.
+Scope decides where it goes. `CLAUDE.md` (project file for project-wide,
+`~/.claude/CLAUDE.md` for cross-project) is loaded at every session start,
+so it holds only what every session in that project needs: a line or two
+each, and only if you would tell it to a new developer on day one.
+Anything narrower lives next to what it is about: a lesson about one
+feature or area of the codebase goes in that area's docs, a lesson about
+one kind of document goes in its style guide or template, a fact about a
+person or project goes in its memory note. If the repo has a memory or
+docs skill, follow its write protocol.
+
+Propose `CLAUDE.md` entries rather than applying them: give the exact
+text and the target, and let the user say yes. Apply scoped edits
+directly and list the files touched in the wrap-up.
 
 ## Step 4: Handoff
 
