@@ -70,39 +70,25 @@ say that.
 
 ## Step 3: Lessons worth persisting
 
-Walk back through the session and pick out anything the next session
-would otherwise have to rediscover. Each item goes to exactly one of two
-places, and the two are handled differently.
+Most sessions produce none, and forcing one dilutes the file it lands in.
+But if during this session the user corrected you, you made the same
+mistake twice, or you burned time discovering something non-obvious about
+the project (a build quirk, a naming convention, a footgun), write it
+down: nothing else survives the session.
 
-### Facts: update the file that owns them
+Scope decides where it goes. `CLAUDE.md` (project file for project-wide,
+`~/.claude/CLAUDE.md` for cross-project) is loaded at every session start,
+so it holds only what every session in that project needs: a line or two
+each, and only if you would tell it to a new developer on day one.
+Anything narrower lives next to what it is about: a lesson about one
+feature or area of the codebase goes in that area's docs, a lesson about
+one kind of document goes in its style guide or template, a fact about a
+person or project goes in its memory note. If the repo has a memory or
+docs skill, follow its write protocol.
 
-A fact is something about the project or its people that was learned or
-contradicted this session: how a component actually works, a decision
-that was made, a person's role or preference, a constraint that was not
-written down. Put it in the file that already covers the topic: a memory
-note if the repo has a memory system (follow its protocol), the README
-or design doc when the fact changes how the project is described, an
-ADR when a decision was made. Edit the existing file rather than adding
-a new one, and write current truth only; the history lives in git. A
-doc that still reads true is left alone.
-
-Apply these edits directly. They are ordinary changes to versioned files
-and the user can review them in the diff. List every file touched in the
-wrap-up.
-
-### Rules: propose a CLAUDE.md entry
-
-A rule is an instruction the next session must see before it starts
-working: the user corrected you, you made the same mistake twice, or you
-burned time on a footgun, build quirk, or naming convention that no doc
-would have been consulted for. Target the project `CLAUDE.md` for
-project rules and `~/.claude/CLAUDE.md` for cross-project preferences.
-
-Propose, don't apply: give the exact text and the target, and let the
-user say yes. CLAUDE.md is read at every session start, so each entry
-must earn its tokens. Keep a proposal to a line or two, and if it is a
-fact rather than a rule, send it to a doc instead. Most sessions produce
-no CLAUDE.md proposals, and forcing one dilutes the file.
+Propose `CLAUDE.md` entries rather than applying them: give the exact
+text and the target, and let the user say yes. Apply scoped edits
+directly and list the files touched in the wrap-up.
 
 ## Step 4: Handoff
 
@@ -139,7 +125,7 @@ one line rather than silently dropping it.
 ### Least confident about
 ### What you're probably missing
 ### Workspace state
-### Lessons to persist (files updated, CLAUDE.md proposals, or "none this session")
+### Lessons to persist (or "none this session")
 ### Handoff
 
 ## Scale to the session
