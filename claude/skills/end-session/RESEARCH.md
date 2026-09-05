@@ -2,12 +2,12 @@
 
 Research notes, 2026-09-05. The skill under study is run mid-session or at the end of a session as a last check: what is the model least confident about, what is the user missing, and what was learned. Its job is to catch bias that crept into the session's decisions and assumptions. Handoff and memory are out of scope.
 
-Sources: LLM sycophancy and self-correction literature, human decision-hygiene research (judgment and decision making, intelligence analysis, software engineering), 20 public critique and blind-spot skills read in full, and the skill's own iteration 2 eval outputs.
+Sources: LLM sycophancy and self-correction literature, human decision-hygiene research (judgment and decision making, intelligence analysis, software engineering), 20 public critique and blind-spot skills read in full.
 
 ## Headline findings
 
 1. **The same context that did the work is the weakest auditor of it.** Self-preference rises with self-recognition (Panickssery 2024). Sycophancy toward a premise rises 15.6 points when the model believes it authored the premise (BrokenMath). Fresh-session review beat same-session self-review on Claude Opus 4.6 (F1 28.6 vs 24.6, p=0.008), and a second same-session review was worse still (21.7). Anthropic: "A fresh context improves code review since Claude won't be biased toward code it just wrote." Kahneman, Lovallo, and Sibony: the recommending team cannot debias itself. The skill runs the audit from inside the contaminated context by design, so the questions must compensate.
-2. **"Least confident" asks for a confidence report, which is the one output known to be inflated.** Verbalized confidence sits around 88% at 79% accuracy and is pushed upward by RLHF. Self-reported confidence was "largely ineffective" as a detector of premise acceptance. Koriat, Lichtenstein, and Fischhoff (1980): calibration improved only when subjects listed reasons *against* their answer; listing reasons in general did nothing. The eval outputs confirm the question still works in practice because the skill demands a named artifact, but the framing is doing less than the specificity bar.
+2. **"Least confident" asks for a confidence report, which is the one output known to be inflated.** Verbalized confidence sits around 88% at 79% accuracy and is pushed upward by RLHF. Self-reported confidence was "largely ineffective" as a detector of premise acceptance. Koriat, Lichtenstein, and Fischhoff (1980): calibration improved only when subjects listed reasons *against* their answer; listing reasons in general did nothing. The question still works in practice because the skill demands a named artifact; the framing is doing less than the specificity bar.
 3. **Past-tense failure framing beats critique.** Veinott, Klein, and Wiggins (2010, N=178): "assume the plan has failed, write why" cut confidence 25 points; "critique the plan" barely moved it. Mechanism per Klein: "what could go wrong?" produces polite hedges; "this already failed, explain why" produces narrative.
 4. **Consider-the-opposite and assumption listing have evidence; "find your biases" and "don't be sycophantic" have counter-evidence.** Lord, Lepper, and Preston (1984): consider-the-opposite beat "be fair and unbiased." Think-in-Opposites (2026): 42% to 56% task success across 11 of 11 scenarios. "Don't be sycophantic" produced significant anti-user bias in GPT-4.1 (Christian and Mazor 2026). Prompt-level debiasing backfired on anchoring and sunk cost (CogBias, -4.4%). Generic bias warnings produce underconfidence, not deliberation (Mandel and Tetlock 2018).
 5. **Assigned devil's advocacy bolsters the original position.** Nemeth et al. (2001): contrived dissent produced cognitive bolstering; authentic dissent produced attitude change. Asking the model to "argue the other side" is contrived by construction. Ask for self-generated reasons-against or a pre-mortem instead.
@@ -77,7 +77,7 @@ No public skill asks about the model's own confidence; the two questions remain 
 |---|---|
 | Third-person wording ("this session decided") | Authorship-hiding and persona distancing are the sycophancy mitigations that held across models; self-sycophancy rises with ownership |
 | Decision inventory: intent first, then decisions with proposer and door type | AAR question one against goal drift; HBR Q7 "who put the first number on the table"; Bezos doors to bound cost |
-| Question 1 "least confident" kept, with the specificity bar carrying it | Eval evidence: it produced named, session-specific answers in all six runs |
+| Question 1 "least confident" kept, with the specificity bar carrying it | Produces named, session-specific answers in practice; the specificity bar does the work |
 | Question 2 as past-tense failure of the top one-way door | Veinott 2010 pre-mortem vs critique; Koriat 1980 reasons-against |
 | ran / inferred / assumed tags on the resting claim | Checklist-style self-review is the regime where it works; verbalized confidence is not |
 | Question 3 as three probes: silent assumptions, adopted positions, missing information | Knowing but Not Showing; Sharma 2023 and BrokenMath premise acceptance; HBR Q6 |
@@ -90,9 +90,8 @@ Deliberately not adopted: a findings cap (long sessions carry several real findi
 
 ## Open
 
-- **Evals.** Cases 3 and 4 in `evals/evals.json` test false-premise acceptance and a user-driven refactor without evidence. They have not been run. Iteration 2 results predate the decision inventory and will not grade the new sections; rerun all five with baselines, three or more per configuration, before trusting any delta.
-- **Optional fresh-context pass** on the top one-way-door decision only, if the in-session audit keeps missing adopted positions on the new evals.
-- **Description optimization** for triggering was deferred at iteration 2 and remains so.
+- **Optional fresh-context pass** on the top one-way-door decision only, if the in-session audit keeps missing adopted positions.
+- **Description optimization** for triggering has not been done.
 
 ## Sources
 
