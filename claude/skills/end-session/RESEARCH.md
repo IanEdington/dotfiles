@@ -69,54 +69,29 @@ Twenty read in full. Recurring mechanisms:
 
 No public skill asks about the model's own confidence; the two questions remain unique. No public skill audits whether a prior user decision in the session was accepted without evidence, which is the sycophancy case the papers measure.
 
-## Gap analysis against the current skill
+## How the skill applies this
 
-`SKILL.md` at 137 lines, iteration 2. Eval evidence: all three iteration 2 "least confident" answers are code-correctness findings with named artifacts; none examines a decision or premise. One blind-spot answer pushes back on a user choice ("no tests"). The eval set exercises the skill as a code audit, not a decision audit.
+`SKILL.md` at 195 lines. Each mechanism and the evidence it rests on:
 
-Already strong:
+| Skill element | Evidence |
+|---|---|
+| Third-person wording ("this session decided") | Authorship-hiding and persona distancing are the sycophancy mitigations that held across models; self-sycophancy rises with ownership |
+| Decision inventory: intent first, then decisions with proposer and door type | AAR question one against goal drift; HBR Q7 "who put the first number on the table"; Bezos doors to bound cost |
+| Question 1 as past-tense failure of the top one-way door | Veinott 2010 pre-mortem vs critique; Koriat 1980 reasons-against |
+| ran / inferred / assumed tags on the resting claim | Checklist-style self-review is the regime where it works; verbalized confidence is not |
+| Question 2 as three probes: silent assumptions, adopted positions, missing information | Knowing but Not Showing; Sharma 2023 and BrokenMath premise acceptance; HBR Q6 |
+| Inheritance line, conditional on a one-way door | Big-Muddy escalation is ownership-driven; HBR Q9 reframe |
+| Cap of three findings, artifact and failing case required, "nothing material" permitted | Anthropic reviewer warning; 87.9% false rejection under detailed prompts; public skills with caps vs floors |
+| Lesson form "next time X, do Y instead of Z, because [trigger]" | NATO and Milton lesson definitions; memory confabulation without programmatic triggers |
+| Read the target before proposing a lesson | Contradictory rules picked arbitrarily; duplicate-skipping in auto memory |
 
-- Specificity bar with a failed-answer test ("could be pasted into another session's wrap-up"). This is what makes Question 1 work despite its framing.
-- Escape valve on Question 1 ("name the strongest remaining assumption").
-- Lessons gated by trigger class (user corrected you, same mistake twice, non-obvious discovery) and "most sessions produce none."
-- Scale-to-session and "never fabricate activity."
+Deliberately not adopted: a fresh-context subagent (evidence is one model and four F1 points, and a subagent cannot see the moment a premise was accepted), an assigned devil's advocate (bolsters the original position), any "don't be sycophantic" instruction (backfires), and minimum-findings floors.
 
-Gaps, ranked by expected payoff:
+## Open
 
-1. **No decision inventory.** The audit has nothing to bite on because the session's decisions and premises are never listed. Add a step before the questions: restate what the session was supposed to produce (AAR Q1), then list the decisions made, marking each one-way or two-way and naming who proposed it first (HBR Q7). Everything downstream targets the one-way doors.
-2. **Question 1 framing.** Keep the specificity bar and rewrite the ask as reasons-against in past tense: "Assume the main decision this session turns out wrong. Which claim was it hiding behind, and what would have shown it?" Add the ran / inferred / assumed tag on the claims the answer names.
-3. **Question 2 has no target.** "What is the user missing" is open-ended fault-finding. Give it three concrete probes with evidence behind them: silent assumptions ("what did this session assume rather than ask, and which are load-bearing"), consider-the-opposite on the top decision ("if the user had proposed the opposite, what would this session have done"), and HBR Q6 ("if this decision were remade in a month, what information would you want, and can it be fetched now"). Permit "nothing material; the closest is X."
-4. **No sycophancy probe.** Nothing checks whether a user premise was accepted because the user stated it. Add: "Which position did this session adopt because the user held it, and would it survive if the user had not?" Third-person framing throughout ("this session," not "you").
-5. **No sunk-cost probe.** "A new engineer inherits this branch with no history. Do they keep the approach?"
-6. **No anti-fabrication rule.** Each finding needs the concrete failing case and a note on what mitigation was checked, or it is dropped. Cap findings; never require a minimum.
-7. **Learnings are observations.** Require a behaviour change and the next occasion it applies ("next time X, do Y instead of Z"), and cite the trigger. Otherwise record it as an observation or drop it.
-8. **Same-context audit with no compensation.** The evidence for a fresh-context reviewer is consistent but modest (four F1 points, one model). A subagent cannot see the moment a premise was accepted, which is the thing this skill is for. Keep the audit in-session, but have it read the original request and the diff as artifacts rather than from recall, and consider an optional fresh-context pass on the top one-way-door decision only.
-9. **Evals do not test bias detection.** Add cases where the user states a wrong premise, changes their mind under no new evidence, or pushes an approach past the point the code supports it. Assert that the audit names the premise, not just a code defect. Run three or more per configuration; current variance is unmeasured.
-
-## Candidate question set
-
-A draft, not a decision. Numbers map to the gaps above.
-
-```
-Intent: what was this session supposed to produce? (one line, from the original request)
-Decisions: list each, mark one-way or two-way, name who proposed it first.
-
-For each one-way decision:
-  Assume it turns out wrong. Why? Which claim was it resting on, and was that claim
-  run, inferred, or assumed?
-  If the user had proposed the opposite, what would this session have done?
-  What observable result would change the session's mind? (none = finding)
-
-Silent assumptions: what did this session assume rather than ask? Mark load-bearing ones.
-Adopted positions: which did this session hold because the user held it?
-Inheritance: a new engineer picks up this branch cold. Do they keep the approach?
-Missing information: if this were decided again in a month, what would you want to know,
-and can it be fetched now?
-
-Rules: name the artifact and the failing case, or say "none, closest is X."
-Cap at the top three findings. Never pad.
-
-Learnings: only entries of the form "next time X, do Y instead of Z", with the trigger cited.
-```
+- **Evals.** Cases 3 and 4 in `evals/evals.json` test false-premise acceptance and a user-driven refactor without evidence. They have not been run. Iteration 2 results predate the decision inventory and will not grade the new sections; rerun all five with baselines, three or more per configuration, before trusting any delta.
+- **Optional fresh-context pass** on the top one-way-door decision only, if the in-session audit keeps missing adopted positions on the new evals.
+- **Description optimization** for triggering was deferred at iteration 2 and remains so.
 
 ## Sources
 
