@@ -77,15 +77,16 @@ No public skill asks about the model's own confidence; the two questions remain 
 |---|---|
 | Third-person wording ("this session decided") | Authorship-hiding and persona distancing are the sycophancy mitigations that held across models; self-sycophancy rises with ownership |
 | Decision inventory: intent first, then decisions with proposer and door type | AAR question one against goal drift; HBR Q7 "who put the first number on the table"; Bezos doors to bound cost |
-| Question 1 as past-tense failure of the top one-way door | Veinott 2010 pre-mortem vs critique; Koriat 1980 reasons-against |
+| Question 1 "least confident" kept, with the specificity bar carrying it | Eval evidence: it produced named, session-specific answers in all six runs |
+| Question 2 as past-tense failure of the top one-way door | Veinott 2010 pre-mortem vs critique; Koriat 1980 reasons-against |
 | ran / inferred / assumed tags on the resting claim | Checklist-style self-review is the regime where it works; verbalized confidence is not |
-| Question 2 as three probes: silent assumptions, adopted positions, missing information | Knowing but Not Showing; Sharma 2023 and BrokenMath premise acceptance; HBR Q6 |
+| Question 3 as three probes: silent assumptions, adopted positions, missing information | Knowing but Not Showing; Sharma 2023 and BrokenMath premise acceptance; HBR Q6 |
 | Inheritance line, conditional on a one-way door | Big-Muddy escalation is ownership-driven; HBR Q9 reframe |
-| Cap of three findings, artifact and failing case required, "nothing material" permitted | Anthropic reviewer warning; 87.9% false rejection under detailed prompts; public skills with caps vs floors |
+| No cap and no floor; artifact and failing case required per finding, "nothing material" permitted | Anthropic reviewer warning; 87.9% false rejection under detailed prompts; the specificity bar, not a count, is what public skills use against padding |
 | Lesson form "next time X, do Y instead of Z, because [trigger]" | NATO and Milton lesson definitions; memory confabulation without programmatic triggers |
 | Read the target before proposing a lesson | Contradictory rules picked arbitrarily; duplicate-skipping in auto memory |
 
-Deliberately not adopted: a fresh-context subagent (evidence is one model and four F1 points, and a subagent cannot see the moment a premise was accepted), an assigned devil's advocate (bolsters the original position), any "don't be sycophantic" instruction (backfires), and minimum-findings floors.
+Deliberately not adopted: a findings cap (long sessions carry several real findings, and the specificity bar does the filtering), a fresh-context subagent (evidence is one model and four F1 points, and a subagent cannot see the moment a premise was accepted), an assigned devil's advocate (bolsters the original position), any "don't be sycophantic" instruction (backfires), and a minimum-findings floor.
 
 ## Open
 

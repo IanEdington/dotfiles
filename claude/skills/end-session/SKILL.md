@@ -58,16 +58,28 @@ Keep it to the decisions that mattered. A ten-minute session may have one.
 The one-way doors get the full audit below; two-way doors get a line at
 most.
 
-## Step 3: The two questions
+## Step 3: The three questions
 
-Answer both, in the report, every time. They are the point of this skill:
+Answer all three, in the report, every time. They are the point of this skill:
 the user is asking them so they don't have to remember to. What makes them
 work is honesty under specificity, so hold your answers to this bar: an
 answer that could be pasted into a different session's wrap-up is a failed
 answer. Name the file, function, decision, or claim from this session that
 it is about.
 
-**1. Assume the main decision this session made turns out to be wrong.
+**1. What is this session least confident about in what it just did?**
+
+There is always an answer. Judgment calls were made, verifications
+skipped, and patterns matched from training data at some point in this
+session; name the ones most likely to bite. Good answers sound like
+"`top_errors` was never run against a log with unicode in the messages,
+and the regex may not match those lines" or "the claim that the hook
+fires before compaction was inferred from the docs' ordering rather than
+tested". Weak answers sound like "the code could use more tests". If
+everything was genuinely verified, say what was verified and name the
+strongest remaining assumption instead.
+
+**2. Assume the main decision this session made turns out to be wrong.
 Why?**
 
 Pick the one-way door that would cost most to reverse. Write the failure
@@ -79,18 +91,17 @@ of:
 - **inferred**: derived from reading code or docs, never executed.
 - **assumed**: never checked, taken as given.
 
-Good answers sound like "this session chose to key `top_errors` on the
+A good answer sounds like "this session chose to key `top_errors` on the
 raw message string; that rests on the assumption that messages are stable,
-which was never checked against a real log" or "the claim that the hook
-fires before compaction was inferred from the docs' ordering, not tested".
-Weak answers sound like "the code could use more tests". If every claim
-was run, say what was run and name the strongest inferred or assumed
-claim instead.
+which was never checked against a real log". If every claim was run, say
+what was run and name the strongest inferred or assumed claim instead.
+Question 1 is about the work; this one is about the choice. If they
+collapse into the same answer, say so once rather than twice.
 
-**2. What is the user probably missing?**
+**3. What is the user probably missing?**
 
-Check three places. Report the worst finding, not all three. "Nothing
-material; the closest is X" is a valid answer and better than a padded
+Check three places and report every real finding. "Nothing material; the
+closest is X" is a valid answer for any of them and better than a padded
 one.
 
 - **Silent assumptions.** What did this session assume rather than ask?
@@ -108,12 +119,13 @@ one.
 If a one-way door was marked in Step 2, add one line: a new engineer
 inherits this branch with no history. Do they keep the approach?
 
-**Findings discipline.** At most three findings across both questions.
-Every finding names the artifact and the concrete failing case, or it is
-dropped. Say what was checked and ruled out where that changes what the
-user does next. Never invent a finding to fill a section; a reviewer told
-to find gaps will find some whether or not they exist, and the user
-cannot tell the real ones from the padding.
+**Findings discipline.** No cap: a long session often has several
+findings worth reporting, and each earns its place by naming the artifact
+and the concrete failing case. A finding that cannot do that is dropped.
+Order by cost if ignored. Say what was checked and ruled out where that
+changes what the user does next. Never invent a finding to fill a section;
+a reviewer told to find gaps will find some whether or not they exist, and
+the user cannot tell the real ones from the padding.
 
 ## Step 4: Lessons worth persisting
 
@@ -180,6 +192,7 @@ one line rather than silently dropping it.
 ## Session wrap-up
 ### What happened
 ### Decisions
+### Least confident about
 ### If the main decision is wrong
 ### What you're probably missing
 ### Workspace state
@@ -190,6 +203,6 @@ one line rather than silently dropping it.
 
 A ten-minute question-answering session gets a short wrap-up: skip the git
 theatre if nothing was touched, and the decision inventory may be a single
-line, but never skip the two questions; analysis has assumptions too. Never
+line, but never skip the three questions; analysis has assumptions too. Never
 fabricate activity to fill the template. A long multi-repo session gets the
 full treatment, and the state check matters more than the prose.
