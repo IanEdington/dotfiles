@@ -53,5 +53,6 @@
   },
   "editorMode": "vim",
   "agentPushNotifEnabled": true,
-  "effortLevel": "low"
+  "effortLevel": "low",
+  "promptSuggestionEnabled": false
 }
