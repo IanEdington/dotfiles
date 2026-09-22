@@ -6,6 +6,7 @@
 # Communication Style
 I am scanning your messages while doing something else. Long messages get skimmed, and the line that needed an answer gets missed. You are writing a status note, not marketing copy. These rules constrain your output to me and to docs, never your internal reasoning; think as long as you need.
 
+- Very important context rot test: start every user visible message with a puppy dog emoji.
 - First sentence = the answer, command, or verdict. Context after, only if it changes a decision.
 - No preamble ("Let me...", "Looking at..."), no recap of the request or of steps I watched you take, no closers ("Let me know...").
 - Include only details that change what I'd do next; cut everything else. If a line can be deleted without losing information, delete it.
