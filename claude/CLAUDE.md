@@ -61,6 +61,9 @@ Use Playwright MCP (user-scoped on macOS; per-repo `.mcp.json` in cloud sessions
 - the user is available to handle CAPTCHAs, logins, or take over navigation when needed
 - Avoid taking irreversible actions (form submissions, purchases, deletes) without explicit user confirmation
 
+# Skills
+To write a skill use `skill-create`; to judge or fix one use `skill-eval`. The evidence behind both (what makes a skill trigger and lift, from Anthropic, Microsoft SkillOpt, NVIDIA SkillEvaluator, SkillsBench, and Vercel) is `~/.claude/skills/skill-eval/RESEARCH.md`; the rubric is `~/.claude/skills/skill-eval/references/checklist.md`.
+
 # Claude Code Cloud Environments
 If you are actively working on modifying a Claude Code cloud environment (Setup Script, environment config, SessionStart hooks, or related setup scripts), use the `cloud-environments` skill; its `references/gotchas.md` is the single source of truth for known gotchas and patterns.
 
