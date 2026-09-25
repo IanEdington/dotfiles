@@ -9,6 +9,9 @@ permissions:
   contents: read
 jobs:
   check:
+    # Branch protection matches required checks by check-run name, which
+    # defaults to the job id; `check` collides with other workflows' jobs.
+    name: Doc Sync
     if: "!contains(github.event.pull_request.labels.*.name, 'docs-not-needed')"
     runs-on: ubuntu-latest
     steps:
