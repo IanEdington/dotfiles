@@ -7,6 +7,20 @@ as `doc-memory-version` in a repo's `docs/README.md` frontmatter; the
 oldest first. Every change to `install-doc-memory/files/` must append an
 entry here and bump the version in `files/docs-README.md`.
 
+## v5 (2026-09-25): noglob in the sync check, named check run
+
+- Files: `files/scripts/check-doc-sync.sh`,
+  `files/workflows/doc-sync-check.yml`.
+- `check-doc-sync.sh` runs with `set -f`, so doc-map globs are matched as
+  case patterns. Without it, a glob matching files in the working tree was
+  replaced by those paths, so changes to other files (new files, deeper
+  nesting) did not arm the rule.
+- The Doc Sync job sets `name: Doc Sync`, so its check run is named
+  `Doc Sync` rather than the job id `check`.
+- Migration: refresh both files from the bundle. If branch protection
+  requires the old `check` run from this workflow, replace it with
+  `Doc Sync`.
+
 ## v4 (2026-07-18): as-of dating and in-doc contradiction repair
 
 - Files: `files/docs-README.md` (Writing conventions),
