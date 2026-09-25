@@ -11,6 +11,9 @@
 # default branch when known, else origin/main.
 # Run by the Doc Sync workflow on every PR; runnable locally before pushing.
 set -uo pipefail
+# Map globs are case patterns, not paths; without noglob, `for g in $globs`
+# expands them against the working tree and nested files never match.
+set -f
 cd "$(dirname "$0")/.."
 
 default_base=$(git symbolic-ref -q --short refs/remotes/origin/HEAD || echo origin/main)

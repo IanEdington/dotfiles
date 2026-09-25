@@ -137,3 +137,14 @@ Consequences for the mid-session fallback path, which is worth keeping but is ge
 - The sandbox's git remote is a local proxy, not GitHub directly — its cached view of a branch can lag behind reality. If `git log origin/main` looks stale, cross-check with a direct `curl` to `raw.githubusercontent.com/<owner>/<repo>/main/<path>`.
 - Multiple sessions can work the same repo on the same branch name concurrently. Before force-pushing or resetting, `git fetch` and check for unrecognized commits on the remote.
 - Docker's daemon can start fine while image pulls still 403 depending on network policy — don't assume Docker works just because `docker version` succeeds; try an actual `docker pull` first.
+- For a stale proxy view, fetch with an explicit refspec (`git fetch origin main:refs/remotes/origin/main`); a plain `git fetch origin main` can leave `origin/main` unchanged.
+- Cloud sessions can create and push `claude/*` branches but cannot delete any branch; a delete push reports "remote end hung up" or "Everything up-to-date" and the branch stays.
+
+**Multi-session gotchas (sessions that spawn and message other sessions):**
+
+- PR events from comments posted through the Claude GitHub app are dropped for every session, so one session's PR comment never wakes another. Relay them: a GitHub Actions workflow on `issue_comment` that re-posts as `github-actions[bot]` wakes the subscriber in about a second.
+- `subscribe_pr_activity` can fail silently. Treat a subscription as live only after its `subscription.created` event arrives. `unsubscribe_pr_activity` returns no confirmation event.
+- Archiving a session does not stop it: live PR subscriptions keep waking it and it keeps spending. Close the PRs it watches (closing ends every subscription to them), then archive.
+- `get_session` returns `rate_limit_info`; only `rateLimitType: five_hour` describes the five-hour usage limit. Other window types (for example `ccr_promotional`) carry a `resetsAt` months out.
+- `usage.cost_usd` is per session and starts at zero for each new session; a total across spawned sessions exists only by summing them.
+- A session waiting on a permission prompt emits no event and no failure; nobody sees the prompt in an unattended session.
