@@ -7,6 +7,13 @@ as `doc-memory-version` in a repo's `docs/README.md` frontmatter; the
 oldest first. Every change to `install-doc-memory/files/` must append an
 entry here and bump the version in `files/docs-README.md`.
 
+## v5 (2026-09-25): Doc Sync globs and check-run name
+
+- Files: `files/scripts/check-doc-sync.sh`, `files/workflows/doc-sync-check.yml`.
+- `check-doc-sync.sh` sets `set -f`: without it, `for g in $globs` expanded the map's case patterns against the working tree, so nested files never matched their row.
+- The Doc Sync job carries `name: Doc Sync`. Without it the check run takes the job id (`check`), which collides with other workflows' jobs, and branch protection requires checks by check-run name.
+- Migration: add `set -f` (with its comment) after `set -uo pipefail` in the repo's `scripts/check-doc-sync.sh`; add `name: Doc Sync` to the job in `.github/workflows/doc-sync-check.yml`, and require `Doc Sync` by that name in branch protection.
+
 ## v4 (2026-07-18): as-of dating and in-doc contradiction repair
 
 - Files: `files/docs-README.md` (Writing conventions),

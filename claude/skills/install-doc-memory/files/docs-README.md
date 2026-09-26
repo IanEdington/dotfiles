@@ -1,7 +1,7 @@
 ---
 last-reviewed: TODAY
 review-interval-days: 180
-doc-memory-version: 4
+doc-memory-version: 5
 ---
 
 # Docs are shared memory
