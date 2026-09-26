@@ -55,8 +55,9 @@ defects and never examines a choice.
   or a two-way door.
 
 Keep it to the decisions that mattered. A ten-minute session may have one.
-The one-way doors get the full audit below; two-way doors get a line at
-most.
+The one-way doors get the full audit below and are the only rows in the
+report's Decisions table. Two-way doors share one line at most, and none
+when nothing would change if the user skipped it.
 
 ## Step 3: The three questions
 
@@ -96,7 +97,8 @@ raw message string; that rests on the assumption that messages are stable,
 which was never checked against a real log". If every claim was run, say
 what was run and name the strongest inferred or assumed claim instead.
 Question 1 is about the work; this one is about the choice. If they
-collapse into the same answer, say so once rather than twice.
+collapse into the same answer, write "Same as the first item under Least
+confident about" and nothing else; restating it in new words is padding.
 
 **3. What is the user probably missing?**
 
@@ -189,9 +191,26 @@ Use this shape, in this order. Lead with the reflection; it is what the
 user came for. Omit a section only when it is truly empty, and say so in
 one line rather than silently dropping it.
 
+The user skims this report, so the items they must act on come first, and
+the rest is reference:
+
+- **Act on these** holds at most three items, ordered by cost if ignored.
+  Each names the artifact, what is wrong or unverified, and the action (a
+  command, a check, or a decision the user owes). They also appear in their
+  own sections below; here they are one line each.
+- **What happened** is for a reader who was not there. Skip it when the
+  user was present for the whole session; the Handoff already records
+  outcomes for the next session.
+- **Decisions** is a table of one-way doors only (see Step 2).
+- **Workspace state** is one line when nothing needs action ("All repos
+  clean and pushed; PR X open by design"). Itemize only what needs action.
+- A `claude --resume` note states only what will still be true when the
+  user reads it: no token counts, which go stale at the next compaction.
+
 ## Session wrap-up
-### What happened
-### Decisions
+### Act on these
+### What happened (skip if the user was present throughout)
+### Decisions (one-way doors)
 ### Least confident about
 ### If the main decision is wrong
 ### What you're probably missing
