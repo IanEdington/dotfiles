@@ -61,6 +61,10 @@ use the ref in the URL; cloud-setup.sh downloads the tarball at
 | MCP servers | `~/.claude.json` via `claude mcp add` (macOS), per-repo `.mcp.json` (cloud) | settings.json does not load MCP servers |
 | Vim mode | `editorMode` in `settings.json` | |
 | Context usage warnings | `UserPromptSubmit` hook in `settings.json` | Cloud sessions have no status line |
+| `.env` / `.envrc` secrets | `PreToolUse` hook `hooks/block-env-files.sh`; read keys and values through `bin/env-keys` and `bin/env-value` | Keeps secret values out of local transcripts |
+| 1Password SSH agent failures | `PostToolUse` hook `hooks/onepassword-agent-hint.sh` | Stops Claude from disabling commit signing when 1Password is locked |
+| PR check-in timing | `PostToolUse` hook `hooks/pr-followup-hint.sh`, cloud only | Injected after `git push` or `gh pr create`; the desktop app forbids scheduling check-ins |
+| Remote Control | `remoteControlAtStartup` in `settings.json` | PR attribution links the session only when Remote Control is on |
 
 `~/.claude.json` also holds OAuth state and per-project trust; it is managed
 by Claude Code and not safe to edit directly. Go through `claude mcp add` /

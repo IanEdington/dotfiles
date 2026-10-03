@@ -1,0 +1,35 @@
+#!/bin/bash
+# Pipes one value from the nearest .envrc or .env into a command's stdin, so it is never printed.
+# Usage: env-value KEY command [args...]
+#   env-value PLUGIN_WPML_KEY gh secret set LICENSE_KEY --repo gppackagist/sitepress-multilingual-cms
+# Searches the current directory, then its parents. The file is sourced, so values built with
+# $(...) such as `op read` work.
+set -euo pipefail
+
+if [ $# -lt 2 ]; then
+  echo "usage: env-value KEY command [args...]" >&2
+  exit 2
+fi
+key=$1
+shift
+
+dir=$(pwd)
+while :; do
+  for file in "$dir/.envrc" "$dir/.env"; do
+    if [ -f "$file" ] && grep -qE "^[[:space:]]*(export[[:space:]]+)?${key}=" "$file"; then
+      # Sourced leniently: an .envrc may call direnv stdlib functions that don't exist here.
+      value=$(cd "$dir"; set +eu -a; . "$file" >/dev/null 2>&1; printf '%s' "${!key-}")
+      if [ -z "$value" ]; then
+        echo "env-value: $key is defined in $file but evaluated to an empty value" >&2
+        exit 1
+      fi
+      printf '%s' "$value" | "$@"
+      exit
+    fi
+  done
+  [ "$dir" = / ] && break
+  dir=$(dirname "$dir")
+done
+
+echo "env-value: $key not found in any .envrc or .env from $(pwd) upward" >&2
+exit 1

@@ -257,5 +257,14 @@
         "key": "cmd+enter",
         "command": "-planEditor.acceptPlan",
         "when": "markdownPlanEditorActive"
+    },
+    {
+        "key": "cmd+e",
+        "command": "-editor.action.toggleScreenReaderAccessibilityMode",
+        "when": "accessibilityHelpIsShown"
+    },
+    {
+        "key": "cmd+e",
+        "command": "-actions.findWithSelection"
     }
 ]

@@ -15,7 +15,13 @@
       "Bash(git push --force origin main:*)",
       "Bash(git push --force origin master:*)",
       "Bash(git push -f origin main:*)",
-      "Bash(git push -f origin master:*)"
+      "Bash(git push -f origin master:*)",
+      "Bash(git push * main)",
+      "Bash(git push * master)",
+      "Bash(git push *:main)",
+      "Bash(git push *:master)",
+      "Bash(git push * main:*)",
+      "Bash(git push * master:*)"
     ]
   },
   "hooks": {
@@ -25,6 +31,43 @@
           {
             "type": "command",
             "command": "if [ \"$(git config --global user.email)\" = noreply@anthropic.com ]; then git config --global include.path \"$HOME/.claude/git-identity.config\"; fi"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Read|Edit|Write|MultiEdit|NotebookEdit|Grep|Glob|Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/block-env-files.sh"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/onepassword-agent-hint.sh 2>/dev/null || true"
+          },
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/pr-followup-hint.sh 2>/dev/null || true"
+          }
+        ]
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/onepassword-agent-hint.sh 2>/dev/null || true"
           }
         ]
       }
@@ -51,8 +94,10 @@
       }
     ]
   },
+  "effortLevel": "low",
   "editorMode": "vim",
   "agentPushNotifEnabled": true,
-  "effortLevel": "low",
-  "promptSuggestionEnabled": false
+  "model": "sonnet",
+  "promptSuggestionEnabled": false,
+  "remoteControlAtStartup": true
 }

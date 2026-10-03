@@ -1,0 +1,65 @@
+#!/usr/bin/env python3
+"""Sets KEY in the nearest .envrc from stdin, so the value is never printed.
+
+Usage: <command producing the value> | env-set KEY
+Searches the current directory, then its parents, for an existing .envrc. Replaces an existing
+single-line `KEY=` or `export KEY=` entry, otherwise appends one. Refuses multi-line values and
+existing multi-line entries; edit those by hand.
+"""
+import os
+import re
+import shlex
+import sys
+
+
+def nearest_envrc():
+    directory = os.getcwd()
+    while True:
+        path = os.path.join(directory, ".envrc")
+        if os.path.isfile(path):
+            return path
+        if directory == "/":
+            return None
+        directory = os.path.dirname(directory)
+
+
+def main():
+    if len(sys.argv) != 2 or not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", sys.argv[1]):
+        sys.exit("usage: <value on stdin> | env-set KEY")
+    key = sys.argv[1]
+    value = sys.stdin.read().rstrip("\n")
+    if not value:
+        sys.exit(f"env-set: no value on stdin for {key}")
+    if "\n" in value:
+        sys.exit(f"env-set: {key} is multi-line; edit .envrc by hand")
+
+    path = nearest_envrc()
+    if not path:
+        sys.exit(f"env-set: no .envrc from {os.getcwd()} upward")
+
+    with open(path) as file:
+        lines = file.read().splitlines()
+    entry = re.compile(rf"^\s*(export\s+)?{key}=(.*)$")
+    matches = [i for i, line in enumerate(lines) if entry.match(line)]
+    new_line = f"export {key}={shlex.quote(value)}"
+
+    if len(matches) > 1:
+        sys.exit(f"env-set: {key} appears {len(matches)} times in {path}; edit by hand")
+    if matches:
+        rest = entry.match(lines[matches[0]]).group(2)
+        # An opening quote with no closing one means the value continues on later lines.
+        if rest[:1] in "\"'" and not (len(rest) > 1 and rest.rstrip().endswith(rest[0])):
+            sys.exit(f"env-set: existing {key} in {path} spans lines; edit by hand")
+        lines[matches[0]] = new_line
+        action = "updated"
+    else:
+        lines.append(new_line)
+        action = "added"
+
+    with open(path, "w") as file:
+        file.write("\n".join(lines) + "\n")
+    print(f"env-set: {action} {key} in {path} ({len(value)} chars). Run `direnv allow` to reload it.")
+
+
+if __name__ == "__main__":
+    main()

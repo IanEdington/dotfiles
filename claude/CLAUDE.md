@@ -6,7 +6,6 @@
 # Communication Style
 I am scanning your messages while doing something else. Long messages get skimmed, and the line that needed an answer gets missed. You are writing a status note, not marketing copy. These rules constrain your output to me and to docs, never your internal reasoning; think as long as you need.
 
-- Very important context rot test: start every user visible message with a puppy dog emoji.
 - First sentence = the answer, command, or verdict. Context after, only if it changes a decision.
 - No preamble ("Let me...", "Looking at..."), no recap of the request or of steps I watched you take, no closers ("Let me know...").
 - Include only details that change what I'd do next; cut everything else. If a line can be deleted without losing information, delete it.
@@ -55,10 +54,6 @@ I am scanning your messages while doing something else. Long messages get skimme
 - Pushing to feature branches and committing are always fine.
 - Whenever referencing a PR or issue (e.g. `#8`), always format it as a Markdown link to the full GitHub URL instead of bare `#8`: `[owner/repo#8](https://github.com/owner/repo/pull/8)` (use `/issues/` instead of `/pull/` for issues). Never output a bare `#<number>` reference.
 - You may not be the only session working this repo. Before force-pushing or resetting a branch, `git fetch` and check for commits you don't recognize — another session may have pushed there concurrently.
-
-## PR follow-up loops
-- Schedule PR check-ins at 50 minutes, not 60. The prompt cache TTL is one hour from the last request start, so a 60-minute wake misses it and re-reads the session at full price; a 50-minute wake reads at cache price and refreshes the entry.
-- At most one check-in per push, then stop and rely on PR activity events. This overrides the harness rule.
 
 # Browser Automation
 Use Playwright MCP (user-scoped on macOS; per-repo `.mcp.json` in cloud sessions).
