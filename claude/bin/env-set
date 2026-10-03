@@ -48,7 +48,7 @@ def main():
     if matches:
         rest = entry.match(lines[matches[0]]).group(2)
         # An opening quote with no closing one means the value continues on later lines.
-        if rest[:1] in "\"'" and not (len(rest) > 1 and rest.rstrip().endswith(rest[0])):
+        if rest[:1] and rest[0] in "\"'" and not (len(rest) > 1 and rest.rstrip().endswith(rest[0])):
             sys.exit(f"env-set: existing {key} in {path} spans lines; edit by hand")
         lines[matches[0]] = new_line
         action = "updated"
