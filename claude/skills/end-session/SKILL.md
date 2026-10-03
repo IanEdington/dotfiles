@@ -131,51 +131,31 @@ the user cannot tell the real ones from the padding.
 
 ## Step 4: Lessons worth persisting
 
-Most sessions produce none, and forcing one dilutes the file it lands in.
-A lesson is a behaviour change, not an observation. It takes this form,
-or it is not a lesson:
+Most sessions produce none; a forced one dilutes the file it lands in. A
+lesson takes this form or it is not one:
 
-> Next time [situation], do [Y] instead of [Z], because [the trigger:
-> the correction the user gave, the error text, or the command that
-> failed].
+> Next time [situation], do [Y] instead of [Z], because [the correction,
+> error text, or failed command].
 
-Triggers that earn one: the user corrected you, you made the same mistake
-twice, or you burned time discovering something non-obvious about the
-project (a build quirk, a naming convention, a footgun). Something you
-noticed once and never acted on is an observation; give it one line in
-the report or drop it.
+Only three triggers earn one: the user corrected you, you repeated a
+mistake, or you burned time on a non-obvious project fact. Anything else
+is an observation: one line in the report, or drop it.
 
-Pick the mechanism before the location. Prose relies on the next session
-remembering; a hook fires regardless. Take the first rung that fits:
+Place each lesson on the first rung that fits, and say why higher rungs
+didn't:
 
-1. **Detectable in a tool call** (command, path, tool name): a hook or
-   permission rule. `PreToolUse` deny if the mistake is irreversible,
-   `PostToolUse` hint if the fix depends on output, `permissions.deny` if
-   command text suffices. Propose event, matcher, condition, and action;
-   don't write it during wrap-up.
-2. **Preventable by a script or check**: wrapper, CI check, or test.
-3. **About one tool or area**: that skill, doc, or readme.
-4. **Needed by every session on day one**: `CLAUDE.md`.
+1. **Recurring and visible in a tool call**: a hook or `permissions.deny`
+   rule. Sketch event, matcher, condition, and action.
+2. **Preventable by a script, CI check, or test.**
+3. **About one tool, area, or document type**: that skill, doc, style
+   guide, or memory note, following any memory or docs skill's write
+   protocol.
+4. **Needed by every session from day one**: `CLAUDE.md`, one or two
+   lines.
 
-Hooks cost latency and maintenance, so propose one only for a recurring,
-detectable situation. Name the rung chosen and why higher rungs didn't fit.
-
-Scope decides where a lesson goes. `CLAUDE.md` (project file for
-project-wide, `~/.claude/CLAUDE.md` for cross-project) is loaded at every
-session start, so it holds only what every session in that project needs:
-a line or two each, and only if you would tell it to a new developer on
-day one. Anything narrower lives next to what it is about: a lesson about
-one feature or area of the codebase goes in that area's docs, a lesson
-about one kind of document goes in its style guide or template, a fact
-about a person or project goes in its memory note. If the repo has a
-memory or docs skill, follow its write protocol. Read the target before
-proposing, so the lesson is not a duplicate or a contradiction of a line
-already there.
-
-Propose `CLAUDE.md` entries, hooks, and permission rules rather than
-applying them: give the exact text or hook sketch and the target, and let
-the user say yes. Apply scoped edits
-directly and list the files touched in the wrap-up.
+Read the target first so the lesson doesn't duplicate or contradict it.
+Apply rung 3 edits directly and list the files touched. Propose the rest
+as exact text or a sketch plus its target, and let the user approve.
 
 ## Step 5: Handoff
 
