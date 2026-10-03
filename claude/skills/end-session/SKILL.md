@@ -145,6 +145,21 @@ project (a build quirk, a naming convention, a footgun). Something you
 noticed once and never acted on is an observation; give it one line in
 the report or drop it.
 
+Pick the mechanism before the location. Prose relies on the next session
+remembering; a hook fires regardless. Take the first rung that fits:
+
+1. **Detectable in a tool call** (command, path, tool name): a hook or
+   permission rule. `PreToolUse` deny if the mistake is irreversible,
+   `PostToolUse` hint if the fix depends on output, `permissions.deny` if
+   command text suffices. Propose event, matcher, condition, and action;
+   don't write it during wrap-up.
+2. **Preventable by a script or check**: wrapper, CI check, or test.
+3. **About one tool or area**: that skill, doc, or readme.
+4. **Needed by every session on day one**: `CLAUDE.md`.
+
+Hooks cost latency and maintenance, so propose one only for a recurring,
+detectable situation. Name the rung chosen and why higher rungs didn't fit.
+
 Scope decides where a lesson goes. `CLAUDE.md` (project file for
 project-wide, `~/.claude/CLAUDE.md` for cross-project) is loaded at every
 session start, so it holds only what every session in that project needs:
@@ -157,8 +172,9 @@ memory or docs skill, follow its write protocol. Read the target before
 proposing, so the lesson is not a duplicate or a contradiction of a line
 already there.
 
-Propose `CLAUDE.md` entries rather than applying them: give the exact
-text and the target, and let the user say yes. Apply scoped edits
+Propose `CLAUDE.md` entries, hooks, and permission rules rather than
+applying them: give the exact text or hook sketch and the target, and let
+the user say yes. Apply scoped edits
 directly and list the files touched in the wrap-up.
 
 ## Step 5: Handoff
