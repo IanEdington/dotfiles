@@ -5,129 +5,99 @@ description: Wrap up a Claude Code session before the user walks away. Runs an h
 
 # end-session: wrap up before walking away
 
-The end of a session is the last moment this context exists. Everything you
-know right now, every doubt you suppressed mid-task, every loose end, is
-about to be garbage-collected. The user is about to walk away trusting that
-what happened here is done and safe. This skill exists to make that trust
-earned: surface what is shaky while you can still point at it, and leave the
-next session (human or Claude) able to pick up cleanly.
+Run the checks, then reflect, then report. Never answer from memory what a
+command can verify.
 
-Run the checks first, then reflect, then report. Do not answer from memory
-what you can verify with a command.
-
-Write the audit in the third person: "this session decided", not "I
-decided" or "you decided". The model that did the work is the worst-placed
-reviewer of it; it defends what it built and agrees with what the user
-said. Distance in the wording is the cheapest correction available.
+Write the audit in the third person ("this session decided", not "I" or
+"you"). The model that did the work defends it and agrees with the user;
+the distance in wording counters that.
 
 ## Step 1: Verify workspace state
 
-Memory of what you did drifts from what actually happened, so check. Run
-whichever apply:
+Run whichever apply:
 
-- `git status` and `git log` on every repo touched this session: uncommitted
-  changes, untracked files worth keeping, unpushed commits, branches created.
-- Open PRs from this session, and their CI state if cheaply checkable.
-- Temp or scratch files you created outside the repo, and background
-  processes you started that are still running.
+- `git status` and `git log` on every repo touched: uncommitted changes,
+  untracked files worth keeping, unpushed commits, new branches.
+- Open PRs from this session, and their CI state if cheap to check.
+- Scratch files outside the repo, and background processes still running.
 
-Never commit, push, or delete anything in this step; the wrap-up reports,
-the user decides. If state needs action ("2 unpushed commits on
-fix-parser"), name it precisely enough that the fix is a copy-paste away.
+Don't commit, push, or delete; report, and let the user decide. Name state
+that needs action precisely enough that the fix is copy-paste ("2 unpushed
+commits on fix-parser").
 
-Verify immediately before writing the report, not merely at the start of
-the wrap-up. Anything you run in between, even a smoke test dropping a
-`__pycache__`, makes an earlier status stale, and a wrap-up that says
-"clean" over a dirty tree teaches the user to distrust the whole report.
+Re-check immediately before writing the report. Anything run during the
+wrap-up, even a smoke test leaving `__pycache__`, makes an earlier check
+stale, and one false "clean" discredits the whole report.
 
 ## Step 2: Decision inventory
 
-The audit needs something to bite on. Without this list it drifts to code
-defects and never examines a choice.
+Without this list the audit drifts to code defects and never examines a
+choice.
 
-- **Intent.** One line: what was this session supposed to produce,
-  taken from the original request rather than from what got built. If the
-  two differ, that difference is the first finding.
-- **Decisions.** Each choice that shaped the outcome: approach, scope cut,
-  library, data model, premise accepted. For each, who put it on the table
-  first (user or session), and whether it is a one-way door (expensive to
-  reverse: a schema, a public interface, a deleted thing, a sent message)
-  or a two-way door.
+- **Intent**: one line on what the session was meant to produce, from the
+  original request, not from what got built. A gap between the two is the
+  first finding.
+- **Decisions**: each choice that shaped the outcome (approach, scope cut,
+  library, data model, accepted premise), who proposed it first (user or
+  session), and whether it is a one-way door (schema, public interface,
+  deletion, sent message) or a two-way door.
 
-Keep it to the decisions that mattered. A ten-minute session may have one.
-The one-way doors get the full audit below and are the only rows in the
-report's Decisions table. Two-way doors share one line at most, and none
-when nothing would change if the user skipped it.
+Keep it to the decisions that mattered; a short session may have one.
+Only one-way doors get the full audit and a row in the Decisions table.
+Two-way doors share one line at most, or none if skipping it changes
+nothing.
 
 ## Step 3: The three questions
 
-Answer all three, in the report, every time. They are the point of this skill:
-the user is asking them so they don't have to remember to. What makes them
-work is honesty under specificity, so hold your answers to this bar: an
-answer that could be pasted into a different session's wrap-up is a failed
-answer. Name the file, function, decision, or claim from this session that
-it is about.
+Answer all three every time. An answer that could be pasted into another
+session's wrap-up fails: name the file, function, decision, or claim it is
+about.
 
 **1. What is this session least confident about in what it just did?**
 
-There is always an answer. Judgment calls were made, verifications
-skipped, and patterns matched from training data at some point in this
-session; name the ones most likely to bite. Good answers sound like
-"`top_errors` was never run against a log with unicode in the messages,
-and the regex may not match those lines" or "the claim that the hook
-fires before compaction was inferred from the docs' ordering rather than
-tested". Weak answers sound like "the code could use more tests". If
-everything was genuinely verified, say what was verified and name the
-strongest remaining assumption instead.
+There is always an answer: a skipped verification, a judgment call, a
+pattern matched from training data. Good: "`top_errors` was never run
+against a log with unicode messages; the regex may miss those lines."
+Weak: "the code could use more tests." If everything was verified, say
+what, and name the strongest remaining assumption.
 
-**2. Assume the main decision this session made turns out to be wrong.
-Why?**
+**2. Assume the main decision turns out to be wrong. Why?**
 
-Pick the one-way door that would cost most to reverse. Write the failure
-as if it already happened: not "this could break if" but "this broke
-because". Name the claim the decision rested on and tag that claim as one
-of:
+Take the one-way door most costly to reverse; if there is none, take the
+most consequential two-way door and say so. Write the failure in the past
+tense ("this broke because"), name the claim it rested on, and tag it:
 
-- **ran**: a command or test was executed and its output seen. Name it.
-- **inferred**: derived from reading code or docs, never executed.
-- **assumed**: never checked, taken as given.
+- **ran**: executed and output seen; name the command.
+- **inferred**: from reading code or docs, never executed.
+- **assumed**: never checked.
 
-A good answer sounds like "this session chose to key `top_errors` on the
-raw message string; that rests on the assumption that messages are stable,
-which was never checked against a real log". If every claim was run, say
-what was run and name the strongest inferred or assumed claim instead.
-Question 1 is about the work; this one is about the choice. If they
-collapse into the same answer, write "Same as the first item under Least
-confident about" and nothing else; restating it in new words is padding.
+Good: "this session keyed `top_errors` on the raw message string; that
+rests on the assumption that messages are stable, which was never checked
+against a real log (assumed)." If every claim was run, name the strongest
+inferred or assumed one. Question 1 is about the work; this one is about
+the choice. If the answer still matches question 1, write "Same as the
+first item under Least confident about" and nothing more.
 
 **3. What is the user probably missing?**
 
-Check three places and report every real finding. "Nothing material; the
-closest is X" is a valid answer for any of them and better than a padded
-one.
+Check each; "Nothing material; the closest is X" is a valid answer.
 
-- **Silent assumptions.** What did this session assume rather than ask?
-  Models notice ambiguity far more often than they raise it; this is the
-  place to raise it. Mark which assumptions are load-bearing: if wrong,
-  does the result collapse?
-- **Adopted positions.** Which position did this session hold because the
-  user held it? Would it survive if the user had proposed the opposite?
-  If a premise was accepted at the start and the code has since weakened
-  it, say so.
-- **Missing information.** If this decision were made again in a month,
-  what would you want to know, and can it be fetched now? Name the
-  command, the person, or the document.
+- **Silent assumptions**: what this session assumed rather than asked.
+  Mark the load-bearing ones.
+- **Adopted positions**: what this session held because the user held it.
+  Would it survive the opposite proposal? Has the work since weakened a
+  premise accepted at the start?
+- **Missing information**: what you'd want if deciding again in a month,
+  and the command, person, or document that can fetch it now.
 
-If a one-way door was marked in Step 2, add one line: a new engineer
-inherits this branch with no history. Do they keep the approach?
+If Step 2 found a one-way door, add one line: would a new engineer
+inheriting this branch with no history keep the approach?
 
-**Findings discipline.** No cap: a long session often has several
-findings worth reporting, and each earns its place by naming the artifact
-and the concrete failing case. A finding that cannot do that is dropped.
-Order by cost if ignored. Say what was checked and ruled out where that
-changes what the user does next. Never invent a finding to fill a section;
-a reviewer told to find gaps will find some whether or not they exist, and
-the user cannot tell the real ones from the padding.
+**Findings discipline**: no cap and no floor. Before writing the report,
+re-read each finding and drop any that does not name the artifact and a
+concrete failing case. Order by cost if ignored. Mention what was ruled
+out only when that changes the user's next step. Never pad; the user can't
+tell padding from real findings.
 
 ## Step 4: Lessons worth persisting
 
@@ -159,65 +129,50 @@ as exact text or a sketch plus its target, and let the user approve.
 
 ## Step 5: Handoff
 
-Write for a reader with zero context: the next session starts cold, and
-"continue where we left off" means nothing to it. Cover, briefly:
+Write for a next session that starts cold. Cover briefly:
 
-- What changed this session, in terms of outcomes rather than narrative.
-- Decisions made and why, including alternatives rejected. Without the
-  why, the next session relitigates what was already settled.
-- Open threads: what is unfinished, blocked, or deliberately deferred, and
-  anything that rots overnight (expiring credentials, a pending approval,
-  a CI run still in flight).
-- How to confirm things still work: the command a skeptical next session
-  runs before trusting any of the above.
-- The first concrete action to take next time, specific enough to paste as
-  the opening prompt.
+- Outcomes, not narrative.
+- Decisions and why, including rejected alternatives, so they aren't
+  relitigated.
+- Open threads: unfinished, blocked, or deferred work, and anything that
+  rots overnight (expiring credentials, pending approvals, CI in flight).
+- The command a skeptical next session runs to confirm things still work.
+- The first action next time, pasteable as an opening prompt.
 
-If the work is mid-flight and worth resuming with full context, mention
-that `claude --resume` restores this conversation, and suggest naming the
-session if it isn't named. If the repo has an established place for session
-notes, offer to write the handoff there; when writing it to a file, stamp
-it with the date and current git ref so staleness is detectable, and put
-the next action under a scannable `## Pick up here` heading. Otherwise the
-report itself is the handoff.
+If the work is worth resuming with full context, mention `claude --resume`
+and suggest naming the session if it isn't named. If the repo has a place
+for session notes, offer to write the handoff there, stamped with the date
+and git ref, with the next action under `## Pick up here`. Otherwise the
+report is the handoff.
 
 ## Report structure
 
-Use this shape, in this order. Lead with the reflection; it is what the
-user came for. Omit a section only when it is truly empty, and say so in
-one line rather than silently dropping it.
+Use these sections in this order. An empty section gets one line saying
+so; What happened is the one exception and is omitted when the user was
+present throughout. Never fabricate activity to fill the template.
 
-The user skims this report, so the items they must act on come first, and
-the rest is reference:
+Done when every section is filled or marked empty, Workspace state
+reflects a check run after the last command, and every item under Act on
+these has an action.
 
-- **Act on these** holds at most three items, ordered by cost if ignored.
-  Each names the artifact, what is wrong or unverified, and the action (a
-  command, a check, or a decision the user owes). They also appear in their
-  own sections below; here they are one line each.
-- **What happened** is for a reader who was not there. Skip it when the
-  user was present for the whole session; the Handoff already records
-  outcomes for the next session.
-- **Decisions** is a table of one-way doors only (see Step 2).
-- **Workspace state** is one line when nothing needs action ("All repos
-  clean and pushed; PR X open by design"). Itemize only what needs action.
-- A `claude --resume` note states only what will still be true when the
-  user reads it: no token counts, which go stale at the next compaction.
-
+```markdown
 ## Session wrap-up
 ### Act on these
-### What happened (skip if the user was present throughout)
+[At most three, by cost if ignored. One line each: artifact, what is wrong
+or unverified, and the action (a command, a check, or a decision the user
+owes). Detail lives below.]
+### What happened
 ### Decisions (one-way doors)
 ### Least confident about
 ### If the main decision is wrong
 ### What you're probably missing
 ### Workspace state
+[One line when nothing needs action; itemize only what does.]
 ### Lessons to persist (or "none this session")
 ### Handoff
+[A `claude --resume` note states only what will still be true when read;
+no token counts.]
+```
 
-## Scale to the session
-
-A ten-minute question-answering session gets a short wrap-up: skip the git
-theatre if nothing was touched, and the decision inventory may be a single
-line, but never skip the three questions; analysis has assumptions too. Never
-fabricate activity to fill the template. A long multi-repo session gets the
-full treatment, and the state check matters more than the prose.
+Evidence behind the questions: `RESEARCH.md`, read only when a step's
+rationale is contested.
