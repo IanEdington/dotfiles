@@ -17,7 +17,7 @@ deny() {
   exit 0
 }
 
-hint="List keys with ~/.claude/bin/env-keys; pipe a value into a command with ~/.claude/bin/env-value KEY <command>."
+hint="List keys with ~/.claude/bin/env-keys; pipe a value into a command with ~/.claude/bin/env-value KEY <command>; write or remove one with ~/.claude/bin/env-set KEY (value on stdin) or ~/.claude/bin/env-unset KEY."
 
 case "$tool" in
   Bash)
@@ -25,7 +25,7 @@ case "$tool" in
     # Matches .env and .envrc as path components only: .env.example stays allowed, and so do code
     # identifiers like process.env and import.meta.env.
     if grep -qE '(^|[[:space:]/<>=:"'"'"'])\.env(rc)?([[:space:]"'"'"';&|)<>]|$)' <<<"$command"; then
-      deny "Commands that touch .env or .envrc are blocked in local sessions. $hint"
+      deny "Commands that touch .env or .envrc are blocked in local sessions. $hint The match is on the command text, so a filename inside a commit message, PR body, heredoc, or echo also trips it; reword that text (for example, \"dotenv file\") and retry."
     fi
     ;;
   *)
