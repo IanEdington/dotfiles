@@ -42,6 +42,7 @@ choice.
   session), and whether it is a one-way door (schema, public interface,
   deletion, sent message) or a two-way door.
 
+Keep it to the decisions that mattered; a short session may have one.
 Only one-way doors get the full audit and a row in the Decisions table.
 Two-way doors share one line at most, or none if skipping it changes
 nothing.
@@ -62,17 +63,20 @@ what, and name the strongest remaining assumption.
 
 **2. Assume the main decision turns out to be wrong. Why?**
 
-Take the one-way door most costly to reverse. Write the failure in the past
+Take the one-way door most costly to reverse; if there is none, take the
+most consequential two-way door and say so. Write the failure in the past
 tense ("this broke because"), name the claim it rested on, and tag it:
 
 - **ran**: executed and output seen; name the command.
 - **inferred**: from reading code or docs, never executed.
 - **assumed**: never checked.
 
-If every claim was run, name the strongest inferred or assumed one.
-Question 1 is about the work; this one is about the choice. If the answer
-still matches question 1, write "Same as the first item under Least
-confident about" and stop.
+Good: "this session keyed `top_errors` on the raw message string; that
+rests on the assumption that messages are stable, which was never checked
+against a real log (assumed)." If every claim was run, name the strongest
+inferred or assumed one. Question 1 is about the work; this one is about
+the choice. If the answer still matches question 1, write "Same as the
+first item under Least confident about" and nothing more.
 
 **3. What is the user probably missing?**
 
@@ -89,10 +93,11 @@ Check each; "Nothing material; the closest is X" is a valid answer.
 If Step 2 found a one-way door, add one line: would a new engineer
 inheriting this branch with no history keep the approach?
 
-**Findings discipline**: no cap and no floor. Each finding names the
-artifact and a concrete failing case, or it is dropped. Order by cost if
-ignored. Mention what was ruled out only when that changes the user's next
-step. Never pad; the user can't tell padding from real findings.
+**Findings discipline**: no cap and no floor. Before writing the report,
+re-read each finding and drop any that does not name the artifact and a
+concrete failing case. Order by cost if ignored. Mention what was ruled
+out only when that changes the user's next step. Never pad; the user can't
+tell padding from real findings.
 
 ## Step 4: Lessons worth persisting
 
@@ -135,31 +140,39 @@ Write for a next session that starts cold. Cover briefly:
 - The first action next time, pasteable as an opening prompt.
 
 If the work is worth resuming with full context, mention `claude --resume`
-and suggest naming the session. If the repo has a place for session notes,
-offer to write the handoff there, stamped with the date and git ref, with
-the next action under `## Pick up here`. Otherwise the report is the
-handoff.
+and suggest naming the session if it isn't named. If the repo has a place
+for session notes, offer to write the handoff there, stamped with the date
+and git ref, with the next action under `## Pick up here`. Otherwise the
+report is the handoff.
 
 ## Report structure
 
 Use these sections in this order. An empty section gets one line saying
-so, not silent omission. Scale to the session: a short Q&A session skips
-the git checks if nothing was touched, but never the three questions.
-Never fabricate activity to fill the template.
+so; What happened is the one exception and is omitted when the user was
+present throughout. Never fabricate activity to fill the template.
 
+Done when every section is filled or marked empty, Workspace state
+reflects a check run after the last command, and every item under Act on
+these has an action.
+
+```markdown
 ## Session wrap-up
 ### Act on these
-At most three, by cost if ignored: artifact, what's wrong or unverified,
-and the action the user owes. One line each; detail lives below.
+[At most three, by cost if ignored. One line each: artifact, what is wrong
+or unverified, and the action (a command, a check, or a decision the user
+owes). Detail lives below.]
 ### What happened
-Skip if the user was present throughout.
 ### Decisions (one-way doors)
 ### Least confident about
 ### If the main decision is wrong
 ### What you're probably missing
 ### Workspace state
-One line when nothing needs action; itemize only what does.
+[One line when nothing needs action; itemize only what does.]
 ### Lessons to persist (or "none this session")
 ### Handoff
-A `claude --resume` note states only what will still be true when read;
-no token counts.
+[A `claude --resume` note states only what will still be true when read;
+no token counts.]
+```
+
+Evidence behind the questions: `RESEARCH.md`, read only when a step's
+rationale is contested.

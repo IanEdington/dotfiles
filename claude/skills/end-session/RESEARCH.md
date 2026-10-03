@@ -71,7 +71,7 @@ No public skill asks about the model's own confidence; the two questions remain 
 
 ## How the skill applies this
 
-`SKILL.md` at 195 lines. Each mechanism and the evidence it rests on:
+Each `SKILL.md` mechanism and the evidence it rests on:
 
 | Skill element | Evidence |
 |---|---|
