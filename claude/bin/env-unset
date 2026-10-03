@@ -1,0 +1,49 @@
+#!/usr/bin/env python3
+"""Removes KEY from the nearest .envrc without printing any values.
+
+Usage: env-unset KEY
+Searches the current directory, then its parents. Refuses multi-line entries; edit those by hand.
+"""
+import os
+import re
+import sys
+
+
+def nearest_envrc():
+    directory = os.getcwd()
+    while True:
+        path = os.path.join(directory, ".envrc")
+        if os.path.isfile(path):
+            return path
+        if directory == "/":
+            return None
+        directory = os.path.dirname(directory)
+
+
+def main():
+    if len(sys.argv) != 2 or not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", sys.argv[1]):
+        sys.exit("usage: env-unset KEY")
+    key = sys.argv[1]
+    path = nearest_envrc()
+    if not path:
+        sys.exit(f"env-unset: no .envrc from {os.getcwd()} upward")
+
+    with open(path) as file:
+        lines = file.read().splitlines()
+    entry = re.compile(rf"^\s*(export\s+)?{key}=(.*)$")
+    matches = [i for i, line in enumerate(lines) if entry.match(line)]
+    if not matches:
+        sys.exit(f"env-unset: {key} not found in {path}")
+    for i in matches:
+        rest = entry.match(lines[i]).group(2)
+        if rest[:1] and rest[0] in "\"'" and not (len(rest) > 1 and rest.rstrip().endswith(rest[0])):
+            sys.exit(f"env-unset: {key} in {path} spans lines; edit by hand")
+
+    kept = [line for i, line in enumerate(lines) if i not in matches]
+    with open(path, "w") as file:
+        file.write("\n".join(kept) + "\n")
+    print(f"env-unset: removed {key} from {path}. Run `direnv allow` to reload it.")
+
+
+if __name__ == "__main__":
+    main()

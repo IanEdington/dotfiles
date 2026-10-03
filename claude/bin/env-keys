@@ -1,0 +1,14 @@
+#!/bin/bash
+# Lists the keys defined in .envrc and .env files from a directory up to /, never the values.
+# Usage: env-keys [dir]   (default: current directory)
+dir=$(cd "${1:-.}" && pwd)
+while :; do
+  for file in "$dir/.envrc" "$dir/.env"; do
+    if [ -f "$file" ]; then
+      echo "# $file"
+      sed -nE 's/^[[:space:]]*(export[[:space:]]+)?([A-Za-z_][A-Za-z0-9_]*)=.*/\2/p' "$file"
+    fi
+  done
+  [ "$dir" = / ] && break
+  dir=$(dirname "$dir")
+done

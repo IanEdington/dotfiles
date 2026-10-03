@@ -35,3 +35,8 @@
 /daemon/
 /jobs/
 /daemon.log
+/.claude.json
+/daemon-auth-cooldown
+/daemon-auth-status.json
+/daemon.lock
+/daemon.status.json
