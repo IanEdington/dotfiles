@@ -1,0 +1,9 @@
+{
+  "base": "main",
+  "check": "pnpm check",
+  "controllerWritable": ["docs/run/"],
+  "processPaths": [".claude/", "docs/run/"],
+  "claudeMdIndexLine": "^[+-]- `docs/[^`]+`: ",
+  "controllerHandoffAt": 250000,
+  "controllerHandoffHardAt": 300000
+}
