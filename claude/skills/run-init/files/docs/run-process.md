@@ -70,7 +70,7 @@ Every protocol failure observed in a run gets a row in `docs/run/decisions.md` (
 
 | Limit | Default | Set by | On breach |
 |---|---|---|---|
-| Controller context | 250k tokens | Stop hook | Write state, end the turn with one line; the owner starts a new controller |
+| Controller context | 250k tokens, 300k hard | Stop hook | Hand off to a successor session one lineage level deeper when no worker is mid-turn (at 300k, at once); at depth 7 the owner starts a new line |
 | Worker turns | `maxTurns` 200 | agent definition | Partial report; the controller spawns a fresh worker on the same branch |
 | Worker tokens | 600k | recorded by the controller from the Agent result after the fact | A row in `decisions.md` if it recurs; the issue is probably too large for one unit |
 | Busy workers | 3 | controller | Queue waits |

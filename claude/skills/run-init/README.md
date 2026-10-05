@@ -10,7 +10,7 @@ Three user-level skills and the files they install, for working a long task in o
 | `worker` agent | subagent | One issue, own worktree and branch, short report |
 | `reviewer` agent | subagent | Blind adversarial review at one SHA, runs the held-out check, posts on the PR |
 | `auditor` agent | subagent | Post-merge audit every four PRs, files `audit` issues |
-| `run-guard.mjs` | hook | The rules that were broken as prose: push check, no worker merge, controller writes only `docs/run/`, read-only reviewer and auditor, owner approval on process PRs, denied permission prompts, controller context limit |
+| `run-guard.mjs` | hook | The rules that were broken as prose: push check, no worker merge, controller writes only `docs/run/`, read-only reviewer and auditor, owner approval on process PRs, denied permission prompts, controller handoff thresholds |
 
 Design positions and the evidence behind them: `../../research/controller-worker-reviewer.md`.
 Lessons inherited from the google-mcp coordinated runs are the first rows of `files/docs/decisions.md`.
@@ -20,7 +20,7 @@ Lessons inherited from the google-mcp coordinated runs are the first rows of `fi
 - Workers and reviewers are in-session subagents, so there are no mailboxes, relays, subscriptions, or lineage handoffs.
 - The controller spawns the reviewer and receives the verdict directly; the worker never sees or relays it.
 - Each issue has a held-out check on the run-state branch that only the reviewer runs.
-- A controller at its context limit stops; the owner starts the next one.
+- The controller hands off to a successor session at its context limit, up to lineage depth 7; in-flight subagents die with it, so it prefers handing off between worker turns.
 - Opus only.
 
 ## Unverified

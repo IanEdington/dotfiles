@@ -22,7 +22,8 @@ const config = {
   controllerWritable: ['docs/run/'],
   processPaths: ['.claude/', 'docs/run/'],
   claudeMdIndexLine: '^[+-]- `docs/[^`]+`: ',
-  controllerContextLimit: 250_000,
+  controllerHandoffAt: 250_000,
+  controllerHandoffHardAt: 300_000,
   ...readConfig(),
 };
 // The first sentence of the controller prompt in the controller skill; changing it there breaks detection.
@@ -293,17 +294,21 @@ function preTool() {
 function stop() {
   // Blocking a stop re-runs the turn; never block the continuation this hook itself caused.
   if (input.stop_hook_active || role() !== 'controller') return;
-  const limit = config.controllerContextLimit;
   const tokens = contextTokens();
-  const marker = `/tmp/run-context-${input.session_id}-${limit}`;
-  if (tokens <= limit || existsSync(marker)) return;
-  writeFileSync(marker, String(tokens));
-  process.stdout.write(
-    JSON.stringify({
-      decision: 'block',
-      reason: `Context is ${Math.round(tokens / 1000)}k, over the ${Math.round(limit / 1000)}k controller limit. Do the controller skill's "Stopping" step now: write the state, then end with one line telling the owner to start a new controller.`,
-    }),
-  );
+  // Each threshold fires once: the soft one asks for a handoff when no worker is mid-turn, the hard one now.
+  const crossed = [config.controllerHandoffHardAt, config.controllerHandoffAt].find((limit) => {
+    const marker = `/tmp/run-context-${input.session_id}-${limit}`;
+    if (tokens <= limit || existsSync(marker)) return false;
+    writeFileSync(marker, String(tokens));
+    return true;
+  });
+  if (!crossed) return;
+  const k = Math.round(tokens / 1000);
+  const reason =
+    crossed === config.controllerHandoffHardAt
+      ? `Context is ${k}k, over the ${Math.round(crossed / 1000)}k hard limit. Hand off now as the controller skill's "Handoff and stopping" says, whatever is in flight (at depth 7, ask the owner for a new line instead).`
+      : `Context is ${k}k, over the ${Math.round(crossed / 1000)}k handoff threshold. Hand off as the controller skill's "Handoff and stopping" says at the end of the next pass in which no worker is mid-turn.`;
+  process.stdout.write(JSON.stringify({ decision: 'block', reason }));
 }
 
 function permission() {

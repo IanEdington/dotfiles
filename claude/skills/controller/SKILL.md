@@ -11,12 +11,13 @@ Your state is the body of the open draft PR titled `Run state`; any controller c
 
 ## Start
 
-1. **Tools.** You need the Agent tool, GitHub MCP issue and PR tools, and `send_later`, `delete_trigger`, and `get_session` (claude-code-remote MCP).
+1. **Tools.** You need the Agent tool, GitHub MCP issue and PR tools, and `send_later`, `delete_trigger`, `get_session`, `create_session`, and `archive_session` (claude-code-remote MCP).
    If one is missing, write which into the state and stop.
 2. **State.** Find the open PR titled `Run state` (`search_pull_requests`, `is:open "Run state" in:title`).
    None: `run-plan` has not run; say so and stop.
    Read its body; `get_session` on yourself for `rate_limit_info` and context.
-   If the body names a live controller other than you, that session is dead or you would not have been started: record yourself as controller.
+   Record yourself on the Run line with your lineage depth: the one in your prompt, else the state's depth plus one, else 0.
+   If your prompt names a predecessor, `archive_session` it in case its last turn did not; it posted no further state after spawning you.
 3. **Rebuild.** For each issue on the In flight line, `pull_request_read` its PR (head SHA, state); a worker from a previous controller is gone, so treat the issue as needing a fresh worker on its existing branch.
 4. **Arm the check-in** (below), then run the loop.
 
@@ -61,10 +62,18 @@ Keep exactly one `send_later` armed: for `rate_limit_info.resetsAt` plus 5 minut
 Record the trigger id on the Check-in line; `delete_trigger` the old one before arming a new one; delete it when you stop.
 On the check-in, treat every in-flight issue with no completed report as step 5.
 
-## Stopping
+## Handoff and stopping
 
-When the Stop hook says you are over the context limit, or the queue and roster are empty: write the state, `delete_trigger` the check-in, and end with one line.
-Over the limit: the line tells the owner to start a new controller with the controller prompt; you spawn no successor.
+The Stop hook fires once at 250k tokens (hand off at the end of the next pass in which no worker is mid-turn) and once at 300k (hand off now, whatever is in flight).
+Background subagents die with you, so a handoff with workers in flight wastes their partial turns; the successor's Rebuild step restarts each in-flight issue on its branch.
+
+Hand off in one turn, in this order: write the state with your tokens added to Spend; `delete_trigger` the check-in; `create_session` a successor in this environment with the controller prompt below plus `Your predecessor is <your session id>. Lineage depth: <yours + 1>.`; `archive_session` yourself as your last call.
+Never wait for the successor.
+
+Every session you spawn is one level deeper than you, and the platform refuses `create_session` and `send_later` at depth 8.
+At depth 7, spawn no successor: at the 250k hook, add "start a new controller line" to the Questions list and end with one line saying so; the owner's new controller at depth 0 archives you.
+
+When the queue and roster are empty: write the state, `delete_trigger` the check-in, and end with one line.
 
 ## Reading GitHub
 
@@ -100,13 +109,15 @@ Audit these merged PRs on <owner>/<repo>: #<a>, #<b>, #<c>, #<d>. Base: <base>. 
 Controller prompt (the owner pastes this as the first message of a new session; its first sentence is how the guard hook recognizes the role):
 
 ```
-You are the controller for <owner>/<repo>. Run the controller skill. Budget: <n>M tokens, checkpoint every <k>M.
+You are the controller for <owner>/<repo>. Run the controller skill. Budget: <n>M tokens, checkpoint every <k>M. Lineage depth: 0.
 ```
+
+A successor's prompt carries `Your predecessor is <session id>. Lineage depth: <n>.` instead of the budget; the state carries the budget.
 
 ## State (the run PR body)
 
 ```markdown
-Run: <start time UTC>. Controller: <session id> since <time>. Check-in: <trigger id> at <time UTC>.
+Run: <start time UTC>. Controller: <session id> since <time>. Lineage depth: <n>. Check-in: <trigger id> at <time UTC>.
 
 ## In flight
 | Issue | PR | Branch | Head | Worker | Round | State |
