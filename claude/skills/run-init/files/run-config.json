@@ -1,0 +1,8 @@
+{
+  "base": "main",
+  "check": "pnpm check",
+  "controllerWritable": ["docs/run/"],
+  "processPaths": [".claude/", "docs/run/"],
+  "claudeMdIndexLine": "^[+-]- `docs/[^`]+`: ",
+  "controllerContextLimit": 250000
+}
