@@ -2,7 +2,7 @@
   "hooks": {
     "PreToolUse": [
       {
-        "matcher": "Bash|Edit|Write|NotebookEdit|mcp__.*__(merge_pull_request|enable_pr_auto_merge|create_or_update_file|push_files|delete_file)",
+        "matcher": "Bash|Edit|Write|NotebookEdit|mcp__.*__(merge_pull_request|enable_pr_auto_merge|create_pull_request|update_pull_request|create_or_update_file|push_files|delete_file|create_branch|add_issue_comment|issue_write|sub_issue_write|update_issue_comment)",
         "hooks": [
           {
             "type": "command",

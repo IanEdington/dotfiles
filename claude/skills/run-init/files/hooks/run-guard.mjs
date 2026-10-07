@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Hooks for the run process (docs/run/run-process.md): the rules agents broke while they were prose.
-// Usage: run-guard.mjs pre-tool|stop|permission [role]. Agent definitions pass their role explicitly;
-// the project settings call it without one and the role is derived (controller, or none).
+// Usage: run-guard.mjs pre-tool|stop|permission [role]. Every role is its own session, recognised by
+// the prefix of its first user prompt; an explicit role argument overrides that for tests.
 import {
   closeSync,
   existsSync,
@@ -12,7 +12,7 @@ import {
   writeFileSync,
 } from 'node:fs';
 import { spawnSync } from 'node:child_process';
-import { basename, isAbsolute, relative, resolve } from 'node:path';
+import { basename, dirname, isAbsolute, join, relative, resolve } from 'node:path';
 
 const input = JSON.parse(readFileSync(0, 'utf8'));
 const projectDir = process.env.CLAUDE_PROJECT_DIR || input.cwd || process.cwd();
@@ -26,9 +26,22 @@ const config = {
   controllerHandoffHardAt: 300_000,
   ...readConfig(),
 };
-// The first sentence of the controller prompt in the controller skill; changing it there breaks detection.
-const CONTROLLER_MARK = 'You are the controller for';
+// The first words of each role's prompt (controller skill, run-init prompts); changing them there breaks detection.
+const ROLE_MARKS = {
+  'You are the manager for': 'manager',
+  'You are the architect for': 'architect',
+  'You are the factory for': 'factory',
+  'You are the controller for': 'controller',
+  'You are a worker in': 'worker',
+  'You are the reviewer for': 'reviewer',
+  'You are the auditor for': 'auditor',
+};
 const STATE_BRANCH = 'claude/run-state';
+const HOLDOUT_DIR = 'docs/run/holdout/';
+// The handoff request lives in a file only the controller can push, so the factory never trusts a PR body or a message.
+const HANDOFF_FILE = 'docs/run/handoff.md';
+// Writes to GitHub from a shell bypass every tool rule above; only the controller and the manager keep that door.
+const SHELL_GITHUB_WRITE = /\bgh\s+(pr|issue)\s+(edit|close|reopen|comment|create|merge|ready)\b|\bgh\s+api\b[^\n]*(-X|--method)\s*(PATCH|PUT|POST|DELETE)|api\.github\.com[^\n]*(-X|--request)\s*(PATCH|PUT|POST|DELETE)|api\.github\.com[^\n]*(-d|--data)\b/;
 const OUTPUT_LIMIT = 6_000;
 // Anchored so "not approved" or a question that mentions merging never counts.
 const APPROVAL = /^\s*(approved?|lgtm|merge it|ship it)\b/i;
@@ -76,19 +89,30 @@ function fromSubagent() {
   return typeof input.transcript_path === 'string' && basename(input.transcript_path).startsWith('agent-');
 }
 
+// A subagent's transcript is its own; its parent's sits beside it under the shared session id.
+function roleTranscript() {
+  if (!input.transcript_path) return undefined;
+  if (!fromSubagent()) return input.transcript_path;
+  const parent = join(dirname(input.transcript_path), `${input.session_id}.jsonl`);
+  return existsSync(parent) ? parent : undefined;
+}
+
 function role() {
   const explicit = process.argv[3];
   if (explicit) return explicit;
-  if (fromSubagent()) return 'subagent';
   const cache = `/tmp/run-role-${input.session_id}`;
   if (existsSync(cache)) return readFileSync(cache, 'utf8');
-  if (!input.transcript_path || !existsSync(input.transcript_path)) return 'none';
-  const prompts = readSlice(input.transcript_path, false, 512 * 1024)
+  const transcript = roleTranscript();
+  if (!transcript || !existsSync(transcript)) return 'none';
+  const prompts = readSlice(transcript, false, 512 * 1024)
     .map(parse)
     .filter((entry) => entry?.type === 'user' && !entry.isSidechain && !entry.isMeta)
     .map((entry) => text(entry.message?.content));
   if (prompts.length === 0) return 'none';
-  const detected = prompts.slice(0, 3).some((p) => p.includes(CONTROLLER_MARK)) ? 'controller' : 'none';
+  // Only the first prompt's prefix counts, so a mark quoted in a later message never changes a role.
+  const first = prompts[0].trimStart();
+  const mark = Object.keys(ROLE_MARKS).find((m) => first.startsWith(m));
+  const detected = mark ? ROLE_MARKS[mark] : 'none';
   writeFileSync(cache, detected);
   return detected;
 }
@@ -206,6 +230,23 @@ function checkProcessMerge(args) {
   );
 }
 
+// The state body starts with the Run line; a leaf rewriting it is the one forgery the factory could not see through.
+function looksLikeStateBody(args) {
+  return /^Run: /.test((args.body ?? '').trimStart());
+}
+
+function filePaths(args) {
+  return args.files ? args.files.map((file) => file.path) : [args.path ?? ''];
+}
+
+function architectWrite(tool, args) {
+  const branch = args.branch ?? args.head ?? '';
+  if (/__(create_branch|create_pull_request)$/.test(tool)) return branch === STATE_BRANCH ? undefined : `branch ${branch || '(none)'}`;
+  if (branch !== STATE_BRANCH) return `branch ${branch || '(none)'}`;
+  const outside = filePaths(args).filter((path) => !path.startsWith(HOLDOUT_DIR));
+  return outside.length > 0 ? outside.join(', ') : undefined;
+}
+
 function isStatePush(command) {
   const branch = run('git', ['rev-parse', '--abbrev-ref', 'HEAD']).output;
   return command.includes(STATE_BRANCH) || branch === STATE_BRANCH;
@@ -234,12 +275,16 @@ function preTool() {
   const tool = input.tool_name ?? '';
   const args = input.tool_input ?? {};
   const who = role();
-  const readOnly = who === 'reviewer' || who === 'auditor';
+  // The architect and the factory write nothing in the checkout; the architect's holdout writes go through the GitHub file tool.
+  const readOnly = ['reviewer', 'auditor', 'architect', 'factory'].includes(who);
 
   if (tool === 'Bash') {
     const command = args.command ?? '';
     if (readOnly && /\bgit\s+(commit|push|merge|rebase|reset\s+--hard)\b/.test(command)) {
       deny(`The ${who} never changes the repo; a review comment or an issue is its only write.`);
+    }
+    if (!['controller', 'manager', 'none'].includes(who) && SHELL_GITHUB_WRITE.test(command)) {
+      deny(`The ${who} writes to GitHub only through the MCP tools, so the role rules apply.`);
     }
     if (who === 'controller' && /\bgit\s+commit\b/.test(command)) {
       const outside = stagedPaths(command).filter((path) => !controllerMayWrite(path));
@@ -256,6 +301,9 @@ function preTool() {
       if (who === 'controller' && !isStatePush(command)) {
         deny('The controller pushes only the run-state branch. A work branch that needs a merge or fix goes to a worker.');
       }
+      if (!['controller', 'manager', 'none'].includes(who) && isStatePush(command)) {
+        deny(`Only the controller pushes ${STATE_BRANCH}; it carries the handoff request the factory trusts.`);
+      }
       checkBeforePush(command);
     }
     return;
@@ -271,11 +319,25 @@ function preTool() {
     return;
   }
 
-  if (readOnly && /__(merge_pull_request|create_pull_request|update_pull_request|create_or_update_file|push_files|delete_file|create_branch)$/.test(tool)) {
+  if (who === 'architect' && /__(create_or_update_file|push_files|create_branch|create_pull_request)$/.test(tool)) {
+    const refused = architectWrite(tool, args);
+    if (refused) deny(`The architect writes only ${HOLDOUT_DIR} on ${STATE_BRANCH} and the Run state PR; refused: ${refused}.`);
+  } else if (readOnly && /__(merge_pull_request|create_pull_request|update_pull_request|create_or_update_file|push_files|delete_file|create_branch)$/.test(tool)) {
     deny(`The ${who} never changes the repo or its PRs.`);
   }
-  if (who === 'auditor' && /__add_issue_comment$/.test(tool)) {
-    deny('Auditors file issues with issue_write and never comment on PRs.');
+  if (who === 'factory' && /__(issue_write|add_issue_comment|sub_issue_write|update_issue_comment)$/.test(tool)) {
+    deny('The factory spawns controllers and replies by message; it writes nothing on GitHub.');
+  }
+  if (who !== 'controller' && who !== 'manager') {
+    if (/__(update_pull_request|issue_write)$/.test(tool) && looksLikeStateBody(args)) {
+      deny('Only the controller writes the Run state body; a leaf reports with a `Run report:` comment.');
+    }
+    if (/__(create_or_update_file|push_files|delete_file)$/.test(tool) && (args.branch ?? '') === STATE_BRANCH && who !== 'architect') {
+      deny(`Only the controller writes ${STATE_BRANCH}; it carries ${HANDOFF_FILE}, which the factory trusts.`);
+    }
+  }
+  if (who === 'auditor' && /__add_issue_comment$/.test(tool) && !/^\s*Run report: auditor\b/.test(args.body ?? '')) {
+    deny('Auditors file issues with issue_write and never comment on PRs; the only comment is the `Run report: auditor` on the tracking issue.');
   }
   if (who === 'worker' && /__merge_pull_request$/.test(tool)) {
     deny('Workers do not merge. Report `done`; the controller merges after review.');
@@ -306,14 +368,14 @@ function stop() {
   const k = Math.round(tokens / 1000);
   const reason =
     crossed === config.controllerHandoffHardAt
-      ? `Context is ${k}k, over the ${Math.round(crossed / 1000)}k hard limit. Hand off now as the controller skill's "Handoff and stopping" says, whatever is in flight (at depth 7, ask the owner for a new line instead).`
+      ? `Context is ${k}k, over the ${Math.round(crossed / 1000)}k hard limit. Hand off now as the controller skill's "Handoff and stopping" says, whatever is in flight.`
       : `Context is ${k}k, over the ${Math.round(crossed / 1000)}k handoff threshold. Hand off as the controller skill's "Handoff and stopping" says at the end of the next pass in which no worker is mid-turn.`;
   process.stdout.write(JSON.stringify({ decision: 'block', reason }));
 }
 
 function permission() {
-  // Nobody watches a run, so a prompt would wait forever with no event to wake anyone.
-  if (role() === 'none') return;
+  // Nobody watches a run, so a prompt would wait forever with no event to wake anyone; the owner watches the manager.
+  if (['none', 'manager'].includes(role())) return;
   process.stdout.write(
     JSON.stringify({
       hookSpecificOutput: {
