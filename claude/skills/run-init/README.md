@@ -1,33 +1,27 @@
 # Run process bundle
 
-Three user-level skills and the files they install, for working a long task in one Claude Code cloud session with Opus subagents.
+Six user-level skills and the files they install, for working a long task as a group of Claude Code cloud sessions.
 
 | Piece | Where it runs | Does |
 |---|---|---|
-| `run-init` | once per repo | Installs agents, guard hook, process doc, decisions log |
-| `run-plan` | once per task | Plan doc, one issue per unit of work, held-out checks, the run-state PR |
-| `controller` | the main session, started by the owner | Spawns workers, reviewers, and auditors; gates merges; keeps the Questions list |
-| `worker` agent | subagent | One issue, own worktree and branch, short report |
-| `reviewer` agent | subagent | Blind adversarial review at one SHA, runs the held-out check, posts on the PR |
-| `auditor` agent | subagent | Post-merge audit every four PRs, files `audit` issues |
-| `run-guard.mjs` | hook | The rules that were broken as prose: push check, no worker merge, controller writes only `docs/run/`, read-only reviewer and auditor, owner approval on process PRs, denied permission prompts, controller handoff thresholds |
+| `run-init` | once per repo | Installs the leaf prompts, guard hook, process doc, decisions log |
+| `manager` | one Fable session per project, started by the owner | Starts the architect and the factory, measures quality and routing, proposes process changes |
+| `architect` | one Fable session per project | The plan as a tracking issue with sub-issues (`run-plan`), design answers on the issue, `triage` review |
+| `factory` | one Opus session per project | One controller per verified request, so lineage depth never grows |
+| `run-plan` | once per task, by the architect | Tracking issue, one sub-issue per unit, held-out checks, the run-state PR |
+| `controller` | one Opus session per context window | Spawns workers, reviewers, and auditors as sessions; gates merges; routes questions |
+| `worker` prompt | one Opus session per issue | One issue, own branch, `Run report:` comment |
+| `reviewer` prompt | one Opus session per PR and SHA | Blind adversarial review, runs the held-out check, posts on the PR |
+| `auditor` prompt | one Opus session per four merges | Post-merge audit, files `audit` issues |
+| `run-guard.mjs` | hook | The rules that were broken as prose: role from the first prompt, push check, no worker merge, controller writes only `docs/run/`, read-only reviewer, auditor, architect, and factory, only the controller updates the state PR, owner approval on process PRs, denied permission prompts, controller handoff thresholds |
 
-Design positions and the evidence behind them: `../../research/controller-worker-reviewer.md`.
-Lessons inherited from the google-mcp coordinated runs are the first rows of `files/docs/decisions.md`.
-
-## What differs from google-mcp's coordinator
-
-- Workers and reviewers are in-session subagents, so there are no mailboxes, relays, subscriptions, or lineage handoffs.
-- The controller spawns the reviewer and receives the verdict directly; the worker never sees or relays it.
-- Each issue has a held-out check on the run-state branch that only the reviewer runs.
-- The controller hands off to a successor session at its context limit, up to lineage depth 7; in-flight subagents die with it, so it prefers handing off between worker turns.
-- Opus only.
+Design positions and the evidence behind them: `../../research/work-group.md` and `../../research/controller-worker-reviewer.md`.
+Lessons inherited from earlier runs are the first rows of `files/docs/decisions.md`.
 
 ## Unverified
 
 Checked in `run-init` step 5 on first install, and worth re-checking on each Claude Code release:
 
-- Whether the project-level hook can tell a subagent's tool call from the controller's (`agent_id` in hook input, or an `agent-` transcript name).
-- Whether `hooks` in agent frontmatter run with `$CLAUDE_PROJECT_DIR` set when the agent runs in a worktree.
-- Whether background subagents survive the cloud session being backgrounded; the controller treats a missing report as a dead worker either way.
-- Per-subagent token counts in the Agent result are the only spend signal; USD is not exposed.
+- Whether `create_session` with `source_url` gives the leaf the repo's `.claude/settings.json` hooks before its first tool call.
+- Whether `send_message` delivery holds at three workers plus reviewers messaging one controller; the controller rebuilds from `Run report:` comments either way.
+- Whether `get_session` `context_usage.used_tokens` is the whole spend of a leaf or only its last turn.

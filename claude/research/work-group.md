@@ -122,13 +122,15 @@ The project `PreToolUse` matcher becomes the union of the frontmatter matchers i
 
 ## Changes to the bundle
 
+Implemented 2026-10-07; the table is the map from design to files.
+
 | File | Change |
 |---|---|
 | `skills/controller/SKILL.md` | No spawn before the tracking issue is approved; spawn leaves with `create_session` (`model`, `title`, prompt); reports read from `Run report:` comments, messages are wakeups; rebuild from GitHub on every wake; handoff writes `Handoff: requested` and messages the factory; remove lineage depth from the Run line, the successor prompt, and "Handoff and stopping"; Spend from `get_session` per leaf; routing table above; `questions.md` and `quality.md` rows |
 | `skills/run-init/files/hooks/run-guard.mjs` | Role from the first prompt's prefix, one mark per role; architect writes only `docs/run/holdout/` on `claude/run-state` through `create_or_update_file`, no Edit, Write, or push; only the controller updates the state PR; drop "at depth 7" from the hard-limit message; auto-deny permission for every role but manager |
 | `skills/run-init/files/settings-hooks.json` | `PreToolUse` matcher adds `create_pull_request`, `update_pull_request`, `create_branch`, `add_issue_comment` |
 | `skills/run-init/files/agents/*.md` | Become prompt templates under `files/prompts/`, without frontmatter hooks; each leaf prompt carries the report procedure above |
-| `skills/run-init/files/docs/run-process.md` | Roles table, Wakes, and Budgets rewritten for sessions; controller context row loses lineage depth; worker tokens from the report |
+| `skills/run-init/files/docs/run-process.md` | Roles table, Wakes, and Budgets rewritten for sessions; controller context row loses lineage depth; worker tokens from `get_session` |
 | `skills/run-init/SKILL.md` | Verify role detection per mark, including a quoted mark in a second prompt; environment setup script is a requirement |
 | `skills/run-plan/SKILL.md` | Plan is a tracking issue with sub-issues and a milestone, no plan file; the owner approves with a comment on the tracking issue |
 | New `skills/factory/SKILL.md` | The request checks above and the reply shape |
