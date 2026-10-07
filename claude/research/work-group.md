@@ -12,18 +12,19 @@ The owner talks to the manager, the architect, and the controller only.
 |---|---|---|---|---|---|
 | Manager | Fable | the whole project | owner | Analyses agent effectiveness and the question routing; proposes changes to dotfiles; starts the architect and the factory | Sets a timer, auto-compacts, reads or answers a controller question, writes product code |
 | Architect | Fable | the whole project | manager | Plans (`run-plan`), answers design questions from the controller, reviews the queue when asked, keeps `docs/run/plan.md` | Writes code; hook denies Edit and Write outside `docs/` |
-| Factory | Haiku | the whole project | manager | On a message naming a role and a prompt, runs `create_session` with that role's model and title, replies with the session id | Anything else |
-| Controller | Opus | one context window | factory | The loop in the `controller` skill: assigns, gates, merges, records, routes questions | Reads a diff, writes product code, answers a one-way door |
-| Worker | Opus | one issue | factory, on the controller's request | Implements the issue, pushes, opens the PR, reports | Merges, reads the holdout |
-| Reviewer | Opus | one PR at one SHA | factory, on the controller's request | Runs the checks and the holdout, posts the review, reports the verdict | Writes to the repo |
-| Auditor | Opus | four merged PRs | factory, on the controller's request | Files `audit` issues | Writes to the repo or PRs |
+| Factory | Haiku | the whole project | manager | On a message from the manager or a controller, runs `create_session` for a new controller with the Opus model and the group title, replies with the session id | Anything else |
+| Controller | Opus | one context window | factory | The loop in the `controller` skill: spawns workers, reviewers, and auditors as sessions, gates, merges, records, routes questions | Reads a diff, writes product code, answers a one-way door |
+| Worker | Opus | one issue | controller | Implements the issue, pushes, opens the PR, reports | Merges, reads the holdout |
+| Reviewer | Opus | one PR at one SHA | controller | Runs the checks and the holdout, posts the review, reports the verdict | Writes to the repo |
+| Auditor | Opus | four merged PRs | controller | Files `audit` issues | Writes to the repo or PRs |
 
 ## Why a factory
 
 `create_session` nests: a child is one level deeper than its parent, and the platform refuses `create_session` and `send_later` at depth 8.
 Last run burned 12 controller sessions and two whole lines on this.
-With the manager at depth 1 and the factory at depth 2, every other session is at depth 3 for the life of the project; a controller handoff asks the factory for its successor instead of spawning one.
-Haiku is enough: the job is one tool call with a fixed prompt, and the factory holds no judgment.
+With the manager at depth 1 and the factory at depth 2, every controller is at depth 3 for the life of the project; a controller handoff asks the factory for its successor instead of spawning one.
+Workers, reviewers, and auditors are spawned by the controller directly at depth 4; they spawn nothing, so their depth never matters, and routing them through the factory would only add a message round trip.
+Haiku is enough for the factory: the job is one tool call with a fixed prompt, and it holds no judgment.
 An idle factory's container is reclaimed, but `send_message` reprovisions it.
 
 ## Why sibling sessions for workers, reviewers, and auditors
@@ -46,6 +47,7 @@ This is the part the manager watches most closely; what is worth surfacing to th
 | One-way door: security, credentials, data loss, public interface or schema, irreversible external action, `CLAUDE.md` hard rule | Owner, on the controller's Questions list | worker names it, controller confirms |
 | Non-reversible product question the architect cannot settle from the plan | Owner, from the architect's own Questions list in `docs/run/plan.md` | architect |
 | Process change | Owner, as an `approved` comment on the process PR | hook |
+| Something outside the asker's work that should be addressed | Nobody waits: the worker, reviewer, or auditor files an issue labelled `triage`; the architect reviews `triage` issues, relabels them `ready` with the unit fields or closes them | asker |
 
 Every routed question gets a row in `docs/run/questions.md` on `claude/run-state`: date, asked by, routed to, the question in one line, the answer in one line, and a `verdict` column the owner or manager fills later: `right`, `should have been <role>`, or `not worth asking`.
 The verdict column is the data the manager uses to adjust the rules; expect several revisions.
@@ -54,8 +56,8 @@ The verdict column is the data the manager uses to adjust the rules; expect seve
 
 - The owner starts the manager with dotfiles and the project repo attached.
 - The manager starts the architect and the factory, with `model` and `title` set explicitly; `create_session` otherwise inherits the parent's model.
-- The architect plans; the owner approves the plan PR; the manager asks the factory for the first controller.
-- The controller asks the factory for workers, reviewers, auditors, and its own successor, each with the prompt from the `controller` skill plus the controller's session id to report to.
+- The architect plans, writing the plan and the issues itself; the owner approves the plan PR; the manager asks the factory for the first controller.
+- The controller spawns workers, reviewers, and auditors with `create_session`, each with the prompt from the `controller` skill plus the controller's session id to report to, and asks the factory for its own successor.
 - A worker, reviewer, or auditor is archived by the controller after its report is recorded.
 - A controller is archived by its successor.
 
@@ -69,17 +71,18 @@ The role rules stay as they are; only the source of the role changes.
 
 | File | Change |
 |---|---|
-| `skills/controller/SKILL.md` | Spawn through the factory (`send_message` with role and prompt, wait for the id); report shape arrives by message, not Agent result; handoff asks the factory for a successor; Rebuild re-points live workers instead of restarting them; routing table above; thresholds 600k soft, 800k hard; `questions.md` row on every routed question |
+| `skills/controller/SKILL.md` | Spawn workers, reviewers, and auditors with `create_session` (`model`, `title`, prompt); report shape arrives by message, not Agent result; handoff asks the factory for a successor; Rebuild re-points live workers instead of restarting them; routing table above; thresholds 600k soft, 800k hard; `questions.md` row on every routed question |
 | `skills/run-init/files/hooks/run-guard.mjs` | Role marks for every role; architect rule (writes only under `docs/`); thresholds from config |
 | `skills/run-init/files/agents/*.md` | Become prompt templates under `files/prompts/`, without frontmatter hooks |
 | `skills/run-init/files/docs/run-process.md` | Roles table, Wakes, and Budgets rewritten for sessions |
 | `skills/run-init/SKILL.md` | Verify role detection per mark instead of subagent hooks; environment setup script is a requirement |
 | New `skills/factory/SKILL.md` | The factory's one procedure and its reply shape |
-| New `skills/architect/SKILL.md` | `run-plan` plus the design-question procedure and the architect's Questions list |
+| New `skills/architect/SKILL.md` | `run-plan` plus the design-question procedure, `triage` issue review, and the architect's Questions list |
 | New `skills/manager/SKILL.md` | The manager's two purposes, the 500k and 800k self-warnings, how to read `questions.md` and the state PR |
 
 ## Open risks
 
 - `send_message` delivery has not been load-tested at three workers plus reviewers messaging one controller; a lost message is a worker that looks stalled, so the controller's 60-minute unstick rule stays.
 - Disk per session is no longer shared, so the three-worker ceiling from worktree size no longer applies, but the Opus usage window still does.
-- A Haiku factory with `create_session` permission can be told to spawn by anyone who can message it; it must accept requests only from session ids on the state PR's Run line and from the manager.
+- A Haiku factory with `create_session` permission can be told to spawn by anyone who can message it; it must accept requests only from the manager and from the controller named on the state PR's Run line.
+- `triage` issues are a new way for an agent to widen scope; the architect closes anything that is not a defect or a plan gap, and the manager counts them per run.
