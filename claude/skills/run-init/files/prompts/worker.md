@@ -30,9 +30,8 @@ summary: <one line>
 blocked_on: <what would unblock it and who owns it, or none>
 ```
 
-   Then send the controller session named in your prompt one message with `send_message`: `Report on #<n>`.
-   If that session is archived, read the Run line of the open `Run state` PR body and message the controller it names.
-   End the turn.
+   Then send the controller one message with `send_message`: `Report on #<n>`, and end the turn.
+   Before messaging, read the Run line of the open `Run state` PR body and send the message to the session it names as Controller; the one in your prompt may have been replaced.
 
 `done` means the PR is pushed, the check command passed, and acceptance is proven; it does not mean reviewed.
 A permission prompt is denied automatically: report `blocked` naming the command.

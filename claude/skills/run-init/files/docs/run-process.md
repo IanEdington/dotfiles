@@ -26,21 +26,21 @@ Design and evidence: `claude/research/work-group.md` and `claude/research/contro
 ## State: the run PR
 
 One draft PR titled `Run state`, branch `claude/run-state` from the base branch, labels `run-state` and `do-not-merge`, never merged or closed.
-Its body is the controller's state (template in the `controller` skill); its Run line names the controller session every leaf reports to and carries a handoff request the factory verifies.
-Only the controller updates that PR; the hook refuses every other role.
-The branch carries `docs/run/holdout/<issue>.md`, the held-out checks workers must not see (workers branch from the base branch, which never has them), plus `docs/run/questions.md` and `docs/run/quality.md`.
+Its body is the controller's state (template in the `controller` skill); its Run line names the controller session every leaf reports to, the architect, the factory, and the approval comment that started the run.
+Only the controller writes that body and pushes the branch; the hook refuses every other role, and refuses every role but the controller and the manager any GitHub write from a shell.
+The branch carries `docs/run/holdout/<issue>.md`, the held-out checks workers must not see (workers branch from the base branch, which never has them), `docs/run/questions.md`, `docs/run/quality.md`, and `docs/run/handoff.md`, the handoff request the factory verifies.
 
 ## The plan: a tracking issue
 
 The architect writes the plan as one tracking issue (goal, non-goals, one-way doors with the owner's decision requested, areas with owning paths, ordered units) with one sub-issue per unit and a milestone per release.
-The owner approves it with a comment starting `approved` on the tracking issue; the controller spawns nothing until that comment exists.
+The owner approves it with a comment starting `approved` on the tracking issue; the first controller records that comment's URL on the Run line, and no controller spawns a leaf without it.
 Every unit issue carries `Depends on`, `Paths` (two busy issues never share a path), `Read first`, `Deliverable`, `Acceptance`, and a `Holdout` line naming the file only the reviewer reads.
 Labels: `ready`, `claimed`, `review`, `blocked`, `audit`, `triage`, `owner-review`, `process`.
 
 ## Reports
 
 A leaf's report is a PR comment (an issue comment on the tracking issue for an auditor) opening with `Run report:`, in the shape its prompt gives.
-After posting it, the leaf sends the controller named in its prompt one message, `Report on #<n>`, which wakes the controller; a message that is lost costs one check-in, not the work, because the controller rebuilds from the `Run report:` comments on every wake.
+After posting it, the leaf reads the Controller on the Run line (the one in its prompt may have handed off) and sends it one message, `Report on #<n>`, which wakes the controller; a message that is lost costs one check-in, not the work, because the controller rebuilds from the `Run report:` comments on every wake.
 
 ## Definition of done
 
@@ -92,10 +92,10 @@ Every protocol failure observed in a run gets a row in `docs/run/decisions.md` (
 | Limit | Default | Set by | On breach |
 |---|---|---|---|
 | Controller context | 250k tokens, 300k hard | Stop hook | Request a successor from the factory; leaves survive the handoff |
-| Worker tokens | 600k | controller, from `get_session` when it records the report | A row in `decisions.md` if it recurs; the issue is too large for one unit |
+| Leaf cost | 30 USD list price | controller, from the leaf's result events when it records the report | A row in `decisions.md` if it recurs; the issue is too large for one unit |
 | Busy workers | 3 | controller | Queue waits |
 | Review rounds | 3 counted | controller | `blocked` |
-| Run budget | from the controller's first prompt, in millions of tokens, with a checkpoint | controller | At a checkpoint, spawn nothing until the owner approves; at the cap, let busy workers finish |
+| Run budget | from the controller's first prompt, in USD at list price, with a checkpoint | controller | At a checkpoint, spawn nothing until the owner approves; at the cap, let busy leaves finish |
 | Audit | every 4 merged PRs | controller | One auditor, read-only |
 
 ## Wakes

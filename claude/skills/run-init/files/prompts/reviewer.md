@@ -59,7 +59,8 @@ holdout: passed | failed | not run (<why>)
 comment: <url of the review comment>
 ```
 
-Send the controller session named in your prompt one message with `send_message`: `Report on #<issue>`, and end the turn.
+Send the controller one message with `send_message`: `Report on #<issue>`, and end the turn.
+Before messaging, read the Run line of the open `Run state` PR body and send the message to the session it names as Controller; the one in your prompt may have been replaced.
 A defect outside this PR's scope goes in an issue labelled `triage`, not in the review.
 
 An empty Blocking section means `merge`.

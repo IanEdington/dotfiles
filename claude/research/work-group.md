@@ -28,13 +28,13 @@ The manager does not spawn controllers because it responds only to the owner; a 
 The factory holds no judgment, but it runs on Opus: tested 2026-10-07, a Haiku session in auto mode is stopped by a permission prompt on `create_session` while an Opus session with the same prompt and environment is not; `model` is a plain parameter and an Opus child was created either way once the prompt was approved.
 An idle factory's container is reclaimed, but `send_message` reprovisions it.
 
-The factory spawns only when all of these hold, read from the state PR body rather than from the message:
+The factory spawns only when all of these hold, read from GitHub rather than from the message:
 
 - The request comes from the manager, or the Run line names the requesting session as Controller.
-- For a successor, the Run line carries `Handoff: requested <time UTC>`, written by that controller.
-- No successor has been spawned for that request.
+- For a successor, `docs/run/handoff.md` on `claude/run-state` reads `requested <time UTC> by <that session id>`.
+- No successor has been spawned for that request: the factory remembers its spawns, and an archived requester already has one.
 
-The hook lets only the controller change the state PR body, so a worker following injected issue text cannot forge a request.
+The hook lets only the controller push `claude/run-state` or write a body that starts with the Run line, and refuses every leaf a GitHub write from a shell, so a worker following injected issue text cannot forge a request.
 
 ## Why sibling sessions for workers, reviewers, and auditors
 
@@ -48,10 +48,10 @@ Cost: each session is a fresh container, so the environment setup script must ma
 
 A leaf's report is a PR comment (an issue comment for an auditor) opening with `Run report:` in the shape the `controller` skill defines.
 After posting it, the leaf reads the Controller field of the Run line in the state PR body and sends that session one `send_message`: `Report on #<n>`.
-The controller reads each leaf's token total with `get_session` when it records the report; a leaf cannot see its own total before it stops.
+The controller reads each leaf's `total_cost_usd` from its result events (`list_events`) when it records the report; budgets are USD at list price, because a token budget mostly counts cheap cache reads.
 
 The controller rebuilds its view from GitHub on startup, on every wake, and on every check-in: in-flight issues and PRs from the state, and the latest `Run report:` comment on each.
-A message that is lost, delayed, or sent to an archived predecessor costs one check-in interval, not the work; there is no re-pointing step at handoff.
+A leaf re-reads the Controller on the Run line before it messages, so a leaf spawned before a handoff wakes the successor; a message that is still lost costs one check-in interval, not the work.
 
 ## Context thresholds
 
@@ -126,8 +126,8 @@ Implemented 2026-10-07; the table is the map from design to files.
 
 | File | Change |
 |---|---|
-| `skills/controller/SKILL.md` | No spawn before the tracking issue is approved; spawn leaves with `create_session` (`model`, `title`, prompt); reports read from `Run report:` comments, messages are wakeups; rebuild from GitHub on every wake; handoff writes `Handoff: requested` and messages the factory; remove lineage depth from the Run line, the successor prompt, and "Handoff and stopping"; Spend from `get_session` per leaf; routing table above; `questions.md` and `quality.md` rows |
-| `skills/run-init/files/hooks/run-guard.mjs` | Role from the first prompt's prefix, one mark per role; architect writes only `docs/run/holdout/` on `claude/run-state` through `create_or_update_file`, no Edit, Write, or push; only the controller updates the state PR; drop "at depth 7" from the hard-limit message; auto-deny permission for every role but manager |
+| `skills/controller/SKILL.md` | No spawn before the tracking issue is approved; spawn leaves with `create_session` (`model`, `title`, prompt); reports read from `Run report:` comments, messages are wakeups; rebuild from GitHub on every wake; handoff writes `docs/run/handoff.md` and messages the factory; remove lineage depth from the Run line, the successor prompt, and "Handoff and stopping"; Spend from result events per leaf; routing table above; `questions.md` and `quality.md` rows |
+| `skills/run-init/files/hooks/run-guard.mjs` | Role from the first prompt's prefix, one mark per role, a subagent inheriting its parent's; architect writes only `docs/run/holdout/` on `claude/run-state` and the state PR itself; only the controller pushes the state branch or writes the state body; no shell writes to GitHub for leaves; auto-deny permission for every role but manager; a table test beside it |
 | `skills/run-init/files/settings-hooks.json` | `PreToolUse` matcher adds `create_pull_request`, `update_pull_request`, `create_branch`, `add_issue_comment` |
 | `skills/run-init/files/agents/*.md` | Become prompt templates under `files/prompts/`, without frontmatter hooks; each leaf prompt carries the report procedure above |
 | `skills/run-init/files/docs/run-process.md` | Roles table, Wakes, and Budgets rewritten for sessions; controller context row loses lineage depth; worker tokens from `get_session` |

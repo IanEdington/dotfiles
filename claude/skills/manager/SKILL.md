@@ -24,8 +24,9 @@ The owner starts you with dotfiles and the project repo attached.
 
 1. `create_session` the architect: `model: claude-fable-5-1`, `title: <group>: architect`, `tags: ["group:<slug>", "role:architect"]`, `source_url` the repo, prompt `You are the architect for <owner>/<repo>. Run the architect skill. Plan: <the owner's goal in one paragraph>.`
 2. `create_session` the factory: `model: claude-opus-5-5`, `title: <group>: factory`, `tags: ["group:<slug>", "role:factory"]`, `source_url` the repo, prompt `You are the factory for <owner>/<repo>. Run the factory skill.`
-3. Record both session ids for the owner; the architect's plan goes on the Run line of the state PR when the first controller writes it, so give the ids to the factory in the first-controller request.
-4. When the owner has commented `approved` on the tracking issue, `send_message` the factory `Controller for <owner>/<repo>. Budget: <n>M tokens, checkpoint every <k>M. Architect: <id>. Factory: <your id>.` and report the controller id to the owner.
+3. Record both session ids for the owner; the factory writes its own id and the architect's into every controller prompt, and the controller writes them on the Run line.
+4. When the owner has commented `approved` on the tracking issue, `send_message` the factory `Controller for <owner>/<repo>. Budget: <n> USD, checkpoint every <k> USD. Architect: <architect session id>.` and report the controller id the factory replies with to the owner.
+   Budgets are USD at list price, read from each leaf's result events; the first run's number is a guess the owner sets.
 
 Always pass `model` and `title`; `create_session` otherwise inherits yours.
 

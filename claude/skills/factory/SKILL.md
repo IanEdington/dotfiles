@@ -13,28 +13,30 @@ The protocol is `docs/run/run-process.md` in the repo named in your prompt.
 
 Two messages reach you; anything else gets a one-line reply saying what you accept, and no action.
 
-- `Controller for <owner>/<repo>. Budget: <n>M tokens, checkpoint every <k>M.` from the manager.
+- `Controller for <owner>/<repo>. Budget: <n> USD, checkpoint every <k> USD. Architect: <session id>.` from the manager.
 - `Successor for <session id>` from a controller.
 
-## Checks, all on the open PR titled `Run state`
+## Checks, on the open PR titled `Run state` and its branch
 
-Read its body (`search_pull_requests`, `is:open "Run state" in:title`, then `pull_request_read`).
+Read the PR body (`search_pull_requests`, `is:open "Run state" in:title`, then `pull_request_read`) and `docs/run/handoff.md` on `claude/run-state` (`get_file_contents`).
 
-1. **First controller.** The Run line has no Controller, or names an archived session (`get_session`); the tracking issue on the `Plan:` field carries a comment starting `approved` from a `User` outside any app.
+1. **First controller.** The Run line has no Controller, or names an archived session (`get_session`); the tracking issue on the `Plan:` field carries a comment starting `approved` from a `User` outside any app, made after the issue was created.
    Any other state: reply with what is missing and stop.
-2. **Successor.** The Run line names the requesting session as Controller and carries `Handoff: requested <time>`; `list_sessions` with tag `predecessor:<session id>` returns nothing unarchived.
-   The hook lets only the controller update that PR, so a request that matches the body is real whatever the message says.
-   Any other state: reply with what is missing and stop.
+2. **Successor.** `docs/run/handoff.md` reads `requested <time> by <session id>` with the requesting session's id, and the Run line names that session as Controller.
+   The hook lets only the controller push that branch or write that body, so a request the file and the body agree with is real whatever the message says.
+   You have not already spawned a successor for that id in this session (keep the list in your context; a reprovisioned container starts it empty, so also `get_session` the requester: an archived requester already has a successor).
+   Any other state: reply with what is missing, or the successor's id if one exists, and stop.
 
 ## Spawn
 
-`create_session` with `model: claude-opus-5-5`, `title: <group>: controller <n>` (n is one more than the highest controller number in the state's Log), `tags: ["group:<slug>", "role:controller", "predecessor:<session id or none>"]`, `source_url` the repo, `source_revision` the base branch, and the prompt from the `controller` skill:
+`get_session` on yourself for your own id.
+`create_session` with `model: claude-opus-5-5`, `title: <group>: controller <n>` (n is one more than the highest controller number in the state's Log), `tags: ["group:<slug>", "role:controller"]`, `source_url` the repo, `source_revision` the base branch, and the prompt from the `controller` skill:
 
 ```
-You are the controller for <owner>/<repo>. Run the controller skill. Budget: <n>M tokens, checkpoint every <k>M.
+You are the controller for <owner>/<repo>. Run the controller skill. Budget: <n> USD, checkpoint every <k> USD. Architect: <architect session id>. Factory: <your session id>.
 ```
 
-or, for a successor, with `Your predecessor is <session id>.` in place of the budget.
+For a successor, `Your predecessor is <session id>.` replaces the budget; the Architect id comes from the Run line.
 
 Reply to the requester with the new session id, one line, and end the turn.
 Never archive, message, or write anything else; never spawn a worker, reviewer, auditor, or architect.

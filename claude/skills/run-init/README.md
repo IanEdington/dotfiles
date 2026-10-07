@@ -13,7 +13,7 @@ Six user-level skills and the files they install, for working a long task as a g
 | `worker` prompt | one Opus session per issue | One issue, own branch, `Run report:` comment |
 | `reviewer` prompt | one Opus session per PR and SHA | Blind adversarial review, runs the held-out check, posts on the PR |
 | `auditor` prompt | one Opus session per four merges | Post-merge audit, files `audit` issues |
-| `run-guard.mjs` | hook | The rules that were broken as prose: role from the first prompt, push check, no worker merge, controller writes only `docs/run/`, read-only reviewer, auditor, architect, and factory, only the controller updates the state PR, owner approval on process PRs, denied permission prompts, controller handoff thresholds |
+| `run-guard.mjs`, `run-guard.test.mjs` | hook and its table test | The rules that were broken as prose: role from the first prompt, push check, no worker merge, controller writes only `docs/run/`, read-only reviewer, auditor, architect, and factory, only the controller updates the state PR, owner approval on process PRs, denied permission prompts, controller handoff thresholds |
 
 Design positions and the evidence behind them: `../../research/work-group.md` and `../../research/controller-worker-reviewer.md`.
 Lessons inherited from earlier runs are the first rows of `files/docs/decisions.md`.
@@ -24,4 +24,4 @@ Checked in `run-init` step 5 on first install, and worth re-checking on each Cla
 
 - Whether `create_session` with `source_url` gives the leaf the repo's `.claude/settings.json` hooks before its first tool call.
 - Whether `send_message` delivery holds at three workers plus reviewers messaging one controller; the controller rebuilds from `Run report:` comments either way.
-- Whether `get_session` `context_usage.used_tokens` is the whole spend of a leaf or only its last turn.
+- Whether `total_cost_usd` on a session's result events restarts when its container is reprovisioned; the controller sums before each drop in case it does.
