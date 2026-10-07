@@ -12,7 +12,7 @@ The owner talks to the manager, the architect, and the controller only.
 |---|---|---|---|---|---|
 | Manager | Fable | the whole project | owner | Measures quality and routing, proposes changes to dotfiles, starts the architect and the factory, asks the factory for the first controller | Sets a timer, auto-compacts, reads or answers a controller question, fills a verdict, writes product code |
 | Architect | Fable | the whole project | manager | Plans (`run-plan`) as a tracking issue with sub-issues and a milestone, answers design questions from the controller, reviews `triage` issues | Writes files; hook allows only `docs/run/holdout/` on `claude/run-state` through the GitHub file tool |
-| Factory | Haiku | the whole project | manager | On a request from the manager or a controller, runs `create_session` for one new controller with `model` Opus and the group title, replies with the session id | Spawns any other role, or anything else |
+| Factory | Opus | the whole project | manager | On a request from the manager or a controller, runs `create_session` for one new controller with `model` Opus and the group title, replies with the session id | Spawns any other role, or anything else |
 | Controller | Opus | one context window | factory | The loop in the `controller` skill: spawns workers, reviewers, and auditors as sessions, gates, merges, records, routes questions | Reads a diff, writes product code, answers a one-way door |
 | Worker | Opus | one issue | controller | Implements the issue, pushes, opens the PR, reports | Merges, reads the holdout |
 | Reviewer | Opus | one PR at one SHA | controller | Runs the checks and the holdout, posts the review, reports the verdict | Writes to the repo |
@@ -25,7 +25,7 @@ Last run burned 12 controller sessions and two whole lines on this.
 With the manager at depth 1 and the factory at depth 2, every controller is at depth 3 for the life of the project, and the leaves it spawns are at depth 4; leaves spawn nothing, so no depth grows.
 A controller handoff asks the factory for its successor instead of spawning one.
 The manager does not spawn controllers because it responds only to the owner; a session in the handoff path must wake on controller messages.
-Haiku is enough: the job is one tool call with a fixed prompt, `model` is a plain parameter of `create_session` and does not depend on the caller's model, and the factory holds no judgment.
+The factory holds no judgment, but it runs on Opus: tested 2026-10-07, a Haiku session in auto mode is stopped by a permission prompt on `create_session` while an Opus session with the same prompt and environment is not; `model` is a plain parameter and an Opus child was created either way once the prompt was approved.
 An idle factory's container is reclaimed, but `send_message` reprovisions it.
 
 The factory spawns only when all of these hold, read from the state PR body rather than from the message:
@@ -141,4 +141,4 @@ The project `PreToolUse` matcher becomes the union of the frontmatter matchers i
 - Disk per session is no longer shared, so the three-worker ceiling from worktree size no longer applies, but the Opus usage window still does.
 - `triage` issues are a new way for an agent to widen scope; the architect closes anything that is not a defect or a plan gap, and the manager counts them per run.
 - The factory is a single point of failure for handoffs; if it is unreachable, a controller at its hard limit stops and puts "factory unreachable" on the Questions list, and the manager restarts the factory when the owner next wakes it.
-- Whether a Haiku session can pass `model` Opus to `create_session` is inferred from the tool schema, not tested; the first spawn proves it.
+- Whether an allow-list entry for `create_session` in the repo's `.claude/settings.json` would let a Haiku factory spawn without a prompt is untested; the saving is about $0.30 per handoff, so it is not worth a process PR.
