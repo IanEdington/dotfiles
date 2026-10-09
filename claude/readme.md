@@ -55,10 +55,11 @@ use the ref in the URL; cloud-setup.sh downloads the tarball at
 | Concern | Where | Why |
 | --- | --- | --- |
 | Preferences, instructions | `CLAUDE.md` | Read on every session start |
+| Container-specific instructions | `claude-local.md`, `claude-cloud.md`, `claude-box.md` | `CLAUDE.md` imports `claude-environment.md`, a gitignored symlink to one variant: `install` links local (box when `CLAUDE_BOX=true`), `cloud-setup.sh` links cloud (box when `CLAUDE_BOX=true`) |
 | Git author identity (cloud) | `SessionStart` hook in `settings.json` | The harness writes `~/.gitconfig` after the setup script runs |
 | Permissions, hooks, attribution | `settings.json` | Enforced by the harness, not the model |
 | Keybindings | `keybindings.json` | |
-| MCP servers | `~/.claude.json` via `claude mcp add` (macOS), per-repo `.mcp.json` (cloud) | settings.json does not load MCP servers |
+| MCP servers | `~/.claude.json` via `claude mcp add` (macOS), per-repo `.mcp.json` (cloud; Playwright needs the flags in `claude-cloud.md`) | settings.json does not load MCP servers |
 | Vim mode | `editorMode` in `settings.json` | |
 | Context usage warnings | `UserPromptSubmit` hook in `settings.json` | Cloud sessions have no status line |
 | `.env` / `.envrc` secrets | `PreToolUse` hook `hooks/block-env-files.sh`; `bin/env-keys`, `bin/env-value`, `bin/env-set`, and `bin/env-unset` list, read, write, and remove entries without printing values | Keeps secret values out of local transcripts |
@@ -113,5 +114,5 @@ by Claude Code and not safe to edit directly. Go through `claude mcp add` /
 
 `cloud-setup.sh` writes a failure notice into `~/.claude/CLAUDE.md` before
 downloading (overwritten on success), and best-effort steps append to
-`~/.cloud-setup-errors.log`. CLAUDE.md instructs Claude to report that
-log at session start.
+`~/.cloud-setup-errors.log`. `claude-cloud.md` instructs Claude to report
+that log at session start.

@@ -40,3 +40,4 @@
 /daemon-auth-status.json
 /daemon.lock
 /daemon.status.json
+/claude-environment.md

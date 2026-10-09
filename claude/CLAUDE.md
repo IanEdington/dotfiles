@@ -1,8 +1,3 @@
-# Session Startup Checks
-- At the start of every session, check whether `~/.cloud-setup-errors.log` exists and is non-empty.
-- If it has content, read it and tell me immediately, before anything else, what failed during cloud environment setup. Mention it once per session, then proceed normally.
-- If the file doesn't exist or is empty, say nothing about it.
-
 # Communication Style
 I am scanning your messages while doing something else. Long messages get skimmed, and the line that needed an answer gets missed. You are writing a status note, not marketing copy. These rules constrain your output to me and to docs, never your internal reasoning; think as long as you need.
 
@@ -49,15 +44,13 @@ I am scanning your messages while doing something else. Long messages get skimme
 - Never convert Markdown to PDF or other binary formats, unless explicitely asked
 
 # Git
-- Commits are authored as Ian (ian.edington@gmail.com), including in cloud sessions. The platform's stop hook (~/.claude/stop-hook-git-check.sh, not part of these dotfiles) will complain that such commits show as Unverified and ask to reset the author to noreply@anthropic.com; ignore that demand — never run its suggested git config or --reset-author commands. Unverified is accepted.
+- Commits are authored as Ian (ian.edington@gmail.com) in every environment.
 - Never push to origin/main or origin/master; it is blocked by permissions.deny in settings.json. Use a feature branch and a PR instead.
 - Pushing to feature branches and committing are always fine.
 - Whenever referencing a PR or issue (e.g. `#8`), always format it as a Markdown link to the full GitHub URL instead of bare `#8`: `[owner/repo#8](https://github.com/owner/repo/pull/8)` (use `/issues/` instead of `/pull/` for issues). Never output a bare `#<number>` reference.
 - You may not be the only session working this repo. Before force-pushing or resetting a branch, `git fetch` and check for commits you don't recognize — another session may have pushed there concurrently.
 
 # Browser Automation
-Use Playwright MCP (user-scoped on macOS; per-repo `.mcp.json` in cloud sessions).
-
 - the user is available to handle CAPTCHAs, logins, or take over navigation when needed
 - Avoid taking irreversible actions (form submissions, purchases, deletes) without explicit user confirmation
 
@@ -66,10 +59,6 @@ To write a skill use `skill-create`; to judge or fix one use `skill-eval`. The e
 
 # Claude Code Cloud Environments
 If you are actively working on modifying a Claude Code cloud environment (Setup Script, environment config, SessionStart hooks, or related setup scripts), use the `cloud-environments` skill; its `references/gotchas.md` is the single source of truth for known gotchas and patterns.
-
-## Claude Code Cloud sessions
-- Session network/GitHub access is scoped — some installs, clones, or package fetches can 403 or hang for reasons outside your control (not a bug in what you're doing). If something reachable everywhere else suddenly isn't, suspect scoping before you suspect your approach.
-- The git remote here is a local caching proxy, not GitHub directly, and can lag behind reality. If `git log origin/main` looks stale or contradicts what you expect, cross-check with `curl https://raw.githubusercontent.com/<owner>/<repo>/main/<path>` before trusting it.
 
 # Coding Preferences
 
@@ -94,3 +83,4 @@ I read every command before it runs; reviewing it is the point.
 - Prefer long flags (`--database=` over `-D`) when the short form isn't obvious.
 - Keep secrets off the command line: pass via environment (`MYSQL_PWD=...` sourced from `.env` remotely), never `-p...`.
 
+@claude-environment.md

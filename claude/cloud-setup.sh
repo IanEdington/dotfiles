@@ -84,5 +84,15 @@ echo "[cloud-setup] Copying claude/ contents into ${CLAUDE_TARGET_DIR} ..."
 # Overwrite the failure notice (and any other files) with real config.
 cp -r "${CLAUDE_SOURCE_DIR}/." "${CLAUDE_TARGET_DIR}/"
 
+# CLAUDE.md imports claude-environment.md; point it at this container type's
+# variant. Claude boxes set CLAUDE_BOX=true.
+if [ "${CLAUDE_BOX:-}" = "true" ]; then
+  CLAUDE_ENVIRONMENT="box"
+else
+  CLAUDE_ENVIRONMENT="cloud"
+fi
+ln -sfn "claude-${CLAUDE_ENVIRONMENT}.md" "${CLAUDE_TARGET_DIR}/claude-environment.md"
+echo "[cloud-setup] Environment: ${CLAUDE_ENVIRONMENT}"
+
 echo "[cloud-setup] Done. ${CLAUDE_TARGET_DIR} contents:"
 ls "${CLAUDE_TARGET_DIR}"
