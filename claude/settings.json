@@ -85,6 +85,15 @@
             "command": "~/.claude/hooks/pr-followup-hint.sh 2>/dev/null || true"
           }
         ]
+      },
+      {
+        "matcher": "mcp__.*__create_file",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/google-doc-pageless.sh 2>/dev/null || true"
+          }
+        ]
       }
     ],
     "PostToolUseFailure": [
