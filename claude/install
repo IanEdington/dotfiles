@@ -9,6 +9,14 @@ IFS=$'\n\t'
 # .gitignore here.
 dotfiles::symlink_files ~/.dotfiles/claude ~/.claude
 
+# CLAUDE.md imports claude-environment.md; cloud-setup.sh links the cloud
+# variant, this script the local or box one.
+if [[ "${CLAUDE_BOX:-}" == "true" ]]; then
+    ln -sfn claude-box.md ~/.dotfiles/claude/claude-environment.md
+else
+    ln -sfn claude-local.md ~/.dotfiles/claude/claude-environment.md
+fi
+
 # Claude Code reads user-scoped MCP servers from ~/.claude.json (via
 # `claude mcp add`), not from settings.json.
 if command_exists claude && ! claude mcp get playwright &> /dev/null; then
