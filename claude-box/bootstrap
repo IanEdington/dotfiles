@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# Bash Strict Mode: http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -euo pipefail
+IFS=$'\n\t'
+# Bash Strict Mode
+
+# Provision an Ubuntu 24.04 server as a Claude Code box. Idempotent: rerun it
+# after pulling changes. Deliberately not named `install`, because the root
+# install script runs every */install, and this must never run on a laptop.
+#
+# Usage: bash ~/code/dotfiles/claude-box/bootstrap
+
+BOX_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd -P )"
+
+if [ "$(uname)" != Linux ]; then
+    echo "claude-box/bootstrap is for Linux servers only" >&2
+    exit 1
+fi
+
+# System steps run as root, in filename order.
+for step in "$BOX_DIR"/system.d/*.sh; do
+    echo "==> $(basename "$step")"
+    sudo bash "$step"
+done
