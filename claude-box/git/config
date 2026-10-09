@@ -12,3 +12,8 @@
 [url "https://github.com/"]
     insteadOf = git@github.com:
     insteadOf = ssh://git@github.com/
+
+# The box commits as Ian; the laptop sets this in its own ~/.local/git/config.
+[user]
+    name = Ian Edington
+    email = ian.edington@gmail.com

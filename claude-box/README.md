@@ -40,6 +40,7 @@ the invoking user, each in filename order.
 | `system.d/40-environment.sh` | `CLAUDE_BOX=true` for every login, cron job and systemd user service (`/etc/environment`) and every Claude Code session (`managed-settings.d/` installed to `/etc/claude-code/`, root-owned) |
 | `user.d/10-dotfiles.sh` | Links the shared `git` and `tmux` config and `diff-so-fancy`; skips the laptop-only installers |
 | `user.d/20-github-tokens.sh` | Links the per-owner GitHub token helper and `gh` wrapper into `~/.local/bin` and includes `git/config` from `~/.local/git/config` |
+| `user.d/30-claude.sh` | Links `~/.claude` to `dotfiles/claude` via `claude/install`, which loads `claude-box.md` because `CLAUDE_BOX=true`. On a box that already had a real `~/.claude`, copies its runtime state (login, sessions) over first and keeps the old directory as `~/.claude.pre-dotfiles-<timestamp>` |
 
 ## GitHub access
 
@@ -52,6 +53,11 @@ token belongs to exactly one user or org. Tokens live outside the repo in
 - `bin/gh` wraps the real `gh` and exports `GH_TOKEN` for the owner from
   `-R/--repo` or the current repo's `origin`.
 - HTTPS remotes only; SSH remotes bypass both.
+- Claude uses Ian's own account, not a separate machine account (decided
+  2026-10-09). Rulesets on `main` therefore can't exempt Ian without also
+  exempting Claude; the push-to-main deny rules and hooks in
+  `claude/settings.json` are the guard on the box side.
+- Git identity for box commits is in `git/config` here.
 
 Create each token from a prefilled link, then pick "Only select
 repositories" and the repos by hand (GitHub can't prefill that part):
@@ -84,7 +90,6 @@ out of transcripts):
 
 ## Still to do
 
-- Claude Code config: link `~/.claude` to `dotfiles/claude`
 - Remote Control as a `systemd --user` service with lingering, working dir `~/code`
 - Toolchain: Node, uv, Playwright MCP with headless Chromium, media tools
 - Bash sandbox (bubblewrap, socat, AppArmor profile) and root-owned

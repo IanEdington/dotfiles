@@ -12,6 +12,9 @@ IFS=$'\n\t'
 
 BOX_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd -P )"
 
+# The first run happens before a re-login picks up /etc/environment.
+export CLAUDE_BOX=true
+
 if [ "$(uname)" != Linux ]; then
     echo "claude-box/bootstrap is for Linux servers only" >&2
     exit 1
