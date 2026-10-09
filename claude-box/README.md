@@ -37,6 +37,8 @@ the invoking user, each in filename order.
 | `system.d/10-swap.sh` | 4G `/swapfile`, `vm.swappiness=10` |
 | `system.d/20-remove-openvpn.sh` | Removes the OpenVPN server the first droplet ran: packages, PKI, NAT rules, IP forwarding, firewall port, client `.ovpn` files |
 | `system.d/30-sshd.sh` | Key-only SSH via a `00-` drop-in, because sshd keeps the first value it reads and cloud-init's `50-cloud-init.conf` turns passwords back on |
+| `system.d/40-environment.sh` | `CLAUDE_BOX=true` for every login, cron job and systemd user service (`/etc/environment`) and every Claude Code session (`managed-settings.d/` installed to `/etc/claude-code/`, root-owned) |
+| `user.d/10-dotfiles.sh` | Links the shared `git` and `tmux` config and `diff-so-fancy`; skips the laptop-only installers |
 | `user.d/20-github-tokens.sh` | Links the per-owner GitHub token helper and `gh` wrapper into `~/.local/bin` and includes `git/config` from `~/.local/git/config` |
 
 ## GitHub access
