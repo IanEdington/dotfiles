@@ -70,8 +70,8 @@ Projects); read on the rest that helps development. Deliberately left out:
   locally for you to push.
 
 Orgs must allow fine-grained tokens, and may hold a new token as pending
-until an org owner approves it. Links default to a 90-day expiry
-(`--days N` to change); put a renewal reminder in your calendar.
+until an org owner approves it. Links default to a 366-day expiry, the
+maximum (`--days N` to change); put a renewal reminder in your calendar.
 
 Then, in your own terminal on the box (not through Claude, so the token stays
 out of transcripts):

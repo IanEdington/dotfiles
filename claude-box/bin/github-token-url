@@ -14,7 +14,7 @@ set -euo pipefail
 owner=${1:?usage: github-token-url <owner> [--org] [--days N]}
 shift
 is_org=false
-days=90
+days=366
 while [ $# -gt 0 ]; do
     case "$1" in
         --org) is_org=true ;;
