@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Print a GitHub link that opens the fine-grained token form with the
+# claude-box permission set already filled in. Repository selection can't be
+# prefilled: pick "Only select repositories" and the repos yourself.
+# Usage: github-token-url <owner> [--org] [--days N]
+#
+# Left out on purpose (see README "GitHub access"): secret_scanning_alerts
+# (alerts contain the leaked secret), repository_hooks / organization_hooks
+# (hook URLs often embed credentials), and anything administrative beyond read.
+
+owner=${1:?usage: github-token-url <owner> [--org] [--days N]}
+shift
+is_org=false
+days=90
+while [ $# -gt 0 ]; do
+    case "$1" in
+        --org) is_org=true ;;
+        --days) days=$2; shift ;;
+        *) echo "unknown option: $1" >&2; exit 1 ;;
+    esac
+    shift
+done
+
+repo_permissions=(
+    contents=write
+    pull_requests=write
+    issues=write
+    workflows=write
+    actions=read
+    statuses=read
+    administration=read
+    metadata=read
+    deployments=read
+    environments=read
+    discussions=read
+    merge_queues=read
+    pages=read
+    secrets=read
+    actions_variables=read
+    dependabot_secrets=read
+    vulnerability_alerts=read
+    security_events=read
+    repository_advisories=read
+    code_quality=read
+    artifact_metadata=read
+    attestations=read
+    repository_custom_properties=read
+)
+org_permissions=(
+    members=read
+    issue_types=read
+    organization_projects=write
+    organization_secrets=read
+    organization_actions_variables=read
+    organization_dependabot_secrets=read
+)
+
+params=(
+    "name=claude-box%20${owner}"
+    "description=Claude%20Code%20on%20claude-box.%20Generated%20by%20dotfiles%2Fclaude-box%2Fbin%2Fgithub-token-url"
+    "target_name=${owner}"
+    "expires_in=${days}"
+    "${repo_permissions[@]}"
+)
+$is_org && params+=("${org_permissions[@]}")
+
+(IFS='&'; echo "https://github.com/settings/personal-access-tokens/new?${params[*]}")

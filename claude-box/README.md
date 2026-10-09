@@ -51,15 +51,24 @@ token belongs to exactly one user or org. Tokens live outside the repo in
   `-R/--repo` or the current repo's `origin`.
 - HTTPS remotes only; SSH remotes bypass both.
 
-Create each token at https://github.com/settings/personal-access-tokens/new:
+Create each token from a prefilled link, then pick "Only select
+repositories" and the repos by hand (GitHub can't prefill that part):
 
-- **Resource owner**: your account or the org. Orgs must allow fine-grained
-  tokens, and may hold a new token as pending until an org owner approves it.
-- **Repository access**: only the repos the box works on.
-- **Permissions**: Contents, Pull requests, Issues: read and write; Actions,
-  Commit statuses: read; Workflows: read and write only if the box should
-  edit `.github/workflows/`.
-- **Expiration**: set one, and put a reminder in your calendar.
+```bash
+~/code/dotfiles/claude-box/bin/github-token-url IanEdington
+~/code/dotfiles/claude-box/bin/github-token-url <org> --org
+```
+
+The permission set: write on Contents, Pull requests, Issues, Workflows (and
+org Projects); read on the rest that helps development. Deliberately left
+out: Secret scanning alerts (alerts contain the leaked secret) and Webhooks
+(hook URLs often embed credentials). Workflows write lets a pushed branch
+run workflows that can read any Actions secret not locked to a protected
+environment, so keep production secrets in environments that need approval.
+
+Orgs must allow fine-grained tokens, and may hold a new token as pending
+until an org owner approves it. Links default to a 90-day expiry
+(`--days N` to change); put a renewal reminder in your calendar.
 
 Then, in your own terminal on the box (not through Claude, so the token stays
 out of transcripts):
