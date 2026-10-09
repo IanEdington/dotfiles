@@ -22,3 +22,9 @@ for step in "$BOX_DIR"/system.d/*.sh; do
     echo "==> $(basename "$step")"
     sudo bash "$step"
 done
+
+# User steps run as the invoking user, in filename order.
+for step in "$BOX_DIR"/user.d/*.sh; do
+    echo "==> $(basename "$step")"
+    bash "$step"
+done

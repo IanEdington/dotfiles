@@ -29,13 +29,44 @@ never run on a laptop.
 
 ## Steps
 
-System steps in `system.d/` run as root in filename order.
+System steps in `system.d/` run as root, then user steps in `user.d/` run as
+the invoking user, each in filename order.
 
 | Step | What it does |
 | --- | --- |
-| `10-swap.sh` | 4G `/swapfile`, `vm.swappiness=10` |
-| `20-remove-openvpn.sh` | Removes the OpenVPN server the first droplet ran: packages, PKI, NAT rules, IP forwarding, firewall port, client `.ovpn` files |
-| `30-sshd.sh` | Key-only SSH via a `00-` drop-in, because sshd keeps the first value it reads and cloud-init's `50-cloud-init.conf` turns passwords back on |
+| `system.d/10-swap.sh` | 4G `/swapfile`, `vm.swappiness=10` |
+| `system.d/20-remove-openvpn.sh` | Removes the OpenVPN server the first droplet ran: packages, PKI, NAT rules, IP forwarding, firewall port, client `.ovpn` files |
+| `system.d/30-sshd.sh` | Key-only SSH via a `00-` drop-in, because sshd keeps the first value it reads and cloud-init's `50-cloud-init.conf` turns passwords back on |
+| `user.d/20-github-tokens.sh` | Links the per-owner GitHub token helper and `gh` wrapper into `~/.local/bin` and includes `git/config` from `~/.local/git/config` |
+
+## GitHub access
+
+Fine-grained personal access tokens, one per owner, because a fine-grained
+token belongs to exactly one user or org. Tokens live outside the repo in
+`~/.config/github-tokens/<owner>` (lowercase, mode 0600).
+
+- `bin/git-credential-github-owner` hands git the token matching the owner in
+  the remote URL (`credential.useHttpPath` makes git pass the path).
+- `bin/gh` wraps the real `gh` and exports `GH_TOKEN` for the owner from
+  `-R/--repo` or the current repo's `origin`.
+- HTTPS remotes only; SSH remotes bypass both.
+
+Create each token at https://github.com/settings/personal-access-tokens/new:
+
+- **Resource owner**: your account or the org. Orgs must allow fine-grained
+  tokens, and may hold a new token as pending until an org owner approves it.
+- **Repository access**: only the repos the box works on.
+- **Permissions**: Contents, Pull requests, Issues: read and write; Actions,
+  Commit statuses: read; Workflows: read and write only if the box should
+  edit `.github/workflows/`.
+- **Expiration**: set one, and put a reminder in your calendar.
+
+Then, in your own terminal on the box (not through Claude, so the token stays
+out of transcripts):
+
+```bash
+~/code/dotfiles/claude-box/bin/add-github-token <owner>
+```
 
 ## Still to do
 
