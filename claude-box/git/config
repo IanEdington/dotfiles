@@ -6,3 +6,9 @@
     helper =
     helper = github-owner
     useHttpPath = true
+
+# Rewrite SSH GitHub URLs to HTTPS so the token helper applies. The shared
+# gh config sets git_protocol: ssh, and the box has no GitHub SSH key.
+[url "https://github.com/"]
+    insteadOf = git@github.com:
+    insteadOf = ssh://git@github.com/
