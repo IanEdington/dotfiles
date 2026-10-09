@@ -59,12 +59,15 @@ repositories" and the repos by hand (GitHub can't prefill that part):
 ~/code/dotfiles/claude-box/bin/github-token-url <org> --org
 ```
 
-The permission set: write on Contents, Pull requests, Issues, Workflows (and
-org Projects); read on the rest that helps development. Deliberately left
-out: Secret scanning alerts (alerts contain the leaked secret) and Webhooks
-(hook URLs often embed credentials). Workflows write lets a pushed branch
-run workflows that can read any Actions secret not locked to a protected
-environment, so keep production secrets in environments that need approval.
+The permission set: write on Contents, Pull requests, Issues (and org
+Projects); read on the rest that helps development. Deliberately left out:
+
+- Secret scanning alerts: alerts contain the leaked secret.
+- Webhooks: hook URLs often embed credentials.
+- Workflows: a workflow pushed to any branch runs with access to Actions
+  secrets not locked to a protected environment. Without it, GitHub rejects
+  pushes that touch `.github/workflows/`; Claude can still edit those files
+  locally for you to push.
 
 Orgs must allow fine-grained tokens, and may hold a new token as pending
 until an org owner approves it. Links default to a 90-day expiry

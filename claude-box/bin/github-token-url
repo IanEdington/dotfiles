@@ -8,7 +8,8 @@ set -euo pipefail
 #
 # Left out on purpose (see README "GitHub access"): secret_scanning_alerts
 # (alerts contain the leaked secret), repository_hooks / organization_hooks
-# (hook URLs often embed credentials), and anything administrative beyond read.
+# (hook URLs often embed credentials), workflows (a pushed workflow can read
+# Actions secrets), and anything administrative beyond read.
 
 owner=${1:?usage: github-token-url <owner> [--org] [--days N]}
 shift
@@ -27,7 +28,6 @@ repo_permissions=(
     contents=write
     pull_requests=write
     issues=write
-    workflows=write
     actions=read
     statuses=read
     administration=read
