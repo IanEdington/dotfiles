@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# gh wrapper: export GH_TOKEN for the owner of the repo gh is acting on, using
+# the same per-owner token files as git-credential-github-owner. The owner comes
+# from -R/--repo if given, else the current repo's origin remote. An explicit
+# GH_TOKEN wins. With no match, gh runs unauthenticated and says so.
+
+TOKEN_DIR="${GITHUB_TOKEN_DIR:-$HOME/.config/github-tokens}"
+
+# The real gh is the next one on PATH after this wrapper.
+self=$(readlink -f "${BASH_SOURCE[0]}")
+real_gh=''
+IFS=: read -ra path_dirs <<< "$PATH"
+for dir in "${path_dirs[@]}"; do
+    candidate="$dir/gh"
+    if [ -x "$candidate" ] && [ "$(readlink -f "$candidate")" != "$self" ]; then
+        real_gh=$candidate
+        break
+    fi
+done
+[ -n "$real_gh" ] || { echo "gh wrapper: gh is not installed" >&2; exit 127; }
+
+if [ -z "${GH_TOKEN:-}" ]; then
+    owner=''
+    prev=''
+    for arg in "$@"; do
+        case "$prev" in -R|--repo) owner=${arg%%/*} ;; esac
+        case "$arg" in --repo=*) owner=${arg#--repo=}; owner=${owner%%/*} ;; esac
+        prev=$arg
+    done
+    if [ -z "$owner" ]; then
+        url=$(git remote get-url origin 2> /dev/null || true)
+        # https://github.com/Owner/repo(.git) or git@github.com:Owner/repo(.git)
+        if [[ $url =~ github\.com[:/]([^/]+)/ ]]; then
+            owner=${BASH_REMATCH[1]}
+        fi
+    fi
+    # Strip any URL host prefix from -R values like github.com/Owner/repo.
+    owner=${owner#github.com/}
+    if [ -n "$owner" ] && [ -r "$TOKEN_DIR/${owner,,}" ]; then
+        GH_TOKEN=$(head -n1 "$TOKEN_DIR/${owner,,}")
+        export GH_TOKEN
+    fi
+fi
+
+exec "$real_gh" "$@"

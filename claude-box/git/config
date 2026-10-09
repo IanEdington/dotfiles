@@ -1,0 +1,19 @@
+# Box-only git config, included from ~/.local/git/config by
+# user.d/20-github-tokens.sh. Kept out of the shared git/config because the
+# per-owner token helper only exists on the claude-box.
+[credential "https://github.com"]
+    # Empty first entry clears any helper set elsewhere (e.g. gh's own).
+    helper =
+    helper = github-owner
+    useHttpPath = true
+
+# Rewrite SSH GitHub URLs to HTTPS so the token helper applies. The shared
+# gh config sets git_protocol: ssh, and the box has no GitHub SSH key.
+[url "https://github.com/"]
+    insteadOf = git@github.com:
+    insteadOf = ssh://git@github.com/
+
+# The box commits as Ian; the laptop sets this in its own ~/.local/git/config.
+[user]
+    name = Ian Edington
+    email = ian.edington@gmail.com
