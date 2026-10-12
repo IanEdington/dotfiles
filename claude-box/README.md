@@ -45,10 +45,13 @@ bootstrap --tags claude      # one role
 | --- | --- |
 | `swap` | 4G `/swapfile`, active and in fstab, `vm.swappiness=10` |
 | `hardening` | Key-only SSH via a `00-` drop-in (sshd keeps the first value it reads, and cloud-init's `50-cloud-init.conf` turns passwords back on), verified with `sshd -T`. Firewall allowing only SSH and mosh. OpenVPN absent: packages, PKI, NAT rules, IP forwarding, port, client `.ovpn` files |
+| `packages` | Command-line, media and document tools from Ubuntu. GitHub's `gh` and Google Chrome from their own apt repositories (deb822 sources), with unattended-upgrades allowed to update both. Chrome is told not to add a duplicate apt source |
 | `environment` | `CLAUDE_BOX=true` for every login, cron job and systemd user service (`/etc/environment`) and every Claude Code session (`managed-settings.d/` installed to `/etc/claude-code/`, root-owned; files removed from the repo are removed from the box) |
 | `dotfiles` | Links the shared `git` and `tmux` config and `diff-so-fancy`, and includes `git/config` from `~/.local/git/config`. The laptop links the same files through each folder's `install`; keep the lists in step |
 | `github` | Links the per-owner GitHub token helper and `gh` wrapper into `~/.local/bin`; creates the token directory |
-| `claude` | Links `~/.claude` to `dotfiles/claude` and selects `claude-box.md` as the environment section. On a box that already had a real `~/.claude`, copies its runtime state (login, sessions) over first and keeps the old directory as `~/.claude.pre-dotfiles-<timestamp>` |
+| `node` | fnm in `~/.local/bin`, latest LTS Node as the default, linked into `~/.local/bin` so non-interactive shells and MCP servers find `node`/`npx`. Interactive bash gets fnm's `--use-on-cd` hook |
+| `python` | uv (installed without editing shell files), Python 3.13, and `yt-dlp` as a uv tool |
+| `claude` | Links `~/.claude` to `dotfiles/claude` and selects `claude-box.md` as the environment section. Registers the Playwright MCP with headless Chrome. On a box that already had a real `~/.claude`, copies its runtime state (login, sessions) over first and keeps the old directory as `~/.claude.pre-dotfiles-<timestamp>` |
 
 Two variables decide whose environment is configured:
 
@@ -109,7 +112,6 @@ out of transcripts):
 
 ## Still to do
 
-- Toolchain: Node, uv, Playwright MCP with headless Chromium, media tools
 - Bash sandbox (bubblewrap, socat, AppArmor profile) and root-owned sandbox
   managed settings
 - Remote Control as a `systemd --user` service with lingering, working dir `~/code`

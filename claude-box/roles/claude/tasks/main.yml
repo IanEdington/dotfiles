@@ -34,3 +34,23 @@
         dest: "{{ box_dotfiles }}/claude/claude-environment.md"
         state: link
         force: true
+
+# Claude Code reads user-scoped MCP servers from ~/.claude.json, so register
+# through the CLI. The laptop's claude/install registers a headed browser.
+- name: Register the Playwright MCP
+  become_user: "{{ box_user }}"
+  environment:
+    PATH: "{{ box_home }}/.local/bin:{{ ansible_env.PATH }}"
+  block:
+    - name: Read the Playwright MCP registration
+      ansible.builtin.command: claude mcp get playwright
+      register: playwright_mcp
+      changed_when: false
+      failed_when: false
+      check_mode: false
+
+    - name: Register Playwright MCP with headless Chrome
+      ansible.builtin.shell: |
+        claude mcp remove --scope user playwright > /dev/null 2>&1 || true
+        claude mcp add --scope user playwright -- npx {{ playwright_mcp_args }}
+      when: "playwright_mcp.rc != 0 or ('Args: ' ~ playwright_mcp_args) not in playwright_mcp.stdout"

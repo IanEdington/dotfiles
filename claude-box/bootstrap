@@ -19,5 +19,5 @@ if ! command -v ansible-playbook > /dev/null; then
 fi
 
 export ANSIBLE_CONFIG="$BOX_DIR/ansible.cfg"
-exec ansible-playbook "$BOX_DIR/playbook.yml" \
+exec ansible-playbook -i localhost, "$BOX_DIR/playbook.yml" \
     -e "box_user=${BOX_USER:-$(id -un)}" "$@"
