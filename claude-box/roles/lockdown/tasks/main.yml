@@ -1,0 +1,44 @@
+# Ends the setup phase: the box user loses root, only the admin can log in,
+# and (via the sandbox role) the Bash sandbox turns on.
+- name: Check the admin exists before removing the box user's root
+  ansible.builtin.stat:
+    path: "~{{ box_admin_user }}/.ssh/authorized_keys"
+  register: admin_keys
+  when: box_admin_user | length > 0
+
+- name: Refuse to lock out the only way in
+  ansible.builtin.assert:
+    that:
+      - box_admin_user | length > 0
+      - admin_keys.stat.exists and admin_keys.stat.size > 0
+    fail_msg: >-
+      Set box_admin_user in /etc/claude-box/vars.yml and run the playbook
+      once (and log in as that user) before ending the setup phase.
+    quiet: true
+
+- name: Remove the box user's passwordless sudo
+  ansible.builtin.lineinfile:
+    path: /etc/sudoers.d/90-cloud-init-users
+    regexp: '^{{ box_user }}\s'
+    state: absent
+    validate: visudo -cf %s
+  failed_when: false
+
+- name: Look up the sudo group
+  ansible.builtin.getent:
+    database: group
+    key: sudo
+
+- name: Remove the box user from the sudo group
+  ansible.builtin.command: gpasswd -d {{ box_user }} sudo
+  when: box_user in getent_group['sudo'][2].split(',')
+
+- name: Allow only the admin to log in over SSH
+  ansible.builtin.copy:
+    dest: /etc/ssh/sshd_config.d/01-claude-box-allowusers.conf
+    content: |
+      # Managed by dotfiles/claude-box (lockdown role)
+      AllowUsers {{ box_admin_user }}
+    mode: "0644"
+    validate: sshd -t -f %s
+  notify: Reload ssh after lockdown

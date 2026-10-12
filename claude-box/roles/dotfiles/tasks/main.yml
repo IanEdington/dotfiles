@@ -16,6 +16,12 @@
         - .local/tmux
         - .local/share/tig
 
+    - name: Clone the box user's dotfiles
+      ansible.builtin.git:
+        repo: https://github.com/IanEdington/dotfiles
+        dest: "{{ box_dotfiles }}"
+        update: false
+
     - name: Link ~/.dotfiles
       ansible.builtin.file:
         src: "{{ box_dotfiles }}"

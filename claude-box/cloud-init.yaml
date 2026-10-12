@@ -1,0 +1,34 @@
+#cloud-config
+# First boot for a new claude-box. Paste into the provider's "user data" field
+# (DigitalOcean: Advanced options > Add initialization scripts), or put it in
+# an Ubuntu autoinstall's user-data for a laptop. Ubuntu 24.04 only.
+#
+# Creates the admin (SSH keys from GitHub, sudo) and the box user Claude runs
+# as (no sudo, no SSH login), then applies the playbook. The box starts out
+# locked down: sandbox on, no setup phase. Remaining manual steps are in
+# claude-box/README.md under "New box".
+
+users:
+  - name: ian
+    shell: /bin/bash
+    groups: [sudo]
+    sudo: "ALL=(ALL) NOPASSWD:ALL"
+    lock_passwd: true
+    ssh_import_id: [gh:IanEdington]
+  - name: claude
+    shell: /bin/bash
+    lock_passwd: true
+
+write_files:
+  - path: /etc/claude-box/vars.yml
+    permissions: "0644"
+    content: |
+      # Machine-specific claude-box settings; see dotfiles/claude-box/README.md.
+      box_admin_user: ian
+
+package_update: true
+packages: [git, ansible]
+
+runcmd:
+  - [sudo, -u, ian, -H, git, clone, https://github.com/IanEdington/dotfiles, /home/ian/code/dotfiles]
+  - [sudo, -u, ian, -H, env, BOX_USER=claude, bash, /home/ian/code/dotfiles/claude-box/bootstrap]

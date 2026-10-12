@@ -14,19 +14,37 @@ server can be built from scratch by rerunning it.
   per project (see the security notes once that step lands).
 - This repo is public: no hostnames, IPs, keys, or tokens in it.
 
-## Bootstrap a new box
+## New box
 
-As a sudo-capable user on a fresh Ubuntu 24.04 server:
+1. Create an Ubuntu 24.04 server with `cloud-init.yaml` as its user data.
+   First boot creates `ian` (SSH keys from github.com/IanEdington.keys, sudo)
+   and `claude` (no sudo, no SSH login), clones the dotfiles for both, and
+   runs the playbook. The box starts locked down: sandbox on, no setup phase.
+   Progress: `sudo tail -f /var/log/cloud-init-output.log`.
+2. `mosh ian@<box>`, then as `claude` (`sudo -iu claude`):
+   - `claude` once, then `/login`
+   - `~/code/dotfiles/claude-box/bin/add-github-token <owner>` per owner
+   - `~/code/dotfiles/claude-box/bin/new-staging-key ...` per project
+3. As `ian`: `BOX_USER=claude bash ~/code/dotfiles/claude-box/bootstrap`
+   again, so the Remote Control service starts with the login in place.
+
+Without cloud-init (e.g. a laptop already installed), as a sudo-capable user:
 
 ```bash
-mkdir -p ~/code && git clone https://github.com/IanEdington/dotfiles ~/code/dotfiles
-bash ~/code/dotfiles/claude-box/bootstrap
+git clone https://github.com/IanEdington/dotfiles ~/code/dotfiles
+BOX_USER=claude bash ~/code/dotfiles/claude-box/bootstrap
 ```
 
 `bootstrap` installs Ubuntu's `ansible` package if needed, then runs
 `playbook.yml` against the local machine. It is not named `install` because
 the root `install` runs every `*/install`, and this must never run on a
 laptop.
+
+### Testing a rebuild
+
+The playbook is complete when a fresh server built from `cloud-init.yaml`
+works without hand fixes and a second `bootstrap` run reports `changed=0`.
+Rerun that check after any change that touches several roles.
 
 ## How it works
 
@@ -45,6 +63,8 @@ bootstrap --tags claude      # one role
 | --- | --- |
 | `swap` | 4G `/swapfile`, active and in fstab, `vm.swappiness=10` |
 | `hardening` | Key-only SSH via a `00-` drop-in (sshd keeps the first value it reads, and cloud-init's `50-cloud-init.conf` turns passwords back on), verified with `sshd -T`. Firewall allowing only SSH and mosh. OpenVPN absent: packages, PKI, NAT rules, IP forwarding, port, client `.ovpn` files |
+| `admin_user` | Only when `box_admin_user` is set. The human admin: SSH keys from github.com/IanEdington.keys (exclusive), passwordless sudo (key-only SSH is the authentication), and its own dotfiles clone that the box user can't edit |
+| `lockdown` | Only when `box_setup_phase` is off. Refuses to run unless the admin has SSH keys; then removes the box user's sudo (cloud-init's sudoers entry and the `sudo` group) and allows only the admin over SSH |
 | `packages` | Command-line, media and document tools from Ubuntu. GitHub's `gh` and Google Chrome from their own apt repositories (deb822 sources), with unattended-upgrades allowed to update both. Chrome is told not to add a duplicate apt source |
 | `environment` | `CLAUDE_BOX=true` for every login, cron job and systemd user service (`/etc/environment`) and every Claude Code session (`managed-settings.d/` installed to `/etc/claude-code/`, root-owned; files removed from the repo are removed from the box) |
 | `dotfiles` | Links the shared `git` and `tmux` config and `diff-so-fancy`, and includes `git/config` from `~/.local/git/config`. The laptop links the same files through each folder's `install`; keep the lists in step |
@@ -81,6 +101,24 @@ box_setup_phase: true
 The sandbox policy is installed but `sandbox.enabled` is false; the
 permission rules (hidden credentials, asking before `ssh`) apply regardless.
 The lockdown removes the flag, which turns the sandbox on.
+
+### Ending the setup phase (lockdown)
+
+For a box that was set up with `box_setup_phase: true` (the first droplet):
+
+1. Add `box_admin_user: ian` to `/etc/claude-box/vars.yml` and run
+   `bootstrap`. This creates `ian` with the GitHub keys, sudo, and its own
+   dotfiles clone in `~ian/code/dotfiles`.
+2. From your own machine, check `mosh ian@<box>` and `sudo -n true` work.
+3. As `ian`, remove `box_setup_phase` from `/etc/claude-box/vars.yml` and run
+   `BOX_USER=claude bash ~/code/dotfiles/claude-box/bootstrap` from ian's
+   clone. The lockdown role removes claude's sudo, allows only `ian` over SSH,
+   and the sandbox turns on. It refuses to run until `ian` has SSH keys.
+
+From then on, run the playbook only as `ian`, from ian's clone, after
+reviewing what changed: `git -C ~/code/dotfiles pull` then `git log -p`
+since the last run. The box user can edit its own clone, so running the
+playbook from that clone as root would hand it root.
 
 ### Switching to the Remote Control service
 
@@ -181,7 +219,6 @@ box has a new IP and new keys, so rerun this per project after moving.
 
 ## Still to do
 
-- Final lockdown: separate admin user, remove the agent user's passwordless
-  sudo (deliberately left on until setup is finished)
-- cloud-init / autoinstall template that creates the users and runs this
-  playbook on first boot
+- Lockdown of the first droplet (steps above), then the rebuild test on a
+  second server
+- `gui` role for a laptop box (lid and suspend settings, headed browser)
