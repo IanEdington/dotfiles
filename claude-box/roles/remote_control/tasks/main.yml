@@ -1,0 +1,51 @@
+# Let the box user's services run without a login session, from boot.
+- name: Keep the box user's services running when logged out
+  ansible.builtin.command: loginctl enable-linger {{ box_user }}
+  args:
+    creates: /var/lib/systemd/linger/{{ box_user }}
+
+- name: Run Remote Control as a user service
+  become_user: "{{ box_user }}"
+  environment:
+    XDG_RUNTIME_DIR: /run/user/{{ getent_passwd[box_user][1] }}
+  block:
+    - name: Create the workspace directory
+      ansible.builtin.file:
+        path: "{{ remote_control_dir }}"
+        state: directory
+
+    # Remote Control refuses to start in an untrusted directory, and the
+    # trust prompt needs a terminal.
+    - name: Trust the workspace directory
+      ansible.builtin.script:
+        cmd: trust-workspace.py {{ box_home }}/.claude.json {{ remote_control_dir }}
+        executable: python3
+      register: trust_workspace
+      changed_when: "'changed' in trust_workspace.stdout"
+
+    - name: Create the user unit directory
+      ansible.builtin.file:
+        path: "{{ box_home }}/.config/systemd/user"
+        state: directory
+
+    - name: Install the Remote Control unit
+      ansible.builtin.template:
+        src: claude-remote-control.service.j2
+        dest: "{{ box_home }}/.config/systemd/user/claude-remote-control.service"
+        mode: "0644"
+      register: remote_control_unit
+
+    - name: Enable the Remote Control service
+      ansible.builtin.systemd_service:
+        name: claude-remote-control
+        scope: user
+        daemon_reload: "{{ remote_control_unit is changed }}"
+        enabled: true
+        state: "{{ 'started' if remote_control_started else omit }}"
+
+    - name: Restart Remote Control after a unit change
+      ansible.builtin.systemd_service:
+        name: claude-remote-control
+        scope: user
+        state: restarted
+      when: remote_control_unit is changed and remote_control_started

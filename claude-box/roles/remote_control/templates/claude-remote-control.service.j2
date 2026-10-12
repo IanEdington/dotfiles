@@ -1,0 +1,17 @@
+# Managed by dotfiles/claude-box (remote_control role).
+[Unit]
+Description=Claude Code Remote Control server
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+WorkingDirectory={{ remote_control_dir }}
+# A user service doesn't read ~/.profile, so put the box user's tools first.
+Environment=PATH={{ box_home }}/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+ExecStart={{ box_home }}/.local/bin/claude remote-control --name {{ remote_control_name }}
+# Remote Control exits after about 10 minutes without network; come back.
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=default.target
