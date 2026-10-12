@@ -48,3 +48,4 @@
     - { role: python, tags: [tools, python] }
     - { role: claude, tags: claude }
     - { role: sandbox, tags: sandbox }
+    - { role: remote_control, tags: remote_control }

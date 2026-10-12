@@ -53,6 +53,7 @@ bootstrap --tags claude      # one role
 | `python` | uv (installed without editing shell files), Python 3.13, and `yt-dlp` as a uv tool |
 | `claude` | Links `~/.claude` to `dotfiles/claude` and selects `claude-box.md` as the environment section. Registers the Playwright MCP with headless Chrome. On a box that already had a real `~/.claude`, copies its runtime state (login, sessions) over first and keeps the old directory as `~/.claude.pre-dotfiles-<timestamp>` |
 | `sandbox` | bubblewrap and socat, the AppArmor profile Ubuntu 24.04 needs for `bwrap`, and a root-owned policy (`/etc/claude-code/managed-settings.d/20-sandbox.json`): the Bash sandbox on (off during the setup phase), a short allowlist of hosts for sandboxed commands, `~/.ssh`, the GitHub tokens and the browser profile hidden from sandboxed commands and from the Read tool, `ssh`/`scp`/`sftp`/`rsync` always asking first, GitHub-authenticating commands (`gh`, `git push/fetch/pull/clone/ls-remote`) run outside the sandbox, and `--dangerously-skip-permissions` disabled |
+| `remote_control` | `claude remote-control --name <hostname>` as a `systemd --user` service in `~/code`, restarting on exit (it quits after ~10 minutes without network) and running from boot via lingering. Marks `~/code` trusted in `~/.claude.json` (`projects[...].hasTrustDialogAccepted`, the documented manual route), since the trust prompt needs a terminal |
 
 Two variables decide whose environment is configured:
 
@@ -79,6 +80,24 @@ box_setup_phase: true
 The sandbox policy is installed but `sandbox.enabled` is false; the
 permission rules (hidden credentials, asking before `ssh`) apply regardless.
 The lockdown removes the flag, which turns the sandbox on.
+
+### Switching to the Remote Control service
+
+A box that already runs `claude remote-control` by hand (in tmux, say) sets
+`remote_control_started: false` in `/etc/claude-box/vars.yml`, so the
+playbook installs and enables the service without starting a second server.
+To switch over, from your own SSH session (this ends any conversation served
+by the old server):
+
+```bash
+sudo sed -i '/^remote_control_started:/d' /etc/claude-box/vars.yml
+pkill -f 'claude remote-control'
+bash ~/code/dotfiles/claude-box/bootstrap --tags remote_control
+systemctl --user status claude-remote-control
+```
+
+Then open claude.ai/code and pick the box's environment. Logs:
+`journalctl --user -u claude-remote-control`.
 
 ### Sandbox notes
 
@@ -145,7 +164,6 @@ out of transcripts):
 
 ## Still to do
 
-- Remote Control as a `systemd --user` service with lingering, working dir `~/code`
 - Staging SSH key pattern
 - Final lockdown: separate admin user, remove the agent user's passwordless
   sudo (deliberately left on until setup is finished)

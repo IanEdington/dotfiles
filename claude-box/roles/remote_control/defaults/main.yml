@@ -1,0 +1,5 @@
+remote_control_name: "{{ ansible_hostname }}"
+remote_control_dir: "{{ box_home }}/code"
+# False leaves the service enabled but stopped, for switching over from a
+# Remote Control server started by hand (stopping that one ends its sessions).
+remote_control_started: true
