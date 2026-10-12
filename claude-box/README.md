@@ -51,6 +51,7 @@ bootstrap --tags claude      # one role
 | `github` | Links the per-owner GitHub token helper and `gh` wrapper into `~/.local/bin`; creates the token directory |
 | `node` | fnm in `~/.local/bin`, latest LTS Node as the default, linked into `~/.local/bin` so non-interactive shells and MCP servers find `node`/`npx`. Interactive bash gets fnm's `--use-on-cd` hook |
 | `python` | uv (installed without editing shell files), Python 3.13, and `yt-dlp` as a uv tool |
+| `ssh_client` | `~/.ssh/config` includes `~/.ssh/config.d/*` (one file per staging host, written by `bin/new-staging-key`), never forwards the agent, and offers only the configured key |
 | `claude` | Links `~/.claude` to `dotfiles/claude` and selects `claude-box.md` as the environment section. Registers the Playwright MCP with headless Chrome. On a box that already had a real `~/.claude`, copies its runtime state (login, sessions) over first and keeps the old directory as `~/.claude.pre-dotfiles-<timestamp>` |
 | `sandbox` | bubblewrap and socat, the AppArmor profile Ubuntu 24.04 needs for `bwrap`, and a root-owned policy (`/etc/claude-code/managed-settings.d/20-sandbox.json`): the Bash sandbox on (off during the setup phase), a short allowlist of hosts for sandboxed commands, `~/.ssh`, the GitHub tokens and the browser profile hidden from sandboxed commands and from the Read tool, `ssh`/`scp`/`sftp`/`rsync` always asking first, GitHub-authenticating commands (`gh`, `git push/fetch/pull/clone/ls-remote`) run outside the sandbox, and `--dangerously-skip-permissions` disabled |
 | `remote_control` | `claude remote-control --name <hostname>` as a `systemd --user` service in `~/code`, restarting on exit (it quits after ~10 minutes without network) and running from boot via lingering. Marks `~/code` trusted in `~/.claude.json` (`projects[...].hasTrustDialogAccepted`, the documented manual route), since the trust prompt needs a terminal |
@@ -162,9 +163,24 @@ out of transcripts):
 ~/code/dotfiles/claude-box/bin/add-github-token <owner>
 ```
 
+## Staging SSH access
+
+One key per project, created on the box, usable only from the box's IP, for a
+deploy user without sudo on the staging server. Run it yourself, not through
+Claude (the key goes in `~/.ssh`, which Claude can't read):
+
+```bash
+~/code/dotfiles/claude-box/bin/new-staging-key <name> <host> [user] [port]
+```
+
+It writes `~/.ssh/staging/<name>` and `~/.ssh/config.d/<name>`, then prints
+the `authorized_keys` line to install on the server:
+`from="<box IP>",no-agent-forwarding,no-port-forwarding,no-X11-forwarding`.
+Claude then reaches it with `ssh <name>`, which always asks you first. A new
+box has a new IP and new keys, so rerun this per project after moving.
+
 ## Still to do
 
-- Staging SSH key pattern
 - Final lockdown: separate admin user, remove the agent user's passwordless
   sudo (deliberately left on until setup is finished)
 - cloud-init / autoinstall template that creates the users and runs this

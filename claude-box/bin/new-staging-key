@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Create an SSH key and host entry for one project's staging server, and
+# print the restricted authorized_keys line to install there. Run it yourself,
+# not through Claude: the key lives in ~/.ssh, which Claude can't read.
+#
+# Usage: new-staging-key <name> <host> [user] [port]
+#   name  short alias, used as `ssh <name>` and as the key's filename
+
+name=${1:?usage: new-staging-key <name> <host> [user] [port]}
+host=${2:?usage: new-staging-key <name> <host> [user] [port]}
+user=${3:-deploy}
+port=${4:-22}
+
+key=~/.ssh/staging/$name
+entry=~/.ssh/config.d/$name
+
+if [ -e "$key" ]; then
+    echo "$key already exists; remove it first to replace it" >&2
+    exit 1
+fi
+
+ssh-keygen -q -t ed25519 -N '' -C "claude-box $(hostname) $name" -f "$key"
+
+cat > "$entry" <<CONF
+Host $name
+    HostName $host
+    User $user
+    Port $port
+    IdentityFile $key
+CONF
+chmod 600 "$entry"
+
+# The address staging servers see this box connect from.
+box_ip=$(ip -4 route get 1.1.1.1 | awk '{for (i = 1; i < NF; i++) if ($i == "src") print $(i + 1)}')
+
+cat <<MSG
+
+Created $key and the "$name" host entry.
+
+On the staging server, as root, create a user without sudo for the box to
+log in as (skip if it exists), then add this line to its
+~$user/.ssh/authorized_keys:
+
+from="$box_ip",no-agent-forwarding,no-port-forwarding,no-X11-forwarding $(cat "$key.pub")
+
+The key only works from this box, can't forward ports or agents, and should
+belong to a user that can deploy but not administer the server.
+
+Then check it from here (accept the host key only if the fingerprint matches
+the server's: ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub on the server):
+
+ssh $name true
+MSG

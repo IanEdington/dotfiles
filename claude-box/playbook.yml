@@ -44,6 +44,7 @@
     - { role: environment, tags: environment }
     - { role: dotfiles, tags: dotfiles }
     - { role: github, tags: github }
+    - { role: ssh_client, tags: ssh_client }
     - { role: node, tags: [tools, node] }
     - { role: python, tags: [tools, python] }
     - { role: claude, tags: claude }
