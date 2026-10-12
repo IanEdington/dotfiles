@@ -1,0 +1,38 @@
+# A burst of Chromium plus test runs should slow down, not get OOM-killed.
+- name: Create the swap file
+  ansible.builtin.command: fallocate -l {{ swap_size }} {{ swap_file }}
+  args:
+    creates: "{{ swap_file }}"
+  register: swap_created
+
+- name: Restrict the swap file
+  ansible.builtin.file:
+    path: "{{ swap_file }}"
+    mode: "0600"
+
+- name: Format the swap file
+  ansible.builtin.command: mkswap {{ swap_file }}
+  when: swap_created is changed
+
+- name: Check active swap
+  ansible.builtin.command: swapon --show=NAME --noheadings
+  register: active_swap
+  changed_when: false
+
+- name: Enable the swap file
+  ansible.builtin.command: swapon {{ swap_file }}
+  when: swap_file not in active_swap.stdout_lines
+
+- name: Enable the swap file at boot
+  ansible.posix.mount:
+    src: "{{ swap_file }}"
+    path: none
+    fstype: swap
+    opts: sw
+    state: present
+
+- name: Prefer RAM over swap
+  ansible.posix.sysctl:
+    name: vm.swappiness
+    value: "10"
+    sysctl_file: /etc/sysctl.d/99-swap.conf

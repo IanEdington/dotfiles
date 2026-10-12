@@ -1,0 +1,39 @@
+# Desired state of a claude-box. Run through ./bootstrap, which installs
+# Ansible first and passes box_user. Machine-specific settings that must stay
+# out of this public repo go in /etc/claude-box/vars.yml (root-owned).
+- name: Claude box
+  hosts: localhost
+  connection: local
+  become: true
+
+  vars:
+    # The copy of the repo running this playbook. System files come from here.
+    dotfiles_root: "{{ playbook_dir | dirname }}"
+
+  pre_tasks:
+    - name: Load machine-specific vars
+      ansible.builtin.include_vars: /etc/claude-box/vars.yml
+      when: "'/etc/claude-box/vars.yml' is file"
+      tags: always
+
+    - name: Look up the box user
+      ansible.builtin.getent:
+        database: passwd
+        key: "{{ box_user }}"
+      tags: always
+
+    - name: Derive box user paths
+      ansible.builtin.set_fact:
+        box_home: "{{ getent_passwd[box_user][4] }}"
+        # The box user's own clone, which config links point into so edits
+        # made on the box land in the repo.
+        box_dotfiles: "{{ getent_passwd[box_user][4] }}/code/dotfiles"
+      tags: always
+
+  roles:
+    - { role: swap, tags: swap }
+    - { role: hardening, tags: hardening }
+    - { role: environment, tags: environment }
+    - { role: dotfiles, tags: dotfiles }
+    - { role: github, tags: github }
+    - { role: claude, tags: claude }

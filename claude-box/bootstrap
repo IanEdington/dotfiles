@@ -4,30 +4,20 @@ set -euo pipefail
 IFS=$'\n\t'
 # Bash Strict Mode
 
-# Provision an Ubuntu 24.04 server as a Claude Code box. Idempotent: rerun it
-# after pulling changes. Deliberately not named `install`, because the root
-# install script runs every */install, and this must never run on a laptop.
+# Bring an Ubuntu server to the state in playbook.yml. Safe to rerun; extra
+# arguments go to ansible-playbook, e.g. `--check --diff` or `--tags claude`.
+# Not named `install`: the root install runs every */install on laptops.
 #
-# Usage: bash ~/code/dotfiles/claude-box/bootstrap
+# Usage: bash ~/code/dotfiles/claude-box/bootstrap [ansible-playbook args]
+#   BOX_USER=claude  user whose environment is configured (default: you)
 
 BOX_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd -P )"
 
-# The first run happens before a re-login picks up /etc/environment.
-export CLAUDE_BOX=true
-
-if [ "$(uname)" != Linux ]; then
-    echo "claude-box/bootstrap is for Linux servers only" >&2
-    exit 1
+if ! command -v ansible-playbook > /dev/null; then
+    sudo apt-get update -q
+    sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -q ansible
 fi
 
-# System steps run as root, in filename order.
-for step in "$BOX_DIR"/system.d/*.sh; do
-    echo "==> $(basename "$step")"
-    sudo bash "$step"
-done
-
-# User steps run as the invoking user, in filename order.
-for step in "$BOX_DIR"/user.d/*.sh; do
-    echo "==> $(basename "$step")"
-    bash "$step"
-done
+export ANSIBLE_CONFIG="$BOX_DIR/ansible.cfg"
+exec ansible-playbook "$BOX_DIR/playbook.yml" \
+    -e "box_user=${BOX_USER:-$(id -un)}" "$@"

@@ -23,24 +23,43 @@ mkdir -p ~/code && git clone https://github.com/IanEdington/dotfiles ~/code/dotf
 bash ~/code/dotfiles/claude-box/bootstrap
 ```
 
-`bootstrap` is idempotent: rerun it after pulling changes. It is not named
-`install` because the root `install` runs every `*/install`, and this must
-never run on a laptop.
+`bootstrap` installs Ubuntu's `ansible` package if needed, then runs
+`playbook.yml` against the local machine. It is not named `install` because
+the root `install` runs every `*/install`, and this must never run on a
+laptop.
 
-## Steps
+## How it works
 
-System steps in `system.d/` run as root, then user steps in `user.d/` run as
-the invoking user, each in filename order.
+`playbook.yml` declares the state the box should be in; each role is one
+concern. Rerunning it changes only what has drifted, so a second run in a row
+should report `changed=0`. That is the test that the playbook captures
+everything.
 
-| Step | What it does |
+```bash
+bootstrap                    # apply
+bootstrap --check --diff     # show what would change, change nothing
+bootstrap --tags claude      # one role
+```
+
+| Role | What it declares |
 | --- | --- |
-| `system.d/10-swap.sh` | 4G `/swapfile`, `vm.swappiness=10` |
-| `system.d/20-remove-openvpn.sh` | Removes the OpenVPN server the first droplet ran: packages, PKI, NAT rules, IP forwarding, firewall port, client `.ovpn` files |
-| `system.d/30-sshd.sh` | Key-only SSH via a `00-` drop-in, because sshd keeps the first value it reads and cloud-init's `50-cloud-init.conf` turns passwords back on |
-| `system.d/40-environment.sh` | `CLAUDE_BOX=true` for every login, cron job and systemd user service (`/etc/environment`) and every Claude Code session (`managed-settings.d/` installed to `/etc/claude-code/`, root-owned) |
-| `user.d/10-dotfiles.sh` | Links the shared `git` and `tmux` config and `diff-so-fancy`; skips the laptop-only installers |
-| `user.d/20-github-tokens.sh` | Links the per-owner GitHub token helper and `gh` wrapper into `~/.local/bin` and includes `git/config` from `~/.local/git/config` |
-| `user.d/30-claude.sh` | Links `~/.claude` to `dotfiles/claude` via `claude/install`, which loads `claude-box.md` because `CLAUDE_BOX=true`. On a box that already had a real `~/.claude`, copies its runtime state (login, sessions) over first and keeps the old directory as `~/.claude.pre-dotfiles-<timestamp>` |
+| `swap` | 4G `/swapfile`, active and in fstab, `vm.swappiness=10` |
+| `hardening` | Key-only SSH via a `00-` drop-in (sshd keeps the first value it reads, and cloud-init's `50-cloud-init.conf` turns passwords back on), verified with `sshd -T`. Firewall allowing only SSH and mosh. OpenVPN absent: packages, PKI, NAT rules, IP forwarding, port, client `.ovpn` files |
+| `environment` | `CLAUDE_BOX=true` for every login, cron job and systemd user service (`/etc/environment`) and every Claude Code session (`managed-settings.d/` installed to `/etc/claude-code/`, root-owned; files removed from the repo are removed from the box) |
+| `dotfiles` | Links the shared `git` and `tmux` config and `diff-so-fancy`, and includes `git/config` from `~/.local/git/config`. The laptop links the same files through each folder's `install`; keep the lists in step |
+| `github` | Links the per-owner GitHub token helper and `gh` wrapper into `~/.local/bin`; creates the token directory |
+| `claude` | Links `~/.claude` to `dotfiles/claude` and selects `claude-box.md` as the environment section. On a box that already had a real `~/.claude`, copies its runtime state (login, sessions) over first and keeps the old directory as `~/.claude.pre-dotfiles-<timestamp>` |
+
+Two variables decide whose environment is configured:
+
+- `box_user`: the user Claude runs as. `bootstrap` sets it to whoever runs it,
+  or `BOX_USER` if set.
+- `dotfiles_root`: the checkout running the playbook; system files come from
+  here. Config links always point into `~box_user/code/dotfiles` so edits made
+  on the box land in that clone.
+
+Machine-specific settings that must not be public go in
+`/etc/claude-box/vars.yml`, which the playbook loads when present.
 
 ## GitHub access
 
@@ -90,10 +109,12 @@ out of transcripts):
 
 ## Still to do
 
-- Remote Control as a `systemd --user` service with lingering, working dir `~/code`
 - Toolchain: Node, uv, Playwright MCP with headless Chromium, media tools
-- Bash sandbox (bubblewrap, socat, AppArmor profile) and root-owned
-  `/etc/claude-code/managed-settings.json`
+- Bash sandbox (bubblewrap, socat, AppArmor profile) and root-owned sandbox
+  managed settings
+- Remote Control as a `systemd --user` service with lingering, working dir `~/code`
 - Staging SSH key pattern
 - Final lockdown: separate admin user, remove the agent user's passwordless
   sudo (deliberately left on until setup is finished)
+- cloud-init / autoinstall template that creates the users and runs this
+  playbook on first boot

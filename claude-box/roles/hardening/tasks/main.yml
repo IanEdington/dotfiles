@@ -1,0 +1,114 @@
+- name: Install security packages
+  ansible.builtin.apt:
+    name: [ufw, fail2ban, unattended-upgrades, mosh]
+    state: present
+
+# Key-only SSH. sshd keeps the first value it reads for each option, and
+# cloud-init's 50-cloud-init.conf sets PasswordAuthentication yes, which
+# silently overrode the `no` in sshd_config. A 00- drop-in sorts first.
+- name: Configure sshd
+  ansible.builtin.copy:
+    src: sshd.conf
+    dest: /etc/ssh/sshd_config.d/00-claude-box.conf
+    mode: "0644"
+  notify: Reload ssh
+
+- name: Apply the sshd change before checking it
+  ansible.builtin.meta: flush_handlers
+
+- name: Read the effective sshd config
+  ansible.builtin.command: sshd -T
+  register: sshd_effective
+  changed_when: false
+  check_mode: false
+
+- name: Check that sshd refuses passwords
+  ansible.builtin.assert:
+    that:
+      - "'passwordauthentication no' in sshd_effective.stdout_lines"
+      - "'kbdinteractiveauthentication no' in sshd_effective.stdout_lines"
+      - "'permitrootlogin no' in sshd_effective.stdout_lines"
+    fail_msg: sshd still allows passwords or root login; check /etc/ssh/sshd_config.d
+    quiet: true
+
+- name: Allow SSH through the firewall
+  community.general.ufw:
+    rule: allow
+    name: OpenSSH
+
+- name: Allow mosh through the firewall
+  community.general.ufw:
+    rule: allow
+    port: "60000:61000"
+    proto: udp
+    comment: mosh
+
+- name: Enable the firewall
+  community.general.ufw:
+    state: enabled
+    policy: deny
+    direction: incoming
+
+# The first droplet doubled as a personal OpenVPN server. A box that runs an
+# agent on untrusted web content should not also route other devices' traffic.
+- name: Remove OpenVPN
+  ansible.builtin.apt:
+    name: [openvpn, easy-rsa]
+    state: absent
+    purge: true
+    autoremove: true
+
+- name: Remove OpenVPN leftovers
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /etc/openvpn
+    - /var/log/openvpn
+    - /etc/sysctl.d/99-openvpn.conf
+
+- name: Turn off IP forwarding
+  ansible.posix.sysctl:
+    name: net.ipv4.ip_forward
+    value: "0"
+    sysctl_file: /etc/sysctl.d/99-claude-box.conf
+
+- name: Close the OpenVPN port
+  community.general.ufw:
+    rule: allow
+    port: "1194"
+    proto: udp
+    delete: true
+
+- name: Remove the OpenVPN NAT rules
+  ansible.builtin.blockinfile:
+    path: /etc/ufw/before.rules
+    marker: "# {mark} OPENVPN NAT"
+    marker_begin: START
+    marker_end: END
+    state: absent
+  notify: Reload ufw
+
+- name: Drop forwarded traffic
+  ansible.builtin.lineinfile:
+    path: /etc/default/ufw
+    regexp: '^DEFAULT_FORWARD_POLICY='
+    line: 'DEFAULT_FORWARD_POLICY="DROP"'
+  notify: Reload ufw
+
+- name: Find OpenVPN client profiles
+  ansible.builtin.find:
+    paths: [/root, /home]
+    patterns: "*.ovpn"
+    recurse: true
+    depth: 2
+  register: ovpn_profiles
+
+# Client profiles embed each device's private key.
+- name: Remove OpenVPN client profiles
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: absent
+  loop: "{{ ovpn_profiles.files }}"
+  loop_control:
+    label: "{{ item.path }}"

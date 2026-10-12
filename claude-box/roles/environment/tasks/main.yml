@@ -1,0 +1,41 @@
+# CLAUDE_BOX=true marks every shell and Claude session on this server.
+# /etc/environment is read by pam_env for SSH/mosh logins, su, sudo and cron,
+# and by systemd user services via /usr/lib/environment.d/99-environment.conf.
+- name: Set CLAUDE_BOX for every login and service
+  ansible.builtin.lineinfile:
+    path: /etc/environment
+    regexp: '^CLAUDE_BOX='
+    line: CLAUDE_BOX=true
+
+# Managed settings reach every Claude Code session however it was started, and
+# are root-owned so the agent can't loosen them.
+- name: Create the managed settings directory
+  ansible.builtin.file:
+    path: /etc/claude-code/managed-settings.d
+    state: directory
+    mode: "0755"
+
+- name: Install managed settings
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: /etc/claude-code/managed-settings.d/
+    mode: "0644"
+  loop: "{{ query('fileglob', dotfiles_root + '/claude-box/managed-settings.d/*.json') }}"
+
+- name: Find installed managed settings
+  ansible.builtin.find:
+    paths: /etc/claude-code/managed-settings.d
+    patterns: "*.json"
+  register: installed_settings
+
+# A settings file deleted from the repo must stop applying on the box.
+- name: Remove managed settings no longer in the repo
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: absent
+  loop: "{{ installed_settings.files }}"
+  loop_control:
+    label: "{{ item.path | basename }}"
+  when: >-
+    (item.path | basename) not in
+    (query('fileglob', dotfiles_root + '/claude-box/managed-settings.d/*.json') | map('basename'))

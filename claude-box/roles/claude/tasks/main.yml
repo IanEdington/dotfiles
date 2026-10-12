@@ -1,0 +1,36 @@
+# Point ~/.claude at dotfiles/claude, as on the laptop, so config changes made
+# on the box land in the repo. Runtime state stays out of git via
+# claude/.gitignore.
+- name: Link ~/.claude to the dotfiles
+  become_user: "{{ box_user }}"
+  block:
+    - name: Check ~/.claude
+      ansible.builtin.stat:
+        path: "{{ box_home }}/.claude"
+      register: claude_dir
+
+    # A box set up before this role existed has a real ~/.claude holding the
+    # login and session history: carry it over without overwriting tracked
+    # files and keep the old directory as a backup.
+    - name: Migrate an existing ~/.claude
+      ansible.builtin.shell: |
+        set -euo pipefail
+        rsync -a --ignore-existing "$HOME/.claude/" "{{ box_dotfiles }}/claude/"
+        mv "$HOME/.claude" "$HOME/.claude.pre-dotfiles-$(date +%Y%m%d%H%M%S)"
+      args:
+        executable: /bin/bash
+      when: claude_dir.stat.isdir is defined and claude_dir.stat.isdir and not claude_dir.stat.islnk
+
+    - name: Link ~/.claude
+      ansible.builtin.file:
+        src: "{{ box_home }}/.dotfiles/claude"
+        dest: "{{ box_home }}/.claude"
+        state: link
+
+    # CLAUDE.md imports claude-environment.md; the laptop links claude-local.md.
+    - name: Select the claude-box CLAUDE.md section
+      ansible.builtin.file:
+        src: claude-box.md
+        dest: "{{ box_dotfiles }}/claude/claude-environment.md"
+        state: link
+        force: true
