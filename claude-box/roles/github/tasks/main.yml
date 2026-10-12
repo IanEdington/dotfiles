@@ -1,0 +1,18 @@
+# Per-owner fine-grained PATs for git and gh. See README "GitHub access".
+- name: Set up GitHub token selection
+  become_user: "{{ box_user }}"
+  block:
+    - name: Link the token helper and gh wrapper
+      ansible.builtin.file:
+        src: "{{ box_dotfiles }}/claude-box/bin/{{ item }}"
+        dest: "{{ box_home }}/.local/bin/{{ item }}"
+        state: link
+      loop:
+        - git-credential-github-owner
+        - gh
+
+    - name: Create the token directory
+      ansible.builtin.file:
+        path: "{{ box_home }}/.config/github-tokens"
+        state: directory
+        mode: "0700"

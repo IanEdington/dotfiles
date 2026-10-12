@@ -1,0 +1,55 @@
+# The shared pieces of the laptop dotfiles that make sense on a headless box.
+# The laptop links these through each folder's install script; keep the two
+# lists in step.
+- name: Link the box user's dotfiles
+  become_user: "{{ box_user }}"
+  block:
+    - name: Create config directories
+      ansible.builtin.file:
+        path: "{{ box_home }}/{{ item }}"
+        state: directory
+      loop:
+        - .config/git
+        - .config/gh
+        - .local/bin
+        - .local/git
+        - .local/tmux
+        - .local/share/tig
+
+    - name: Link ~/.dotfiles
+      ansible.builtin.file:
+        src: "{{ box_dotfiles }}"
+        dest: "{{ box_home }}/.dotfiles"
+        state: link
+
+    - name: Link shared config
+      ansible.builtin.file:
+        src: "{{ box_home }}/.dotfiles/{{ item.src }}"
+        dest: "{{ box_home }}/{{ item.dest }}"
+        state: link
+      loop:
+        - { src: git/config, dest: .config/git/config }
+        - { src: git/ignore, dest: .config/git/ignore }
+        - { src: git/tigrc, dest: .tigrc }
+        - { src: git/gh/config.yml, dest: .config/gh/config.yml }
+        - { src: tmux/tmux.conf, dest: .tmux.conf }
+        - { src: packages/diff-so-fancy/diff-so-fancy, dest: .local/bin/diff-so-fancy }
+      loop_control:
+        label: "{{ item.dest }}"
+
+    # tmux.conf sources this unconditionally.
+    - name: Create the machine-local tmux config
+      ansible.builtin.copy:
+        content: ""
+        dest: "{{ box_home }}/.local/tmux/tmux.conf"
+        force: false
+        mode: "0644"
+
+    # ~/.local/git/config is included last by the shared git/config; on the
+    # box it pulls in the token helper, URL rewrites and identity.
+    - name: Include the box git config
+      community.general.git_config:
+        scope: file
+        file: "{{ box_home }}/.local/git/config"
+        name: include.path
+        value: "{{ box_dotfiles }}/claude-box/git/config"
