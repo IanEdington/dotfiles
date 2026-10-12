@@ -19,7 +19,7 @@ fi
 
 # Claude Code reads user-scoped MCP servers from ~/.claude.json (via
 # `claude mcp add`), not from settings.json.
-if command_exists claude && ! claude mcp get playwright &> /dev/null; then
+if command_exists claude && command_exists npx && ! claude mcp get playwright &> /dev/null; then
     claude mcp add --scope user playwright -- npx -y @playwright/mcp@latest
 fi
 

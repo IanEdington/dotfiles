@@ -41,3 +41,10 @@
 /daemon.lock
 /daemon.status.json
 /claude-environment.md
+# Remote Control server and claude.ai sync state (seen on the claude-box)
+/bridge-spawn/
+/downloads/
+/mcp-needs-auth-cache.json
+/skills/synced/
+/state/
+/uploads/

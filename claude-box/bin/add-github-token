@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Store a fine-grained PAT for one GitHub owner without echoing it or leaving
+# it in shell history. Run this yourself in a terminal, not through Claude.
+# Usage: add-github-token <owner>
+
+owner=${1:?usage: add-github-token <owner>}
+TOKEN_DIR="${GITHUB_TOKEN_DIR:-$HOME/.config/github-tokens}"
+install -d -m 700 "$TOKEN_DIR"
+
+read -rsp "Fine-grained token for $owner: " token
+echo
+[[ $token == github_pat_* ]] || { echo "Expected a token starting with github_pat_" >&2; exit 1; }
+
+umask 077
+printf '%s\n' "$token" > "$TOKEN_DIR/${owner,,}"
+echo "Saved $TOKEN_DIR/${owner,,}"

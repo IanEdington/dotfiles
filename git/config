@@ -15,8 +15,6 @@
 [diff]
     algorithm = patience
     # mnemonicprefix = true # might be useful once I understand git diff
-[include]
-    path = ~/.local/git/config
 [log]
     date = relative
 [merge]
@@ -73,3 +71,6 @@
 	pushRemote = NOPE
 [pile]
 	cleanupRemoteOnSubmitFailure = true
+# Last, so machine-local settings override everything above.
+[include]
+    path = ~/.local/git/config
