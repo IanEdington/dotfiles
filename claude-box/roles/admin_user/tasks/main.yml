@@ -1,0 +1,32 @@
+# The human admin account: SSH keys from GitHub, sudo, and its own copy of
+# the dotfiles that the box user can't edit. After the lockdown it's the only
+# way to root, so the playbook runs from this copy.
+- name: Create the admin user
+  ansible.builtin.user:
+    name: "{{ box_admin_user }}"
+    shell: /bin/bash
+    groups: [sudo]
+    append: true
+    password: "!"
+    update_password: on_create
+
+- name: Install the admin's SSH keys from GitHub
+  ansible.posix.authorized_key:
+    user: "{{ box_admin_user }}"
+    key: "{{ box_admin_ssh_keys_url }}"
+    exclusive: true
+
+# Key-only SSH is the authentication; there is no password to type.
+- name: Let the admin use sudo
+  ansible.builtin.copy:
+    dest: /etc/sudoers.d/10-{{ box_admin_user }}
+    content: "{{ box_admin_user }} ALL=(ALL) NOPASSWD:ALL\n"
+    mode: "0440"
+    validate: visudo -cf %s
+
+- name: Give the admin its own copy of the dotfiles
+  become_user: "{{ box_admin_user }}"
+  ansible.builtin.git:
+    repo: https://github.com/IanEdington/dotfiles
+    dest: "~{{ box_admin_user }}/code/dotfiles"
+    update: false

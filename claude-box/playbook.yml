@@ -16,6 +16,9 @@
     # Managed settings files rendered by roles rather than copied from
     # managed-settings.d/, so the stale-file cleanup leaves them alone.
     generated_managed_settings: [20-sandbox.json]
+    # The human admin account; empty skips it. Set in /etc/claude-box/vars.yml.
+    box_admin_user: ""
+    box_admin_ssh_keys_url: https://github.com/IanEdington.keys
 
   pre_tasks:
     - name: Load machine-specific vars
@@ -40,6 +43,8 @@
   roles:
     - { role: swap, tags: swap }
     - { role: hardening, tags: hardening }
+    - { role: admin_user, tags: admin_user, when: box_admin_user | length > 0 }
+    - { role: lockdown, tags: lockdown, when: not box_setup_phase }
     - { role: packages, tags: [tools, packages] }
     - { role: environment, tags: environment }
     - { role: dotfiles, tags: dotfiles }

@@ -1,6 +1,8 @@
 - name: Install command-line tools
   ansible.builtin.apt:
     name:
+      # Lets Ansible pass temp files to the box user when the admin runs it.
+      - acl
       - build-essential
       - curl
       - fd-find
