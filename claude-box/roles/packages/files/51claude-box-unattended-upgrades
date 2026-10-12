@@ -1,0 +1,6 @@
+// Managed by dotfiles/claude-box (packages role). Security updates for the
+// third-party apt sources the box adds; Ubuntu's own are allowed by default.
+Unattended-Upgrade::Origins-Pattern {
+        "site=cli.github.com";
+        "site=dl.google.com";
+};

@@ -1,0 +1,21 @@
+# Same tools as python/install on the laptop, without touching shell rc files.
+- name: Install uv, Python and Python CLI tools
+  become_user: "{{ box_user }}"
+  block:
+    - name: Install uv
+      ansible.builtin.shell: curl -LsSf https://astral.sh/uv/install.sh | sh
+      args:
+        creates: "{{ box_home }}/.local/bin/uv"
+      environment:
+        UV_NO_MODIFY_PATH: "1"
+
+    - name: Install Python 3.13
+      ansible.builtin.command: "{{ box_home }}/.local/bin/uv python install 3.13"
+      register: uv_python
+      changed_when: "'Installed' in uv_python.stderr"
+
+    - name: Install Python CLI tools
+      ansible.builtin.command: "{{ box_home }}/.local/bin/uv tool install {{ item }}"
+      args:
+        creates: "{{ box_home }}/.local/bin/{{ item }}"
+      loop: [yt-dlp]

@@ -1,0 +1,78 @@
+- name: Install command-line tools
+  ansible.builtin.apt:
+    name:
+      - build-essential
+      - curl
+      - fd-find
+      - git
+      - jq
+      - ripgrep
+      - rsync
+      - sqlite3
+      - tig
+      - tmux
+      - unzip
+      # Media and documents
+      - ffmpeg
+      - imagemagick
+      - pandoc
+      - poppler-utils
+    state: present
+    update_cache: true
+    cache_valid_time: 3600
+
+# Ubuntu's gh lags far behind and breaks on retired GitHub APIs (gh pr edit).
+- name: Add the GitHub CLI repository
+  ansible.builtin.deb822_repository:
+    name: github-cli
+    uris: https://cli.github.com/packages
+    suites: stable
+    components: main
+    architectures: amd64
+    signed_by: https://cli.github.com/packages/githubcli-archive-keyring.gpg
+
+# Chrome's package adds its own apt source on install and from a daily cron
+# job unless told not to, which would duplicate the deb822 source below.
+- name: Stop Chrome adding its own apt source
+  ansible.builtin.copy:
+    dest: /etc/default/google-chrome
+    content: |
+      repo_add_once="false"
+      repo_reenable_on_distupgrade="false"
+    mode: "0644"
+
+# Playwright MCP drives Chrome by default; the packaged browser gets security
+# updates through apt and handles site sign-ins better than headless shells.
+- name: Add the Google Chrome repository
+  ansible.builtin.deb822_repository:
+    name: google-chrome
+    uris: https://dl.google.com/linux/chrome/deb/
+    suites: stable
+    components: main
+    architectures: amd64
+    signed_by: https://dl.google.com/linux/linux_signing_key.pub
+
+- name: Install gh and Chrome
+  ansible.builtin.apt:
+    name: [gh, google-chrome-stable]
+    state: present
+    update_cache: true
+
+- name: Check which gh build is installed
+  ansible.builtin.command: dpkg-query -W -f=${Version} gh
+  register: gh_version
+  changed_when: false
+  check_mode: false
+
+# `present` keeps a gh that Ubuntu installed first; replace it once.
+- name: Replace Ubuntu's gh with GitHub's
+  ansible.builtin.apt:
+    name: gh
+    state: latest
+  when: "'ubuntu' in gh_version.stdout"
+
+- name: Let unattended-upgrades update gh and Chrome
+  ansible.builtin.copy:
+    src: 51claude-box-unattended-upgrades
+    dest: /etc/apt/apt.conf.d/51claude-box-unattended-upgrades
+    mode: "0644"
