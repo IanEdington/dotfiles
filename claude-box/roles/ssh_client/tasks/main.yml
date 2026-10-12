@@ -1,0 +1,26 @@
+# Staging hosts are configured one file per project in ~/.ssh/config.d/ by
+# bin/new-staging-key; hostnames and keys never enter this public repo.
+- name: Set up the SSH client for staging access
+  become_user: "{{ box_user }}"
+  block:
+    - name: Create SSH directories
+      ansible.builtin.file:
+        path: "{{ box_home }}/{{ item }}"
+        state: directory
+        mode: "0700"
+      loop: [.ssh, .ssh/config.d, .ssh/staging]
+
+    - name: Include per-project SSH config
+      ansible.builtin.blockinfile:
+        path: "{{ box_home }}/.ssh/config"
+        create: true
+        mode: "0600"
+        insertbefore: BOF
+        marker: "# {mark} claude-box"
+        block: |
+          # Include must come before any Host block to apply everywhere.
+          Include ~/.ssh/config.d/*
+
+          Host *
+              ForwardAgent no
+              IdentitiesOnly yes
