@@ -1,0 +1,10 @@
+# Managed by dotfiles/claude-box (sandbox role). Ubuntu 24.04 blocks
+# unprivileged user namespaces by default; Claude Code's Bash sandbox needs
+# them for bwrap. Applies to bwrap itself, not to what it runs.
+abi <abi/4.0>,
+include <tunables/global>
+
+profile bwrap /usr/bin/bwrap flags=(unconfined) {
+  userns,
+  include if exists <local/bwrap>
+}

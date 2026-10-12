@@ -39,3 +39,4 @@
   when: >-
     (item.path | basename) not in
     (query('fileglob', dotfiles_root + '/claude-box/managed-settings.d/*.json') | map('basename'))
+    + generated_managed_settings

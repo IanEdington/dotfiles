@@ -1,0 +1,2 @@
+- name: Load the bwrap AppArmor profile
+  ansible.builtin.command: apparmor_parser -r /etc/apparmor.d/bwrap
