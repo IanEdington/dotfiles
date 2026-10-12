@@ -52,6 +52,7 @@ bootstrap --tags claude      # one role
 | `node` | fnm in `~/.local/bin`, latest LTS Node as the default, linked into `~/.local/bin` so non-interactive shells and MCP servers find `node`/`npx`. Interactive bash gets fnm's `--use-on-cd` hook |
 | `python` | uv (installed without editing shell files), Python 3.13, and `yt-dlp` as a uv tool |
 | `claude` | Links `~/.claude` to `dotfiles/claude` and selects `claude-box.md` as the environment section. Registers the Playwright MCP with headless Chrome. On a box that already had a real `~/.claude`, copies its runtime state (login, sessions) over first and keeps the old directory as `~/.claude.pre-dotfiles-<timestamp>` |
+| `sandbox` | bubblewrap and socat, the AppArmor profile Ubuntu 24.04 needs for `bwrap`, and a root-owned policy (`/etc/claude-code/managed-settings.d/20-sandbox.json`): the Bash sandbox on (off during the setup phase), a short allowlist of hosts for sandboxed commands, `~/.ssh`, the GitHub tokens and the browser profile hidden from sandboxed commands and from the Read tool, `ssh`/`scp`/`sftp`/`rsync` always asking first, GitHub-authenticating commands (`gh`, `git push/fetch/pull/clone/ls-remote`) run outside the sandbox, and `--dangerously-skip-permissions` disabled |
 
 Two variables decide whose environment is configured:
 
@@ -62,7 +63,39 @@ Two variables decide whose environment is configured:
   on the box land in that clone.
 
 Machine-specific settings that must not be public go in
-`/etc/claude-box/vars.yml`, which the playbook loads when present.
+`/etc/claude-box/vars.yml` (root-owned), which the playbook loads when
+present.
+
+### Setup phase
+
+While a box is being set up, Claude needs `sudo`, and Claude Code never runs
+a command that starts with `sudo` outside the Bash sandbox. So during setup,
+`/etc/claude-box/vars.yml` holds:
+
+```yaml
+box_setup_phase: true
+```
+
+The sandbox policy is installed but `sandbox.enabled` is false; the
+permission rules (hidden credentials, asking before `ssh`) apply regardless.
+The lockdown removes the flag, which turns the sandbox on.
+
+### Sandbox notes
+
+- GitHub tokens are hidden from sandboxed commands rather than masked.
+  Masking (the proxy swapping a placeholder for the real token) was tested
+  and dropped: git sends tokens base64-encoded in Basic auth, so the
+  placeholder reached GitHub unchanged, and requests carrying a placeholder
+  to `api.github.com` hung. The commands that authenticate to GitHub run
+  outside the sandbox instead.
+- Claude Code keeps some call shapes sandboxed even when excluded, for
+  example anything starting with `sudo`, or `git clone` into an absolute or
+  `~` path. Clone with a relative path from `~/code`.
+- Inside the sandbox, `git status` can list empty files such as `.bashrc` or
+  `.mcp.json`: placeholders the sandbox holds over protected paths while a
+  command runs. They disappear afterwards; never `git add` them.
+- Permission rules read `/path` as relative to the settings file. Use `~/` or
+  `//` for absolute paths.
 
 ## GitHub access
 
@@ -112,8 +145,6 @@ out of transcripts):
 
 ## Still to do
 
-- Bash sandbox (bubblewrap, socat, AppArmor profile) and root-owned sandbox
-  managed settings
 - Remote Control as a `systemd --user` service with lingering, working dir `~/code`
 - Staging SSH key pattern
 - Final lockdown: separate admin user, remove the agent user's passwordless

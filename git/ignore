@@ -40,3 +40,5 @@ Temporary Items
 /node_modules
 
 **/.claude/settings.local.json
+
+**/.claude/.cc-writes/

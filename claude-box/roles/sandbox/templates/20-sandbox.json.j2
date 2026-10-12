@@ -1,0 +1,28 @@
+{#- Managed by dotfiles/claude-box (sandbox role). Rendered to
+    /etc/claude-code/managed-settings.d/, root-owned. -#}
+{
+  "permissions": {
+    "disableBypassPermissionsMode": "disable",
+    "deny": [
+      "Read(~/.ssh/**)",
+      "Read(~/.config/github-tokens/**)"
+    ],
+    "ask": {{ sandbox_remote_shell_commands | map('regex_replace', '^(.*)$', 'Bash(\\1)') | list | to_json }}
+  },
+  "sandbox": {
+    "enabled": {{ (not box_setup_phase) | to_json }},
+    "failIfUnavailable": true,
+    "allowUnsandboxedCommands": false,
+    "excludedCommands": {{ (sandbox_remote_shell_commands + sandbox_github_commands) | to_json }},
+    "network": {
+      "allowedDomains": {{ sandbox_allowed_domains | to_json }}
+    },
+    "credentials": {
+      "files": [
+        { "path": "{{ box_home }}/.ssh", "mode": "deny" },
+        { "path": "{{ box_home }}/.config/github-tokens", "mode": "deny" },
+        { "path": "{{ box_home }}/.cache/ms-playwright", "mode": "deny" }
+      ]
+    }
+  }
+}

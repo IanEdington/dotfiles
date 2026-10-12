@@ -1,0 +1,20 @@
+# Claude Code's Bash sandbox: bubblewrap for filesystem isolation, socat to
+# route traffic through its filtering proxy.
+- name: Install sandbox dependencies
+  ansible.builtin.apt:
+    name: [bubblewrap, socat]
+    state: present
+
+- name: Allow bwrap to create user namespaces
+  ansible.builtin.copy:
+    src: bwrap.apparmor
+    dest: /etc/apparmor.d/bwrap
+    mode: "0644"
+  notify: Load the bwrap AppArmor profile
+
+- name: Install the sandbox policy
+  ansible.builtin.template:
+    src: 20-sandbox.json.j2
+    dest: "{{ sandbox_policy_path }}"
+    mode: "0644"
+    validate: python3 -m json.tool %s

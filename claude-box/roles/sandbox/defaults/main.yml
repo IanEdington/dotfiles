@@ -1,0 +1,38 @@
+# Hosts sandboxed commands reach without asking. In auto mode a command can
+# name other hosts for itself, and the classifier approves or refuses them.
+sandbox_allowed_domains:
+  - github.com
+  - "*.github.com"
+  - "*.githubusercontent.com"
+  - registry.npmjs.org
+  - nodejs.org
+  - pypi.org
+  - files.pythonhosted.org
+
+# These can't work inside the sandbox (plain SSH ignores its proxy), so they
+# run outside it and always ask first.
+sandbox_remote_shell_commands:
+  - ssh *
+  - scp *
+  - sftp *
+  - rsync *
+
+# Commands that authenticate to GitHub with the per-owner tokens, which are
+# hidden from sandboxed commands. Masking the tokens instead (proxy swaps a
+# placeholder for the real value) was tried and dropped: git sends tokens
+# base64-encoded in Basic auth, so the placeholder reaches GitHub unchanged,
+# and requests carrying a placeholder to api.github.com hung (tlsTerminate is
+# experimental). These run outside the sandbox under normal permission checks.
+sandbox_github_commands:
+  - gh *
+  - git push
+  - git push *
+  - git fetch
+  - git fetch *
+  - git pull
+  - git pull *
+  - git clone *
+  - git ls-remote *
+
+# Overridable so the policy can be rendered somewhere harmless for testing.
+sandbox_policy_path: /etc/claude-code/managed-settings.d/20-sandbox.json

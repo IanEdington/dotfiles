@@ -9,6 +9,13 @@
   vars:
     # The copy of the repo running this playbook. System files come from here.
     dotfiles_root: "{{ playbook_dir | dirname }}"
+    # True while the box is being set up and Claude still needs sudo, which
+    # can't run inside the Bash sandbox. Set it in /etc/claude-box/vars.yml;
+    # the lockdown removes it.
+    box_setup_phase: false
+    # Managed settings files rendered by roles rather than copied from
+    # managed-settings.d/, so the stale-file cleanup leaves them alone.
+    generated_managed_settings: [20-sandbox.json]
 
   pre_tasks:
     - name: Load machine-specific vars
@@ -40,3 +47,4 @@
     - { role: node, tags: [tools, node] }
     - { role: python, tags: [tools, python] }
     - { role: claude, tags: claude }
+    - { role: sandbox, tags: sandbox }
