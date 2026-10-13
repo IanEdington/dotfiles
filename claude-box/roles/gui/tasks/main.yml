@@ -1,0 +1,40 @@
+# A laptop running as a box: closing the lid or leaving it idle must not take
+# it offline. Applies at the next boot; restarting logind ends desktop sessions.
+- name: Create the logind drop-in directory
+  ansible.builtin.file:
+    path: /etc/systemd/logind.conf.d
+    state: directory
+    mode: "0755"
+
+- name: Keep running with the lid closed
+  ansible.builtin.copy:
+    dest: /etc/systemd/logind.conf.d/50-claude-box.conf
+    content: |
+      # Managed by dotfiles/claude-box (gui role)
+      [Login]
+      HandleLidSwitch=ignore
+      HandleLidSwitchExternalPower=ignore
+      HandleLidSwitchDocked=ignore
+    mode: "0644"
+
+# GNOME suspends on idle, including at the login screen; masking the targets
+# makes every suspend request fail, whichever setting asked for it.
+- name: Never suspend or hibernate
+  ansible.builtin.systemd_service:
+    name: "{{ item }}"
+    masked: true
+  loop:
+    - sleep.target
+    - suspend.target
+    - hibernate.target
+    - hybrid-sleep.target
+    - suspend-then-hibernate.target
+
+- name: Hide the box user from the login screen
+  community.general.ini_file:
+    path: /var/lib/AccountsService/users/{{ box_user }}
+    section: User
+    option: SystemAccount
+    value: "true"
+    no_extra_spaces: true
+    mode: "0600"
