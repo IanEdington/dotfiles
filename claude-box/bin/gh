@@ -3,8 +3,8 @@ set -euo pipefail
 
 # gh wrapper: export GH_TOKEN for the owner of the repo gh is acting on, using
 # the same per-owner token files as git-credential-github-owner. The owner comes
-# from -R/--repo if given, else the current repo's origin remote. An explicit
-# GH_TOKEN wins. With no match, gh runs unauthenticated and says so.
+# from -R/--repo if given, else the current repo's origin remote, else the
+# `default` token. An explicit GH_TOKEN wins.
 
 TOKEN_DIR="${GITHUB_TOKEN_DIR:-$HOME/.config/github-tokens}"
 
@@ -38,8 +38,13 @@ if [ -z "${GH_TOKEN:-}" ]; then
     fi
     # Strip any URL host prefix from -R values like github.com/Owner/repo.
     owner=${owner#github.com/}
-    if [ -n "$owner" ] && [ -r "$TOKEN_DIR/${owner,,}" ]; then
-        GH_TOKEN=$(head -n1 "$TOKEN_DIR/${owner,,}")
+    token_file="$TOKEN_DIR/${owner,,}"
+    # Outside a repo (sessions start in ~/code) there's no owner to go on.
+    if [ -z "$owner" ] || [ ! -r "$token_file" ]; then
+        token_file="$TOKEN_DIR/default"
+    fi
+    if [ -r "$token_file" ]; then
+        GH_TOKEN=$(head -n1 "$token_file")
         export GH_TOKEN
     fi
 fi

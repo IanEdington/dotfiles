@@ -1,1 +1,1 @@
-playwright_mcp_args: -y @playwright/mcp@latest --headless
+playwright_mcp_args: -y @playwright/mcp@latest --headless --output-dir {{ box_home }}/.cache/playwright-mcp

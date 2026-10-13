@@ -16,3 +16,10 @@
         path: "{{ box_home }}/.config/github-tokens"
         state: directory
         mode: "0700"
+
+    - name: Use the default owner's token when gh has no repo to go on
+      ansible.builtin.file:
+        src: "{{ github_default_owner | lower }}"
+        dest: "{{ box_home }}/.config/github-tokens/default"
+        state: link
+        force: true
