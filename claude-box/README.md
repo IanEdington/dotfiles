@@ -219,6 +219,6 @@ box has a new IP and new keys, so rerun this per project after moving.
 
 ## Still to do
 
-- Lockdown of the first droplet (steps above), then the rebuild test on a
-  second server
+- Rebuild test on a second server (the first droplet was locked down on
+  2026-10-13)
 - `gui` role for a laptop box (lid and suspend settings, headed browser)
