@@ -14,7 +14,9 @@ Your state is the body of the open draft PR titled `Run state`; any controller c
 1. **Tools.** You need the GitHub MCP issue and PR tools, and `create_session`, `get_session`, `archive_session`, `send_message`, `send_later`, and `delete_trigger` (claude-code-remote MCP).
    If one is missing, write which into the state and stop.
 2. **State.** Find the open PR titled `Run state` (`search_pull_requests`, `is:open "Run state" in:title`).
-   None: the architect has not planned; say so and stop.
+   None: find the open tracking issue labelled `run`; none means the architect has not planned, say so and stop.
+   Otherwise open the PR yourself: `docs/run/holdout/README.md` containing `Held-out checks; the PR body is the run state.` on `claude/run-state` if the branch lacks it, draft PR titled `Run state` against the base branch, labels `run-state` and `do-not-merge`, body from the State template with `Plan: #<tracking issue>` and the Queue filled from the tracking issue's sub-issues in order.
+   Creating it subscribes you to its comments, which is how the owner's comments wake you.
    Read its body; `get_session` on yourself for `rate_limit_info` and context.
    Rewrite the Run line with yourself as Controller, the Architect and Factory ids from your prompt (a successor keeps the ones on the line), and delete `docs/run/handoff.md` on `claude/run-state` if it exists.
    If your prompt names a predecessor, `archive_session` it.

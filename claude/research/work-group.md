@@ -96,7 +96,8 @@ Verdicts in `questions.md` and spot checks in `quality.md` are the owner's alone
 
 - The owner starts the manager with dotfiles and the project repo attached.
 - The manager starts the architect and the factory with `model` and `title` set explicitly; `create_session` otherwise inherits the parent's model.
-- The architect plans: a tracking issue for the run, one sub-issue per unit, a milestone per release, and the holdout files; the owner comments `approved` on the tracking issue; the manager asks the factory for the first controller.
+- The architect plans: a tracking issue for the run, one sub-issue per unit, a milestone per release, and the holdout files; the owner comments `approved` on the tracking issue; the manager asks the factory for the first controller, which opens the `Run state` PR.
+- A session that creates a PR is woken by every comment on it, so only the controller opens PRs it should watch; the architect opens none and is woken only by a message from the controller or the owner.
 - The controller spawns nothing until the tracking issue carries the owner's `approved` comment.
 - The controller spawns workers, reviewers, and auditors with `create_session`, each with the prompt from the `controller` skill, and requests its successor through the Run line and a message to the factory.
 - A worker, reviewer, or auditor is archived by the controller after its report is recorded.
