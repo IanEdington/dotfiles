@@ -1,7 +1,7 @@
 #cloud-config
 # First boot for a new claude-box. Paste into the provider's "user data" field
-# (DigitalOcean: Advanced options > Add initialization scripts), or put it in
-# an Ubuntu autoinstall's user-data for a laptop. Ubuntu 24.04 only.
+# (DigitalOcean: Advanced options > Add initialization scripts). Ubuntu 24.04
+# only. A laptop uses autoinstall.yaml instead.
 #
 # Creates the admin (SSH keys from GitHub, sudo) and the box user Claude runs
 # as (no sudo, no SSH login), then applies the playbook. The box starts out

@@ -1,0 +1,21 @@
+# Ubuntu Desktop autoinstall for a laptop claude-box. In the installer choose
+# "Automated installation" and give it this file's raw GitHub URL.
+#
+# Identity and storage stay interactive so ian's password and the disk
+# passphrase are typed at install time, never stored in this public repo.
+# Name the user `ian`: /etc/claude-box/vars.yml below expects it.
+autoinstall:
+  version: 1
+  interactive-sections: [identity, storage]
+  locale: en_CA.UTF-8
+  timezone: geoip
+  drivers:
+    install: true
+  packages: [git, ansible]
+  late-commands:
+    - mkdir -p /target/etc/claude-box
+    - printf 'box_admin_user: ian\n' > /target/etc/claude-box/vars.yml
+    - curtin in-target -- git clone https://github.com/IanEdington/dotfiles /home/ian/code/dotfiles
+    - curtin in-target -- chown -R ian:ian /home/ian/code
+    - cp /target/home/ian/code/dotfiles/claude-box/claude-box-firstboot.service /target/etc/systemd/system/
+    - curtin in-target -- systemctl enable claude-box-firstboot.service
