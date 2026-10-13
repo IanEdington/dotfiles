@@ -30,30 +30,34 @@ server can be built from scratch by rerunning it.
 
 ### Laptop
 
-1. Install Ubuntu Desktop 24.04 LTS: interactive install, default selection,
-   third-party drivers on, erase disk with LVM and encryption (passphrase).
-   After any reboot or power cut the box stays offline until someone types
-   the passphrase at the laptop. Create `ian` with a password and "Require
-   my password to log in".
-2. Prefer Ethernet. On Wi-Fi, keep "All users may connect to this network"
+1. Boot the Ubuntu Desktop 26.04 USB, connect to the network, and choose
+   "Automated installation" with this URL:
+   `https://raw.githubusercontent.com/IanEdington/dotfiles/main/claude-box/autoinstall.yaml`
+2. The installer asks only for identity and storage. Create `ian` with a
+   password (the name must be `ian`). Erase the disk with LVM and encryption
+   (passphrase); after any reboot or power cut the box stays offline until
+   someone types the passphrase at the laptop.
+3. Prefer Ethernet. On Wi-Fi, keep "All users may connect to this network"
    on, so it connects before anyone logs in.
-3. As `ian`, in a terminal on the laptop:
-
-   ```bash
-   sudo apt install --yes git
-   git clone https://github.com/IanEdington/dotfiles ~/code/dotfiles
-   sudo install --directory /etc/claude-box
-   echo 'box_admin_user: ian' | sudo tee /etc/claude-box/vars.yml
-   BOX_USER=claude bash ~/code/dotfiles/claude-box/bootstrap --ask-become-pass
-   ```
-
-   This creates `claude`, takes over `ian`'s SSH keys (from GitHub,
-   replacing any others) and gives `ian` passwordless sudo, so later runs
-   don't need `--ask-become-pass`. `ian`'s login password is unchanged.
-4. Reboot, so the lid setting applies. Don't log in; from another machine
+4. On first boot `claude-box-firstboot.service` runs `bootstrap` as root,
+   retrying every 2 minutes until it succeeds, then disables itself.
+   Progress: `journalctl --follow --unit claude-box-firstboot`. It creates
+   `claude`, takes over `ian`'s SSH keys (from GitHub, replacing any others),
+   and gives `ian` passwordless sudo. `ian`'s login password is unchanged.
+5. Reboot, so the lid setting applies. Don't log in; from another machine
    check `ssh ian@<laptop>.local` works, which proves the network comes up
    on its own.
-5. Steps 2 and 3 of the server list above.
+6. Steps 2 and 3 of the server list above.
+
+Without autoinstall, after a normal install with the same choices, as `ian`:
+
+```bash
+sudo apt install --yes git
+git clone https://github.com/IanEdington/dotfiles ~/code/dotfiles
+sudo install --directory /etc/claude-box
+echo 'box_admin_user: ian' | sudo tee /etc/claude-box/vars.yml
+BOX_USER=claude bash ~/code/dotfiles/claude-box/bootstrap --ask-become-pass
+```
 
 `bootstrap` installs Ubuntu's `ansible` package if needed, then runs
 `playbook.yml` against the local machine. It is not named `install` because

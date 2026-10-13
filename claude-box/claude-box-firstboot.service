@@ -1,0 +1,18 @@
+# Installed by autoinstall.yaml: runs the playbook once the new system has a
+# network, retrying until it succeeds, then disables itself.
+[Unit]
+Description=First claude-box playbook run
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+# simple, not oneshot, so the desktop doesn't wait for a long playbook run.
+Type=simple
+Environment=HOME=/root BOX_USER=claude
+ExecStart=/bin/bash -c 'bash /home/ian/code/dotfiles/claude-box/bootstrap && systemctl disable claude-box-firstboot.service'
+# First boot races unattended-upgrades for the apt lock.
+Restart=on-failure
+RestartSec=2min
+
+[Install]
+WantedBy=multi-user.target
