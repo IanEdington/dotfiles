@@ -31,9 +31,10 @@ server can be built from scratch by rerunning it.
 ### Laptop
 
 1. Install Ubuntu Desktop 24.04 LTS: interactive install, default selection,
-   third-party drivers on, erase disk, no disk encryption (a passphrase
-   prompt at boot would leave the box offline after every power cut). Create
-   `ian` with a password and "Require my password to log in".
+   third-party drivers on, erase disk with LVM and encryption (passphrase).
+   After any reboot or power cut the box stays offline until someone types
+   the passphrase at the laptop. Create `ian` with a password and "Require
+   my password to log in".
 2. Prefer Ethernet. On Wi-Fi, keep "All users may connect to this network"
    on, so it connects before anyone logs in.
 3. As `ian`, in a terminal on the laptop:
