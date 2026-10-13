@@ -72,7 +72,7 @@ bootstrap --tags claude      # one role
 | `node` | fnm in `~/.local/bin`, latest LTS Node as the default, linked into `~/.local/bin` so non-interactive shells and MCP servers find `node`/`npx`. Interactive bash gets fnm's `--use-on-cd` hook |
 | `python` | uv (installed without editing shell files), Python 3.13, and `yt-dlp` as a uv tool |
 | `ssh_client` | `~/.ssh/config` includes `~/.ssh/config.d/*` (one file per staging host, written by `bin/new-staging-key`), never forwards the agent, and offers only the configured key |
-| `claude` | Links `~/.claude` to `dotfiles/claude` and selects `claude-box.md` as the environment section. Registers the Playwright MCP with headless Chrome. On a box that already had a real `~/.claude`, copies its runtime state (login, sessions) over first and keeps the old directory as `~/.claude.pre-dotfiles-<timestamp>` |
+| `claude` | Links `~/.claude` to `dotfiles/claude` and selects `claude-box.md` as the environment section. Registers the Playwright MCP with headless Chrome, writing snapshots to `~/.cache/playwright-mcp` instead of the current directory. On a box that already had a real `~/.claude`, copies its runtime state (login, sessions) over first and keeps the old directory as `~/.claude.pre-dotfiles-<timestamp>` |
 | `sandbox` | bubblewrap and socat, the AppArmor profile Ubuntu 24.04 needs for `bwrap`, and a root-owned policy (`/etc/claude-code/managed-settings.d/20-sandbox.json`): the Bash sandbox on (off during the setup phase), a short allowlist of hosts for sandboxed commands, `~/.ssh`, the GitHub tokens and the browser profile hidden from sandboxed commands and from the Read tool, `ssh`/`scp`/`sftp`/`rsync` always asking first, GitHub-authenticating commands (`gh`, `git push/fetch/pull/clone/ls-remote`) run outside the sandbox, and `--dangerously-skip-permissions` disabled |
 | `remote_control` | `claude remote-control --name <hostname>` as a `systemd --user` service in `~/code`, restarting on exit (it quits after ~10 minutes without network) and running from boot via lingering. Marks `~/code` trusted in `~/.claude.json` (`projects[...].hasTrustDialogAccepted`, the documented manual route), since the trust prompt needs a terminal |
 
@@ -165,7 +165,9 @@ token belongs to exactly one user or org. Tokens live outside the repo in
 - `bin/git-credential-github-owner` hands git the token matching the owner in
   the remote URL (`credential.useHttpPath` makes git pass the path).
 - `bin/gh` wraps the real `gh` and exports `GH_TOKEN` for the owner from
-  `-R/--repo` or the current repo's `origin`.
+  `-R/--repo` or the current repo's `origin`, falling back to
+  `~/.config/github-tokens/default` (a link to `github_default_owner`'s token)
+  outside a repo or for owners without a token.
 - HTTPS remotes only; SSH remotes bypass both.
 - Claude uses Ian's own account, not a separate machine account (decided
   2026-10-09). Rulesets on `main` therefore can't exempt Ian without also
