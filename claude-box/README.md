@@ -125,18 +125,19 @@ playbook from that clone as root would hand it root.
 A box that already runs `claude remote-control` by hand (in tmux, say) sets
 `remote_control_started: false` in `/etc/claude-box/vars.yml`, so the
 playbook installs and enables the service without starting a second server.
-To switch over, from your own SSH session (this ends any conversation served
-by the old server):
+To switch over, as the admin (this ends any conversation served by the old
+server):
 
 ```bash
 sudo sed -i '/^remote_control_started:/d' /etc/claude-box/vars.yml
-pkill -f 'claude remote-control'
-bash ~/code/dotfiles/claude-box/bootstrap --tags remote_control
-systemctl --user status claude-remote-control
+sudo pkill -f 'claude remote-control'
+BOX_USER=claude bash ~/code/dotfiles/claude-box/bootstrap --tags remote_control
+sudo -u claude XDG_RUNTIME_DIR=/run/user/$(id -u claude) \
+    systemctl --user status claude-remote-control
 ```
 
-Then open claude.ai/code and pick the box's environment. Logs:
-`journalctl --user -u claude-remote-control`.
+Then open claude.ai/code and pick the box's environment. Logs: `sudo journalctl _UID=$(id -u claude) --user-unit claude-remote-control`
+(as the admin), or `journalctl --user -u claude-remote-control` as `claude`.
 
 ### Sandbox notes
 
