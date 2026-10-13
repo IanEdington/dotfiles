@@ -35,6 +35,15 @@
         state: link
         force: true
 
+# After the ~/.claude link, so the installer's state lands in the repo's
+# ignored files. Claude Code updates itself from here on.
+- name: Install Claude Code
+  become_user: "{{ box_user }}"
+  ansible.builtin.shell: set -o pipefail && curl -fsSL https://claude.ai/install.sh | bash
+  args:
+    executable: /bin/bash
+    creates: "{{ box_home }}/.local/bin/claude"
+
 # Claude Code reads user-scoped MCP servers from ~/.claude.json, so register
 # through the CLI. The laptop's claude/install registers a headed browser.
 - name: Register the Playwright MCP

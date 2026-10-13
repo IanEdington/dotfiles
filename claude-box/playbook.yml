@@ -19,11 +19,30 @@
     # The human admin account; empty skips it. Set in /etc/claude-box/vars.yml.
     box_admin_user: ""
     box_admin_ssh_keys_url: https://github.com/IanEdington.keys
+    # A laptop with Ubuntu Desktop: keep it awake with the lid closed.
+    box_gui: "{{ '/usr/bin/gnome-shell' is file }}"
 
   pre_tasks:
     - name: Load machine-specific vars
       ansible.builtin.include_vars: /etc/claude-box/vars.yml
       when: "'/etc/claude-box/vars.yml' is file"
+      tags: always
+
+    - name: Check for the box user
+      ansible.builtin.getent:
+        database: passwd
+        key: "{{ box_user }}"
+        fail_key: false
+      tags: always
+
+    # cloud-init creates it on a server; a laptop's installer creates only
+    # the admin.
+    - name: Create the box user
+      ansible.builtin.user:
+        name: "{{ box_user }}"
+        shell: /bin/bash
+        password: "!"
+      when: getent_passwd[box_user] is none
       tags: always
 
     - name: Look up the box user
@@ -43,6 +62,7 @@
   roles:
     - { role: swap, tags: swap }
     - { role: hardening, tags: hardening }
+    - { role: gui, tags: gui, when: box_gui | bool }
     - { role: admin_user, tags: admin_user, when: box_admin_user | length > 0 }
     - { role: lockdown, tags: lockdown, when: not box_setup_phase }
     - { role: packages, tags: [tools, packages] }

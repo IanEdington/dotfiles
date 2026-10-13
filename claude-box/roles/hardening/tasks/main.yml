@@ -1,6 +1,7 @@
 - name: Install security packages
   ansible.builtin.apt:
-    name: [ufw, fail2ban, unattended-upgrades, mosh]
+    # Ubuntu Desktop ships without an SSH server.
+    name: [openssh-server, ufw, fail2ban, unattended-upgrades, mosh]
     state: present
 
 # Key-only SSH. sshd keeps the first value it reads for each option, and

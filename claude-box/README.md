@@ -28,12 +28,31 @@ server can be built from scratch by rerunning it.
 3. As `ian`: `BOX_USER=claude bash ~/code/dotfiles/claude-box/bootstrap`
    again, so the Remote Control service starts with the login in place.
 
-Without cloud-init (e.g. a laptop already installed), as a sudo-capable user:
+### Laptop
 
-```bash
-git clone https://github.com/IanEdington/dotfiles ~/code/dotfiles
-BOX_USER=claude bash ~/code/dotfiles/claude-box/bootstrap
-```
+1. Install Ubuntu Desktop 24.04 LTS: interactive install, default selection,
+   third-party drivers on, erase disk, no disk encryption (a passphrase
+   prompt at boot would leave the box offline after every power cut). Create
+   `ian` with a password and "Require my password to log in".
+2. Prefer Ethernet. On Wi-Fi, keep "All users may connect to this network"
+   on, so it connects before anyone logs in.
+3. As `ian`, in a terminal on the laptop:
+
+   ```bash
+   sudo apt install --yes git
+   git clone https://github.com/IanEdington/dotfiles ~/code/dotfiles
+   sudo install --directory /etc/claude-box
+   echo 'box_admin_user: ian' | sudo tee /etc/claude-box/vars.yml
+   BOX_USER=claude bash ~/code/dotfiles/claude-box/bootstrap --ask-become-pass
+   ```
+
+   This creates `claude`, takes over `ian`'s SSH keys (from GitHub,
+   replacing any others) and gives `ian` passwordless sudo, so later runs
+   don't need `--ask-become-pass`. `ian`'s login password is unchanged.
+4. Reboot, so the lid setting applies. Don't log in; from another machine
+   check `ssh ian@<laptop>.local` works, which proves the network comes up
+   on its own.
+5. Steps 2 and 3 of the server list above.
 
 `bootstrap` installs Ubuntu's `ansible` package if needed, then runs
 `playbook.yml` against the local machine. It is not named `install` because
@@ -61,8 +80,9 @@ bootstrap --tags claude      # one role
 
 | Role | What it declares |
 | --- | --- |
-| `swap` | 4G `/swapfile`, active and in fstab, `vm.swappiness=10` |
-| `hardening` | Key-only SSH via a `00-` drop-in (sshd keeps the first value it reads, and cloud-init's `50-cloud-init.conf` turns passwords back on), verified with `sshd -T`. Firewall allowing only SSH and mosh. OpenVPN absent: packages, PKI, NAT rules, IP forwarding, port, client `.ovpn` files |
+| `swap` | 4G `/swapfile`, active and in fstab, unless other swap exists (Ubuntu Desktop's `/swap.img`). `vm.swappiness=10` |
+| `hardening` | OpenSSH server. Key-only SSH via a `00-` drop-in (sshd keeps the first value it reads, and cloud-init's `50-cloud-init.conf` turns passwords back on), verified with `sshd -T`. Firewall allowing only SSH and mosh. OpenVPN absent: packages, PKI, NAT rules, IP forwarding, port, client `.ovpn` files |
+| `gui` | Only on Ubuntu Desktop (`gnome-shell` present). Ignores the lid switch, masks the suspend and hibernate targets so idle settings can't sleep the box, and hides the box user from the login screen |
 | `admin_user` | Only when `box_admin_user` is set. The human admin: SSH keys from github.com/IanEdington.keys (exclusive), passwordless sudo (key-only SSH is the authentication), and its own dotfiles clone that the box user can't edit |
 | `lockdown` | Only when `box_setup_phase` is off. Refuses to run unless the admin has SSH keys; then removes the box user's sudo (cloud-init's sudoers entry and the `sudo` group) and allows only the admin over SSH |
 | `packages` | Command-line, media and document tools from Ubuntu. GitHub's `gh` and Google Chrome from their own apt repositories (deb822 sources), with unattended-upgrades allowed to update both. Chrome is told not to add a duplicate apt source |
@@ -72,7 +92,7 @@ bootstrap --tags claude      # one role
 | `node` | fnm in `~/.local/bin`, latest LTS Node as the default, linked into `~/.local/bin` so non-interactive shells and MCP servers find `node`/`npx`. Interactive bash gets fnm's `--use-on-cd` hook |
 | `python` | uv (installed without editing shell files), Python 3.13, and `yt-dlp` as a uv tool |
 | `ssh_client` | `~/.ssh/config` includes `~/.ssh/config.d/*` (one file per staging host, written by `bin/new-staging-key`), never forwards the agent, and offers only the configured key |
-| `claude` | Links `~/.claude` to `dotfiles/claude` and selects `claude-box.md` as the environment section. Registers the Playwright MCP with headless Chrome, writing snapshots to `~/.cache/playwright-mcp` instead of the current directory. On a box that already had a real `~/.claude`, copies its runtime state (login, sessions) over first and keeps the old directory as `~/.claude.pre-dotfiles-<timestamp>` |
+| `claude` | Links `~/.claude` to `dotfiles/claude` and selects `claude-box.md` as the environment section. Installs Claude Code with the native installer if `~/.local/bin/claude` is missing. Registers the Playwright MCP with headless Chrome, writing snapshots to `~/.cache/playwright-mcp` instead of the current directory. On a box that already had a real `~/.claude`, copies its runtime state (login, sessions) over first and keeps the old directory as `~/.claude.pre-dotfiles-<timestamp>` |
 | `sandbox` | bubblewrap and socat, the AppArmor profile Ubuntu 24.04 needs for `bwrap`, and a root-owned policy (`/etc/claude-code/managed-settings.d/20-sandbox.json`): the Bash sandbox on (off during the setup phase), a short allowlist of hosts for sandboxed commands, `~/.ssh`, the GitHub tokens and the browser profile hidden from sandboxed commands and from the Read tool, `ssh`/`scp`/`sftp`/`rsync` always asking first, GitHub-authenticating commands (`gh`, `git push/fetch/pull/clone/ls-remote`) run outside the sandbox, and `--dangerously-skip-permissions` disabled |
 | `remote_control` | `claude remote-control --name <hostname>` as a `systemd --user` service in `~/code`, restarting on exit (it quits after ~10 minutes without network) and running from boot via lingering. Marks `~/code` trusted in `~/.claude.json` (`projects[...].hasTrustDialogAccepted`, the documented manual route), since the trust prompt needs a terminal |
 
@@ -223,5 +243,5 @@ box has a new IP and new keys, so rerun this per project after moving.
 ## Still to do
 
 - Rebuild test on a second server (the first droplet was locked down on
-  2026-10-13)
-- `gui` role for a laptop box (lid and suspend settings, headed browser)
+  2026-10-13); the laptop install is the first build from scratch
+- SSH and mosh to the laptop from outside the home network
