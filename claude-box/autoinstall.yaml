@@ -14,7 +14,7 @@ autoinstall:
   packages: [git, ansible]
   late-commands:
     - mkdir -p /target/etc/claude-box
-    - printf 'box_admin_user: ian\n' > /target/etc/claude-box/vars.yml
+    - "printf 'box_admin_user: ian\\n' > /target/etc/claude-box/vars.yml"
     - curtin in-target -- git clone https://github.com/IanEdington/dotfiles /home/ian/code/dotfiles
     - curtin in-target -- chown -R ian:ian /home/ian/code
     - cp /target/home/ian/code/dotfiles/claude-box/claude-box-firstboot.service /target/etc/systemd/system/
