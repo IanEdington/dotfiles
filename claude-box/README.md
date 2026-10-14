@@ -56,7 +56,7 @@ sudo apt install --yes git
 git clone https://github.com/IanEdington/dotfiles ~/code/dotfiles
 sudo install --directory /etc/claude-box
 echo 'box_admin_user: ian' | sudo tee /etc/claude-box/vars.yml
-BOX_USER=claude bash ~/code/dotfiles/claude-box/bootstrap --ask-become-pass
+BOX_USER=claude bash ~/code/dotfiles/claude-box/bootstrap
 ```
 
 `bootstrap` installs Ubuntu's `ansible` package if needed, then runs
