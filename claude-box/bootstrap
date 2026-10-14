@@ -21,6 +21,13 @@ if [ "$(id -u)" -ne 0 ] && ! id -nG "$(id -un)" | tr ' ' '\n' | grep -qx sudo; t
     exit 1
 fi
 
+# Ansible can't recognize sudo-rs's password prompt (Ubuntu 26.04's sudo) and
+# times out, so take root once here and every become starts as root.
+if [ "$(id -u)" -ne 0 ]; then
+    exec sudo env HOME=/root BOX_USER="${BOX_USER:-$(id -un)}" \
+        bash "$BOX_DIR/bootstrap" "$@"
+fi
+
 if ! command -v ansible-playbook > /dev/null; then
     sudo apt-get update -q
     sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -q ansible
