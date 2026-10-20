@@ -30,9 +30,9 @@ A repo describes the system as it is now and why. How it got there lives in git 
 
 - Never commit intermediary state: decision docs, plans, status or progress notes, handoffs, session summaries, TODO or NOTES files, migration write-ups, candidate lists, scratch output. Scratch goes in the scratchpad. Decisions taken, alternatives rejected, and what was left out go in the PR body.
 - Asked for a decision doc, or holding decisions from a discussion: apply each decision to every file it affects (code, config, docs, skills) and list the decisions with their reasoning in the PR body. A PR whose only change is a doc describing what should change is not done.
-- No prose about the repo's own past in committed files: no "previously", "used to", "no longer", "superseded", "legacy", "as of <date>", "renamed from", "moved to", tombstone comments, or commented-out code. State the current rule or behaviour. The only exception is a re-learning guard a skill asks for by name (for example a memory skill's one-line negation).
+- No prose about the repo's own past in committed files: no "previously", "used to", "no longer", "superseded", "legacy", "as of <date>", "renamed from", "moved to", tombstone comments, or commented-out code. State the current rule or behaviour.
 - Why sits next to the thing it explains, one line, present tense: a code comment, a sentence in the doc that states the rule, a column in the table. The reasoning that produced the why is history.
-- Files a tool consumes (an append-only log CI aggregates, a changelog a release process reads) are data, not history; their skill or CLAUDE.md names them, and nothing else gets added beside them.
+- History kept on purpose by a specific tool is data, not cruft: an architecture decision record, a decision log a skill reads, an append-only log CI aggregates, a changelog a release process consumes, a memory skill's one-line negation. Write there in that tool's format. The harm is history scattered through code and docs, not history in the one place a tool keeps it.
 - A file you are already editing that carries this cruft loses it in the same change. Do not open a PR only to remove it unless asked.
 
 # Background
