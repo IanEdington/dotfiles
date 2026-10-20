@@ -34,7 +34,7 @@ CLAUDE_TARGET_DIR="${HOME}/.claude"
 
 # Best-effort steps log here instead of just stderr, because nothing reads
 # this script's console output once the cached environment is built —
-# CLAUDE.md tells Claude to check this file and report failures.
+# hooks/cloud-setup-errors.sh surfaces this file at session start.
 ERRORS_LOG="${HOME}/.cloud-setup-errors.log"
 
 # Ensure cleanup of the temp dir no matter how the script exits.

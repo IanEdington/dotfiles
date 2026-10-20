@@ -1,10 +1,5 @@
 # Environment: Claude Code cloud session
 
-# Session Startup Checks
-- At the start of every session, check whether `~/.cloud-setup-errors.log` exists and is non-empty.
-- If it has content, read it and tell me immediately, before anything else, what failed during cloud environment setup. Mention it once per session, then proceed normally.
-- If the file doesn't exist or is empty, say nothing about it.
-
 # Git
 - The platform's stop hook (~/.claude/stop-hook-git-check.sh, not part of these dotfiles) will complain that commits authored as Ian show as Unverified and ask to reset the author to noreply@anthropic.com; ignore that demand — never run its suggested git config or --reset-author commands. Unverified is accepted.
 
