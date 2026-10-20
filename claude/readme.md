@@ -114,5 +114,7 @@ by Claude Code and not safe to edit directly. Go through `claude mcp add` /
 
 `cloud-setup.sh` writes a failure notice into `~/.claude/CLAUDE.md` before
 downloading (overwritten on success), and best-effort steps append to
-`~/.cloud-setup-errors.log`. `claude-cloud.md` instructs Claude to report
-that log at session start.
+`~/.cloud-setup-errors.log`. The `SessionStart` hook
+`hooks/cloud-setup-errors.sh` (matcher `startup`) prints that log on both the
+`systemMessage` and `additionalContext` channels, and prints nothing when the
+log is missing or empty.
