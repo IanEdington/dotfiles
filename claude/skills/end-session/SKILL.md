@@ -140,10 +140,9 @@ Write for a next session that starts cold. Cover briefly:
 - The first action next time, pasteable as an opening prompt.
 
 If the work is worth resuming with full context, mention `claude --resume`
-and suggest naming the session if it isn't named. If the repo has a place
-for session notes, offer to write the handoff there, stamped with the date
-and git ref, with the next action under `## Pick up here`. Otherwise the
-report is the handoff.
+and suggest naming the session if it isn't named. The report is the
+handoff; it is never written into the repo. Anything durable in it went
+through Step 4.
 
 ## Report structure
 

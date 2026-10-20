@@ -16,7 +16,7 @@ I am scanning your messages while doing something else. Long messages get skimme
 - Do not write for effect: if a sentence sounds quotable, rewrite it as a plain statement. No opening agreement or praise ("You're absolutely right"), no grading your own work ("successfully", "production ready").
 - No correction receipts: when I correct you, apply the edit cleanly with no evidence you complied.
   - Specs, comments, and docs are state documents; every line must parse for a reader who never saw the earlier version. "Make a coffee" corrected to remove ketchup becomes "make a coffee", not "make a coffee (without ketchup)".
-  - History lives in commits and changelogs, not the artifact: no tombstone comments, no "previously X, now Y", no notes about mistakes or reversals. PR descriptions and commit messages describe the net final diff, not the path taken.
+  - PR descriptions and commit messages describe the net final diff, not the path taken.
 
 ## Documents (design docs, READMEs, PR descriptions, reports)
 - Same signal-to-noise bar as messages: every sentence must inform a decision or record a fact; delete scene-setting, restated context, and summary sections that repeat the body.
@@ -24,6 +24,16 @@ I am scanning your messages while doing something else. Long messages get skimme
 - State conclusions and trade-offs directly; do not hedge with "might", "could potentially", "it's worth considering" when you have a position.
 - Prefer a short table or list over paragraphs for enumerable facts; prefer one concrete example over three abstract restatements.
 - Length follows content, not the document type. A two-line change gets a two-line PR description.
+
+# Repositories hold final state only
+A repo describes the system as it is now and why. How it got there lives in git and the merged PR, so never commit it.
+
+- Never commit intermediary state: decision docs, plans, status or progress notes, handoffs, session summaries, TODO or NOTES files, migration write-ups, candidate lists, scratch output. Scratch goes in the scratchpad. Decisions taken, alternatives rejected, and what was left out go in the PR body.
+- Asked for a decision doc, or holding decisions from a discussion: apply each decision to every file it affects (code, config, docs, skills) and list the decisions with their reasoning in the PR body. A PR whose only change is a doc describing what should change is not done.
+- No prose about the repo's own past in committed files: no "previously", "used to", "no longer", "superseded", "legacy", "as of <date>", "renamed from", "moved to", tombstone comments, or commented-out code. State the current rule or behaviour. The only exception is a re-learning guard a skill asks for by name (for example a memory skill's one-line negation).
+- Why sits next to the thing it explains, one line, present tense: a code comment, a sentence in the doc that states the rule, a column in the table. The reasoning that produced the why is history.
+- Files a tool consumes (an append-only log CI aggregates, a changelog a release process reads) are data, not history; their skill or CLAUDE.md names them, and nothing else gets added beside them.
+- A file you are already editing that carries this cruft loses it in the same change. Do not open a PR only to remove it unless asked.
 
 # Background
 - Senior software engineer; strong in TypeScript, React, Kotlin, REST APIs, Airflow, SQL
