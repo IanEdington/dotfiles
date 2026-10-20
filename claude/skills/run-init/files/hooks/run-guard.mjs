@@ -240,8 +240,8 @@ function filePaths(args) {
 }
 
 function architectWrite(tool, args) {
-  const branch = args.branch ?? args.head ?? '';
-  if (/__(create_branch|create_pull_request)$/.test(tool)) return branch === STATE_BRANCH ? undefined : `branch ${branch || '(none)'}`;
+  const branch = args.branch ?? '';
+  if (/__create_branch$/.test(tool)) return branch === STATE_BRANCH ? undefined : `branch ${branch || '(none)'}`;
   if (branch !== STATE_BRANCH) return `branch ${branch || '(none)'}`;
   const outside = filePaths(args).filter((path) => !path.startsWith(HOLDOUT_DIR));
   return outside.length > 0 ? outside.join(', ') : undefined;
@@ -319,9 +319,9 @@ function preTool() {
     return;
   }
 
-  if (who === 'architect' && /__(create_or_update_file|push_files|create_branch|create_pull_request)$/.test(tool)) {
+  if (who === 'architect' && /__(create_or_update_file|push_files|create_branch)$/.test(tool)) {
     const refused = architectWrite(tool, args);
-    if (refused) deny(`The architect writes only ${HOLDOUT_DIR} on ${STATE_BRANCH} and the Run state PR; refused: ${refused}.`);
+    if (refused) deny(`The architect writes only ${HOLDOUT_DIR} on ${STATE_BRANCH}; refused: ${refused}.`);
   } else if (readOnly && /__(merge_pull_request|create_pull_request|update_pull_request|create_or_update_file|push_files|delete_file|create_branch)$/.test(tool)) {
     deny(`The ${who} never changes the repo or its PRs.`);
   }
