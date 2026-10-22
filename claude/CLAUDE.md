@@ -16,7 +16,6 @@ I am scanning your messages while doing something else. Long messages get skimme
 - Do not write for effect: if a sentence sounds quotable, rewrite it as a plain statement. No opening agreement or praise ("You're absolutely right"), no grading your own work ("successfully", "production ready").
 - No correction receipts: when I correct you, apply the edit cleanly with no evidence you complied.
   - Specs, comments, and docs are state documents; every line must parse for a reader who never saw the earlier version. "Make a coffee" corrected to remove ketchup becomes "make a coffee", not "make a coffee (without ketchup)".
-  - PR descriptions and commit messages describe the net final diff, not the path taken.
 
 ## Documents (design docs, READMEs, PR descriptions, reports)
 - Same signal-to-noise bar as messages: every sentence must inform a decision or record a fact; delete scene-setting, restated context, and summary sections that repeat the body.
@@ -26,13 +25,13 @@ I am scanning your messages while doing something else. Long messages get skimme
 - Length follows content, not the document type. A two-line change gets a two-line PR description.
 
 # Repositories hold final state only
-A repo describes the system as it is now and why. How it got there lives in git and the merged PR, so never commit it.
+A repo describes the system as it is now and why. How it got there lives in the commit message and the PR body (see Git), so never commit it.
 
-- Never commit intermediary state: decision docs, plans, status or progress notes, handoffs, session summaries, TODO or NOTES files, migration write-ups, candidate lists, scratch output. Scratch goes in the scratchpad. Decisions taken, alternatives rejected, and what was left out go in the PR body.
+- Never commit intermediary state: decision docs, plans, status or progress notes, handoffs, session summaries, TODO or NOTES files, migration write-ups, candidate lists, scratch output. Scratch goes in the scratchpad; the rest goes in the PR body.
 - Asked for a decision doc, or holding decisions from a discussion: apply each decision to every file it affects (code, config, docs, skills) and list the decisions with their reasoning in the PR body. A PR whose only change is a doc describing what should change is not done.
-- No prose about the repo's own past in committed files: no "previously", "used to", "no longer", "superseded", "legacy", "as of <date>", "renamed from", "moved to", tombstone comments, or commented-out code. State the current rule or behaviour.
-- Why sits next to the thing it explains, one line, present tense: a code comment, a sentence in the doc that states the rule, a column in the table. The reasoning that produced the why is history.
-- History kept on purpose by a specific tool is data, not cruft: an architecture decision record, a decision log a skill reads, an append-only log CI aggregates, a changelog a release process consumes, a memory skill's one-line negation. Write there in that tool's format. The harm is history scattered through code and docs, not history in the one place a tool keeps it.
+- No narration of the repo's own edits in committed files: no "previously", "used to", "no longer", "renamed from", "moved to", "as of <date>", tombstone comments, or commented-out code. State the current rule or behaviour. A present-tense constraint may name what it serves ("callers in the legacy importer send the empty string", "workaround for library bug N"); deprecation markers, warning strings, and public API docs state the replacement, because their readers never see the PR.
+- Why sits next to the thing it explains, present tense, as short as the alternative allows: a code comment, a sentence in the doc that states the rule, a column in the table. The constraint and the rejected option may share the line ("B-tree, not hash: range scans dominate"). The deliberation that produced it is history.
+- History kept on purpose by a specific tool is data, not cruft: an architecture decision record or RFC directory (the merged proposal is the deliverable), a decision log a skill reads, an append-only log CI aggregates, a changelog a release process consumes, `.git-blame-ignore-revs`, a CLAUDE.md gotcha that cannot be derived from the code or git, a memory skill's negation guard (one sentence, the negation attached to the claim, the wrong belief not quoted). Write there in that tool's format. Kept history carries its date and sits apart from the statement of what is current. The harm is history scattered through code and docs, not history in the one place a tool keeps it.
 - A file you are already editing that carries this cruft loses it in the same change. Do not open a PR only to remove it unless asked.
 
 # Background
@@ -57,6 +56,8 @@ A repo describes the system as it is now and why. How it got there lives in git 
 - Commits are authored as Ian (ian.edington@gmail.com) in every environment.
 - Never push to origin/main or origin/master; it is blocked by permissions.deny in settings.json. Use a feature branch and a PR instead.
 - Pushing to feature branches and committing are always fine.
+- PR body: the goal, the alternatives weighed, the constraints, and what was left out. The squash commit says what changed and why. Both describe the net final diff, not the path taken. A why is one a human gave or one you actually weighed; a guessed why is omitted, not invented.
+- A rule or constraint with no visible reason is checked against the PR that introduced it (`git log -S'<text>'`, then the merged PR) before it is changed.
 - Whenever referencing a PR or issue (e.g. `#8`), always format it as a Markdown link to the full GitHub URL instead of bare `#8`: `[owner/repo#8](https://github.com/owner/repo/pull/8)` (use `/issues/` instead of `/pull/` for issues). Never output a bare `#<number>` reference.
 - You may not be the only session working this repo. Before force-pushing or resetting a branch, `git fetch` and check for commits you don't recognize — another session may have pushed there concurrently.
 

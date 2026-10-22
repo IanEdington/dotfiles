@@ -141,7 +141,9 @@ Write for a next session that starts cold. Cover briefly:
 
 If the work is worth resuming with full context, mention `claude --resume`
 and suggest naming the session if it isn't named. The report is the
-handoff; it is never written into the repo. Anything durable in it went
+handoff; it is never written into the repo. Open work, blockers, and
+decisions not yet applied go to the open branch's PR body or the task
+tracker the repo uses before the session ends. Anything durable went
 through Step 4.
 
 ## Report structure
