@@ -59,6 +59,7 @@ use the ref in the URL; cloud-setup.sh downloads the tarball at
 | Git author identity (cloud) | `SessionStart` hook in `settings.json` | The harness writes `~/.gitconfig` after the setup script runs |
 | Permissions, hooks, attribution | `settings.json` | Enforced by the harness, not the model |
 | Keybindings | `keybindings.json` | |
+| Plugins | `extraKnownMarketplaces` and `enabledPlugins` in `settings.json` | One declaration for macOS and cloud; the plugin itself still has to be installed (`claude plugin install <name>@<marketplace>`) |
 | MCP servers | `~/.claude.json` via `claude mcp add` (macOS), per-repo `.mcp.json` (cloud; Playwright needs the flags in `claude-cloud.md`) | settings.json does not load MCP servers |
 | Vim mode | `editorMode` in `settings.json` | |
 | Context usage warnings | `UserPromptSubmit` hook in `settings.json` | Cloud sessions have no status line |
