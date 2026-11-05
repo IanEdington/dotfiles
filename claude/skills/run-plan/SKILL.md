@@ -33,9 +33,11 @@ Everything is written through the GitHub MCP tools; the architect's hook refuses
    An end-to-end scenario, a property the acceptance tests do not cover, an input the obvious implementation gets wrong, or a command against the running app.
    Each must be runnable in a fresh cloud session by the reviewer with what the repo and its setup script provide.
    Never mention a holdout's content in the issue or the plan.
-6. **Open the run PR** if none is open: `docs/run/holdout/README.md` containing `Held-out checks; the PR body is the run state.` on `claude/run-state`, draft PR titled `Run state`, labels `run-state` and `do-not-merge`, body from the controller skill's State template with `Plan: #<tracking issue>` on the Run line and the Queue filled in order.
-   Create the labels (`ready`, `claimed`, `review`, `blocked`, `audit`, `triage`, `owner-review`, `process`, `run`, `run-state`, `do-not-merge`) if missing.
+6. **Labels.** Create `ready`, `claimed`, `review`, `blocked`, `audit`, `triage`, `owner-review`, `process`, `run`, `run-state`, and `do-not-merge` if missing.
+   Do not open the `Run state` PR: a session that creates a PR is woken by every comment on it, and that PR is the controller's to watch; the first controller opens it.
 7. **Ask for approval.** Comment on the tracking issue: what the plan commits to, the one-way doors awaiting a decision, and that a comment starting `approved` starts the run.
    The controller records the question in `docs/run/questions.md`; the architect only asks.
 
 Done when: every unit issue has Paths that overlap no other open issue's, an Acceptance line a reviewer can check without asking, a holdout file on `claude/run-state`, and a parent tracking issue; the plan reviewer's last round had no blocking findings; the owner has been asked for `approved`.
+
+The architect is woken only by a message from the controller or the owner; it opens no PR and subscribes to nothing.

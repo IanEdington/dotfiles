@@ -25,7 +25,7 @@ Design and evidence: `claude/research/work-group.md` and `claude/research/contro
 
 ## State: the run PR
 
-One draft PR titled `Run state`, branch `claude/run-state` from the base branch, labels `run-state` and `do-not-merge`, never merged or closed.
+One draft PR titled `Run state`, branch `claude/run-state` from the base branch, labels `run-state` and `do-not-merge`, never merged or closed, opened by the first controller because the session that opens a PR is the one its comments wake.
 Its body is the controller's state (template in the `controller` skill); its Run line names the controller session every leaf reports to, the architect, the factory, and the approval comment that started the run.
 Only the controller writes that body and pushes the branch; the hook refuses every other role, and refuses every role but the controller and the manager any GitHub write from a shell.
 The branch carries `docs/run/holdout/<issue>.md`, the held-out checks workers must not see (workers branch from the base branch, which never has them), `docs/run/questions.md`, `docs/run/quality.md`, and `docs/run/handoff.md`, the handoff request the factory verifies.
