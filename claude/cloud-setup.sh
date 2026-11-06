@@ -94,5 +94,27 @@ fi
 ln -sfn "claude-${CLAUDE_ENVIRONMENT}.md" "${CLAUDE_TARGET_DIR}/claude-environment.md"
 echo "[cloud-setup] Environment: ${CLAUDE_ENVIRONMENT}"
 
+# Claude Code installs settings-declared plugins only after the session's
+# first message, but registers plugin agents at process start, so a fresh
+# session would not see them until it restarts. Installing here puts them in
+# ~/.claude/plugins/cache before Claude starts. `plugin install` does not add a
+# marketplace that is only declared in settings, hence the explicit add.
+install_declared_plugins() {
+  local settings="${CLAUDE_TARGET_DIR}/settings.json" repo plugin
+  if ! command -v claude >/dev/null || ! command -v jq >/dev/null; then
+    log_warning "claude or jq missing; plugins from settings.json not installed"
+    return
+  fi
+  for repo in $(jq -r '.extraKnownMarketplaces // {} | .[].source | select(.source == "github") | .repo' "${settings}"); do
+    claude plugin marketplace add "${repo}" >/dev/null \
+      || log_warning "plugin marketplace ${repo} could not be added"
+  done
+  for plugin in $(jq -r '.enabledPlugins // {} | to_entries[] | select(.value) | .key' "${settings}"); do
+    claude plugin install "${plugin}" >/dev/null \
+      || log_warning "plugin ${plugin} could not be installed"
+  done
+}
+install_declared_plugins
+
 echo "[cloud-setup] Done. ${CLAUDE_TARGET_DIR} contents:"
 ls "${CLAUDE_TARGET_DIR}"
