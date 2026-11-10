@@ -1,0 +1,54 @@
+# Tailscale's install script writes this list; a second source for the same
+# repository with a different Signed-By makes every apt run fail.
+- name: Remove the install script's apt source
+  ansible.builtin.file:
+    path: /etc/apt/sources.list.d/tailscale.list
+    state: absent
+
+- name: Add the Tailscale repository
+  ansible.builtin.deb822_repository:
+    name: tailscale
+    uris: https://pkgs.tailscale.com/stable/ubuntu
+    suites: "{{ ansible_distribution_release }}"
+    components: main
+    signed_by: https://pkgs.tailscale.com/stable/ubuntu/{{ ansible_distribution_release }}.noarmor.gpg
+
+- name: Install Tailscale
+  ansible.builtin.apt:
+    name: tailscale
+    state: present
+    update_cache: true
+
+- name: Run Tailscale from boot
+  ansible.builtin.systemd_service:
+    name: tailscaled
+    enabled: true
+    state: started
+
+- name: Let unattended-upgrades update Tailscale
+  ansible.builtin.copy:
+    src: 52claude-box-tailscale-unattended-upgrades
+    dest: /etc/apt/apt.conf.d/52claude-box-tailscale-unattended-upgrades
+    mode: "0644"
+
+- name: Read the Tailscale login state
+  ansible.builtin.command: tailscale status --json
+  register: tailscale_status
+  changed_when: false
+  failed_when: false
+  check_mode: false
+
+# The hardening role closes SSH and mosh to every other network next.
+- name: Refuse to close the other ways in before Tailscale is logged in
+  ansible.builtin.assert:
+    that:
+      - tailscale_status.rc == 0
+      - (tailscale_status.stdout | from_json).BackendState == 'Running'
+    fail_msg: Log in with `sudo tailscale up`, then rerun bootstrap.
+    quiet: true
+
+- name: Allow everything in over the tailnet
+  community.general.ufw:
+    rule: allow
+    direction: in
+    interface: tailscale0

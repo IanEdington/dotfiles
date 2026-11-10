@@ -32,17 +32,20 @@
     fail_msg: sshd still allows passwords or root login; check /etc/ssh/sshd_config.d
     quiet: true
 
-- name: Allow SSH through the firewall
+# With Tailscale, the tailscale role's tailnet rule is the only way in.
+- name: Open SSH to every network unless Tailscale is the way in
   community.general.ufw:
     rule: allow
     name: OpenSSH
+    delete: "{{ box_tailscale | bool }}"
 
-- name: Allow mosh through the firewall
+- name: Open mosh to every network unless Tailscale is the way in
   community.general.ufw:
     rule: allow
     port: "60000:61000"
     proto: udp
     comment: mosh
+    delete: "{{ box_tailscale | bool }}"
 
 - name: Enable the firewall
   community.general.ufw:
@@ -73,6 +76,22 @@
     name: net.ipv4.ip_forward
     value: "0"
     sysctl_file: /etc/sysctl.d/99-claude-box.conf
+
+# Another host on a shared network can't reroute the box's traffic.
+- name: Ignore router advertisements and redirects
+  ansible.posix.sysctl:
+    name: "{{ item }}"
+    value: "0"
+    sysctl_file: /etc/sysctl.d/99-claude-box.conf
+  loop:
+    - net.ipv6.conf.all.accept_ra
+    - net.ipv6.conf.default.accept_ra
+    - net.ipv4.conf.all.accept_redirects
+    - net.ipv4.conf.default.accept_redirects
+    - net.ipv6.conf.all.accept_redirects
+    - net.ipv6.conf.default.accept_redirects
+    - net.ipv4.conf.all.secure_redirects
+    - net.ipv4.conf.default.secure_redirects
 
 - name: Close the OpenVPN port
   community.general.ufw:

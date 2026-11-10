@@ -21,6 +21,9 @@
     box_admin_ssh_keys_url: https://github.com/IanEdington.keys
     # A laptop with Ubuntu Desktop: keep it awake with the lid closed.
     box_gui: "{{ '/usr/bin/gnome-shell' is file }}"
+    # Tailscale as the only way in: SSH and mosh close to every other network.
+    # Set in /etc/claude-box/vars.yml once `sudo tailscale up` has logged in.
+    box_tailscale: false
 
   pre_tasks:
     - name: Load machine-specific vars
@@ -61,6 +64,7 @@
 
   roles:
     - { role: swap, tags: swap }
+    - { role: tailscale, tags: tailscale, when: box_tailscale | bool }
     - { role: hardening, tags: hardening }
     - { role: gui, tags: gui, when: box_gui | bool }
     - { role: admin_user, tags: admin_user, when: box_admin_user | length > 0 }

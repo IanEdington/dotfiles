@@ -9,7 +9,9 @@ server can be built from scratch by rerunning it.
 
 - No public web services, domain, or TLS. Remote Control makes outbound HTTPS
   requests only and never opens an inbound port.
-- Inbound: SSH (key only) and mosh (UDP 60000-61000). Nothing else.
+- Inbound: SSH (key only) and mosh (UDP 60000-61000). Nothing else. With
+  `box_tailscale` (the laptop, on networks it shares with strangers), only
+  over the tailnet.
 - No production credentials on the box, ever. Staging SSH access only, scoped
   per project (see the security notes once that step lands).
 - This repo is public: no hostnames, IPs, keys, or tokens in it.
@@ -44,10 +46,16 @@ server can be built from scratch by rerunning it.
    Progress: `journalctl --follow --unit claude-box-firstboot`. It creates
    `claude`, takes over `ian`'s SSH keys (from GitHub, replacing any others),
    and gives `ian` passwordless sudo. `ian`'s login password is unchanged.
-5. Reboot, so the lid setting applies. Don't log in; from another machine
-   check `ssh ian@<laptop>.local` works, which proves the network comes up
-   on its own.
-6. Steps 2 and 3 of the server list above.
+5. At the laptop, as `ian`: add `box_tailscale: true` to
+   `/etc/claude-box/vars.yml` and run `bootstrap`. It installs Tailscale and
+   stops until Tailscale is logged in: `sudo tailscale up`, then `bootstrap`
+   again, which closes SSH and mosh to every network but the tailnet. In the
+   Tailscale admin console, disable key expiry for the laptop; an expired key
+   drops it off the tailnet with no other way in.
+6. Reboot, so the lid setting applies. Don't log in; from another device on
+   the tailnet check `ssh ian@<laptop's Tailscale name>` works, which proves
+   the network and Tailscale come up on their own.
+7. Steps 2 and 3 of the server list above.
 
 Without autoinstall, after a normal install with the same choices, as `ian`:
 
@@ -86,8 +94,9 @@ bootstrap --tags claude      # one role
 | Role | What it declares |
 | --- | --- |
 | `swap` | 4G `/swapfile`, active and in fstab, unless other swap exists (Ubuntu Desktop's `/swap.img`). `vm.swappiness=10` |
-| `hardening` | OpenSSH server. Key-only SSH via a `00-` drop-in (sshd keeps the first value it reads, and cloud-init's `50-cloud-init.conf` turns passwords back on), verified with `sshd -T`. Firewall allowing only SSH and mosh. OpenVPN absent: packages, PKI, NAT rules, IP forwarding, port, client `.ovpn` files |
-| `gui` | Only on Ubuntu Desktop (`gnome-shell` present). Ignores the lid switch, masks the suspend and hibernate targets so idle settings can't sleep the box, and hides the box user from the login screen |
+| `tailscale` | Only when `box_tailscale` is set. Tailscale from its own apt repository (deb822, replacing the install script's `tailscale.list`), running from boot, updated by unattended-upgrades. Refuses to go further until Tailscale is logged in, then allows everything in on `tailscale0` |
+| `hardening` | OpenSSH server. Key-only SSH via a `00-` drop-in (sshd keeps the first value it reads, and cloud-init's `50-cloud-init.conf` turns passwords back on), verified with `sshd -T`; no agent, TCP, socket, X11, or tunnel forwarding; `MaxAuthTries 10`, since it counts keys offered. Firewall allowing only SSH and mosh, or with `box_tailscale` neither (the tailnet rule covers both). Router advertisements and redirects ignored. OpenVPN absent: packages, PKI, NAT rules, IP forwarding, port, client `.ovpn` files |
+| `gui` | Only on Ubuntu Desktop (`gnome-shell` present). Ignores the lid switch, masks the suspend and hibernate targets so idle settings can't sleep the box, stops avahi and cups announcing the box on the local network, and hides the box user from the login screen |
 | `admin_user` | Only when `box_admin_user` is set. The human admin: SSH keys from github.com/IanEdington.keys (exclusive), passwordless sudo (key-only SSH is the authentication), and its own dotfiles clone that the box user can't edit |
 | `lockdown` | Only when `box_setup_phase` is off. Refuses to run unless the admin has SSH keys; then removes the box user's sudo (cloud-init's sudoers entry and the `sudo` group) and allows only the admin over SSH |
 | `packages` | Command-line, media and document tools from Ubuntu. GitHub's `gh` and Google Chrome from their own apt repositories (deb822 sources), with unattended-upgrades allowed to update both. Chrome is told not to add a duplicate apt source |
@@ -249,4 +258,3 @@ box has a new IP and new keys, so rerun this per project after moving.
 
 - Rebuild test on a second server (the first droplet was locked down on
   2026-10-13); the laptop install is the first build from scratch
-- SSH and mosh to the laptop from outside the home network
