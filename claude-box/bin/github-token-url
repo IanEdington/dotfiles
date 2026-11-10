@@ -52,9 +52,9 @@ org_permissions=(
     members=read
     issue_types=read
     organization_projects=write
-    organization_secrets=read
-    organization_actions_variables=read
-    organization_dependabot_secrets=read
+    organization_secrets=write
+    organization_actions_variables=write
+    organization_dependabot_secrets=write
 )
 
 params=(
