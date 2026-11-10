@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Removes KEY from the nearest .envrc without printing any values.
+"""Removes KEY from the nearest .env without printing any values.
 
 Usage: env-unset KEY
 Searches the current directory, then its parents. Refuses multi-line entries; edit those by hand.
@@ -9,10 +9,10 @@ import re
 import sys
 
 
-def nearest_envrc():
+def nearest_env():
     directory = os.getcwd()
     while True:
-        path = os.path.join(directory, ".envrc")
+        path = os.path.join(directory, ".env")
         if os.path.isfile(path):
             return path
         if directory == "/":
@@ -24,9 +24,9 @@ def main():
     if len(sys.argv) != 2 or not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", sys.argv[1]):
         sys.exit("usage: env-unset KEY")
     key = sys.argv[1]
-    path = nearest_envrc()
+    path = nearest_env()
     if not path:
-        sys.exit(f"env-unset: no .envrc from {os.getcwd()} upward")
+        sys.exit(f"env-unset: no .env from {os.getcwd()} upward")
 
     with open(path) as file:
         lines = file.read().splitlines()
@@ -42,7 +42,7 @@ def main():
     kept = [line for i, line in enumerate(lines) if i not in matches]
     with open(path, "w") as file:
         file.write("\n".join(kept) + "\n")
-    print(f"env-unset: removed {key} from {path}. Run `direnv allow` to reload it.")
+    print(f"env-unset: removed {key} from {path}.")
 
 
 if __name__ == "__main__":
