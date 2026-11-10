@@ -71,6 +71,19 @@
     - /var/log/openvpn
     - /etc/sysctl.d/99-openvpn.conf
 
+- name: Create the resolved drop-in directory
+  ansible.builtin.file:
+    path: /etc/systemd/resolved.conf.d
+    state: directory
+    mode: "0755"
+
+- name: Send DNS to Quad9 over TLS
+  ansible.builtin.copy:
+    src: resolved.conf
+    dest: /etc/systemd/resolved.conf.d/50-claude-box.conf
+    mode: "0644"
+  notify: Restart systemd-resolved
+
 - name: Turn off IP forwarding
   ansible.posix.sysctl:
     name: net.ipv4.ip_forward
