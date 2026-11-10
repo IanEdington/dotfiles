@@ -30,6 +30,21 @@
     - hybrid-sleep.target
     - suspend-then-hibernate.target
 
+# Ubuntu Desktop announces the box (avahi) and looks for printers (cups) on
+# the local network, which for a laptop is often shared and untrusted.
+- name: Stop announcing the box on the local network
+  ansible.builtin.systemd_service:
+    name: "{{ item }}"
+    enabled: false
+    state: stopped
+  loop:
+    - avahi-daemon.socket
+    - avahi-daemon.service
+    - cups.socket
+    - cups.path
+    - cups.service
+    - cups-browsed.service
+
 - name: Hide the box user from the login screen
   community.general.ini_file:
     path: /var/lib/AccountsService/users/{{ box_user }}

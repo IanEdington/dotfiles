@@ -1,0 +1,5 @@
+// Managed by dotfiles/claude-box (tailscale role). Tailscale is the only way
+// in, so its security fixes install unattended like Ubuntu's own.
+Unattended-Upgrade::Origins-Pattern {
+        "site=pkgs.tailscale.com";
+};
