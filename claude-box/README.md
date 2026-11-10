@@ -12,8 +12,9 @@ server can be built from scratch by rerunning it.
 - Inbound: SSH (key only) and mosh (UDP 60000-61000). Nothing else. With
   `box_tailscale` (the laptop, on networks it shares with strangers), only
   over the tailnet.
-- No production credentials on the box, ever. Staging SSH access only, scoped
-  per project (see the security notes once that step lands).
+- No production credentials stored on the box or reachable from it (no vault
+  access). Claude may write secrets whose values it generates or receives by
+  pipe, without printing them. Staging SSH access only, scoped per project.
 - This repo is public: no hostnames, IPs, keys, or tokens in it.
 
 ## New box
@@ -218,8 +219,14 @@ repositories" and the repos by hand (GitHub can't prefill that part):
 ~/code/dotfiles/claude-box/bin/github-token-url <org> --org
 ```
 
-The permission set: write on Contents, Pull requests, Issues (and org
-Projects); read on the rest that helps development. Deliberately left out:
+The permission set: write on Contents, Pull requests, Issues, Actions,
+Discussions, Merge queues, Pages, Security advisories, Secrets, Variables,
+Dependabot secrets (and for orgs, Projects, secrets, variables, and
+Dependabot secrets); read on the rest that helps
+development. Rulesets guard branches and tags, not secrets: a repo whose
+deploys matter keeps its deploy secrets in an environment with required
+reviewers, since environment secrets override repo-level ones and deploys
+wait for approval. Deliberately left out:
 
 - Secret scanning alerts: alerts contain the leaked secret.
 - Webhooks: hook URLs often embed credentials.
@@ -229,15 +236,32 @@ Projects); read on the rest that helps development. Deliberately left out:
   locally for you to push.
 
 Orgs must allow fine-grained tokens, and may hold a new token as pending
-until an org owner approves it. Links default to a 366-day expiry, the
-maximum (`--days N` to change); put a renewal reminder in your calendar.
+until an org owner approves it. Links default to a 365-day expiry, the
+maximum (`--days N` to change).
 
-Then, in your own terminal on the box (not through Claude, so the token stays
-out of transcripts):
+Then store it for the box user, never through Claude, so the token stays out
+of transcripts. From your own machine, with the token copied:
 
 ```bash
-~/code/dotfiles/claude-box/bin/add-github-token <owner>
+{ pbpaste; echo; } | ssh ian@<box> 'sudo -iu claude code/dotfiles/claude-box/bin/add-github-token <owner>'
+pbcopy < /dev/null
 ```
+
+The `echo` matters: without a trailing newline `read` fails and the script
+exits before saving. Or, in a terminal on the box as the box user,
+`~/code/dotfiles/claude-box/bin/add-github-token <owner>` and paste.
+
+### Renewing tokens
+
+GitHub emails before a token expires; `bin/github-token-expiry`
+(run as the box user) prints each stored token's expiry date. To renew, per
+owner:
+
+1. github.com → Settings → Developer settings → Fine-grained tokens → the
+   `claude-box <owner>` token → **Regenerate token**, 365 days. Name,
+   permissions and repositories carry over; the old value stops working at
+   once, so Claude loses access to that owner until step 2.
+2. Store the new value as above.
 
 ## Staging SSH access
 
