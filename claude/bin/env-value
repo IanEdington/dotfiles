@@ -1,5 +1,5 @@
 #!/bin/bash
-# Pipes one value from the nearest .envrc or .env into a command's stdin, so it is never printed.
+# Pipes one value from the nearest .env or .envrc into a command's stdin, so it is never printed.
 # Usage: env-value KEY command [args...]
 #   env-value PLUGIN_WPML_KEY gh secret set LICENSE_KEY --repo gppackagist/sitepress-multilingual-cms
 # Searches the current directory, then its parents. The file is sourced, so values built with
@@ -15,7 +15,7 @@ shift
 
 dir=$(pwd)
 while :; do
-  for file in "$dir/.envrc" "$dir/.env"; do
+  for file in "$dir/.env" "$dir/.envrc"; do
     if [ -f "$file" ] && grep -qE "^[[:space:]]*(export[[:space:]]+)?${key}=" "$file"; then
       # Sourced leniently: an .envrc may call direnv stdlib functions that don't exist here.
       value=$(cd "$dir"; set +eu -a; . "$file" >/dev/null 2>&1; printf '%s' "${!key-}")
@@ -31,5 +31,5 @@ while :; do
   dir=$(dirname "$dir")
 done
 
-echo "env-value: $key not found in any .envrc or .env from $(pwd) upward" >&2
+echo "env-value: $key not found in any .env or .envrc from $(pwd) upward" >&2
 exit 1
