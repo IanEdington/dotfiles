@@ -1,0 +1,28 @@
+## Managed by dotfiles/claude-box (audit role)
+## A record of what Claude and the admin did, readable only by root, so a
+## session that goes wrong can be reconstructed and can't erase its tracks.
+## Search: sudo ausearch --key <key> --interpret
+
+## Who may become root, and the rules that confine Claude.
+-w /etc/sudoers -p wa -k sudoers
+-w /etc/sudoers.d/ -p wa -k sudoers
+-w /etc/claude-code/ -p wa -k claude-policy
+-w /etc/claude-box/ -p wa -k claude-policy
+
+## The ways in: accounts, SSH, firewall, DNS.
+-w /etc/passwd -p wa -k identity
+-w /etc/shadow -p wa -k identity
+-w /etc/group -p wa -k identity
+-w /etc/ssh/sshd_config -p wa -k sshd
+-w /etc/ssh/sshd_config.d/ -p wa -k sshd
+-w /etc/ufw/ -p wa -k firewall
+-w /etc/systemd/resolved.conf.d/ -p wa -k dns
+
+## Every command run as root by a logged-in person (sudo, su).
+-a always,exit -F arch=b64 -S execve -F euid=0 -F auid>=1000 -F auid!=unset -k root-exec
+-a always,exit -F arch=b32 -S execve -F euid=0 -F auid>=1000 -F auid!=unset -k root-exec
+
+## Every command the box user runs. Remote Control starts from a lingering
+## user service with no login session, so match the user, not the login.
+-a always,exit -F arch=b64 -S execve -F uid={{ getent_passwd[box_user][1] }} -k box-user-exec
+-a always,exit -F arch=b32 -S execve -F uid={{ getent_passwd[box_user][1] }} -k box-user-exec

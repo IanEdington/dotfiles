@@ -66,6 +66,7 @@
     - { role: swap, tags: swap }
     - { role: tailscale, tags: tailscale, when: box_tailscale | bool }
     - { role: hardening, tags: hardening }
+    - { role: audit, tags: audit }
     - { role: gui, tags: gui, when: box_gui | bool }
     - { role: admin_user, tags: admin_user, when: box_admin_user | length > 0 }
     - { role: lockdown, tags: lockdown, when: not box_setup_phase }
