@@ -1,0 +1,30 @@
+- name: Install auditd
+  ansible.builtin.apt:
+    name: auditd
+    state: present
+
+# Logging every command the box user runs fills the default 8 MB x 5 logs in
+# hours during a busy build; keep about 1 GB.
+- name: Keep enough audit history to look back on
+  ansible.builtin.lineinfile:
+    path: /etc/audit/auditd.conf
+    regexp: '^{{ item.key }}\s*='
+    line: "{{ item.key }} = {{ item.value }}"
+  loop:
+    - { key: max_log_file, value: "50" }
+    - { key: num_logs, value: "20" }
+    - { key: max_log_file_action, value: ROTATE }
+  notify: Restart auditd
+
+- name: Install the audit rules
+  ansible.builtin.template:
+    src: audit.rules.j2
+    dest: /etc/audit/rules.d/50-claude-box.rules
+    mode: "0640"
+  notify: Load the audit rules
+
+- name: Run auditd from boot
+  ansible.builtin.systemd_service:
+    name: auditd
+    enabled: true
+    state: started
