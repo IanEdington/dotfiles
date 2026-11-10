@@ -142,6 +142,7 @@
   },
   "effortLevel": "low",
   "editorMode": "vim",
+  "tui": "fullscreen",
   "agentPushNotifEnabled": true,
   "model": "sonnet",
   "promptSuggestionEnabled": false,
