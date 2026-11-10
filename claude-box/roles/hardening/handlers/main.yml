@@ -3,6 +3,11 @@
     name: ssh
     state: reloaded
 
+- name: Restart systemd-resolved
+  ansible.builtin.systemd_service:
+    name: systemd-resolved
+    state: restarted
+
 - name: Reload ufw
   community.general.ufw:
     state: reloaded
