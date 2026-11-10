@@ -217,8 +217,13 @@ repositories" and the repos by hand (GitHub can't prefill that part):
 ~/code/dotfiles/claude-box/bin/github-token-url <org> --org
 ```
 
-The permission set: write on Contents, Pull requests, Issues (and org
-Projects); read on the rest that helps development. Deliberately left out:
+The permission set: write on Contents, Pull requests, Issues, Actions,
+Discussions, Merge queues, Pages, Security advisories, Secrets, Variables,
+Dependabot secrets (and org Projects); read on the rest that helps
+development. Rulesets guard branches and tags, not secrets: a repo whose
+deploys matter keeps its deploy secrets in an environment with required
+reviewers, since environment secrets override repo-level ones and deploys
+wait for approval. Deliberately left out:
 
 - Secret scanning alerts: alerts contain the leaked secret.
 - Webhooks: hook URLs often embed credentials.
