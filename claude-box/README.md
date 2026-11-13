@@ -211,14 +211,6 @@ token belongs to exactly one user or org. Tokens live outside the repo in
   `claude/settings.json` are the guard on the box side.
 - Git identity for box commits is in `git/config` here.
 
-Create each token from a prefilled link, then pick "Only select
-repositories" and the repos by hand (GitHub can't prefill that part):
-
-```bash
-~/code/dotfiles/claude-box/bin/github-token-url IanEdington
-~/code/dotfiles/claude-box/bin/github-token-url <org> --org
-```
-
 The permission set: write on Contents, Pull requests, Issues, Actions,
 Discussions, Merge queues, Pages, Security advisories, Secrets, Variables,
 Dependabot secrets (and for orgs, Projects, secrets, variables, and
@@ -235,33 +227,50 @@ wait for approval. Deliberately left out:
   pushes that touch `.github/workflows/`; Claude can still edit those files
   locally for you to push.
 
-Orgs must allow fine-grained tokens, and may hold a new token as pending
-until an org owner approves it. Links default to a 365-day expiry, the
-maximum (`--days N` to change).
+Repository access is "All repositories": the token covers repos the owner
+creates later, at the cost of reaching every repo that owner has.
 
-Then store it for the box user, never through Claude, so the token stays out
-of transcripts. From your own machine, with the token copied:
+### Adding an owner
 
-```bash
-{ pbpaste; echo; } | ssh ian@<box> 'sudo -iu claude code/dotfiles/claude-box/bin/add-github-token <owner>'
-pbcopy < /dev/null
-```
+On your own machine, never through Claude, so the token stays out of
+transcripts:
 
-The `echo` matters: without a trailing newline `read` fails and the script
-exits before saving. Or, in a terminal on the box as the box user,
-`~/code/dotfiles/claude-box/bin/add-github-token <owner>` and paste.
+1. On the box, print the link (as `ian` or the box user):
+   `~/code/dotfiles/claude-box/bin/github-token-url <owner>`, with `--org`
+   for an org. The link fills in the name (`claude-box <owner> <date>`),
+   permissions, and a 365-day expiry, the maximum.
+2. Open it, choose **All repositories**, **Generate token**, and copy it.
+3. Store it for the box user:
+
+   ```bash
+   { pbpaste; echo; } | ssh ian@<box> 'sudo -iu claude code/dotfiles/claude-box/bin/add-github-token <owner>'
+   pbcopy < /dev/null
+   ```
+
+   The `echo` matters: without a trailing newline `read` fails and the
+   script exits before saving. On the box itself, run `add-github-token
+   <owner>` as the box user and paste instead.
+4. An org must allow fine-grained tokens, and may hold the token as pending
+   until an org owner approves it (org Settings → Personal access tokens).
+5. Check it: `bin/github-token-expiry` as the box user lists every stored
+   token and its expiry.
 
 ### Renewing tokens
 
-GitHub emails before a token expires; `bin/github-token-expiry`
-(run as the box user) prints each stored token's expiry date. To renew, per
-owner:
+GitHub emails before a token expires; `bin/github-token-expiry` shows the
+dates. Per owner:
 
-1. github.com → Settings → Developer settings → Fine-grained tokens → the
-   `claude-box <owner>` token → **Regenerate token**, 365 days. Name,
-   permissions and repositories carry over; the old value stops working at
-   once, so Claude loses access to that owner until step 2.
-2. Store the new value as above.
+1. github.com → Settings → Developer settings → Personal access tokens →
+   Fine-grained tokens → the `claude-box <owner> ...` token → **Regenerate
+   token**, 365 days. Name, permissions, and repositories carry over; the old
+   value stops working at once, so Claude loses that owner until step 2.
+2. Store the new value as in step 3 above.
+
+### Changing permissions
+
+Regenerating keeps the old permissions. After changing `bin/github-token-url`,
+create a new token per owner as in "Adding an owner" (the dated name avoids a
+clash with the old one), store it, then delete the old token on GitHub.
 
 ## Staging SSH access
 
