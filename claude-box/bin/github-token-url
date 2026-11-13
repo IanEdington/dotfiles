@@ -2,8 +2,9 @@
 set -euo pipefail
 
 # Print a GitHub link that opens the fine-grained token form with the
-# claude-box permission set already filled in. Repository selection can't be
-# prefilled: pick "Only select repositories" and the repos yourself.
+# claude-box permission set already filled in. The dated name lets a new
+# token sit beside the one it replaces. Repository access can't be prefilled:
+# choose "All repositories".
 # Usage: github-token-url <owner> [--org] [--days N]
 #
 # Left out on purpose (see README "GitHub access"): secret_scanning_alerts
@@ -58,7 +59,7 @@ org_permissions=(
 )
 
 params=(
-    "name=claude-box%20${owner}"
+    "name=claude-box%20${owner}%20$(date +%F)"
     "description=Claude%20Code%20on%20claude-box.%20Generated%20by%20dotfiles%2Fclaude-box%2Fbin%2Fgithub-token-url"
     "target_name=${owner}"
     "expires_in=${days}"
