@@ -201,6 +201,7 @@ Then open claude.ai/code and pick the box's environment. Logs: `sudo journalctl 
   command runs. They disappear afterwards; never `git add` them.
 - Permission rules read `/path` as relative to the settings file. Use `~/` or
   `//` for absolute paths.
+- More confirmed findings: [self-hosted-environment-pitfalls.md](self-hosted-environment-pitfalls.md).
 
 ## GitHub access
 
