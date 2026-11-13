@@ -26,6 +26,9 @@ server can be built from scratch by rerunning it.
    Progress: `sudo tail -f /var/log/cloud-init-output.log`.
 2. `mosh ian@<box>`, then as `claude` (`sudo -iu claude`):
    - `claude` once, then `/login`
+   - `cd ~/code && claude remote-control`, answer `y` to "Enable Remote
+     Control?", then Ctrl+C. The service has no terminal to answer it and
+     restarts every 10 seconds until it's answered.
    - `~/code/dotfiles/claude-box/bin/add-github-token <owner>` per owner
    - `~/code/dotfiles/claude-box/bin/new-staging-key ...` per project
 3. As `ian`: `BOX_USER=claude bash ~/code/dotfiles/claude-box/bootstrap`
