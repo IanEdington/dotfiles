@@ -52,7 +52,14 @@ server can be built from scratch by rerunning it.
    stops until Tailscale is logged in: `sudo tailscale up`, then `bootstrap`
    again, which closes SSH and mosh to every network but the tailnet. In the
    Tailscale admin console, disable key expiry for the laptop; an expired key
-   drops it off the tailnet with no other way in.
+   drops it off the tailnet with no other way in. Tag the laptop
+   `tag:claude-box`, with these in the tailnet policy, so your devices can
+   reach it and it can reach none of them:
+   - `"tagOwners": {"tag:claude-box": ["autogroup:admin"]}`
+   - grants with `"src": ["autogroup:member"]`, never `"*"`, which would
+     include the tagged laptop
+   - in `"ssh"`: `{"action": "check", "src": ["autogroup:member"], "dst":
+     ["tag:claude-box"], "users": ["ian"]}`
 6. Reboot, so the lid setting applies. Don't log in; from another device on
    the tailnet check `ssh ian@<laptop's Tailscale name>` works, which proves
    the network and Tailscale come up on their own.
@@ -95,7 +102,7 @@ bootstrap --tags claude      # one role
 | Role | What it declares |
 | --- | --- |
 | `swap` | 4G `/swapfile`, active and in fstab, unless other swap exists (Ubuntu Desktop's `/swap.img`). `vm.swappiness=10` |
-| `tailscale` | Only when `box_tailscale` is set. Tailscale from its own apt repository (deb822, replacing the install script's `tailscale.list`), running from boot, updated by unattended-upgrades. Refuses to go further until Tailscale is logged in, then allows everything in on `tailscale0` |
+| `tailscale` | Only when `box_tailscale` is set. Tailscale from its own apt repository (deb822, replacing the install script's `tailscale.list`), running from boot, updated by unattended-upgrades. Refuses to go further until Tailscale is logged in, then allows everything in on `tailscale0` and turns on Tailscale SSH |
 | `hardening` | OpenSSH server. Key-only SSH via a `00-` drop-in (sshd keeps the first value it reads, and cloud-init's `50-cloud-init.conf` turns passwords back on), verified with `sshd -T`; no agent, TCP, socket, X11, or tunnel forwarding; `MaxAuthTries 10`, since it counts keys offered. Firewall allowing only SSH and mosh, or with `box_tailscale` neither (the tailnet rule covers both). Router advertisements and redirects ignored. DNS to Quad9 over TLS only, never the DHCP-provided resolver; Tailscale's routing domains keep tailnet names on MagicDNS. OpenVPN absent: packages, PKI, NAT rules, IP forwarding, port, client `.ovpn` files |
 | `audit` | auditd recording changes to sudoers, the Claude policy (`/etc/claude-code`, `/etc/claude-box`), accounts, SSH, firewall and DNS config; every root command run by a person; and every command the box user runs (matched by uid, since Remote Control has no login session). Logs readable by root and `adm`, not the box user; about 1 GB kept. Search with `sudo ausearch --key <key> --interpret` (keys: `sudoers`, `claude-policy`, `identity`, `sshd`, `firewall`, `dns`, `root-exec`, `box-user-exec`) |
 | `gui` | Only on Ubuntu Desktop (`gnome-shell` present). Ignores the lid switch, masks the suspend and hibernate targets so idle settings can't sleep the box, stops avahi and cups announcing the box on the local network, and hides the box user from the login screen |

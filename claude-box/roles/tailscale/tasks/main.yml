@@ -52,3 +52,17 @@
     rule: allow
     direction: in
     interface: tailscale0
+
+- name: Read Tailscale's settings
+  ansible.builtin.command: tailscale debug prefs
+  register: tailscale_prefs
+  changed_when: false
+  check_mode: false
+
+# Tailscale SSH answers port 22 over the tailnet and signs people in with
+# their tailnet login (in check mode, re-confirmed in the browser), so no SSH
+# keys are needed on the devices that connect. It needs the policy entries in
+# the README; OpenSSH stays configured as the way in if it's turned off.
+- name: Serve SSH through Tailscale
+  ansible.builtin.command: tailscale set --ssh
+  when: not (tailscale_prefs.stdout | from_json).RunSSH
