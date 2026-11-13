@@ -8,6 +8,44 @@ sandbox_allowed_domains:
   - nodejs.org
   - pypi.org
   - files.pythonhosted.org
+  # PHP, WordPress, Drupal, and CiviCRM
+  - repo.packagist.org
+  - getcomposer.org
+  - wpackagist.org
+  - repo.wp-packages.org
+  - downloads.wordpress.org
+  - downloads.w.org
+  - gppackagist.github.io
+  - "*.drupal.org"
+  - "*.drupalcode.org"
+  - "*.civicrm.org"
+  # Other package sources and tool downloads
+  - ga.jspm.io
+  - gitlab.com
+  - binaries.prisma.sh
+  - astral.sh
+  - rubygems.org
+  - index.rubygems.org
+  - download.cypress.io
+  - cdn.playwright.dev
+  - playwright.download.prss.microsoft.com
+  - awscli.amazonaws.com
+  - huggingface.co
+  # Infrastructure tooling (gpo-platform-configs)
+  - registry.opentofu.org
+  - get.helm.sh
+  - charts.jetstack.io
+  - charts.external-secrets.io
+  - argoproj.github.io
+  - apache.github.io
+  - quay.io
+# Runtime and deploy targets (*.gpo.ca, Qomon, CallHub, Google Cloud) stay off
+# this list: tests never need them, and reaching them means production.
+#
+# composer stays sandboxed: excluding it would run every package's plugins and
+# scripts outside the sandbox. gpo-ca's private gppackagist packages need a
+# GitHub token the sandbox hides, so .claude/hooks/composer-install.sh drops
+# them for the install; they are licensed plugins tests don't need.
 
 # These can't work inside the sandbox (plain SSH ignores its proxy), so they
 # run outside it and always ask first.
