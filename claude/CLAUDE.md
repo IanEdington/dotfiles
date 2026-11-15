@@ -28,7 +28,7 @@ I am scanning your messages while doing something else. Long messages get skimme
 - State conclusions and trade-offs directly; do not hedge with "might", "could potentially", "it's worth considering" when you have a position.
 - Prefer a short table or list over paragraphs for enumerable facts; prefer one concrete example over three abstract restatements.
 - Length follows content, not the document type. A two-line change gets a two-line PR description.
-- When I'm to review a draft, plan, design doc, or other writing longer than a list of questions, ask whether to put it in a Claude Doc (the docs connector) so I can comment inline, instead of pasting it into chat. If the docs connector isn't available, use chat. Writing that belongs in a repo is still committed as a file once I've approved it.
+- I often have many comments on longer drafts, plans, and design docs, and Claude Docs (the docs connector) have been useful for collecting that feedback inline. Use one when appropriate. Writing that belongs in a repo is still committed as a file once I've approved it.
 
 # Repositories hold final state only
 A repo describes the system as it is now and why. How it got there lives in the commit message and the PR body (see Git), so never commit it.
