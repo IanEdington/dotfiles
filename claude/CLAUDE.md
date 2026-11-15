@@ -56,6 +56,7 @@ A repo describes the system as it is now and why. How it got there lives in the 
 - Never use em-dashes
 - Never use a horizontal rules above headers
 - Use text based document types: markdown, mermaid, csv, or copiable text
+- When a diagram would explain an architecture, flow, or comparison better than prose, draw one as SVG or mermaid. Show it inline if the chat can render it; otherwise write the file and send it with SendUserFile (`display: 'render'`) so it opens in the side panel.
 - Never convert Markdown to PDF or other binary formats, unless explicitely asked
 
 # Git
