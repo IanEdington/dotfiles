@@ -22,21 +22,42 @@ helper has nothing to return. Confirmed 2026-11-13 on `IanEdington/pkm` and
 
 Run each network git command (`clone`, `push`, `fetch`, `pull`) as its own
 plain command starting with `git`, with no `git -C`. Clone to a destination
-relative to `~/code`; push from inside the repo after a standalone `cd`. A private `gpo/gpo-ca` clone inside a
-`cd ... && git clone ...` chain succeeded in the same session, so the
-sandbox-versus-excluded rule is not fully pinned down; the plain relative form
-is the only shape that worked every time. See "Sandbox notes" in `README.md`.
+relative to `~/code`; push from inside the repo after a standalone `cd`. A
+private `gpo/gpo-ca` clone inside a `cd ... && git clone ...` chain also
+succeeded, so the sandbox-versus-excluded rule is not fully pinned down; the
+plain relative form is the only shape that worked every time. See "Sandbox notes" in `README.md`.
 
 **`gh` inside the sandbox reports `You are not logged into any GitHub hosts`.**
 Tokens are invisible there. Run `gh` as its own command so it executes outside
 the sandbox, where `bin/gh` picks the token for the repo's owner.
 
-**The claude.ai GitHub connector's commit and PR search does not return
-private repos.** `search_commits` and `search_pull_requests` for
-`involves:IanEdington` returned public repos only: private repos with recent
-pushes (`gpo/gpo-ca`, `gpo/secure-gpo-ca`, `IanEdington/pkm`) never appeared.
-A repo list built from those searches undercounts private activity. Cross-check
-against the repo list from `list_repos`. Cause unconfirmed.
+**`gh search --owner <org>` returns only what the token for the current
+directory's owner can see.** `bin/gh` picks the token from `-R/--repo`, else
+from the working directory's `origin`; it does not read `--owner`. Run from
+`~/code/dotfiles`, `gh search commits --owner gpo --author IanEdington` used
+the `IanEdington` token and returned 5 public `gpo` repos; run from a `gpo/`
+repo it returned 12, including the private `gpo-ca`, `secure-gpo-ca`, and
+`gpo-data`. No error marks the omission. Confirmed 2026-11-13. Run each owner's
+search from a repo checked out under that owner:
+
+```bash
+cd ~/code/gpo/gpo-ca
+gh search commits --owner gpo --author IanEdington --committer-date '>=2026-05-13' --limit 1000 \
+  --json repository --jq '[.[].repository.fullName] | group_by(.) | map({repo: .[0], n: length})'
+```
+
+Do the `cd` as its own command. Fine-grained tokens cover only the repos
+selected when they were created, so a repo missing from the result can also be
+outside its token.
+
+**The claude.ai GitHub connector cannot see private repos.** It authenticates
+separately from the box's tokens, so the per-owner token files do not affect
+it. `search_commits` with `repo:gpo/gpo-ca` or `repo:IanEdington/pkm` fails
+with `Validation Failed ... The listed users and repositories cannot be
+searched either because the resources do not exist or you do not have
+permission to view them`, and unscoped `involves:` searches omit private repos
+without an error. Use `gh` per owner for activity sweeps. Confirmed
+2026-11-13; why the connector lacks access is unconfirmed.
 
 ## Filesystem
 
