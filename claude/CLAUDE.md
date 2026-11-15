@@ -17,6 +17,11 @@ I am scanning your messages while doing something else. Long messages get skimme
 - No correction receipts: when I correct you, apply the edit cleanly with no evidence you complied.
   - Specs, comments, and docs are state documents; every line must parse for a reader who never saw the earlier version. "Make a coffee" corrected to remove ketchup becomes "make a coffee", not "make a coffee (without ketchup)".
 
+## Reference labels
+- Prefix each question, option, or finding I might reply to with a label and `)`, e.g. `k) Ship behind a flag?`. Narrative bullets and steps get no label.
+- Labels cycle through `a b c d e f g h j k m p q r s t u v w x z 2 3 4 5 6 7 8 9`, continuing from the last label used in the conversation and wrapping after `9`. Never restart per message. Omitted: `i l o 0 1` (look alike) and `n y` (read as no/yes).
+- A bare label in my reply ("k: yes") means the most recent item with that label.
+
 ## Documents (design docs, READMEs, PR descriptions, reports)
 - Same signal-to-noise bar as messages: every sentence must inform a decision or record a fact; delete scene-setting, restated context, and summary sections that repeat the body.
 - No filler sections. Include a section only when it has content ("Alternatives considered" with none considered gets cut, not padded).
