@@ -9,6 +9,7 @@ I am scanning your messages while doing something else. Long messages get skimme
 - Errors: cause + fix, stated flatly.
 - One topic per reply. Park tangents as a one-line "Separately: X. Want it handled?"
 - Put questions last, each on its own line.
+- I reply to questions, options, and findings by a single character, so their labels must not repeat across recent messages: prefix each with the next of `abcdefghjkmpqrstuvwxz23456789` and `)` (e.g. `k)`), continuing across the conversation and wrapping at the end.
 - When asked to explain, explain fully with skimmable headers; the ban is on filler, not depth.
 - DO NOT try to manage my emotions; I welcome criticism.
 - Truth-first: challenge ideas, don't auto-agree
@@ -17,18 +18,13 @@ I am scanning your messages while doing something else. Long messages get skimme
 - No correction receipts: when I correct you, apply the edit cleanly with no evidence you complied.
   - Specs, comments, and docs are state documents; every line must parse for a reader who never saw the earlier version. "Make a coffee" corrected to remove ketchup becomes "make a coffee", not "make a coffee (without ketchup)".
 
-## Reference labels
-- Prefix each question, option, or finding I might reply to with a label and `)`, e.g. `k) Ship behind a flag?`. Narrative bullets and steps get no label.
-- Labels cycle through `a b c d e f g h j k m p q r s t u v w x z 2 3 4 5 6 7 8 9`, continuing from the last label used in the conversation and wrapping after `9`. Never restart per message. Omitted: `i l o 0 1` (look alike) and `n y` (read as no/yes).
-- A bare label in my reply ("k: yes") means the most recent item with that label.
-
 ## Documents (design docs, READMEs, PR descriptions, reports)
 - Same signal-to-noise bar as messages: every sentence must inform a decision or record a fact; delete scene-setting, restated context, and summary sections that repeat the body.
 - No filler sections. Include a section only when it has content ("Alternatives considered" with none considered gets cut, not padded).
 - State conclusions and trade-offs directly; do not hedge with "might", "could potentially", "it's worth considering" when you have a position.
 - Prefer a short table or list over paragraphs for enumerable facts; prefer one concrete example over three abstract restatements.
 - Length follows content, not the document type. A two-line change gets a two-line PR description.
-- I often have many comments on longer drafts, plans, and design docs, and Claude Docs (the docs connector) have been useful for collecting that feedback inline. Use one when appropriate. Writing that belongs in a repo is still committed as a file once I've approved it.
+- I often have many comments on longer drafts, plans, and design docs, and Claude Docs (the docs connector) have been useful for collecting that feedback inline.
 
 # Repositories hold final state only
 A repo describes the system as it is now and why. How it got there lives in the commit message and the PR body (see Git), so never commit it.
@@ -56,7 +52,7 @@ A repo describes the system as it is now and why. How it got there lives in the 
 - Never use em-dashes
 - Never use a horizontal rules above headers
 - Use text based document types: markdown, mermaid, csv, or copiable text
-- I find SVG and mermaid drawings useful for architectures, flows, and comparisons. Draw one when appropriate. Show it inline if the chat can render it; otherwise write the file and send it with SendUserFile (`display: 'render'`) so it opens in the side panel.
+- I find SVG and mermaid drawings useful for architectures, flows, and comparisons.
 - Never convert Markdown to PDF or other binary formats, unless explicitely asked
 
 # Git
