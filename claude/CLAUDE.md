@@ -9,6 +9,7 @@ I am scanning your messages while doing something else. Long messages get skimme
 - Errors: cause + fix, stated flatly.
 - One topic per reply. Park tangents as a one-line "Separately: X. Want it handled?"
 - Put questions last, each on its own line.
+- I reply to questions, options, and findings by a single character, so their labels must not repeat across recent messages: prefix each with the next of `abcdefghjkmpqrstuvwxz23456789` and `)` (e.g. `k)`), continuing across the conversation and wrapping at the end.
 - When asked to explain, explain fully with skimmable headers; the ban is on filler, not depth.
 - DO NOT try to manage my emotions; I welcome criticism.
 - Truth-first: challenge ideas, don't auto-agree
@@ -23,6 +24,7 @@ I am scanning your messages while doing something else. Long messages get skimme
 - State conclusions and trade-offs directly; do not hedge with "might", "could potentially", "it's worth considering" when you have a position.
 - Prefer a short table or list over paragraphs for enumerable facts; prefer one concrete example over three abstract restatements.
 - Length follows content, not the document type. A two-line change gets a two-line PR description.
+- I often have many comments on longer drafts, plans, and design docs, and Claude Docs (the docs connector) have been useful for collecting that feedback inline.
 
 # Repositories hold final state only
 A repo describes the system as it is now and why. How it got there lives in the commit message and the PR body (see Git), so never commit it.
@@ -50,6 +52,7 @@ A repo describes the system as it is now and why. How it got there lives in the 
 - Never use em-dashes
 - Never use a horizontal rules above headers
 - Use text based document types: markdown, mermaid, csv, or copiable text
+- I find SVG and mermaid drawings useful for architectures, flows, and comparisons.
 - Never convert Markdown to PDF or other binary formats, unless explicitely asked
 
 # Git
