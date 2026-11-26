@@ -48,7 +48,9 @@ sandbox_allowed_domains:
 # them for the install; they are licensed plugins tests don't need.
 
 # These can't work inside the sandbox (plain SSH ignores its proxy), so they
-# run outside it and ask first, except what sandbox_trusted_ssh_hosts allows.
+# run outside it and ask first. scp, sftp, and rsync are ask rules; ssh is
+# asked by the ssh_trusted_hosts.py hook instead, because an ask rule would
+# override the hook's allow for sandbox_trusted_ssh_hosts.
 sandbox_remote_shell_commands:
   - ssh *
   - scp *

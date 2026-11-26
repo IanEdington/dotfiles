@@ -119,7 +119,7 @@ bootstrap --tags claude      # one role
 | `python` | uv (installed without editing shell files), Python 3.13, and `yt-dlp` as a uv tool |
 | `ssh_client` | `~/.ssh/config` includes `~/.ssh/config.d/*` (one file per staging host, written by `bin/new-staging-key`), never forwards the agent, and offers only the configured key |
 | `claude` | Links `~/.claude` to `dotfiles/claude` and selects `claude-box.md` as the environment section. Installs Claude Code with the native installer if `~/.local/bin/claude` is missing. Registers the Playwright MCP with headless Chrome, writing snapshots to `~/.cache/playwright-mcp` instead of the current directory. On a box that already had a real `~/.claude`, copies its runtime state (login, sessions) over first and keeps the old directory as `~/.claude.pre-dotfiles-<timestamp>` |
-| `sandbox` | bubblewrap and socat, the AppArmor profile Ubuntu 24.04 needs for `bwrap`, and a root-owned policy (`/etc/claude-code/managed-settings.d/20-sandbox.json`): the Bash sandbox on (off during the setup phase), a short allowlist of hosts for sandboxed commands, `~/.ssh`, the GitHub tokens and the browser profile hidden from sandboxed commands and from the Read tool, `ssh`/`scp`/`sftp`/`rsync` always asking first, GitHub-authenticating commands (`gh`, `git push/fetch/pull/clone/ls-remote`) run outside the sandbox, and `--dangerously-skip-permissions` disabled |
+| `sandbox` | bubblewrap and socat, the AppArmor profile Ubuntu 24.04 needs for `bwrap`, and a root-owned policy (`/etc/claude-code/managed-settings.d/20-sandbox.json`): the Bash sandbox on (off during the setup phase), a short allowlist of hosts for sandboxed commands, `~/.ssh`, the GitHub tokens and the browser profile hidden from sandboxed commands and from the Read tool, `~/.ssh` closed to the edit tools, `ssh`/`scp`/`sftp`/`rsync` asking first except plain `ssh <alias> '<command>'` to an alias in `sandbox_trusted_ssh_hosts` (a managed PreToolUse hook, `ssh_trusted_hosts.py`, installed root-owned in `/usr/local/lib/claude-box`), GitHub-authenticating commands (`gh`, `git push/fetch/pull/clone/ls-remote`) run outside the sandbox, and `--dangerously-skip-permissions` disabled |
 | `remote_control` | `claude remote-control --name <hostname>` as a `systemd --user` service in `~/code`, restarting on exit (it quits after ~10 minutes without network) and running from boot via lingering. Marks `~/code` trusted in `~/.claude.json` (`projects[...].hasTrustDialogAccepted`, the documented manual route), since the trust prompt needs a terminal |
 
 Two variables decide whose environment is configured:
@@ -145,7 +145,8 @@ box_setup_phase: true
 ```
 
 The sandbox policy is installed but `sandbox.enabled` is false; the
-permission rules (hidden credentials, asking before `ssh`) apply regardless.
+permission rules and the ssh hook (hidden credentials, asking before `ssh`)
+apply regardless.
 The lockdown removes the flag, which turns the sandbox on.
 
 ### Ending the setup phase (lockdown)
@@ -300,8 +301,27 @@ the `authorized_keys` line to install on the server:
 The box IP is the public address from `api.ipify.org`, since a box behind NAT
 connects from that rather than its interface address. If the lookup fails, the
 script falls back to the interface address and warns when it is private.
-Claude then reaches it with `ssh <name>`, which always asks you first. A new
-box has a new IP and new keys, so rerun this per project after moving.
+Claude then reaches it with `ssh <name>`, which asks you first. A new box has
+a new IP and new keys, so rerun this per project after moving.
+
+To let Claude reach a staging alias without asking, list it in
+`/etc/claude-box/vars.yml` and rerun `bootstrap --tags sandbox`:
+
+```yaml
+sandbox_trusted_ssh_hosts: [staging]
+```
+
+Only the plain form `ssh <alias> '<remote command>'` runs without asking: one
+argument after the alias, single-quoted, double-quoted with nothing the local
+shell expands, or one bare word. Operators and `$(...)` inside the quotes run
+on the staging server and are fine. Anything else still asks, because it would
+run on the box outside the sandbox: ssh flags (`-o ProxyCommand=` runs a local
+command), a second command, pipes, redirects, heredocs, and expansions outside
+the quotes. That plain form is also the only one the sandbox exclusion
+matches, so other shapes stay sandboxed and fail to resolve the host anyway.
+The hook trusts the alias's `~/.ssh/config.d` file, which is why the edit
+tools are denied `~/.ssh`. Hook tests:
+`cd claude-box/roles/sandbox/files && python3 -m unittest test_ssh_trusted_hosts`.
 
 ## Still to do
 

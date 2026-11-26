@@ -5,9 +5,27 @@
     "disableBypassPermissionsMode": "disable",
     "deny": [
       "Read(~/.ssh/**)",
+      "Edit(~/.ssh/**)",
       "Read(~/.config/github-tokens/**)"
     ],
-    "ask": {{ sandbox_remote_shell_commands | map('regex_replace', '^(.*)$', 'Bash(\\1)') | list | to_json }}
+{#- A matching ask rule prompts even when a hook allows, so ssh is left to
+    the hook, which asks for everything it doesn't allow. #}
+    "ask": {{ sandbox_remote_shell_commands | reject('equalto', 'ssh *') | map('regex_replace', '^(.*)$', 'Bash(\\1)') | list | to_json }}
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": {{ (['/usr/bin/python3', '-I', sandbox_hook_dir ~ '/ssh_trusted_hosts.py'] + sandbox_trusted_ssh_hosts) | map('quote') | join(' ') | to_json }},
+            "timeout": 10,
+            "onFailure": "block"
+          }
+        ]
+      }
+    ]
   },
   "sandbox": {
     "enabled": {{ (not box_setup_phase) | to_json }},
