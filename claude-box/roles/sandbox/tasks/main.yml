@@ -12,6 +12,23 @@
     mode: "0644"
   notify: Load the bwrap AppArmor profile
 
+- name: Check the trusted ssh aliases
+  ansible.builtin.assert:
+    that: sandbox_trusted_ssh_hosts | reject('match', '^[A-Za-z0-9][A-Za-z0-9._-]*$') | list | length == 0
+    fail_msg: sandbox_trusted_ssh_hosts takes ssh aliases from ~/.ssh/config.d, not user@host or flags
+
+- name: Create the hook directory
+  ansible.builtin.file:
+    path: "{{ sandbox_hook_dir }}"
+    state: directory
+    mode: "0755"
+
+- name: Install the trusted ssh hosts hook
+  ansible.builtin.copy:
+    src: ssh_trusted_hosts.py
+    dest: "{{ sandbox_hook_dir }}/ssh_trusted_hosts.py"
+    mode: "0755"
+
 - name: Install the sandbox policy
   ansible.builtin.template:
     src: 20-sandbox.json.j2
