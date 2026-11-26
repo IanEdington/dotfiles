@@ -286,16 +286,20 @@ clash with the old one), store it, then delete the old token on GitHub.
 ## Staging SSH access
 
 One key per project, created on the box, usable only from the box's IP, for a
-deploy user without sudo on the staging server. Run it yourself, not through
-Claude (the key goes in `~/.ssh`, which Claude can't read):
+deploy user without sudo on the staging server. Run it yourself as the box
+user, not through Claude (the key goes in the box user's `~/.ssh`, which
+Claude can't read). From the admin account:
 
 ```bash
-~/code/dotfiles/claude-box/bin/new-staging-key <name> <host> [user] [port]
+sudo --login --user=<box user> /home/<box user>/code/dotfiles/claude-box/bin/new-staging-key <name> <host> [user] [port]
 ```
 
 It writes `~/.ssh/staging/<name>` and `~/.ssh/config.d/<name>`, then prints
 the `authorized_keys` line to install on the server:
 `from="<box IP>",no-agent-forwarding,no-port-forwarding,no-X11-forwarding`.
+The box IP is the public address from `api.ipify.org`, since a box behind NAT
+connects from that rather than its interface address. If the lookup fails, the
+script falls back to the interface address and warns when it is private.
 Claude then reaches it with `ssh <name>`, which always asks you first. A new
 box has a new IP and new keys, so rerun this per project after moving.
 
