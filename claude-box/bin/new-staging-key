@@ -32,8 +32,26 @@ Host $name
 CONF
 chmod 600 "$entry"
 
-# The address staging servers see this box connect from.
-box_ip=$(ip -4 route get 1.1.1.1 | awk '{for (i = 1; i < NF; i++) if ($i == "src") print $(i + 1)}')
+# The address staging servers see this box connect from. Behind NAT that is the
+# public address, which only an outside service can report; the local route
+# lookup is the fallback for a box with a public interface and no way out.
+box_ip=$(curl --ipv4 --silent --fail --max-time 10 https://api.ipify.org || true)
+if ! [[ $box_ip =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+    box_ip=$(ip -4 route get 1.1.1.1 | awk '{for (i = 1; i < NF; i++) if ($i == "src") print $(i + 1)}')
+fi
+
+case $box_ip in
+    10.* | 192.168.* | 172.1[6-9].* | 172.2[0-9].* | 172.3[01].* | \
+        100.6[4-9].* | 100.[7-9][0-9].* | 100.1[01][0-9].* | 100.12[0-7].*)
+        cat >&2 <<WARN
+
+WARNING: $box_ip is a private address and the public lookup failed. A staging
+server on the internet sees this box's public address, so the from= below
+won't match it. Find the public address (curl --ipv4 https://ifconfig.me) and
+put it in from= before installing the line.
+WARN
+        ;;
+esac
 
 cat <<MSG
 
