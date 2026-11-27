@@ -71,6 +71,20 @@ A repo describes the system as it is now and why. How it got there lives in the 
 # Skills
 To write a skill use `skill-create`; to judge or fix one use `skill-eval`. The evidence behind both (what makes a skill trigger and lift, from Anthropic, Microsoft SkillOpt, NVIDIA SkillEvaluator, SkillsBench, and Vercel) is `~/.claude/skills/skill-eval/RESEARCH.md`; the rubric is `~/.claude/skills/skill-eval/references/checklist.md`.
 
+# Subagents
+Subagents default to Sonnet (`CLAUDE_CODE_SUBAGENT_MODEL` in settings.json); without it they inherit the session's model, which is often Fable or Opus.
+
+- Spawn only for parallel independent work or reads across many files whose conclusion is all you need. A lookup whose target you know, or a check of a few tool calls, runs inline.
+- Pick the model by task, with the Agent tool's `model` parameter:
+
+  | Task | Model |
+  |---|---|
+  | Search, file sweeps, fetching and summarizing pages | `haiku` |
+  | Most delegated work: research, multi-step edits, test runs | `sonnet` (default, omit `model`) |
+  | Design, architecture, code or document review | `opus` |
+
+- An agent definition's `model` frontmatter overrides the default; set it there when an agent always needs a specific model.
+
 # Claude Code Cloud Environments
 If you are actively working on modifying a Claude Code cloud environment (Setup Script, environment config, SessionStart hooks, or related setup scripts), use the `cloud-environments` skill; its `references/gotchas.md` is the single source of truth for known gotchas and patterns.
 
